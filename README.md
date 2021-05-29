@@ -13,7 +13,8 @@ Description comming soon...
 ### Notes: 
 
 1. RocketMan doesn't support RimThreaded and never will.
-2. Bug reports with no logs will not get a response.
+2. Currently The Multiplayer mod is not supported.
+3. Bug reports with no logs will not get a response.
 
 Github Link: https://github.com/kbatbouta/RocketMan
 
