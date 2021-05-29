@@ -1,4 +1,4 @@
-## <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2479389928&searchtext=">[BETA] RocketMan</a>:
+## <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2479389928&searchtext=">RimWorld-RocketMan</a>:
 
 RocketMan is a RimWorld mod that is designed to improve RimWorld performance.
 
