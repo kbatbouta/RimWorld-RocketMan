@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "70I8GBd77NYyUKpFhrIWY4/GJm2ubwdM23aDBpN98Y9RKpLBNPPnakPAJEb431zYfO4VN6CKuasI8cI8cNOC0Q==",
+  "success": true,
+  "projectFilePath": "/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Soyuz/Soyuz.csproj",
+  "expectedPackageFiles": [
+    "/Users/karimbatbouta/.nuget/packages/krafs.rimworld.ref/1.2.2905/krafs.rimworld.ref.1.2.2905.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/lib.harmony/2.0.4/lib.harmony.2.0.4.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/microsoft.build.framework/15.1.548/microsoft.build.framework.15.1.548.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/microsoft.build.utilities.core/15.1.548/microsoft.build.utilities.core.15.1.548.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/microsoft.netcore.platforms/5.0.2/microsoft.netcore.platforms.5.0.2.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/microsoft.netframework.referenceassemblies.net472/1.0.2/microsoft.netframework.referenceassemblies.net472.1.0.2.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/system.collections/4.0.11/system.collections.4.0.11.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/system.diagnostics.debug/4.0.11/system.diagnostics.debug.4.0.11.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/system.globalization/4.0.11/system.globalization.4.0.11.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/system.runtime/4.1.0/system.runtime.4.1.0.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/system.runtime.interopservices/4.1.0/system.runtime.interopservices.4.1.0.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/system.threading/4.0.11/system.threading.4.0.11.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/system.threading.thread/4.0.0/system.threading.thread.4.0.0.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/taskpubliciser/1.0.3/taskpubliciser.1.0.3.nupkg.sha512",
+    "/Users/karimbatbouta/.nuget/packages/unlimitedhugs.rimworld.hugslib/8.0.0/unlimitedhugs.rimworld.hugslib.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

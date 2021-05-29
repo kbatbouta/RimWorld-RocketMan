@@ -1,0 +1,8 @@
+/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/1.2/Plugins/Proton.dll
+/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/1.2/Plugins/Proton.pdb
+/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Proton/obj/Debug/Proton.csprojAssemblyReference.cache
+/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Proton/obj/Debug/Proton.AssemblyInfoInputs.cache
+/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Proton/obj/Debug/Proton.AssemblyInfo.cs
+/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Proton/obj/Debug/Proton.csproj.CoreCompileInputs.cache
+/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Proton/obj/Debug/Proton.dll
+/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Proton/obj/Debug/Proton.pdb
