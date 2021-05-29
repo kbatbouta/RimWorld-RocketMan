@@ -11,10 +11,10 @@ namespace RocketMan
 
         public static int TicksSinceStarted = 0;
 
-        public static object LOCKER = new object();
-
         public static bool SingleTickIncrement = false;
 
         public static int SingleTickLeft = 0;
+
+        public static object LOCKER = new object();
     }
 }

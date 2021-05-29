@@ -1,4 +1,11 @@
 Source/.vs/*
+bin/
+obj/
+# Visual Studio left-overs
+*.suo        # 'user' settings like 'which file is open in Visual Studio'
+*.ncb        # Used for debugging
+*.user
+*.ccscc      # Used for versioning
 *.cache
-*.cache
-*.cache
+*.pdb
+*.vs

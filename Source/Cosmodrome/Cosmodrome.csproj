@@ -39,6 +39,7 @@
     <ItemGroup>
         <Folder Include="Core\" />
         <Folder Include="Core\Data\" />
+        <Folder Include="Core\Info\" />
     </ItemGroup>
     <ItemGroup>
         <None Include="..\..\1.2\**\*.xml" CopyToOutputDirectory="Never">
@@ -47,6 +48,20 @@
         <None Include="..\..\About\*.xml" CopyToOutputDirectory="Never">
             <Link>Assets\About\%(FileName)%(Extension)</Link>
         </None>
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="..\..\1.2\Defs\MainButton.xml">
+        <Link>Assets\Defs\\MainButton.xml</Link>
+      </None>
+      <None Update="..\..\1.2\Extras\RocketRules_Notify.xml">
+        <Link>Assets\Extras\\RocketRules_Notify.xml</Link>
+      </None>
+      <None Update="..\..\1.2\Extras\RocketRules_Packages.xml">
+        <Link>Assets\Extras\\RocketRules_Packages.xml</Link>
+      </None>
+      <None Update="..\..\1.2\Extras\RocketRules_Incompatibilities.xml">
+        <Link>Assets\Extras\\RocketRules_Incompatibilities.xml</Link>
+      </None>
     </ItemGroup>
     <Target Name="Publicise" BeforeTargets="UpdateReferences">
         <!-- Set our variables -->
