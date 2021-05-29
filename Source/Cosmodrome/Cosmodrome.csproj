@@ -41,8 +41,13 @@
         <Folder Include="Core\Data\" />
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Include="..\..\1.2\**\*.xml" LinkBase="Resources" />
-        <EmbeddedResource Include="..\..\About\*.xml" LinkBase="Resources" />
+        <None Include="..\..\1.2\**\*.xml">
+            <Link>Assets\%(RecursiveDir)/%(FileName)%(Extension)</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\About\*.xml">
+            <Link>Assets\About\%(FileName)%(Extension)</Link>
+        </None>
     </ItemGroup>
     <Target Name="Publicise" BeforeTargets="UpdateReferences">
         <!-- Set our variables -->

@@ -42,6 +42,16 @@
     <ItemGroup>
         <Folder Include="Core\" />
     </ItemGroup>
+    <!-- Adds the Assets folder -->
+    <!-- <ItemGroup>
+        <None Include="..\..\1.2\**\*.xml">
+            <Link>Assets\%(RecursiveDir)/%(FileName)%(Extension)</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\About\*.xml">
+            <Link>Assets\About\%(FileName)%(Extension)</Link>
+        </None>
+    </ItemGroup> -->
     <ItemGroup>
         <ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj">
             <Private>False</Private>

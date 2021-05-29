@@ -1,9 +1,27 @@
 ﻿<Properties VersionControlDisabled="True">
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Proton/Proton.csproj">
+    <Files>
+      <File FileName="Gagarin/Gagarin.csproj" Line="43" Column="5" />
+      <File FileName="Proton/Proton.csproj" Line="43" Column="9" />
+      <File FileName="Soyuz/Soyuz.csproj" Line="53" Column="17" />
+      <File FileName="Cosmodrome/Cosmodrome.csproj" Line="43" Column="16" />
+      <File FileName="../About/About.xml" Line="1" Column="1" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="RocketMan" expanded="True" selected="True" />
+          <Node name="RocketMan" expanded="True">
+            <Node name="Cosmodrome" expanded="True" />
+            <Node name="Gagarin" expanded="True">
+              <Node name="Assets" expanded="True">
+                <Node name="About" expanded="True">
+                  <Node name="About.xml" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+            <Node name="Proton" expanded="True" />
+            <Node name="Soyuz" expanded="True" />
+          </Node>
         </State>
       </Pad>
     </Pads>
