@@ -18,13 +18,13 @@
         <DefineConstants>TRACE;NDEBUG</DefineConstants>
         <WarningLevel>4</WarningLevel>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <NoStdLib>false</NoStdLib>
+        <NoStdLib>true</NoStdLib>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <OutputPath>..\..\1.2\Plugins</OutputPath>
         <DefineConstants>TRACE;DEBUG</DefineConstants>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <NoStdLib>false</NoStdLib>
+        <NoStdLib>true</NoStdLib>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2905" GeneratePathProperty="true" />
