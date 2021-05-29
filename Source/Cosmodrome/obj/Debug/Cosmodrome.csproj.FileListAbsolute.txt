@@ -1,5 +1,6 @@
 /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/1.2/Assemblies/Cosmodrome.dll
 /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/1.2/Assemblies/Cosmodrome.pdb
+/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Cosmodrome/obj/Debug/Cosmodrome.csprojAssemblyReference.cache
 /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Cosmodrome/obj/Debug/Cosmodrome.AssemblyInfoInputs.cache
 /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Cosmodrome/obj/Debug/Cosmodrome.AssemblyInfo.cs
 /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Cosmodrome/obj/Debug/Cosmodrome.csproj.CoreCompileInputs.cache

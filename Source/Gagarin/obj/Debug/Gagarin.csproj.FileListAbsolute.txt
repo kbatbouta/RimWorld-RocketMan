@@ -1,6 +1,5 @@
 /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/1.2/Plugins/Gagarin.dll
 /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/1.2/Plugins/Gagarin.pdb
-/Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Gagarin/obj/Debug/Gagarin.csprojAssemblyReference.cache
 /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Gagarin/obj/Debug/Gagarin.AssemblyInfoInputs.cache
 /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Gagarin/obj/Debug/Gagarin.AssemblyInfo.cs
 /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Source/Gagarin/obj/Debug/Gagarin.csproj.CoreCompileInputs.cache
