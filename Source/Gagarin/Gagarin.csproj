@@ -45,8 +45,9 @@
             <Private>False</Private>
         </ProjectReference>
     </ItemGroup>
-    <Target Name="MyCode" BeforeTargets="UpdateReferences">
+    <Target Name="Publicise" BeforeTargets="UpdateReferences" Condition="!Exists('$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp_publicised.dll')">
         <!-- Set our variables -->
+        <Message Importance="High" Text="Output target is $(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp_publicised.dll ..." />
         <PropertyGroup>
             <AssemblyCSharp>$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll</AssemblyCSharp>
             <Unity_CoreModule>$(PkgKrafs_Rimworld_Ref)\ref\net472\UnityEngine.CoreModule.dll</Unity_CoreModule>

@@ -19,13 +19,11 @@
         <DefineConstants>TRACE;NDEBUG</DefineConstants>
         <WarningLevel>4</WarningLevel>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <NoStdLib>true</NoStdLib>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <OutputPath>..\..\1.2\Assemblies</OutputPath>
         <DefineConstants>TRACE;DEBUG;NETFRAMEWORK;NET472</DefineConstants>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <NoStdLib>true</NoStdLib>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2905" GeneratePathProperty="true" />
@@ -41,13 +39,12 @@
     <ItemGroup>
         <Folder Include="Core\" />
         <Folder Include="Core\Data\" />
-        <Folder Include="Resources\" />
     </ItemGroup>
     <ItemGroup>
         <EmbeddedResource Include="..\..\1.2\**\*.xml" LinkBase="Resources" />
         <EmbeddedResource Include="..\..\About\*.xml" LinkBase="Resources" />
     </ItemGroup>
-    <Target Name="MyCode" BeforeTargets="UpdateReferences">
+    <Target Name="Publicise" BeforeTargets="UpdateReferences">
         <!-- Set our variables -->
         <PropertyGroup>
             <AssemblyCSharp>$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll</AssemblyCSharp>

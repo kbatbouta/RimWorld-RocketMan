@@ -1,2 +1,2 @@
 Source/.vs/*
-Source/*/obj/*
+*.cache
