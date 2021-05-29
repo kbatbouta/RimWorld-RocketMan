@@ -1,5 +1,7 @@
 ## <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2479389928&searchtext=">RimWorld-RocketMan</a>:
 
+[![Build](https://github.com/kbatbouta/RimWorld-RocketMan/actions/workflows/main.yml/badge.svg)](https://github.com/kbatbouta/RimWorld-RocketMan/actions/workflows/main.yml) ![Version](https://img.shields.io/badge/Rimworld-1.2-brightgreen.svg)
+
 RocketMan is a RimWorld mod that is designed to improve RimWorld performance.
 
 ##### Important note: RocketMan should be the last mod in your mod list.
