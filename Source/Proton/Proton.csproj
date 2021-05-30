@@ -40,16 +40,6 @@
     <ItemGroup>
         <Folder Include="Core\" />
     </ItemGroup>
-    <!-- Adds the Assets folder -->
-    <!-- <ItemGroup>
-        <None Include="..\..\1.2\**\*.xml">
-            <Link>Assets\%(RecursiveDir)/%(FileName)%(Extension)</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="..\..\About\*.xml">
-            <Link>Assets\About\%(FileName)%(Extension)</Link>
-        </None>
-    </ItemGroup> -->
     <ItemGroup>
         <ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj">
             <Private>False</Private>
@@ -70,6 +60,17 @@
         <Publicise TargetAssemblyPath="$(Unity_CoreModule)" OutputPath="$(PubliciseOutputPath)" Condition="Exists('$(Unity_CoreModule)')" />
         <!-- Add references to the new publicised dlls -->
         <Message Importance="High" Text="Replacing reference to un-publicised assemblies with publicised equivalents ..." />
+    </Target>
+    <Target Name="AddRefrences" BeforeTargets="UpdateReferences" AfterTargets="Publicise">
+        <!-- Set our variables -->
+        <PropertyGroup>
+            <AssemblyCSharp>$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll</AssemblyCSharp>
+            <Unity_CoreModule>$(PkgKrafs_Rimworld_Ref)\ref\net472\UnityEngine.CoreModule.dll</Unity_CoreModule>
+            <PubliciseOutputPath>$(PkgKrafs_Rimworld_Ref)\ref\net472\</PubliciseOutputPath>
+            <AssemblyCSharp_Publicised>$(PubliciseOutputPath)Assembly-CSharp_publicised.dll</AssemblyCSharp_Publicised>
+            <Unity_CoreModule_Publicised>$(PubliciseOutputPath)UnityEngine.CoreModule_publicised.dll</Unity_CoreModule_Publicised>
+        </PropertyGroup>
+        <!-- Publicise the dlls (if required) -->
         <ItemGroup>
             <Reference Include="$(AssemblyCSharp_Publicised)">
                 <SpecificVersion>false</SpecificVersion>
