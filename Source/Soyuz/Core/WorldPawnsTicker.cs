@@ -15,7 +15,6 @@ namespace Soyuz
         public const int BucketCount = 30;
 
         private static HashSet<Pawn> pawns = new HashSet<Pawn>();
-        private static HashSet<Pawn> caravaningColonists = new HashSet<Pawn>();
         private static HashSet<Pawn> caravaningPawns = new HashSet<Pawn>();
         private static HashSet<Pawn> previousBucket = new HashSet<Pawn>();
         private static HashSet<Pawn>[] buckets;
@@ -110,7 +109,6 @@ namespace Soyuz
         public static void ResetInternalState()
         {
             caravaningPawns.Clear();
-            caravaningColonists.Clear();
             pawns.Clear();
             previousBucket.Clear();
         }
@@ -123,11 +121,7 @@ namespace Soyuz
             if (buckets[index] == null)
                 buckets[index] = new HashSet<Pawn>();
             if (pawn.IsCaravanMember())
-            {
                 caravaningPawns.Add(pawn);
-                if (pawn.GetCaravan().IsPlayerControlled)
-                    caravaningColonists.Add(pawn);
-            }
             pawns.Add(pawn);
             buckets[index].Add(pawn);
         }
@@ -139,7 +133,6 @@ namespace Soyuz
             int index = GetBucket(pawn);
             if (buckets[index] == null) return;
             pawns.RemoveWhere(p => p.thingIDNumber == pawn.thingIDNumber);
-            caravaningColonists.RemoveWhere(p => p.thingIDNumber == pawn.thingIDNumber);
             caravaningPawns.RemoveWhere(p => p.thingIDNumber == pawn.thingIDNumber);
             buckets[index].Remove(pawn);
         }
@@ -188,26 +181,6 @@ namespace Soyuz
         private static IEnumerable<Pawn> AddExtraPawns(IEnumerable<Pawn> bucket)
         {
             List<Pawn> temp = new List<Pawn>();
-            foreach (Pawn pawn in caravaningColonists)
-            {
-                if (pawn.Destroyed)
-                {
-                    ResetInternalState();
-                    Rebuild(Find.WorldPawns);
-                    throw new Exception("ROCKETMAN: Tried to tick a destroyed pawn!");
-                }
-                if (!pawn.IsCaravanMember() || !pawn.GetCaravan().IsPlayerControlled || pawn.Spawned || pawn.Dead)
-                {
-                    temp.Add(pawn);
-                    continue;
-                }
-                yield return pawn;
-            }
-            if (temp.Count > 0)
-            {
-                caravaningColonists.RemoveWhere(p => temp.Contains(p));
-                temp.Clear();
-            }
             foreach (Pawn pawn in caravaningPawns)
             {
                 if (pawn.Destroyed)
@@ -229,7 +202,9 @@ namespace Soyuz
                 temp.Clear();
             }
             foreach (Pawn pawn in bucket)
+            {
                 yield return pawn;
+            }
         }
 
         private static int GetBucket(Pawn pawn)

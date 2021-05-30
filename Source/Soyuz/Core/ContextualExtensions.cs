@@ -109,7 +109,6 @@ namespace Soyuz
             if (false
                 || !RocketPrefs.Enabled
                 || !RocketPrefs.TimeDilation
-                || (!RocketPrefs.TimeDilationCaravans && pawn.IsCaravanMember() && pawn.GetCaravan().IsPlayerControlled)
                 || !pawn.IsValidWildlifeOrWorldPawn()
                 || (!RocketPrefs.TimeDilationCriticalHediffs && pawn.HasCriticalHediff()))
             {

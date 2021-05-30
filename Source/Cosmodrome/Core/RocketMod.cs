@@ -430,7 +430,7 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.CorpsesRemovalEnabled, "corpsesRemovalEnabled", false);
                 Scribe_Collections.Look(ref statsSettings, "statsSettings", LookMode.Deep);
                 Scribe_Collections.Look(ref dilationSettings, "dilationSettings", LookMode.Deep);
-
+                RocketPrefs.TimeDilationCaravans = false;
                 foreach (var action in Main.onScribe)
                     action.Invoke();
                 UpdateExceptions();

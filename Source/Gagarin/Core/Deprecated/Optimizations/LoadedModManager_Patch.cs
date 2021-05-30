@@ -27,6 +27,7 @@ namespace Gagarin
         public static string cachedUnifiedXmlPath = Path.Combine(GenFilePaths.ConfigFolderPath, "Cache/unified.xml");
 
         public static Dictionary<string, LoadableXmlAsset> loadablelookup = new Dictionary<string, LoadableXmlAsset>();
+
         public static Dictionary<XmlNode, string> packageIdlookup = new Dictionary<XmlNode, string>();
 
         public static GagarinPatchInfo[] patches = new GagarinPatchInfo[] {

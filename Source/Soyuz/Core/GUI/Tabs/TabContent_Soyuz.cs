@@ -28,10 +28,10 @@ namespace Soyuz.Tabs
             var font = Text.Font;
             Text.Font = GameFont.Tiny;
             standard.CheckboxLabeled("Enable time dilation", ref RocketPrefs.TimeDilation, "Experimental.");
-            standard.CheckboxLabeled("Enable time dilation for caravans (Can cause issues)", ref RocketPrefs.TimeDilationCaravans, "Disable this in case your caravans are consuming food too quickly.");
+            standard.CheckboxLabeled("[<color=red>DISABLED AND BEING REMOVED</color>] Enable time dilation for caravans (Can cause issues)", ref RocketPrefs.TimeDilationCaravans, "Disable this in case your caravans are consuming food too quickly.");
+            RocketPrefs.TimeDilationCaravans = false;
             standard.CheckboxLabeled("Enable time dilation for visitor pawns.", ref RocketPrefs.TimeDilationVisitors, "Experimental: Can cause a lot of bugs.");
             standard.CheckboxLabeled("Enable time dilation for world pawns", ref RocketPrefs.TimeDilationWorldPawns, "Throttle ticking for world pawns.");
-            //standard.CheckboxLabeled("Enable time dilation for pawns with critical hediffs", ref Finder.timeDilationCriticalHediffs, "This will enable dilation for pawns with critical hediffs such as pregnant pawns or bleeding pawns. (Disable this in case of a hediff problem)");
             if (RocketDebugPrefs.Debug)
             {
                 standard.CheckboxLabeled("Enable data logging", ref RocketDebugPrefs.DogData, "For debugging only.");

@@ -12,6 +12,7 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <ReleaseVersion>0.6.3</ReleaseVersion>
+        <Configurations>Release;Debug</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>..\..\1.2\Plugins</OutputPath>
@@ -39,11 +40,39 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Core\" />
+        <Folder Include="Core\Deprecated\" />
+        <Folder Include="Core\Deprecated\Optimizations\" />
+        <Folder Include="Core\Deprecated\Others\" />
+        <Folder Include="Core\Deprecated\Patches\" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj">
             <Private>False</Private>
         </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Core\Deprecated\" />
+      <None Remove="Core\Deprecated\Optimizations\" />
+      <None Remove="Core\Deprecated\Others\" />
+      <None Remove="Core\Deprecated\Patches\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" />
+      <Compile Remove="Core\Deprecated\Patches\GenGeneric_Patch.cs" />
+      <Compile Remove="Core\Deprecated\Context.cs" />
+      <Compile Remove="Core\Deprecated\Others\LoadableXmlAssetUtility.cs" />
+      <Compile Remove="Core\Deprecated\Others\RunningModsSetUtility.cs" />
+      <Compile Remove="Core\Deprecated\Optimizations\LoadedModManager_Patch.cs" />
+      <Compile Remove="Core\Deprecated\DefXmlHelper.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\Patches\GenGeneric_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\Context.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\Others\LoadableXmlAssetUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\Others\RunningModsSetUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\Optimizations\LoadedModManager_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\DefXmlHelper.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
     </ItemGroup>
     <Target Name="Publicise" BeforeTargets="UpdateReferences" Condition="!Exists('$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp_publicised.dll')">
         <!-- Set our variables -->

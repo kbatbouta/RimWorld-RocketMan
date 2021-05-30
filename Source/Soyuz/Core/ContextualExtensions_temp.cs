@@ -14,16 +14,12 @@ namespace Soyuz
                 return false;
             if (!RocketPrefs.Enabled || !RocketPrefs.TimeDilation)
                 return false;
-            if (!Context.dilationEnabled[pawn.def.index] || IgnoreMeDatabase.ShouldIgnore(pawn.def))
+            if (pawn.IsCaravanMember())
                 return false;
             if (WorldPawnsTicker.isActive)
-            {
-                if (!RocketPrefs.TimeDilationCaravans && pawn.IsCaravanMember() && pawn.GetCaravan().IsPlayerControlled)
-                    return false;
-                if (!RocketPrefs.TimeDilationWorldPawns)
-                    return false;
-                return true;
-            }
+                return RocketPrefs.TimeDilationWorldPawns;
+            if (!Context.dilationEnabled[pawn.def.index] || IgnoreMeDatabase.ShouldIgnore(pawn.def))
+                return false;
             if (pawn.IsBleeding() || (!RocketPrefs.TimeDilationCriticalHediffs && pawn.HasCriticalHediff()))
                 return false;
             if (pawn.def.race.Humanlike)
