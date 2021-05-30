@@ -38,7 +38,6 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Core\" />
-        <Folder Include="Core\Data\" />
     </ItemGroup>
     <ItemGroup>
         <None Include="..\..\1.2\**\*.xml" CopyToOutputDirectory="Never">
