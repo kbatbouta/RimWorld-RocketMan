@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <RocketMan.Settings.PleaseUnpause>Please unpause the game... RocketMan is warming up!</RocketMan.Settings.PleaseUnpause>
+    <RocketMan.Settings.PleaseWait>Please wait... RocketMan is warming up!</RocketMan.Settings.PleaseWait>    
+    <RocketMan.IncompatibilityWindow.Description>You are running incompatibile mods with RocketMan. This type of incompatilibity will nuke/destroy your save! You can Disable RocketMan or You continue on your own responsibility. these mods are:\n</RocketMan.IncompatibilityWindow.Description>        
+</LanguageData>

@@ -1,6 +1,7 @@
 Source/.vs/*
 bin/
 obj/
+Source/.mfractor/
 # Visual Studio left-overs
 *.suo        # 'user' settings like 'which file is open in Visual Studio'
 *.ncb        # Used for debugging

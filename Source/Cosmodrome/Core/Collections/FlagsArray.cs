@@ -21,8 +21,7 @@ namespace RocketMan
 
         public bool Get(int key)
         {
-            int index = key / 32;
-            return (memory[index] & (1 << (key % 32))) == (1 << (key % 32));
+            return (memory[key / 32] & (1 << (key % 32))) == (1 << (key % 32));
         }
 
         public FlagsArray Set(int key, bool value)

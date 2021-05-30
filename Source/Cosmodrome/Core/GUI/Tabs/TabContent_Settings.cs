@@ -21,9 +21,9 @@ namespace RocketMan.Tabs
                         Text.Font = GameFont.Medium;
                         Text.Anchor = TextAnchor.MiddleCenter;
                         if (Find.TickManager.Paused)
-                            Widgets.Label(rect, "Please unpause the game... RocketMan is warming up!");
+                            Widgets.Label(rect, "RocketMan.Settings.PleaseWait".Translate());
                         else
-                            Widgets.Label(rect, "Please wait... RocketMan is warming up!");
+                            Widgets.Label(rect, "RocketMan.Settings.PleaseWait".Translate());
                     });
                 }
                 else
