@@ -22,8 +22,6 @@ namespace RocketMan
 
         private static string searchString = "";
 
-        private const string PluginDir = "Plugins";
-
         private static int frameCounter = 0;
 
         public static RocketMod instance;

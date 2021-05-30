@@ -142,8 +142,8 @@ namespace Soyuz
                             else needsModel[type] = new PawnNeedModel();
                         }
 
-                    var hediffModel = pawn.GetHediffModels();
-                    foreach (var hediff in pawn.health.hediffSet.hediffs)
+                    Dictionary<Hediff, PawnHediffModel> hediffModel = pawn.GetHediffModels();
+                    foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
                     {
                         if (hediffModel.TryGetValue(hediff, out var model)) model.AddResult(hediff.Severity);
                         else hediffModel[hediff] = new PawnHediffModel();

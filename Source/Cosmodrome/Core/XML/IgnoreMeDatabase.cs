@@ -49,22 +49,6 @@ namespace RocketMan
         {
             try
             {
-                // foreach (ModContentPack mod in LoadedModManager.RunningMods)
-                // {
-                //    if (!packageIds.Any(id => ComparePackageIds(id, mod)))
-                //    {
-                //        continue;
-                //    }
-                //    foreach (Def def in mod.AllDefs)
-                //    {
-                //        if (!(def is ThingDef thingDef && thingDef.race != null && thingDef.thingClass != typeof(Pawn)))
-                //        {
-                //            Add(def, $"Ignored because of a compatibility consideration with " +
-                //                $"<color=red>{mod.Name}</color>[<color=blue>{mod.PackageId}</color>]");
-                //        }
-                //    }
-                // }
-
                 foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
                 {
                     if (thingDef.race == null)
