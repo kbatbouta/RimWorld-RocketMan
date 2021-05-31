@@ -16,6 +16,8 @@ namespace Soyuz
                 return false;
             if (pawn.IsCaravanMember())
                 return false;
+            if (pawn.RaceProps.IsMechanoid)
+                return false;
             if (WorldPawnsTicker.isActive)
                 return RocketPrefs.TimeDilationWorldPawns;
             if (!Context.dilationEnabled[pawn.def.index] || IgnoreMeDatabase.ShouldIgnore(pawn.def))

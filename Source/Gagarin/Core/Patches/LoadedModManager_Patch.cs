@@ -28,7 +28,7 @@ namespace Gagarin
             public static void Postfix(IEnumerable<LoadableXmlAsset> __result)
             {
                 Context.XmlAssets = new Dictionary<string, LoadableXmlAsset>(
-                    __result.Select(a => new KeyValuePair<string, LoadableXmlAsset>(a.GetLoadableId(), a)));
+                    __result.Select(a => new KeyValuePair<string, LoadableXmlAsset>(a.FullFilePath, a)));
 
                 if (!Context.IsUsingCache)
                 {
@@ -58,22 +58,22 @@ namespace Gagarin
 
             public static void Postfix(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
             {
-                if (!Context.IsUsingCache)
-                {
-                    if (File.Exists(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath))
-                        File.Delete(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath);
-
-                    XmlWriterSettings settings = new XmlWriterSettings
-                    {
-                        CheckCharacters = false,
-                        Indent = true,
-                        NewLineChars = "\n"
-                    };
-                    using (XmlWriter writer = XmlWriter.Create(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath, settings))
-                    {
-                        xmlDoc.Save(writer);
-                    }
-                }
+                // if (!Context.IsUsingCache)
+                // {
+                //    if (File.Exists(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath))
+                //       File.Delete(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath);
+                //
+                //    XmlWriterSettings settings = new XmlWriterSettings
+                //    {
+                //        CheckCharacters = false,
+                //        Indent = true,
+                //        NewLineChars = "\n"
+                //    };
+                //    using (XmlWriter writer = XmlWriter.Create(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath, settings))
+                //    {
+                //        xmlDoc.Save(writer);
+                //    }
+                // }
             }
         }
 

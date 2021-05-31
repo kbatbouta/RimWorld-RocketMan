@@ -5,6 +5,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Xml;
 using Mono.Security.X509.Extensions;
+using RocketMan;
 using Verse;
 using static Verse.XmlInheritance;
 
@@ -13,6 +14,10 @@ namespace Gagarin
     public static class CachedDefHelper
     {
         private static XmlDocument document;
+
+        // private static XmlDocument t_unresolvedDocument = new XmlDocument();
+        // private static XmlDocument t_resolvedDocument = new XmlDocument();
+        // private static XmlDocument t_bases = new XmlDocument();
 
         private static List<DefXmlUnit> defs = new List<DefXmlUnit>();
 
@@ -33,6 +38,9 @@ namespace Gagarin
 
             document = new XmlDocument();
             document.AppendChild(document.CreateElement("DefXmlStorage"));
+
+            // t_unresolvedDocument.AppendChild(t_unresolvedDocument.CreateElement("Def"));
+            // t_resolvedDocument.AppendChild(t_resolvedDocument.CreateElement("Def"));
         }
 
         public static void Register(Def def, XmlNode node, LoadableXmlAsset asset)
@@ -53,6 +61,7 @@ namespace Gagarin
             stopwatch.Start();
             XmlElement root = document.DocumentElement;
             XmlElement wrapper;
+            XmlElement resolvedNode;
 
             foreach (DefXmlUnit unit in defs)
             {
@@ -63,8 +72,49 @@ namespace Gagarin
                     root.AppendChild(wrapper);
                     continue;
                 }
-                ResolvePushRecursively(unit.inheritanceNode);
+                if (unit.inheritanceNode.resolvedXmlNode == null)
+                {
+                    Log.Error($"GAGARIN: {unit.def.defName} has <color=yellow>resolvedXmlNode == null!</color>");
+                    continue;
+                }
+
+                resolvedNode = unit.inheritanceNode.resolvedXmlNode as XmlElement;
+                resolvedNode.RemoveAttribute("ParentName");
+
+                if (resolvedNode.Name != node.Name)
+                {
+                    XmlElement temp = document.CreateElement(node.Name);
+                    foreach (XmlNode n in resolvedNode.ChildNodes)
+                    {
+                        if (n.NodeType != XmlNodeType.Element)
+                            continue;
+                        temp.AppendChild(document.ImportNode(n, true));
+                    }
+                    resolvedNode = temp;
+                }
+                else if (node.HasAttribute("Class") && !resolvedNode.HasAttribute("Class"))
+                    resolvedNode.SetAttribute("Class", node.GetAttribute("Class"));
+
+                wrapper = WrapXmlNode(resolvedNode, unit.asset?.FullFilePath);
+                wrapper.SetAttribute("resolved", "true");
+
+                root.AppendChild(wrapper);
+
+                // wrapper = WrapXmlNode(unit.inheritanceNode.resolvedXmlNode,
+                //        Context.DefsXmlAssets.TryGetValue(unit.inheritanceNode.xmlNode, out LoadableXmlAsset asset) ? asset.FullFilePath : null);
+                // document.DocumentElement.AppendChild(wrapper);
+                //
+                // if (unit.inheritanceNode.resolvedXmlNode != null)
+                // {
+                //    t_unresolvedDocument.DocumentElement.AppendChild(t_unresolvedDocument.ImportNode(unit.inheritanceNode.xmlNode, true));
+                //    t_resolvedDocument.DocumentElement.AppendChild(t_resolvedDocument.ImportNode(unit.inheritanceNode.resolvedXmlNode, true));
+                // }
+                // ResolvePushRecursively(unit.inheritanceNode);
             }
+
+            // t_resolvedDocument.Save(Path.Combine(RocketEnvironmentInfo.ConfigFolderPath, "Dump/resolved_def.xml"));
+            // t_unresolvedDocument.Save(Path.Combine(RocketEnvironmentInfo.ConfigFolderPath, "Dump/unresolved_def.xml"));
+
             XmlWriterSettings settings = new XmlWriterSettings
             {
                 CheckCharacters = false,
