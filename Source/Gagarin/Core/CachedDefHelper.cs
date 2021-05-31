@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Printing;
 using System.IO;
 using System.Xml;
@@ -48,6 +49,8 @@ namespace Gagarin
 
         public static void Save()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             XmlElement root = document.DocumentElement;
             XmlElement wrapper;
 
@@ -72,10 +75,15 @@ namespace Gagarin
             {
                 document.Save(writer);
             }
+
+            stopwatch.Stop();
+            Log.Warning($"GAGARIN: <color=white>Cache created!</color> creating cache took <color=green>{stopwatch.ElapsedMilliseconds / 1000} seconds</color>");
         }
 
         public static void Load(XmlDocument document, Dictionary<XmlNode, LoadableXmlAsset> assets)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             XmlReaderSettings settings = new XmlReaderSettings
             {
                 IgnoreComments = true,
@@ -102,13 +110,15 @@ namespace Gagarin
                 defXml = document.ImportNode(element.FirstChild, true);
                 path = element.GetAttribute("path");
 
-                if (Context.XmlAssets.TryGetValue(path, out LoadableXmlAsset asset))
-                    assets[defXml] = asset;
+                if (!Context.XmlAssets.TryGetValue(path, out LoadableXmlAsset asset))
+                    asset = defaultLoadable;
 
+                assets[defXml] = asset;
                 document.DocumentElement.AppendChild(defXml);
             }
 
-            Log.Warning("GAGARIN: Loaded from cache!");
+            stopwatch.Stop();
+            Log.Warning($"GAGARIN: <color=green>Loaded from cache!</color> Loading cache took <color=red>{stopwatch.ElapsedMilliseconds / 1000} seconds</color>");
         }
 
         private static void ResolvePushRecursively(XmlInheritanceNode inheritanceNode)

@@ -81,6 +81,8 @@ namespace Gagarin
                 if (Context.IsUsingCache)
                 {
                     CachedDefHelper.Load(__result = new XmlDocument(), assetlookup);
+                    foreach (ModContentPack mod in Context.RunningMods)
+                        mod.patches?.Clear();
                     return false;
                 }
                 return true;
