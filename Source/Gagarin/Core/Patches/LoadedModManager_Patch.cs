@@ -55,6 +55,26 @@ namespace Gagarin
 
                 return !Context.IsUsingCache;
             }
+
+            public static void Postfix(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
+            {
+                if (!Context.IsUsingCache)
+                {
+                    if (File.Exists(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath))
+                        File.Delete(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath);
+
+                    XmlWriterSettings settings = new XmlWriterSettings
+                    {
+                        CheckCharacters = false,
+                        Indent = true,
+                        NewLineChars = "\n"
+                    };
+                    using (XmlWriter writer = XmlWriter.Create(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath, settings))
+                    {
+                        xmlDoc.Save(writer);
+                    }
+                }
+            }
         }
 
         [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.ParseAndProcessXML))]

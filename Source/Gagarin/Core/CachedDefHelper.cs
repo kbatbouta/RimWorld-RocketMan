@@ -110,10 +110,9 @@ namespace Gagarin
                 defXml = document.ImportNode(element.FirstChild, true);
                 path = element.GetAttribute("path");
 
-                if (!Context.XmlAssets.TryGetValue(path, out LoadableXmlAsset asset))
-                    asset = defaultLoadable;
+                if (Context.XmlAssets.TryGetValue(path, out LoadableXmlAsset asset))
+                    assets[defXml] = asset;
 
-                assets[defXml] = asset;
                 document.DocumentElement.AppendChild(defXml);
             }
 

@@ -7,7 +7,6 @@ using Verse;
 
 namespace RocketMan.Optimizations
 {
-#if !DEBUG
     [RocketPatch]
     public class GraphicConsts_Patch
     {
@@ -39,5 +38,4 @@ namespace RocketMan.Optimizations
             return TranspilerUtility.FixConsts(instructions);
         }
     }
-#endif
 }

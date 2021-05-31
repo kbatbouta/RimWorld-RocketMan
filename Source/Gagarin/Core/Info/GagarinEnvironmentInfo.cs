@@ -14,6 +14,8 @@ namespace Gagarin
 
         private const string UnifiedXmlFileName = "unified.xml";
 
+        private const string UnifiedPatchedOriginalXmlFileName = "unified_original_dump.xml";
+
         private const string ModListFileName = "mods.xml";
 
         private const string HashFileName = "hash.xml";
@@ -31,6 +33,13 @@ namespace Gagarin
         public static string UnifiedXmlFilePath
         {
             get => _unifiedXmlPath ?? (_unifiedXmlPath = Path.Combine(CacheFolderPath, UnifiedXmlFileName));
+        }
+
+        private static string _unifiedPatchedOriginalXmlPath;
+
+        public static string UnifiedPatchedOriginalXmlPath
+        {
+            get => _unifiedPatchedOriginalXmlPath ?? (_unifiedPatchedOriginalXmlPath = Path.Combine(CacheFolderPath, UnifiedPatchedOriginalXmlFileName));
         }
 
 
