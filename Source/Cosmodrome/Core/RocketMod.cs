@@ -34,6 +34,10 @@ namespace RocketMan
             Finder.ModContentPack = content;
             try
             {
+                if (!Directory.Exists(RocketEnvironmentInfo.CustomConfigFolderPath))
+                {
+                    Directory.CreateDirectory(RocketEnvironmentInfo.CustomConfigFolderPath);
+                }
                 if (RocketEnvironmentInfo.IsDevEnv)
                 {
                     Log.Warning("ROCKETMAN: YOU ARE LOADING AN EXPERIMENTAL PLUGIN!");

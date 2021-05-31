@@ -32,8 +32,7 @@ namespace Gagarin
         public override void OnPatchingSuccessful(MethodBase replacement)
         {
             base.OnPatchingSuccessful(replacement);
-            //
-            //Log.Message($"GAGARIN: Patched {replacement}");
+            Log.Message($"GAGARIN: Patched {replacement}");
         }
 
         public override void OnPatchingFailed(Exception er)
@@ -48,5 +47,17 @@ namespace Gagarin
         public static GagarinPatchInfo[] patches = null;
 
         public readonly static Harmony harmony = new Harmony(Finder.HarmonyID + ".Gagarin");
+
+        [Main.OnInitialization]
+        public static void PatchAll()
+        {
+            foreach (var type in typeof(GagarinPatcher).Assembly.GetTypes()
+                .Where(t => t.HasAttribute<GagarinPatch>()))
+            {
+                new GagarinPatchInfo(type).Patch(harmony);
+            }
+            Log.Message($"SOYUZ: Patching finished");
+            RocketEnvironmentInfo.GagarinLoaded = true;
+        }
     }
 }

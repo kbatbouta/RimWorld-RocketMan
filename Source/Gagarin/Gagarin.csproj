@@ -22,8 +22,9 @@
         <NoStdLib>true</NoStdLib>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DebugType>full</DebugType>
         <OutputPath>..\..\1.2\Plugins</OutputPath>
-        <DefineConstants>TRACE;DEBUG</DefineConstants>
+        <DefineConstants>TRACE;DEBUG;NETFRAMEWORK;NET472;</DefineConstants>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoStdLib>true</NoStdLib>
     </PropertyGroup>
@@ -44,6 +45,10 @@
         <Folder Include="Core\Deprecated\Optimizations\" />
         <Folder Include="Core\Deprecated\Others\" />
         <Folder Include="Core\Deprecated\Patches\" />
+        <Folder Include="Core\Profiling\" />
+        <Folder Include="Core\Others\" />
+        <Folder Include="Core\Info\" />
+        <Folder Include="Core\Patches\" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj">
@@ -55,6 +60,10 @@
       <None Remove="Core\Deprecated\Optimizations\" />
       <None Remove="Core\Deprecated\Others\" />
       <None Remove="Core\Deprecated\Patches\" />
+      <None Remove="Core\Patches\" />
+      <None Remove="Core\Others\" />
+      <None Remove="Core\Info\" />
+      <None Remove="Core\Optimizations\" />
     </ItemGroup>
     <ItemGroup>
       <Compile Remove="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" />
@@ -122,4 +131,13 @@
             <Reference Remove="$(PkgKrafs_Rimworld_Ref)\ref\net472\UnityEngine.CoreModule.dll" />
         </ItemGroup>
     </Target>
+    <ProjectExtensions>
+      <MonoDevelop>
+        <Properties>
+          <Policies>
+            <StandardHeader Text="" IncludeInNewFiles="False" />
+          </Policies>
+        </Properties>
+      </MonoDevelop>
+    </ProjectExtensions>
 </Project>
