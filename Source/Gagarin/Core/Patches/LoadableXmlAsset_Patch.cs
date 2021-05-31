@@ -25,6 +25,7 @@ namespace Gagarin
 
             string id = __instance.GetLoadableId();
             UInt64 current = CalculateHash(contents);
+
             lock (Context.AssetsHashes)
             {
                 if (!Context.AssetsHashes.TryGetValue(id, out UInt64 old) || current != old)

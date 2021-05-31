@@ -10,11 +10,13 @@ namespace Gagarin
     public static class StartupHelper
     {
         [Main.OnInitialization]
-        public static void Initialize()
+        public static void StartUpStarted()
         {
             Context.RunningMods = LoadedModManager.RunningMods.ToList();
             Context.Core = LoadedModManager.RunningMods.First(m => m.IsCoreMod);
             Context.IsUsingCache = false;
+
+            Log.Message("GAGARIN: <color=green>StartUpStarted called!</color>");
 
             if (GagarinEnvironmentInfo.CacheExists)
             {
@@ -37,6 +39,19 @@ namespace Gagarin
             }
 
             RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
+        }
+
+        [Main.OnStaticConstructor]
+        public static void StartUpFinished()
+        {
+            Log.Message("GAGARIN: <color=green>StartUpFinished called!</color>");
+
+            Context.AssetsHashes.Clear();
+            Context.DefsXmlAssets.Clear();
+            Context.XmlAssets.Clear();
+            Context.CurrentLoadingMod = null;
+
+            CachedDefHelper.Clean();
         }
     }
 }

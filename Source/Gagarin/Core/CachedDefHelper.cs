@@ -43,6 +43,14 @@ namespace Gagarin
             // t_resolvedDocument.AppendChild(t_resolvedDocument.CreateElement("Def"));
         }
 
+        public static void Clean()
+        {
+            defs.Clear();
+            registeredNames.Clear();
+            document.RemoveAll();
+            document = null;
+        }
+
         public static void Register(Def def, XmlNode node, LoadableXmlAsset asset)
         {
             defs.Add(new DefXmlUnit()
@@ -153,7 +161,11 @@ namespace Gagarin
             document.AppendChild(document.CreateElement("Defs"));
             XmlDocument unifiedDocument = new XmlDocument();
             unifiedDocument.RemoveAll();
+            Stopwatch documentStopwatch = new Stopwatch();
+            documentStopwatch.Start();
             unifiedDocument.Load(xmlReader);
+            documentStopwatch.Stop();
+            Log.Warning($"GAGARIN: <color=green>Loadeding XmlDocument</color> took <color=red>{(float)documentStopwatch.ElapsedTicks / Stopwatch.Frequency} seconds</color>");
 
             foreach (XmlElement element in unifiedDocument.DocumentElement.ChildNodes)
             {
@@ -170,26 +182,6 @@ namespace Gagarin
             Log.Warning($"GAGARIN: <color=green>Loaded from cache!</color> Loading cache took <color=red>{stopwatch.ElapsedMilliseconds / 1000} seconds</color>");
         }
 
-        private static void ResolvePushRecursively(XmlInheritanceNode inheritanceNode)
-        {
-            var node = inheritanceNode.xmlNode as XmlElement;
-            var name = node.HasAttribute("Name") ? node.GetAttribute("Name") : null;
-
-            if (name != null)
-            {
-                if (registeredNames.Contains(name))
-                    return;
-
-                registeredNames.Add(name);
-            }
-            if (inheritanceNode.parent != null)
-                ResolvePushRecursively(inheritanceNode.parent);
-
-            XmlElement wrapper = WrapXmlNode(inheritanceNode.xmlNode,
-                Context.DefsXmlAssets.TryGetValue(inheritanceNode.xmlNode, out LoadableXmlAsset asset) ? asset.FullFilePath : null);
-            document.DocumentElement.AppendChild(wrapper);
-        }
-
         private static XmlElement WrapXmlNode(XmlNode node, string path = null)
         {
             XmlElement xml = document.CreateElement("Item");
@@ -197,5 +189,25 @@ namespace Gagarin
             xml.AppendChild(document.ImportNode(node, true));
             return xml;
         }
+
+        // private static void ResolvePushRecursively(XmlInheritanceNode inheritanceNode)
+        // {
+        //    var node = inheritanceNode.xmlNode as XmlElement;
+        //    var name = node.HasAttribute("Name") ? node.GetAttribute("Name") : null;
+        //
+        //    if (name != null)
+        //    {
+        //        if (registeredNames.Contains(name))
+        //            return;
+        //
+        //        registeredNames.Add(name);
+        //    }
+        //    if (inheritanceNode.parent != null)
+        //        ResolvePushRecursively(inheritanceNode.parent);
+        //
+        //    XmlElement wrapper = WrapXmlNode(inheritanceNode.xmlNode,
+        //        Context.DefsXmlAssets.TryGetValue(inheritanceNode.xmlNode, out LoadableXmlAsset asset) ? asset.FullFilePath : null);
+        //    document.DocumentElement.AppendChild(wrapper);
+        // }        
     }
 }

@@ -33,14 +33,11 @@ namespace Gagarin
                 if (!Context.IsUsingCache)
                 {
                     AssetHashingUtility.Dump(Context.AssetsHashes, GagarinEnvironmentInfo.HashFilePath);
-                }
-                InLoadModXML = false;
 
-                if (!Context.IsUsingCache)
-                {
                     if (File.Exists(GagarinEnvironmentInfo.UnifiedXmlFilePath))
                         File.Delete(GagarinEnvironmentInfo.UnifiedXmlFilePath);
                 }
+                InLoadModXML = false;
             }
         }
 
@@ -83,10 +80,8 @@ namespace Gagarin
             [HarmonyPriority(Priority.Last)]
             public static void Postfix()
             {
-                if (Context.IsUsingCache)
-                    return;
-
-                CachedDefHelper.Save();
+                if (Context.IsUsingCache == false)
+                    CachedDefHelper.Save();
             }
         }
 
