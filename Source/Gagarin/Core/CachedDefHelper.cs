@@ -45,9 +45,9 @@ namespace Gagarin
 
         public static void Clean()
         {
-            defs.Clear();
-            registeredNames.Clear();
-            document.RemoveAll();
+            defs?.Clear();
+            registeredNames?.Clear();
+            document?.RemoveAll();
             document = null;
         }
 
