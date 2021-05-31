@@ -107,21 +107,7 @@ namespace Gagarin
                 wrapper.SetAttribute("resolved", "true");
 
                 root.AppendChild(wrapper);
-
-                // wrapper = WrapXmlNode(unit.inheritanceNode.resolvedXmlNode,
-                //        Context.DefsXmlAssets.TryGetValue(unit.inheritanceNode.xmlNode, out LoadableXmlAsset asset) ? asset.FullFilePath : null);
-                // document.DocumentElement.AppendChild(wrapper);
-                //
-                // if (unit.inheritanceNode.resolvedXmlNode != null)
-                // {
-                //    t_unresolvedDocument.DocumentElement.AppendChild(t_unresolvedDocument.ImportNode(unit.inheritanceNode.xmlNode, true));
-                //    t_resolvedDocument.DocumentElement.AppendChild(t_resolvedDocument.ImportNode(unit.inheritanceNode.resolvedXmlNode, true));
-                // }
-                // ResolvePushRecursively(unit.inheritanceNode);
             }
-
-            // t_resolvedDocument.Save(Path.Combine(RocketEnvironmentInfo.ConfigFolderPath, "Dump/resolved_def.xml"));
-            // t_unresolvedDocument.Save(Path.Combine(RocketEnvironmentInfo.ConfigFolderPath, "Dump/unresolved_def.xml"));
 
             XmlWriterSettings settings = new XmlWriterSettings
             {
@@ -189,25 +175,5 @@ namespace Gagarin
             xml.AppendChild(document.ImportNode(node, true));
             return xml;
         }
-
-        // private static void ResolvePushRecursively(XmlInheritanceNode inheritanceNode)
-        // {
-        //    var node = inheritanceNode.xmlNode as XmlElement;
-        //    var name = node.HasAttribute("Name") ? node.GetAttribute("Name") : null;
-        //
-        //    if (name != null)
-        //    {
-        //        if (registeredNames.Contains(name))
-        //            return;
-        //
-        //        registeredNames.Add(name);
-        //    }
-        //    if (inheritanceNode.parent != null)
-        //        ResolvePushRecursively(inheritanceNode.parent);
-        //
-        //    XmlElement wrapper = WrapXmlNode(inheritanceNode.xmlNode,
-        //        Context.DefsXmlAssets.TryGetValue(inheritanceNode.xmlNode, out LoadableXmlAsset asset) ? asset.FullFilePath : null);
-        //    document.DocumentElement.AppendChild(wrapper);
-        // }        
     }
 }
