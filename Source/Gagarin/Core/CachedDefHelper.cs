@@ -15,10 +15,6 @@ namespace Gagarin
     {
         private static XmlDocument document;
 
-        // private static XmlDocument t_unresolvedDocument = new XmlDocument();
-        // private static XmlDocument t_resolvedDocument = new XmlDocument();
-        // private static XmlDocument t_bases = new XmlDocument();
-
         private static List<DefXmlUnit> defs = new List<DefXmlUnit>();
 
         private static HashSet<string> registeredNames = new HashSet<string>();
@@ -38,9 +34,6 @@ namespace Gagarin
 
             document = new XmlDocument();
             document.AppendChild(document.CreateElement("DefXmlStorage"));
-
-            // t_unresolvedDocument.AppendChild(t_unresolvedDocument.CreateElement("Def"));
-            // t_resolvedDocument.AppendChild(t_resolvedDocument.CreateElement("Def"));
         }
 
         public static void Clean()
