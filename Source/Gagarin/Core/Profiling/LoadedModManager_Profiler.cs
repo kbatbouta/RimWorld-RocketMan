@@ -7,45 +7,111 @@ using Verse;
 
 namespace Gagarin
 {
-    [GagarinPatch]
     public static class LoadedModManager_Profiler
     {
-        public static IEnumerable<MethodBase> TargetMethods()
+        [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.LoadModXML))]
+        public static class LoadModXML_Profiler
         {
-            yield return GagarinTargets.LoadedModManager_LoadModXML;
-            yield return GagarinTargets.LoadedModManager_CombineIntoUnifiedXML;
-            yield return GagarinTargets.LoadedModManager_ApplyPatches;
-            // Here TKeyParser.Parse will starts
-            yield return GagarinTargets.LoadedModManager_ParseAndProcessXML;
-            yield return GagarinTargets.LoadedModManager_ClearCachedPatches;
+            private static Stopwatch stopwatch = new Stopwatch();
+
+            [HarmonyPriority(1000)]
+            public static void Prefix()
+            {
+                stopwatch.Reset();
+                stopwatch.Start();
+            }
+
+            [HarmonyPriority(Priority.Last)]
+            public static void Postfix()
+            {
+                stopwatch.Stop();
+                Log.Warning($"GAGARIN: <color=white>LoadModXML_Profiler</color> took " +
+                    $"<color=red>{Math.Round((float)stopwatch.ElapsedMilliseconds / 1000f, 4)}</color> seconds");
+            }
         }
 
-        private static int stageInt = 0;
-
-        private static string[] stages = new string[]
+        [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.CombineIntoUnifiedXML))]
+        public static class CombineIntoUnifiedXML_Profiler
         {
-            "LoadModXML",
-            "CombineIntoUnifiedXML",
-            "ApplyPatches",
-            "ParseAndProcessXML",
-            "ClearCachedPatches",
-        };
+            private static Stopwatch stopwatch = new Stopwatch();
 
-        private static Stopwatch stopwatch = new Stopwatch();
+            [HarmonyPriority(1000)]
+            public static void Prefix()
+            {
+                stopwatch.Reset();
+                stopwatch.Start();
+            }
 
-        [HarmonyPriority(1000)]
-        public static void Prefix()
-        {
-            stopwatch.Reset();
-            stopwatch.Start();
+            [HarmonyPriority(Priority.Last)]
+            public static void Postfix()
+            {
+                stopwatch.Stop();
+                Log.Warning($"GAGARIN: <color=white>CombineIntoUnifiedXML_Profiler</color> took " +
+                    $"<color=red>{Math.Round((float)stopwatch.ElapsedMilliseconds / 1000f, 4)}</color> seconds");
+            }
         }
 
-        [HarmonyPriority(Priority.Last)]
-        public static void Postfix()
+        [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.ApplyPatches))]
+        public static class ApplyPatches_Profiler
         {
-            stopwatch.Stop();
-            Log.Warning($"GAGARIN: <color=white>LoadedModManager.{stages[stageInt]}</color> took <color=red>{Math.Round((float)stopwatch.ElapsedMilliseconds / 1000f, 4)}</color> seconds");
-            stageInt++;
+            private static Stopwatch stopwatch = new Stopwatch();
+
+            [HarmonyPriority(1000)]
+            public static void Prefix()
+            {
+                stopwatch.Reset();
+                stopwatch.Start();
+            }
+
+            [HarmonyPriority(Priority.Last)]
+            public static void Postfix()
+            {
+                stopwatch.Stop();
+                Log.Warning($"GAGARIN: <color=white>ApplyPatches_Profiler</color> took " +
+                    $"<color=red>{Math.Round((float)stopwatch.ElapsedMilliseconds / 1000f, 4)}</color> seconds");
+            }
+        }
+
+        [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.ParseAndProcessXML))]
+        public static class ParseAndProcessXML_Profiler
+        {
+            private static Stopwatch stopwatch = new Stopwatch();
+
+            [HarmonyPriority(1000)]
+            public static void Prefix()
+            {
+                stopwatch.Reset();
+                stopwatch.Start();
+            }
+
+            [HarmonyPriority(Priority.Last)]
+            public static void Postfix()
+            {
+                stopwatch.Stop();
+                Log.Warning($"GAGARIN: <color=white>ParseAndProcessXML_Profiler</color> took " +
+                    $"<color=red>{Math.Round((float)stopwatch.ElapsedMilliseconds / 1000f, 4)}</color> seconds");
+            }
+        }
+
+        [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.ClearCachedPatches))]
+        public static class ClearCachedPatches_Profiler
+        {
+            private static Stopwatch stopwatch = new Stopwatch();
+
+            [HarmonyPriority(1000)]
+            public static void Prefix()
+            {
+                stopwatch.Reset();
+                stopwatch.Start();
+            }
+
+            [HarmonyPriority(Priority.Last)]
+            public static void Postfix()
+            {
+                stopwatch.Stop();
+                Log.Warning($"GAGARIN: <color=white>ClearCachedPatches_Profiler</color> took " +
+                    $"<color=red>{Math.Round((float)stopwatch.ElapsedMilliseconds / 1000f, 4)}</color> seconds");
+            }
         }
     }
 }
