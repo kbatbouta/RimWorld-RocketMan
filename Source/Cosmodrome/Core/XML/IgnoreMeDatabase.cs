@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using RimWorld;
 using Verse;
@@ -49,7 +50,11 @@ namespace RocketMan
         {
             try
             {
-                foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs
+                    .AsParallel()
+                    .Where(d => d.race != null))
                 {
                     if (thingDef.race == null)
                     {
@@ -60,6 +65,9 @@ namespace RocketMan
                         Add(thingDef, $"Ignored because of a custom thingClass { thingDef.thingClass.Name }");
                     }
                 }
+                stopwatch.Stop();
+                report = $"[{Math.Round((float)stopwatch.ElapsedTicks / Stopwatch.Frequency, 6)} seconds] " + report;
+
             }
             catch (Exception er)
             {
