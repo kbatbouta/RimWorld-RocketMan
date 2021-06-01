@@ -10,14 +10,12 @@ namespace Gagarin
 {
     public static class LoadedModManager_Patch
     {
-        public static bool InLoadModXML = false;
-
         [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.LoadModXML))]
         public static class LoadModXML_Patch
         {
             public static void Prefix()
             {
-                InLoadModXML = true;
+                Context.IsLoadingModXML = true;
 
                 if (File.Exists(GagarinEnvironmentInfo.HashFilePath))
                 {
@@ -37,7 +35,7 @@ namespace Gagarin
                     if (File.Exists(GagarinEnvironmentInfo.UnifiedXmlFilePath))
                         File.Delete(GagarinEnvironmentInfo.UnifiedXmlFilePath);
                 }
-                InLoadModXML = false;
+                Context.IsLoadingModXML = false;
             }
         }
 

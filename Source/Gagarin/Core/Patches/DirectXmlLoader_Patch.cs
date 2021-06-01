@@ -11,12 +11,8 @@ namespace Gagarin
         {
             public static void Postfix(XmlNode node, LoadableXmlAsset loadingAsset, Def __result)
             {
-                if (Context.IsUsingCache)
-                    return;
-                if (__result == null)
-                    return;
-
-                CachedDefHelper.Register(__result, node, loadingAsset);
+                if (!Context.IsUsingCache && __result != null)
+                    CachedDefHelper.Register(__result, node, loadingAsset);
             }
         }
     }

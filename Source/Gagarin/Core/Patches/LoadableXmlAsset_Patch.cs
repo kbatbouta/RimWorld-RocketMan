@@ -20,23 +20,24 @@ namespace Gagarin
 
         public static void Postfix(LoadableXmlAsset __instance, string contents)
         {
-            if (!LoadedModManager_Patch.InLoadModXML)
-                return;
-
-            string id = __instance.GetLoadableId();
-            UInt64 current = CalculateHash(contents);
-
-            lock (Context.AssetsHashes)
+            if (Context.IsLoadingModXML)
             {
-                if (!Context.AssetsHashes.TryGetValue(id, out UInt64 old) || current != old)
-                {
-                    Context.IsUsingCache = false;
+                UInt64 current = CalculateHash(contents);
+                string id = __instance.GetLoadableId();
 
-                    Log.Warning($"GAGARIN: Asset changed! " +
-                        $"<color=red>{__instance.name}</color>:<color=red>{Context.CurrentLoadingMod?.PackageId ?? "Unknown"}</color> " +
-                        $"in {__instance.fullFolderPath}");
+                lock (Context.AssetsHashes)
+                {
+                    if (!Context.AssetsHashes.TryGetValue(id, out UInt64 old) || current != old)
+                    {
+                        Context.IsUsingCache = false;
+
+                        if (GagarinEnvironmentInfo.CacheExists)
+                            Log.Warning($"GAGARIN: Asset changed! " +
+                                $"<color=red>{__instance.name}</color>:<color=red>{Context.CurrentLoadingMod?.PackageId ?? "Unknown"}</color> " +
+                                $"in {__instance.fullFolderPath}");
+                    }
+                    Context.AssetsHashes[id] = current;
                 }
-                Context.AssetsHashes[id] = current;
             }
         }
 

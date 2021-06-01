@@ -9,6 +9,8 @@ namespace Gagarin
     {
         public static bool IsUsingCache = false;
 
+        public static bool IsLoadingModXML = false;
+
         public static ModContentPack Core;
 
         public static Dictionary<XmlNode, LoadableXmlAsset> DefsXmlAssets = new Dictionary<XmlNode, LoadableXmlAsset>();
