@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-    <RocketMan.Settings.PleaseUnpause>Please unpause the game... RocketMan is warming up!</RocketMan.Settings.PleaseUnpause>
-    <RocketMan.Settings.PleaseWait>Please wait... RocketMan is warming up!</RocketMan.Settings.PleaseWait>    
-    <RocketMan.IncompatibilityWindow.Description>You are running incompatibile mods with RocketMan. This type of incompatilibity will nuke/destroy your save! You can Disable RocketMan or You continue on your own responsibility. these mods are:\n</RocketMan.IncompatibilityWindow.Description>        
+	<RocketMan.Settings.PleaseUnpause>Please unpause the game... RocketMan is warming up!</RocketMan.Settings.PleaseUnpause>
+	<RocketMan.Settings.PleaseWait>Please wait... RocketMan is warming up!</RocketMan.Settings.PleaseWait>
+	<RocketMan.IncompatibilityWindow.Description>You are running incompatibile mods with RocketMan. This type of incompatilibity will nuke/destroy your save! You can Disable RocketMan or You continue on your own responsibility. these mods are:\n</RocketMan.IncompatibilityWindow.Description>
+	<!-- Soyuz Soyuz.TabContent_DilationSettings -->
+	<Soyuz.TabContent_DilationSettings.Colored.Disabled>Disabled</Soyuz.TabContent_DilationSettings.Colored.Disabled>
+	<Soyuz.TabContent_DilationSettings.Colored.IgnoredAndDisabled>Ignored and disabled</Soyuz.TabContent_DilationSettings.Colored.IgnoredAndDisabled>
+	<Soyuz.TabContent_DilationSettings.Colored.IsFastMoving>Is fast moving</Soyuz.TabContent_DilationSettings.Colored.IsFastMoving>
+	<Soyuz.TabContent_DilationSettings.Colored.IgnorePlayerFaction>Ignores player faction</Soyuz.TabContent_DilationSettings.Colored.IgnorePlayerFaction>
+	<Soyuz.TabContent_DilationSettings.Colored.IgnoreAllFaction>Ignores all factions</Soyuz.TabContent_DilationSettings.Colored.IgnoreAllFaction>
+	<Soyuz.TabContent_DilationSettings.EnableTimeDilation>Enable time dilation</Soyuz.TabContent_DilationSettings.EnableTimeDilation>
+	<Soyuz.TabContent_DilationSettings.Current.Enable>Enable</Soyuz.TabContent_DilationSettings.Current.Enable>
+	<Soyuz.TabContent_DilationSettings.Current.IgnorePlayerFaction>Ignore player faction</Soyuz.TabContent_DilationSettings.Current.IgnorePlayerFaction>
+	<Soyuz.TabContent_DilationSettings.Current.IgnoreAllFactions>Ignore all factions</Soyuz.TabContent_DilationSettings.Current.IgnoreAllFactions>
+	<Soyuz.TabContent_DilationSettings.Current.FastPawn>This pawn move too fast to be throttled</Soyuz.TabContent_DilationSettings.Current.FastPawn>
+	<Soyuz.TabContent_DilationSettings.Current.Ignored>This pawn will be ignored because:</Soyuz.TabContent_DilationSettings.Current.Ignored>
 </LanguageData>

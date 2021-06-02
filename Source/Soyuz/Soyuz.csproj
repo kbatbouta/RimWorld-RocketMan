@@ -42,11 +42,21 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Core\" />
+        <Folder Include="Core\GUI\Tabs\Deprecated\" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj">
             <Private>False</Private>
         </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Core\GUI\Tabs\Deprecated\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="Core\GUI\Tabs\Deprecated\TabContent_Soyuz.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="Core\GUI\Tabs\Deprecated\TabContent_Soyuz.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
     </ItemGroup>
     <Target Name="Publicise" BeforeTargets="UpdateReferences" Condition="!Exists('$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp_publicised.dll')">
         <!-- Set our variables -->

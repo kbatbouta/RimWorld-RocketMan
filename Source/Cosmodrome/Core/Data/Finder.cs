@@ -15,5 +15,7 @@ namespace RocketMan
         public static Harmony Harmony = new Harmony(HarmonyID);
 
         public static RocketShip.SkipperPatcher Rocket = new RocketShip.SkipperPatcher(HarmonyID);
+
+        public static Window_Main RocketManWindow;
     }
 }

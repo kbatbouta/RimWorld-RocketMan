@@ -423,6 +423,7 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.AlertThrottling, "alertThrottling", true);
                 Scribe_Values.Look(ref RocketPrefs.DisableAllAlert, "disableAllAlert", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilation, "timeDilation", true);
+                Scribe_Values.Look(ref RocketPrefs.TimeDilationFire, "TimeDilationFire", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationCaravans, "timeDilationCaravans", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationVisitors, "timeDilationVisitors", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationWorldPawns, "timeDilationWorldPawns", true);

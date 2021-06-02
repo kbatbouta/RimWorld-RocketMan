@@ -33,6 +33,11 @@ namespace RocketMan
             }
         }
 
+        public static string DevKeyFilePath
+        {
+            get => Path.GetFullPath(Path.Combine(GenFilePaths.ConfigFolderPath, "rocketeer.0102.txt"));
+        }
+
         public static string PluginsFolderPath
         {
             get => Path.Combine(Finder.ModContentPack.RootDir, PluginFolderSubPath);

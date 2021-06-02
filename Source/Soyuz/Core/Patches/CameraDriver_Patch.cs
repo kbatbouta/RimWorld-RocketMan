@@ -9,10 +9,10 @@ namespace Soyuz.Patches
     {
         public static void Postfix(CameraDriver __instance)
         {
-            Context.zoomRange = __instance.CurrentZoom;
-            Context.curViewRect = __instance.CurrentViewRect;
+            Context.ZoomRange = __instance.CurrentZoom;
+            Context.CurViewRect = __instance.CurrentViewRect;
             if (RocketDebugPrefs.Debug && RocketDebugPrefs.StatLogging)
-                Log.Message($"SOYUZ: Zoom range is {Context.zoomRange}");
+                Log.Message($"SOYUZ: Zoom range is {Context.ZoomRange}");
         }
     }
 }

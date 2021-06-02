@@ -20,7 +20,7 @@ namespace Proton
 
         public override bool ShouldShow => RocketPrefs.Enabled;
 
-        public override string Label => "Alerts settings";
+        public override string Label => "Alerts Settings";
 
         public static readonly Color warningColor = new Color(1f, 0.913f, 0.541f, 0.2f);
         public static readonly Color dangerColor = new Color(0.972f, 0.070f, 0.137f, 0.2f);

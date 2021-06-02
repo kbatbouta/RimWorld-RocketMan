@@ -10,7 +10,7 @@ using static RocketMan.Main;
 
 namespace RocketMan
 {
-    public class Window_MainControls : Window
+    public class Window_Main : Window
     {
         private TabHolder tabs;
 
@@ -18,7 +18,7 @@ namespace RocketMan
 
         public override Vector2 InitialSize => new Vector2(685, 650);
 
-        public Window_MainControls()
+        public Window_Main()
         {
             draggable = true;
             absorbInputAroundWindow = false;
@@ -43,6 +43,7 @@ namespace RocketMan
                 Log.Message($"ROCKETMAN: Found a new tab {tab.Label}");
                 tabs.AddTab(tab);
             }
+            Finder.RocketManWindow = this;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -92,6 +93,7 @@ namespace RocketMan
         {
             base.Close(doCloseSound);
             RocketDebugPrefs.DogData = false;
+            Finder.RocketManWindow = null;
         }
     }
 }

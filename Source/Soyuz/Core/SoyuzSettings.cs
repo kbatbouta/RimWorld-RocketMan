@@ -14,23 +14,24 @@ namespace Soyuz
     public class RaceSettings : IExposable
     {
         public ThingDef pawnDef;
-        public string pawnDefName;
+        public string name;
 
-        public bool dilated = true;
         public bool enabled = true;
         public bool ignoreFactions;
         public bool ignorePlayerFaction;
-
         public bool isFastMoving;
 
+        private int version;
         private bool isFastMovingInitialized;
+
+        private const int SETTINGS_VERSION = 1;
 
         public int DilationInt
         {
             get
             {
                 int val = 0;
-                if (dilated) val = val | 1;
+                if (enabled) val = val | 1;
                 if (ignoreFactions) val = val | 2;
                 if (ignorePlayerFaction) val = val | 4;
                 return val;
@@ -41,15 +42,15 @@ namespace Soyuz
         {
         }
 
-        public RaceSettings(string pawnDefName)
+        public RaceSettings(string defName)
         {
-            this.pawnDefName = pawnDefName;
+            this.name = defName;
         }
 
         public void ExposeData()
         {
-            Scribe_Values.Look(ref pawnDefName, "pawnDefName");
-            Scribe_Values.Look(ref dilated, "dilated", true);
+            Scribe_Values.Look(ref version, "version", -1);
+            Scribe_Values.Look(ref name, "pawnDefName");
             Scribe_Values.Look(ref enabled, "enabled", true);
             Scribe_Values.Look(ref ignoreFactions, "ignoreFactions");
             Scribe_Values.Look(ref ignorePlayerFaction, "ignorePlayerFaction");
@@ -59,10 +60,15 @@ namespace Soyuz
 
         public void ResolveContent()
         {
-            if (DefDatabase<ThingDef>.defsByName.TryGetValue(this.pawnDefName, out var def))
-                this.pawnDef = def;
-            if (this.pawnDef == null || this.isFastMovingInitialized == true)
+            if (false
+                || !DefDatabase<ThingDef>.defsByName.TryGetValue(this.name, out var def)
+                || this.isFastMovingInitialized == true)
                 return;
+            if (this.version != SETTINGS_VERSION)
+            {
+                this.Notify_VersionChanged();
+                this.version = SETTINGS_VERSION;
+            }
             try
             {
                 if (this.pawnDef.StatBaseDefined(StatDefOf.MoveSpeed))
@@ -79,15 +85,30 @@ namespace Soyuz
 
         public void Cache()
         {
-            Context.dilationByDef[pawnDef] = this;
-            Context.dilationEnabled[pawnDef.index] = this.enabled;
+            Context.DilationByDef[pawnDef] = this;
+            Context.DilationEnabled[pawnDef.index] = this.enabled;
             if (!this.isFastMovingInitialized && this.pawnDef.StatBaseDefined(StatDefOf.MoveSpeed))
             {
                 this.isFastMoving = this.pawnDef.GetStatValueAbstract(StatDefOf.MoveSpeed) > 8;
                 this.isFastMovingInitialized = true;
             }
-            Context.dilationInts[pawnDef.index] = DilationInt;
-            Context.dilationFastMovingRace[pawnDef.index] = isFastMoving;
+            Context.DilationInts[pawnDef.index] = DilationInt;
+            Context.DilationFastMovingRace[pawnDef.index] = isFastMoving;
+            if (this.version != SETTINGS_VERSION)
+            {
+                this.Notify_VersionChanged();
+                this.version = SETTINGS_VERSION;
+            }
+        }
+
+        private void Notify_VersionChanged()
+        {
+            if (this.pawnDef.race.IsMechanoid)
+            {
+                this.enabled = false;
+                this.ignoreFactions = false;
+                this.ignorePlayerFaction = false;
+            }
         }
     }
 

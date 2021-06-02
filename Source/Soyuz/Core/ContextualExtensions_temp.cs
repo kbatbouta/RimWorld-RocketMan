@@ -16,11 +16,9 @@ namespace Soyuz
                 return false;
             if (pawn.IsCaravanMember())
                 return false;
-            if (pawn.RaceProps.IsMechanoid)
-                return false;
             if (WorldPawnsTicker.isActive)
                 return RocketPrefs.TimeDilationWorldPawns;
-            if (!Context.dilationEnabled[pawn.def.index] || IgnoreMeDatabase.ShouldIgnore(pawn.def))
+            if (!Context.DilationEnabled[pawn.def.index] || IgnoreMeDatabase.ShouldIgnore(pawn.def))
                 return false;
             if (pawn.IsBleeding() || (!RocketPrefs.TimeDilationCriticalHediffs && pawn.HasCriticalHediff()))
                 return false;
@@ -65,7 +63,7 @@ namespace Soyuz
                 return true;
             if (pawn.OffScreen())
                 return true;
-            if (Context.zoomRange == CameraZoomRange.Far || Context.zoomRange == CameraZoomRange.Furthest || Context.zoomRange == CameraZoomRange.Middle)
+            if (Context.ZoomRange == CameraZoomRange.Far || Context.ZoomRange == CameraZoomRange.Furthest || Context.ZoomRange == CameraZoomRange.Middle)
                 return true;
             return false;
         }

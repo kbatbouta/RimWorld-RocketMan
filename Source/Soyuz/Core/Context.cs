@@ -8,22 +8,25 @@ namespace Soyuz
 {
     public static class Context
     {
-        public static CameraZoomRange zoomRange;
-        public static CellRect curViewRect;
+        public static CameraZoomRange ZoomRange;
 
-        public static SoyuzSettings settings;
+        public static CellRect CurViewRect;
 
-        public static readonly int[] dilationInts = new int[ushort.MaxValue];
-        public static readonly bool[] dilationEnabled = new bool[ushort.MaxValue];
-        public static readonly bool[] dilationFastMovingRace = new bool[ushort.MaxValue];
+        public static SoyuzSettings Settings;
 
-        public static readonly Dictionary<ThingDef, RaceSettings> dilationByDef = new Dictionary<ThingDef, RaceSettings>();
+        public static readonly int[] DilationInts = new int[ushort.MaxValue];
+
+        public static readonly bool[] DilationEnabled = new bool[ushort.MaxValue];
+
+        public static readonly bool[] DilationFastMovingRace = new bool[ushort.MaxValue];
+
+        public static readonly Dictionary<ThingDef, RaceSettings> DilationByDef = new Dictionary<ThingDef, RaceSettings>();
 
         public static int DilationRate
         {
             get
             {
-                switch (Context.zoomRange)
+                switch (Context.ZoomRange)
                 {
                     default:
                         return 1;

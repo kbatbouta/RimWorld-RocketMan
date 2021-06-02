@@ -14,18 +14,23 @@ namespace RocketMan
         {
             if (Event.current.button == 0)
             {
-                if (Find.WindowStack.WindowOfType<Window_MainControls>() != null)
+                if (Find.WindowStack.WindowOfType<Window_Main>() != null)
                 {
-                    Find.WindowStack.RemoveWindowsOfType(typeof(Window_MainControls));
+                    Find.WindowStack.RemoveWindowsOfType(typeof(Window_Main));
+                    Finder.RocketManWindow = null;
                 }
                 else
                 {
-                    Find.WindowStack.Add(new Window_MainControls());
+                    Find.WindowStack.Add(
+                        Finder.RocketManWindow == null ? Finder.RocketManWindow = new Window_Main() : Finder.RocketManWindow
+                        );
                 }
             }
             else
             {
-                if (Find.WindowStack.WindowOfType<Window_MainControls>() == null) Find.WindowStack.Add(new Window_MainControls());
+                if (Find.WindowStack.WindowOfType<Window_Main>() == null) Find.WindowStack.Add(
+                    Finder.RocketManWindow == null ? Finder.RocketManWindow = new Window_Main() : Finder.RocketManWindow
+                    );
             }
         }
     }

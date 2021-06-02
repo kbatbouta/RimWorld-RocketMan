@@ -39,7 +39,6 @@ namespace Gagarin
             }
         }
 
-
         [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.ApplyPatches))]
         public static class ApplyPatches_Patch
         {
@@ -86,6 +85,8 @@ namespace Gagarin
         [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.CombineIntoUnifiedXML))]
         public static class CombineIntoUnifiedXML_Patch
         {
+
+
             [HarmonyPriority(Priority.Last)]
             public static bool Prefix(List<LoadableXmlAsset> xmls, ref XmlDocument __result, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
             {
