@@ -5,7 +5,7 @@ namespace RocketMan.Tabs
 {
     public class TabContent_Settings : ITabContent
     {
-        public override string Label => "Home";
+        public override string Label => "RocketMan.Tab".Translate();
         public override bool ShouldShow => true;
 
         private Texture2D graphic = ContentFinder<Texture2D>.Get("RocketMan/UI/rocketman_main_nobackground", true);

@@ -13,7 +13,7 @@ namespace Soyuz.Tabs
     {
         public override bool ShouldShow => RocketPrefs.Enabled;
 
-        public override string Label => "Time Dilation Controls";
+        public override string Label => "Soyuz.Tab".Translate();
 
         public static readonly Color ignoredColor = new Color(1f, 0.913f, 0.541f, 0.2f);
 
@@ -33,15 +33,15 @@ namespace Soyuz.Tabs
             {
                 descriptionBoxes = new List<Pair<Color, string>>();
                 descriptionBoxes.Add(new Pair<Color, string>(Color.red,
-                    "Soyuz.TabContent_DilationSettings.Colored.Disabled".Translate()));
+                    "Soyuz.Colored.Disabled".Translate()));
                 descriptionBoxes.Add(new Pair<Color, string>(Color.yellow,
-                    "Soyuz.TabContent_DilationSettings.Colored.IgnoredAndDisabled".Translate()));
+                    "Soyuz.Colored.IgnoredAndDisabled".Translate()));
                 descriptionBoxes.Add(new Pair<Color, string>(Color.blue,
-                    "Soyuz.TabContent_DilationSettings.Colored.IsFastMoving".Translate()));
+                    "Soyuz.Colored.IsFastMoving".Translate()));
                 descriptionBoxes.Add(new Pair<Color, string>(Color.cyan,
-                    "Soyuz.TabContent_DilationSettings.Colored.IgnorePlayerFaction".Translate()));
+                    "Soyuz.Colored.IgnorePlayerFaction".Translate()));
                 descriptionBoxes.Add(new Pair<Color, string>(Color.magenta,
-                    "Soyuz.TabContent_DilationSettings.Colored.IgnoreAllFaction".Translate()));
+                    "Soyuz.Colored.IgnoreAllFaction".Translate()));
             }
         }
 
@@ -57,18 +57,18 @@ namespace Soyuz.Tabs
         {
             Listing_Standard standard = new Listing_Standard(GameFont.Tiny);
             standard.Begin(rect.TopPartPixels(95 + (RocketDebugPrefs.Debug ? 100 : 0)));
-            standard.CheckboxLabeled("Enable time dilation", ref RocketPrefs.TimeDilation, "Experimental.");
+            standard.CheckboxLabeled("Soyuz.Current.EnableTimeDilation".Translate(), ref RocketPrefs.TimeDilation);
             standard.GapLine();
-            standard.CheckboxLabeled("Enable time dilation for visitor pawns.", ref RocketPrefs.TimeDilationVisitors, "Experimental: Can cause a lot of bugs.");
-            standard.CheckboxLabeled("Enable time dilation for world pawns", ref RocketPrefs.TimeDilationWorldPawns, "Throttle ticking for world pawns.");
+            standard.CheckboxLabeled("Soyuz.Current.EnableTimeDilationVisitors".Translate(), ref RocketPrefs.TimeDilationVisitors);
+            standard.CheckboxLabeled("Soyuz.Current.EnableTimeWorldPawns".Translate(), ref RocketPrefs.TimeDilationWorldPawns);
             if (RocketDebugPrefs.Debug)
             {
                 standard.GapLine();
-                standard.CheckboxLabeled("Enable data logging", ref RocketDebugPrefs.DogData, "For debugging only.");
-                standard.CheckboxLabeled("Set tick multiplier to 150", ref RocketDebugPrefs.Debug150MTPS, "Dangerous!");
-                standard.CheckboxLabeled("Enable flashing dilated pawns",
+                standard.CheckboxLabeled("Soyuz.EnableDataLogging".Translate(), ref RocketDebugPrefs.DogData, "For debugging only.");
+                standard.CheckboxLabeled("Soyuz.Debug150MTPS".Translate(), ref RocketDebugPrefs.Debug150MTPS, "Dangerous!");
+                standard.CheckboxLabeled("Soyuz.FlashPawns".Translate(),
                     ref RocketDebugPrefs.FlashDilatedPawns);
-                standard.CheckboxLabeled("Simulate offscreen behavior", ref RocketDebugPrefs.AlwaysDilating);
+                standard.CheckboxLabeled("Soyuz.AlwaysDilate".Translate(), ref RocketDebugPrefs.AlwaysDilating);
             }
             standard.End();
             rect.yMin += 85 + (RocketDebugPrefs.Debug ? 100 : 0);
@@ -82,7 +82,7 @@ namespace Soyuz.Tabs
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Text.Font = GameFont.Medium;
                 Widgets.DrawMenuSection(rect);
-                Widgets.Label(rect, "Time dilation is disabled!");
+                Widgets.Label(rect, "Soyuz.DilationDisabled".Translate());
             });
         }
 
@@ -163,21 +163,21 @@ namespace Soyuz.Tabs
             if (!IgnoreMeDatabase.ShouldIgnore(currentSettings.pawnDef))
             {
                 Text.Anchor = TextAnchor.MiddleLeft;
-                standard.CheckboxLabeled("Soyuz.TabContent_DilationSettings.Current.Enable".Translate(),
+                standard.CheckboxLabeled("Soyuz.Current.Enable".Translate(),
                     ref currentSettings.enabled);
-                standard.CheckboxLabeled("Soyuz.TabContent_DilationSettings.Current.IgnoreAllFactions".Translate(),
+                standard.CheckboxLabeled("Soyuz.Current.IgnoreAllFactions".Translate(),
                     ref currentSettings.ignoreFactions);
-                standard.CheckboxLabeled("Soyuz.TabContent_DilationSettings.Current.IgnorePlayerFaction".Translate(),
+                standard.CheckboxLabeled("Soyuz.Current.IgnorePlayerFaction".Translate(),
                     ref currentSettings.ignorePlayerFaction);
             }
             else if (currentSettings.isFastMoving)
             {
-                standard.Label("<color=yellow>" + "Soyuz.TabContent_DilationSettings.Current.FastPawn".Translate() + "</color>");
-                standard.Label($"This kinda move at an average speed of {currentSettings.pawnDef.GetStatValueAbstract(StatDefOf.MoveSpeed)} cell/seconds");
+                standard.Label("<color=yellow>" + "Soyuz.Current.FastPawn".Translate() + "</color>");
+                standard.Label("Soyuz.Current.MoveSpeed".Translate().Formatted(currentSettings.pawnDef.GetStatValueAbstract(StatDefOf.MoveSpeed)));
             }
             else
             {
-                standard.Label("<color=yellow>" + "Soyuz.TabContent_DilationSettings.Current.Ignored".Translate() + "</color>");
+                standard.Label("<color=yellow>" + "Soyuz.Current.Ignored".Translate() + "</color>");
                 standard.Label(IgnoreMeDatabase.Report(currentSettings.pawnDef));
             }
             standard.End();
