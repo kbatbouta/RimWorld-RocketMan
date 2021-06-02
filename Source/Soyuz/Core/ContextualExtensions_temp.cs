@@ -38,6 +38,8 @@ namespace Soyuz
                         return false;
                     if (jobDef == JobDefOf.Wait_Wander)
                         return true;
+                    if (jobDef == JobDefOf.GotoWander)
+                        return true;
                     if (jobDef == JobDefOf.Wait)
                         return true;
                     if (jobDef == JobDefOf.SocialRelax)
@@ -51,10 +53,10 @@ namespace Soyuz
             }
             RaceSettings raceSettings = pawn.GetRaceSettings();
             if (pawn.factionInt == Faction.OfPlayer)
-                return !raceSettings.ignorePlayerFaction;
+                return !raceSettings.ignorePlayerFaction && RocketPrefs.TimeDilationColonyAnimals;
             if (pawn.factionInt != null)
-                return !raceSettings.ignoreFactions;
-            return true;
+                return !raceSettings.ignoreFactions && RocketPrefs.TimeDilationVisitors;
+            return RocketPrefs.TimeDilationWildlife;
         }
 
         public static bool IsSkippingTicks_newtemp(this Pawn pawn)

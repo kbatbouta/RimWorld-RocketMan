@@ -103,7 +103,7 @@ namespace Soyuz
 
         private void Notify_VersionChanged()
         {
-            if (this.pawnDef.race.IsMechanoid)
+            if (this.pawnDef?.race?.IsMechanoid ?? false)
             {
                 this.enabled = false;
                 this.ignoreFactions = false;

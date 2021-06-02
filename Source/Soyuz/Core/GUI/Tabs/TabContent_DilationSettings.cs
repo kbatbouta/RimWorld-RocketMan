@@ -56,11 +56,13 @@ namespace Soyuz.Tabs
         public override void DoContent(Rect rect)
         {
             Listing_Standard standard = new Listing_Standard(GameFont.Tiny);
-            standard.Begin(rect.TopPartPixels(95 + (RocketDebugPrefs.Debug ? 100 : 0)));
+            standard.Begin(rect.TopPartPixels(115 + (RocketDebugPrefs.Debug ? 100 : 0)));
             standard.CheckboxLabeled("Soyuz.Current.EnableTimeDilation".Translate(), ref RocketPrefs.TimeDilation);
             standard.GapLine();
+            standard.CheckboxLabeled("Soyuz.Current.EnableTimeWildlife".Translate(), ref RocketPrefs.TimeDilationWildlife);
             standard.CheckboxLabeled("Soyuz.Current.EnableTimeDilationVisitors".Translate(), ref RocketPrefs.TimeDilationVisitors);
             standard.CheckboxLabeled("Soyuz.Current.EnableTimeWorldPawns".Translate(), ref RocketPrefs.TimeDilationWorldPawns);
+            standard.CheckboxLabeled("Soyuz.Current.EnableTimeColonnyAnimals".Translate(), ref RocketPrefs.TimeDilationColonyAnimals);
             if (RocketDebugPrefs.Debug)
             {
                 standard.GapLine();
@@ -71,7 +73,7 @@ namespace Soyuz.Tabs
                 standard.CheckboxLabeled("Soyuz.AlwaysDilate".Translate(), ref RocketDebugPrefs.AlwaysDilating);
             }
             standard.End();
-            rect.yMin += 85 + (RocketDebugPrefs.Debug ? 100 : 0);
+            rect.yMin += 120 + (RocketDebugPrefs.Debug ? 100 : 0);
 
             if (RocketPrefs.TimeDilation)
             {
