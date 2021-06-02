@@ -28,10 +28,12 @@ namespace Soyuz.Tabs
             var font = Text.Font;
             Text.Font = GameFont.Tiny;
             standard.CheckboxLabeled("Enable time dilation", ref RocketPrefs.TimeDilation, "Experimental.");
-            standard.CheckboxLabeled("Enable time dilation for caravans (Can cause issues)", ref RocketPrefs.TimeDilationCaravans, "Disable this in case your caravans are consuming food too quickly.");
+            standard.GapLine();
+            // TODO: remake this
+            //standard.CheckboxLabeled("[<color=red>EXPERIMENTAL</color>] Enable time dilation for fire (Can cause issues)", ref RocketPrefs.TimeDilationFire, "Disable this in case your caravans are consuming food too quickly.");
+            RocketPrefs.TimeDilationCaravans = false;
             standard.CheckboxLabeled("Enable time dilation for visitor pawns.", ref RocketPrefs.TimeDilationVisitors, "Experimental: Can cause a lot of bugs.");
             standard.CheckboxLabeled("Enable time dilation for world pawns", ref RocketPrefs.TimeDilationWorldPawns, "Throttle ticking for world pawns.");
-            //standard.CheckboxLabeled("Enable time dilation for pawns with critical hediffs", ref Finder.timeDilationCriticalHediffs, "This will enable dilation for pawns with critical hediffs such as pregnant pawns or bleeding pawns. (Disable this in case of a hediff problem)");
             if (RocketDebugPrefs.Debug)
             {
                 standard.CheckboxLabeled("Enable data logging", ref RocketDebugPrefs.DogData, "For debugging only.");
@@ -54,7 +56,7 @@ namespace Soyuz.Tabs
             Text.CurFontStyle.fontStyle = FontStyle.Bold;
             Widgets.Label(rect.TopPartPixels(25), "Dilated races");
             Text.CurFontStyle.fontStyle = FontStyle.Normal;
-            if (Context.settings == null || Find.Selector == null)
+            if (Context.Settings == null || Find.Selector == null)
             {
                 return;
             }
@@ -101,7 +103,7 @@ namespace Soyuz.Tabs
                     standard_extras.Label($"This race modContentPack is { curSelection.pawnDef.modContentPack?.PackageId ?? "UNKNOWN" }");
                     standard_extras.Label($"This race defName is { curSelection.pawnDef.defName ?? "UNKNOWN" }");
                     if (curSelection.pawnDef.StatBaseDefined(StatDefOf.MoveSpeed))
-                        standard_extras.Label($"Base race move speed is {curSelection.pawnDef.GetStatValueAbstract(StatDefOf.MoveSpeed)}:{Context.dilationFastMovingRace[curSelection.pawnDef.index]}");
+                        standard_extras.Label($"Base race move speed is {curSelection.pawnDef.GetStatValueAbstract(StatDefOf.MoveSpeed)}:{Context.DilationFastMovingRace[curSelection.pawnDef.index]}");
                     else standard_extras.Label("Base race move speed is not defined");
                 }
                 standard_extras.End();
@@ -122,13 +124,13 @@ namespace Soyuz.Tabs
             Widgets.DrawMenuSection(rect);
             rect = rect.ContractedBy(2);
             viewRect.size = rect.size;
-            viewRect.height = 60 * Context.settings.raceSettings.Count;
+            viewRect.height = 60 * Context.Settings.raceSettings.Count;
             viewRect.width -= 15;
             Widgets.BeginScrollView(rect, ref scrollPosition, viewRect.AtZero());
             Rect curRect = viewRect.TopPartPixels(58);
             curRect.width -= 15;
             var counter = 0;
-            foreach (var element in Context.settings.raceSettings)
+            foreach (var element in Context.Settings.raceSettings)
             {
                 string defLabel = element?.pawnDef?.label?.ToLower();
                 if (defLabel == null)

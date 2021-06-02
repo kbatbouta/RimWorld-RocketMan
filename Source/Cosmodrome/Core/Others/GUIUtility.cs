@@ -87,6 +87,7 @@ namespace RocketMan
         }
 
         private static readonly Color _altGray = new Color(0.2f, 0.2f, 0.2f);
+        private static float[] _heights = new float[5000];
 
         public static void ScrollView<T>(Rect rect, ref Vector2 scrollPosition, IEnumerable<T> elements, Func<T, float> heightLambda, Action<Rect, T> elementLambda, Func<T, IComparable> orderByLambda = null, bool drawBackground = true, bool showScrollbars = true, bool catchExceptions = false, bool drawMouseOverHighlights = true)
         {
@@ -98,40 +99,49 @@ namespace RocketMan
             }
             Rect contentRect = new Rect(0, 0, showScrollbars ? rect.width - 23 : rect.width, 0);
             IEnumerable<T> elementsInt = orderByLambda == null ? elements : elements.OrderBy(orderByLambda);
-            float[] heights = new float[elementsInt.Count()];
-            float h = 0f;
+            if (_heights.Length < elementsInt.Count())
+                _heights = new float[elementsInt.Count() * 2];
+            float h;
+            float w = showScrollbars ? rect.width - 16 : rect.width;
             int j = 0;
             int k = 0;
+            bool inView = true;
             foreach (T element in elementsInt)
             {
                 h = heightLambda.Invoke(element);
-                heights[j++] = h;
+                _heights[j++] = h;
                 contentRect.height += Math.Max(h, 0f);
             }
             j = 0;
             Widgets.BeginScrollView(rect, ref scrollPosition, contentRect, showScrollbars: showScrollbars);
+            StashGUIState();
             try
             {
-                Rect currentRect = new Rect(1, 0, showScrollbars ? rect.width - 16 : rect.width, 0);
+                Rect currentRect = new Rect(1, 0, w, 0);
                 foreach (T element in elementsInt)
                 {
-                    if (heights[j] <= 0.05f)
+                    if (_heights[j] <= 0.00f)
                     {
                         j++;
                         continue;
                     }
-                    if (drawBackground && k % 2 == 0)
-                        Widgets.DrawBoxSolid(currentRect, _altGray);
-                    if (drawMouseOverHighlights)
-                        Widgets.DrawHighlightIfMouseover(currentRect);
-                    currentRect.height = heights[j];
-                    ExecuteSafeGUIAction(() =>
+                    currentRect.height = _heights[j];
+                    if (false
+                        || scrollPosition.y - 50 > currentRect.yMax
+                        || scrollPosition.y + 50 + rect.height < currentRect.yMin)
+                        inView = false;
+                    if (inView)
                     {
+                        if (drawBackground && k % 2 == 0)
+                            Widgets.DrawBoxSolid(currentRect, _altGray);
+                        if (drawMouseOverHighlights)
+                            Widgets.DrawHighlightIfMouseover(currentRect);
                         elementLambda.Invoke(currentRect, element);
-                    });
-                    currentRect.y += heights[j];
+                    }
+                    currentRect.y += _heights[j];
                     k++;
                     j++;
+                    inView = true;
                 }
             }
             catch (Exception er)
@@ -141,6 +151,7 @@ namespace RocketMan
             }
             finally
             {
+                RestoreGUIState();
                 Widgets.EndScrollView();
             }
             if (exception != null && !catchExceptions)

@@ -12,6 +12,7 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <ReleaseVersion>0.6.3</ReleaseVersion>
+        <Configurations>Release;Debug</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>..\..\1.2\Plugins</OutputPath>
@@ -21,8 +22,9 @@
         <NoStdLib>true</NoStdLib>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DebugType>full</DebugType>
         <OutputPath>..\..\1.2\Plugins</OutputPath>
-        <DefineConstants>TRACE;DEBUG</DefineConstants>
+        <DefineConstants>TRACE;DEBUG;NETFRAMEWORK;NET472;</DefineConstants>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoStdLib>true</NoStdLib>
     </PropertyGroup>
@@ -39,11 +41,47 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Core\" />
+        <Folder Include="Core\Deprecated\" />
+        <Folder Include="Core\Deprecated\Optimizations\" />
+        <Folder Include="Core\Deprecated\Others\" />
+        <Folder Include="Core\Deprecated\Patches\" />
+        <Folder Include="Core\Profiling\" />
+        <Folder Include="Core\Others\" />
+        <Folder Include="Core\Info\" />
+        <Folder Include="Core\Patches\" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj">
             <Private>False</Private>
         </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Core\Deprecated\" />
+      <None Remove="Core\Deprecated\Optimizations\" />
+      <None Remove="Core\Deprecated\Others\" />
+      <None Remove="Core\Deprecated\Patches\" />
+      <None Remove="Core\Patches\" />
+      <None Remove="Core\Others\" />
+      <None Remove="Core\Info\" />
+      <None Remove="Core\Optimizations\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" />
+      <Compile Remove="Core\Deprecated\Patches\GenGeneric_Patch.cs" />
+      <Compile Remove="Core\Deprecated\Context.cs" />
+      <Compile Remove="Core\Deprecated\Others\LoadableXmlAssetUtility.cs" />
+      <Compile Remove="Core\Deprecated\Others\RunningModsSetUtility.cs" />
+      <Compile Remove="Core\Deprecated\Optimizations\LoadedModManager_Patch.cs" />
+      <Compile Remove="Core\Deprecated\DefXmlHelper.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\Patches\GenGeneric_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\Context.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\Others\LoadableXmlAssetUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\Others\RunningModsSetUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\Optimizations\LoadedModManager_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+      <None Include="Core\Deprecated\DefXmlHelper.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
     </ItemGroup>
     <Target Name="Publicise" BeforeTargets="UpdateReferences" Condition="!Exists('$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp_publicised.dll')">
         <!-- Set our variables -->
@@ -93,4 +131,13 @@
             <Reference Remove="$(PkgKrafs_Rimworld_Ref)\ref\net472\UnityEngine.CoreModule.dll" />
         </ItemGroup>
     </Target>
+    <ProjectExtensions>
+      <MonoDevelop>
+        <Properties>
+          <Policies>
+            <StandardHeader Text="" IncludeInNewFiles="False" />
+          </Policies>
+        </Properties>
+      </MonoDevelop>
+    </ProjectExtensions>
 </Project>

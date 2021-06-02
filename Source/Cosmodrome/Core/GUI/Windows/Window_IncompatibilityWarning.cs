@@ -44,8 +44,7 @@ namespace RocketMan
             doCloseX = false;
             layer = WindowLayer.Super;
             this.finishedAction = finishedAction;
-            this.message = "You are running incompatibile mods with RocketMan. This type of incompatilibity will nuke/destroy your save! " +
-                "You can Disable RocketMan or You continue on your own responsibility. these mods are:\n";
+            this.message = "RocketMan.IncompatibilityWindow.Description".Translate();
             int counter = 0;
             foreach (string m in IncompatibilityHelper.incompatibleMods)
             {
@@ -86,7 +85,7 @@ namespace RocketMan
                 standard.Label("Are you <color=red>sure</color> you understand what can happen if you <color=red>continue</color>?");
                 if (SecondsElapsed > COUNTDOWN_LENGTH)
                 {
-                    if (standard.ButtonText("Yes, I understand! <color=red>Continue!</color>"))
+                    if (standard.ButtonText("RocketMan.IUnderstand".Translate()))
                     {
                         stopwatch.Stop();
                         finished = true;
@@ -96,11 +95,11 @@ namespace RocketMan
                     standard.Gap();
                     Text.Font = GameFont.Tiny;
                     Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                    standard.Label("<color=gray>You could always change your mod list and remove RocketMan!</color>");
+                    standard.Label("<color=gray>" + "RocketMan.ChangeBack".Translate() + "</color>");
                     Text.Font = GameFont.Small;
                     Text.CurFontStyle.fontStyle = FontStyle.BoldAndItalic;
                     standard.Gap();
-                    if (standard.ButtonText("Yes, I understand! Open the modlist manager!"))
+                    if (standard.ButtonText("RocketMan.OpenModList".Translate()))
                     {
                         stopwatch.Stop();
                         finished = true;
@@ -111,7 +110,7 @@ namespace RocketMan
                     standard.Gap();
                     Text.Font = GameFont.Tiny;
                     Text.Anchor = TextAnchor.UpperLeft;
-                    standard.Label("<color=gray>The RocketMan team will provide no support if you choose to ignore this message!</color>");
+                    standard.Label("<color=gray>"+ "RocketMan.Disclaimer".Translate() +"</color>");
                 }
                 else
                 {

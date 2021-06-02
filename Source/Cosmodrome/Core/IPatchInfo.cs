@@ -166,6 +166,7 @@ namespace RocketMan
 
         public virtual void OnPatchingFailed(Exception er)
         {
+            Log.Warning($"ROCKETMAN: Patching failed <color=red>{er}</color>");
         }
 
         public virtual void OnPatchingSuccessful(MethodBase replacement)

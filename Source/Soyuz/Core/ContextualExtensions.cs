@@ -36,7 +36,7 @@ namespace Soyuz
         {
             get
             {
-                switch (Context.zoomRange)
+                switch (Context.ZoomRange)
                 {
                     default:
                         return 1;
@@ -82,7 +82,7 @@ namespace Soyuz
             if (_pawnScreen == pawn)
                 return offScreen;
             _pawnScreen = pawn;
-            if (Context.curViewRect.Contains(pawn.positionInt))
+            if (Context.CurViewRect.Contains(pawn.positionInt))
                 return offScreen = false;
             return offScreen = true;
         }
@@ -109,7 +109,6 @@ namespace Soyuz
             if (false
                 || !RocketPrefs.Enabled
                 || !RocketPrefs.TimeDilation
-                || (!RocketPrefs.TimeDilationCaravans && pawn.IsCaravanMember() && pawn.GetCaravan().IsPlayerControlled)
                 || !pawn.IsValidWildlifeOrWorldPawn()
                 || (!RocketPrefs.TimeDilationCriticalHediffs && pawn.HasCriticalHediff()))
             {
@@ -231,13 +230,13 @@ namespace Soyuz
                 || (pawn.jobs?.curJob != null && pawn.jobs?.curJob?.expiryInterval > 0 &&
                 (tick - pawn.jobs.curJob.startTick) % (pawn.jobs.curJob.expiryInterval * 2) == 0))
                 return true;
-            if (Context.dilationFastMovingRace[pawn.def.index])
+            if (Context.DilationFastMovingRace[pawn.def.index])
                 return (pawn.thingIDNumber + tick) % 2 == 0;
             if (pawn.OffScreen())
                 return (pawn.thingIDNumber + tick) % DilationRate == 0;
-            if (Context.zoomRange == CameraZoomRange.Far || Context.zoomRange == CameraZoomRange.Furthest)
+            if (Context.ZoomRange == CameraZoomRange.Far || Context.ZoomRange == CameraZoomRange.Furthest)
                 return (pawn.thingIDNumber + tick) % 4 == 0;
-            if (Context.zoomRange == CameraZoomRange.Middle)
+            if (Context.ZoomRange == CameraZoomRange.Middle)
                 return (pawn.thingIDNumber + tick) % 2 == 0;
             return true;
         }

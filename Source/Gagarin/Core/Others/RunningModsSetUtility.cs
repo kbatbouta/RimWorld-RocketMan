@@ -13,20 +13,29 @@ namespace Gagarin
         {
             HashSet<string> result = new HashSet<string>();
             XmlDocument document = new XmlDocument();
-            XmlReaderSettings settings = new XmlReaderSettings
+            try
             {
-                IgnoreComments = true,
-                IgnoreWhitespace = true,
-                CheckCharacters = false
-            };
-            using StringReader input = new StringReader(File.ReadAllText(path));
-            using XmlReader xmlReader = XmlReader.Create(input, settings);
-            document.Load(xmlReader);
-            foreach (XmlElement modXml in document.DocumentElement.ChildNodes)
+                XmlReaderSettings settings = new XmlReaderSettings
+                {
+                    IgnoreComments = true,
+                    IgnoreWhitespace = true,
+                    CheckCharacters = false
+                };
+                using StringReader input = new StringReader(File.ReadAllText(path));
+                using XmlReader xmlReader = XmlReader.Create(input, settings);
+                document.Load(xmlReader);
+                foreach (XmlElement modXml in document.DocumentElement.ChildNodes)
+                {
+                    if (modXml.Name != "Mod")
+                        continue;
+                    result.Add(modXml.GetAttribute("packageId"));
+                }
+            }
+            catch (Exception er)
             {
-                if (modXml.Name != "Mod")
-                    continue;
-                result.Add(modXml.GetAttribute("packageId"));
+                Log.Error($"GAGARIN: Error while loading the old modlist dump! DELETING THE OLD FILE! {er}");
+                if (File.Exists(path))
+                    File.Delete(path);
             }
             return result;
         }
@@ -35,6 +44,7 @@ namespace Gagarin
         {
             if (File.Exists(path))
                 File.Delete(path);
+
             XmlDocument document = new XmlDocument();
             XmlElement root = document.CreateElement("RunningMods");
             foreach (ModContentPack mod in mods)

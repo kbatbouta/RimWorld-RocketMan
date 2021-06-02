@@ -14,16 +14,12 @@ namespace Soyuz
                 return false;
             if (!RocketPrefs.Enabled || !RocketPrefs.TimeDilation)
                 return false;
-            if (!Context.dilationEnabled[pawn.def.index] || IgnoreMeDatabase.ShouldIgnore(pawn.def))
+            if (pawn.IsCaravanMember())
                 return false;
             if (WorldPawnsTicker.isActive)
-            {
-                if (!RocketPrefs.TimeDilationCaravans && pawn.IsCaravanMember() && pawn.GetCaravan().IsPlayerControlled)
-                    return false;
-                if (!RocketPrefs.TimeDilationWorldPawns)
-                    return false;
-                return true;
-            }
+                return RocketPrefs.TimeDilationWorldPawns;
+            if (!Context.DilationEnabled[pawn.def.index] || IgnoreMeDatabase.ShouldIgnore(pawn.def))
+                return false;
             if (pawn.IsBleeding() || (!RocketPrefs.TimeDilationCriticalHediffs && pawn.HasCriticalHediff()))
                 return false;
             if (pawn.def.race.Humanlike)
@@ -42,6 +38,8 @@ namespace Soyuz
                         return false;
                     if (jobDef == JobDefOf.Wait_Wander)
                         return true;
+                    if (jobDef == JobDefOf.GotoWander)
+                        return true;
                     if (jobDef == JobDefOf.Wait)
                         return true;
                     if (jobDef == JobDefOf.SocialRelax)
@@ -55,10 +53,10 @@ namespace Soyuz
             }
             RaceSettings raceSettings = pawn.GetRaceSettings();
             if (pawn.factionInt == Faction.OfPlayer)
-                return !raceSettings.ignorePlayerFaction;
+                return !raceSettings.ignorePlayerFaction && RocketPrefs.TimeDilationColonyAnimals;
             if (pawn.factionInt != null)
-                return !raceSettings.ignoreFactions;
-            return true;
+                return !raceSettings.ignoreFactions && RocketPrefs.TimeDilationVisitors;
+            return RocketPrefs.TimeDilationWildlife;
         }
 
         public static bool IsSkippingTicks_newtemp(this Pawn pawn)
@@ -67,7 +65,7 @@ namespace Soyuz
                 return true;
             if (pawn.OffScreen())
                 return true;
-            if (Context.zoomRange == CameraZoomRange.Far || Context.zoomRange == CameraZoomRange.Furthest || Context.zoomRange == CameraZoomRange.Middle)
+            if (Context.ZoomRange == CameraZoomRange.Far || Context.ZoomRange == CameraZoomRange.Furthest || Context.ZoomRange == CameraZoomRange.Middle)
                 return true;
             return false;
         }

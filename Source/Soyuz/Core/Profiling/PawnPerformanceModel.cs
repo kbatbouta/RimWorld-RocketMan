@@ -10,6 +10,8 @@ namespace Soyuz.Profiling
 {
     public struct PawnPerformanceRecord
     {
+        public readonly int Tick;
+
         public float value;
 
         public bool dilationEnabled;
@@ -18,6 +20,7 @@ namespace Soyuz.Profiling
         public PawnPerformanceRecord(float value)
         {
             this.value = (float)value / Stopwatch.Frequency;
+            this.Tick = GenTicks.TicksGame;
             this.dilationEnabled = RocketPrefs.TimeDilation && RocketPrefs.Enabled;
             this.statCachingEnabled = RocketPrefs.Enabled;
         }
@@ -29,9 +32,9 @@ namespace Soyuz.Profiling
 
         public void AddResult(long ticks)
         {
-            records.Insert(0, new PawnPerformanceRecord(ticks));
-            if (records.Count > 2000)
-                records.Pop();
+            records.Add(new PawnPerformanceRecord(ticks));
+            if (records.Count > 240)
+                records.RemoveAt(0);
         }
 
         public void DrawGraph(Rect rect, int historyLength = 60, string unit = "ms")
@@ -44,9 +47,9 @@ namespace Soyuz.Profiling
             rect.xMin += 25;
             Widgets.DrawBox(rect);
             historyLength = Mathf.Min(historyLength, records.Count);
-            if (historyLength <= 1)
+            if (historyLength <= 2)
                 return;
-            var curRecords = records.GetRange(0, historyLength).ToArray();
+            var curRecords = records.GetRange(records.Count - historyLength, historyLength).ToArray();
             float maxY = (int)-1e5;
             float minY = (int)curRecords.First().value;
             for (int i = 0; i < historyLength - 1; i++)
@@ -65,17 +68,18 @@ namespace Soyuz.Profiling
             Widgets.Label(numbersRect.BottomPartPixels(25), $"{minY * 1000}{unit}");
             Text.Font = font;
             Text.Anchor = anchor;
-            var stepX = rect.width / historyLength;
+            float dTickMax = curRecords.Last().Tick - curRecords.First().Tick;
             var curA = rect.position + new Vector2(0, rect.height);
-            var curB = rect.position + new Vector2(stepX, rect.height);
-            for (int i = 0; i < historyLength - 1; i++)
+            var curB = rect.position + new Vector2(((curRecords[1].Tick - curRecords[0].Tick) / dTickMax) * rect.width, rect.height);
+            for (int i = 1; i < historyLength - 1; i++)
             {
                 var a = curRecords[i];
                 var b = curRecords[i + 1];
+                float dTick = b.Tick - a.Tick;
                 curA.y = (1f - ((float)a.value - minY) / maxY) * rect.height + rect.y;
                 curB.y = (1f - ((float)b.value - minY) / maxY) * rect.height + rect.y;
-                curA.x += stepX;
-                curB.x += stepX;
+                curA.x = curB.x;
+                curB.x = curB.x + dTick / dTickMax * ((float)rect.width);
                 Widgets.DrawLine(curA, curB, a.dilationEnabled ? Color.green : Color.yellow, 1);
             }
         }

@@ -7,14 +7,14 @@ using Verse.AI;
 
 namespace RocketMan.Optimizations
 {
-    //[RocketPatch(typeof(PathFinder), nameof(PathFinder.FindPath), 
+    // [RocketPatch(typeof(PathFinder), nameof(PathFinder.FindPath), 
     //    parameters: new []{typeof(IntVec3), typeof(LocalTargetInfo),
     //    typeof(TraverseParms), typeof(PathEndMode)})]
-    //public class PathFinder_FindPath_Patch
-    //{
+    // public class PathFinder_FindPath_Patch
+    // {
     //    private const int MAX_FAILS = 4;
     //    private static readonly Dictionary<int, Pair<int, int>> cache = new Dictionary<int, Pair<int, int>>();
-
+    //
     //    public static void Postfix(PawnPath __result, TraverseParms traverseParms, LocalTargetInfo dest)
     //    {
     //        if (!Finder.enabled) return;
@@ -37,10 +37,10 @@ namespace RocketMan.Optimizations
     //                store.second = GenTicks.TicksGame;
     //                cache[key] = store;
     //            }
-
+    //
     //            return;
     //        }
-
+    //
     //        if (store != null)
     //        {
     //            store.first = Mathf.Max(store.first - 1, 0);
@@ -48,8 +48,8 @@ namespace RocketMan.Optimizations
     //            cache[key] = store;
     //            return;
     //        }
-
+    //
     //        cache[key] = new Pair<int, int>(1, GenTicks.TicksGame);
     //    }
-    //}
+    // }
 }

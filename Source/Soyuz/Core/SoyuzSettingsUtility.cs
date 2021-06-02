@@ -20,7 +20,7 @@ namespace Soyuz
         [Main.OnScribe]
         public static void PostScribe()
         {
-            Scribe_Deep.Look(ref Context.settings, "soyuzSettings");
+            Scribe_Deep.Look(ref Context.Settings, "soyuzSettings");
             if (Scribe.mode != LoadSaveMode.Saving && pawnDefs != null)
                 CheckExtras();
             RocketEnvironmentInfo.SoyuzLoaded = true;
@@ -28,16 +28,18 @@ namespace Soyuz
 
         public static void CacheSettings()
         {
-            if (Context.settings == null)
-                Context.settings = new SoyuzSettings();
-            if (Context.settings.raceSettings.Count == 0)
+            if (Context.Settings == null)
+                Context.Settings = new SoyuzSettings();
+            if (Context.Settings.raceSettings.Count == 0)
                 CreateSettings();
-            foreach (var element in Context.settings.raceSettings)
+            foreach (var element in Context.Settings.raceSettings)
             {
                 if (element.pawnDef == null)
                 {
                     element.ResolveContent();
-                    if (element.pawnDef == null) continue;
+
+                    if (element.pawnDef == null)
+                        continue;
                 }
                 element.Cache();
             }
@@ -46,21 +48,27 @@ namespace Soyuz
 
         public static void CheckExtras()
         {
-            if (pawnDefs.Count == Context.dilationByDef.Count)
+            if (pawnDefs.Count == Context.DilationByDef.Count)
                 return;
             bool foundAnything = false;
             foreach (var def in pawnDefs)
             {
-                if (def?.race != null && !Context.dilationByDef.TryGetValue(def, out _))
+                if (def?.race != null && !Context.DilationByDef.TryGetValue(def, out _))
                 {
                     RaceSettings element;
-                    Context.settings.raceSettings.Add(element = new RaceSettings()
+                    Context.Settings.raceSettings.Add(element = new RaceSettings()
                     {
                         pawnDef = def,
-                        pawnDefName = def.defName,
-                        dilated = def.race.Animal && !def.race.Humanlike && !def.race.IsMechanoid,
+                        name = def.defName,
+                        enabled = def.race.Animal && !def.race.Humanlike && !def.race.IsMechanoid,
                         ignoreFactions = false
                     });
+                    if (def.thingClass != typeof(Pawn))
+                    {
+                        element.enabled = false;
+                        element.ignoreFactions = false;
+                        element.ignorePlayerFaction = false;
+                    }
                     element.Cache();
                     foundAnything = true;
                 }
@@ -71,16 +79,23 @@ namespace Soyuz
 
         public static void CreateSettings()
         {
-            Context.settings.raceSettings.Clear();
+            Context.Settings.raceSettings.Clear();
             foreach (var def in pawnDefs)
             {
-                Context.settings.raceSettings.Add(new RaceSettings()
+                RaceSettings element;
+                Context.Settings.raceSettings.Add(element = new RaceSettings()
                 {
                     pawnDef = def,
-                    pawnDefName = def.defName,
-                    dilated = def.race.Animal && !def.race.Humanlike && !def.race.IsMechanoid,
+                    name = def.defName,
+                    enabled = def.race.Animal && !def.race.Humanlike && !def.race.IsMechanoid,
                     ignoreFactions = false
                 });
+                if (def.thingClass != typeof(Pawn))
+                {
+                    element.enabled = false;
+                    element.ignoreFactions = false;
+                    element.ignorePlayerFaction = false;
+                }
             }
             Finder.Mod.WriteSettings();
         }
@@ -89,16 +104,22 @@ namespace Soyuz
         {
             if (pawn.def == null)
                 return null;
-            if (Context.dilationByDef.TryGetValue(pawn.def, out RaceSettings settings))
+            if (Context.DilationByDef.TryGetValue(pawn.def, out RaceSettings settings))
                 return settings;
             ThingDef def = pawn.def;
-            Context.settings.raceSettings.Add(settings = new RaceSettings()
+            Context.Settings.raceSettings.Add(settings = new RaceSettings()
             {
                 pawnDef = def,
-                pawnDefName = def.defName,
-                dilated = def.race.Animal && !def.race.Humanlike && !def.race.IsMechanoid,
+                name = def.defName,
+                enabled = def.race.Animal && !def.race.Humanlike && !def.race.IsMechanoid,
                 ignoreFactions = false
             });
+            if (settings.pawnDef.thingClass != typeof(Pawn))
+            {
+                settings.enabled = false;
+                settings.ignoreFactions = false;
+                settings.ignorePlayerFaction = false;
+            }
             settings.Cache();
             return settings;
         }

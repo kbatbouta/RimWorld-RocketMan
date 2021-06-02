@@ -34,6 +34,10 @@ namespace RocketMan
             Finder.ModContentPack = content;
             try
             {
+                if (!Directory.Exists(RocketEnvironmentInfo.CustomConfigFolderPath))
+                {
+                    Directory.CreateDirectory(RocketEnvironmentInfo.CustomConfigFolderPath);
+                }
                 if (RocketEnvironmentInfo.IsDevEnv)
                 {
                     Log.Warning("ROCKETMAN: YOU ARE LOADING AN EXPERIMENTAL PLUGIN!");
@@ -127,10 +131,10 @@ namespace RocketMan
             Text.Font = GameFont.Tiny;
             Text.CurFontStyle.fontStyle = FontStyle.Normal;
             bool enabled = RocketPrefs.Enabled;
-            standard.CheckboxLabeled("Enabled", ref RocketPrefs.Enabled);
+            standard.CheckboxLabeled("RocketMan.Enable".Translate(), ref RocketPrefs.Enabled);
             bool mainButtonToggle = RocketPrefs.MainButtonToggle;
-            standard.CheckboxLabeled("Show RocketMan button/icon", ref RocketPrefs.MainButtonToggle,
-                    "Due to some limiations some options aren't available from the game menu settings.");
+            standard.CheckboxLabeled("RocketMan.ShowIcon".Translate(), ref RocketPrefs.MainButtonToggle,
+                    "RocketMan.ShowIcon.Description".Translate());
             if (RocketPrefs.MainButtonToggle != mainButtonToggle)
             {
                 MainButtonDef mainButton_WindowDef = DefDatabase<MainButtonDef>.GetNamed("RocketWindow", errorOnFail: false);
@@ -147,25 +151,24 @@ namespace RocketMan
             }
             if (RocketPrefs.Enabled)
             {
-                standard.CheckboxLabeled("Show warmup progress bar on startup", ref RocketPrefs.ShowWarmUpPopup,
-                    "This will show a warmup progress bar when you load a new map.");
+                standard.CheckboxLabeled("RocketMan.ProgressBar".Translate(), ref RocketPrefs.ShowWarmUpPopup,
+                    "RocketMan.ProgressBar.Description".Translate());
                 standard.GapLine();
                 Text.CurFontStyle.fontStyle = FontStyle.Bold;
-                standard.Label("Junk removal");
+                standard.Label("RocketMan.Junk".Translate());
                 Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                standard.CheckboxLabeled("Enable automatic corpses removal", ref RocketPrefs.CorpsesRemovalEnabled,
-                    "This removes corpses that aren't in view for a while and that aren't near your base to avoid breaking the game balance.");
+                standard.CheckboxLabeled("RocketMan.CorpseRemoval".Translate(), ref RocketPrefs.CorpsesRemovalEnabled,
+                    "RocketMan.CorpseRemoval.Description".Translate());
                 standard.GapLine();
                 Text.CurFontStyle.fontStyle = FontStyle.Bold;
-                standard.Label("Stats cache settings");
+                standard.Label("RocketMan.StatCacheSettings".Translate());
                 Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                standard.CheckboxLabeled("Adaptive mode", ref RocketPrefs.Learning, "Only enable for 30 minutes.");
-                standard.CheckboxLabeled("Enable gear stat caching", ref RocketPrefs.StatGearCachingEnabled,
-                    "Can cause bugs.");
+                standard.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
+                standard.CheckboxLabeled("RocketMan.EnableGearStatCaching".Translate(), ref RocketPrefs.StatGearCachingEnabled);
 
                 standard.GapLine();
                 bool oldDebugging = RocketDebugPrefs.Debug;
-                standard.CheckboxLabeled("Enable debugging", ref RocketDebugPrefs.Debug, "Only for advanced users and modders");
+                standard.CheckboxLabeled("RocketMan.Debugging".Translate(), ref RocketDebugPrefs.Debug, "RocketMan.Debugging.Description".Translate());
                 if (oldDebugging != RocketDebugPrefs.Debug && !RocketDebugPrefs.Debug)
                 {
                     ResetRocketDebugPrefs();
@@ -419,6 +422,8 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.AlertThrottling, "alertThrottling", true);
                 Scribe_Values.Look(ref RocketPrefs.DisableAllAlert, "disableAllAlert", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilation, "timeDilation", true);
+                Scribe_Values.Look(ref RocketPrefs.TimeDilationWildlife, "TimeDilationWildlife", true);
+                Scribe_Values.Look(ref RocketPrefs.TimeDilationFire, "TimeDilationFire", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationCaravans, "timeDilationCaravans", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationVisitors, "timeDilationVisitors", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationWorldPawns, "timeDilationWorldPawns", true);
@@ -430,7 +435,7 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.CorpsesRemovalEnabled, "corpsesRemovalEnabled", false);
                 Scribe_Collections.Look(ref statsSettings, "statsSettings", LookMode.Deep);
                 Scribe_Collections.Look(ref dilationSettings, "dilationSettings", LookMode.Deep);
-
+                RocketPrefs.TimeDilationCaravans = false;
                 foreach (var action in Main.onScribe)
                     action.Invoke();
                 UpdateExceptions();

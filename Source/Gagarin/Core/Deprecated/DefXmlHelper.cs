@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using System.Xml;
 using HarmonyLib;
 using RimWorld;
@@ -75,42 +76,44 @@ namespace Gagarin.Core
 
         private static void BuildGraph(XmlNodeList nodes)
         {
-            XmlElement node;
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                if (nodes[i].NodeType == XmlNodeType.Element)
-                {
-                    node = nodes[i] as XmlElement;
-                    if (node.HasAttribute("Name") && node.HasAttribute("Abstract"))
-                    {
-                        AddParent(node, graph);
-                    }
-                    if (node.HasAttribute("ParentName"))
-                    {
-                        AddChild(node, graph);
-                    }
-                }
-            }
+            //XmlElement node;
+            //for (int i = 0; i < nodes.Count; i++)
+            //{
+            //    if (nodes[i].NodeType == XmlNodeType.Element)
+            //    {
+            //        node = nodes[i] as XmlElement;
+            //        if (node.HasAttribute("Abstract") && node.GetAttribute("Abstract").ToLower() == "true")
+            //        {
+            //            AddParent(node);
+            //        }
+            //        if (node.HasAttribute("ParentName"))
+            //        {
+            //            AddChild(node);
+            //        }
+            //    }
+            //}
+        }
 
-            static void AddChild(XmlElement child, Dictionary<string, Node> graph)
+        static void AddChild(XmlElement child)
+        {
+            string parentName = child.GetAttribute("ParentName");
+            if (!graph.TryGetValue(parentName, out Node node))
             {
-                string parentName = child.GetAttribute("ParentName");
-                if (!graph.TryGetValue(parentName, out Node node))
-                {
-                    node = graph[parentName] = new Node();
-                }
-                node.elements.Add(child);
+                node = graph[parentName] = new Node();
             }
+            node.elements.Add(child);
+            string[] fields = ProcessXmlFields(AccessTools.TypeByName(GetDefClass(child, includeNamespace: true)));
+            node.fields.AddRange(fields);
+        }
 
-            static void AddParent(XmlElement parent, Dictionary<string, Node> graph)
+        static void AddParent(XmlElement parent)
+        {
+            string name = parent.GetAttribute("Name");
+            if (!graph.TryGetValue(name, out Node node))
             {
-                string name = parent.GetAttribute("Name");
-                if (!graph.TryGetValue(name, out Node node))
-                {
-                    node = graph[name] = new Node();
-                }
-                node.parent = parent;
+                node = graph[name] = new Node();
             }
+            node.parent = parent;
         }
 
         private static void BuildFieldsDatabase()
@@ -122,12 +125,15 @@ namespace Gagarin.Core
             }
         }
 
-        private static BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance |
-                         BindingFlags.DeclaredOnly;
+        private static BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         private static string[] emptyArray = new string[0];
 
         private static string[] ProcessXmlFields(Type type)
         {
+            if (fieldslookup.TryGetValue(type.Name, out string[] output))
+            {
+                return output;
+            }
             if ((!type.IsSubclassOf(typeof(Def)) && type != typeof(Def)) || type == typeof(Def).BaseType)
             {
                 return emptyArray;
@@ -147,18 +153,10 @@ namespace Gagarin.Core
             {
                 return true;
             }
-            if (defXmlNode.HasAttribute("Abstract") && defXmlNode.GetAttribute("Abstract") == "true")
-            {
-                fields = graph[defXmlNode.GetAttribute("Name")].elements.SelectMany(e =>
-                {
-                    string className = GetDefClass(e);
-                    if (fieldslookup.TryGetValue(className, out var f))
-                    {
-                        return f;
-                    }
-                    return emptyArray;
-                }).ToArray();
-            }
+            //if (defXmlNode.HasAttribute("Abstract"))
+            //{
+            //    fields = graph[defXmlNode.GetAttribute("Name")].fields.ToArray();
+            //}
             foreach (XmlNode node in defXmlNode.ChildNodes)
             {
                 string name = node.Name.Trim();
@@ -179,7 +177,7 @@ namespace Gagarin.Core
             return true;
         }
 
-        private static string GetDefClass(XmlElement defXmlNode)
+        private static string GetDefClass(XmlElement defXmlNode, bool includeNamespace = false)
         {
             string typeName = defXmlNode.Name;
             if (defXmlNode.HasAttribute("Class"))
@@ -187,7 +185,8 @@ namespace Gagarin.Core
                 typeName = defXmlNode.GetAttribute("Class");
                 if (!fieldslookup.ContainsKey(typeName))
                 {
-                    typeName = AccessTools.TypeByName(typeName).Name;
+                    typeName = !includeNamespace ? AccessTools.TypeByName(typeName).Name
+                        : AccessTools.TypeByName(typeName).FullName;
                 }
             }
             return typeName;

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+	<RocketMan.Settings.PleaseUnpause>Por favor, reanuda el juego... ¡RocketMan está entrando en calor!</RocketMan.Settings.PleaseUnpause>
+	<RocketMan.Settings.PleaseWait>Por favor, espera... ¡RocketMan está entrando en calor!</RocketMan.Settings.PleaseWait>
+	<RocketMan.IncompatibilityWindow.Description>Estás utilizando mods incompatibles con RocketMan. ¡Este tipo de incompatibilidad te arruinará la partida grabada! Puedes desactivar RocketMan o seguir adelante bajo tu propia responsabilidad. Los mods son:\n</RocketMan.IncompatibilityWindow.Description>
+	<RocketMan.IUnderstand>¡Sí, lo entiendo, continúa!</RocketMan.IUnderstand>
+	<RocketMan.ChangeBack>Siempre podrás modificar tu lista de mods y eliminar RocketMan!</RocketMan.ChangeBack>
+	<RocketMan.OpenModList>¡Sí, lo entiendo, abre el gestor de mods!</RocketMan.OpenModList>
+	<RocketMan.Disclaimer>¡El equipo de RocketMan no te ofrecerá ayuda si eliges ignorar este mensaje!</RocketMan.Disclaimer>
+	<RocketMan.Unpause>¡Por favor, reanuda el juego!</RocketMan.Unpause>
+	<RocketMan.Warming>¡...está entrando en calor! Por favor, espera...</RocketMan.Warming>
+	<RocketMan.HideProgressBar>Lo puedes ocultar o desactivar en las opciones de Rocketman.</RocketMan.HideProgressBar>
+	<!-- RocketMan RocketMan.TabContent_Settings -->
+	<RocketMan.RocketMan>RocketMan</RocketMan.RocketMan>
+	<RocketMan.Tab>Inicio</RocketMan.Tab>
+	<RocketMan.Enable>Inicio</RocketMan.Enable>
+	<RocketMan.ShowIcon>Mostrar el icono de RocketMan</RocketMan.ShowIcon>
+	<RocketMan.ShowIcon.Description>Debido a las limitaciones del propio juego, algunas opciones no están disponibles desde el menú de configuración general.</RocketMan.ShowIcon.Description>
+	<RocketMan.ProgressBar>Mostrar la barra de arranque al inicio.</RocketMan.ProgressBar>
+	<RocketMan.ProgressBar.Description>Aparecerá una barra de arranque cuando cargues un nuevo mapa.</RocketMan.ProgressBar.Description>
+	<RocketMan.Junk>Basura</RocketMan.Junk>
+	<RocketMan.CorpseRemoval>Activar la retirada automática de cadáveres.</RocketMan.CorpseRemoval>
+	<RocketMan.CorpseRemoval.Description>Eliminará los cadáveres que no hayan estado a la vista por un tiempo y que no estén cerca de tu base, para no romper el equilibrio del juego.</RocketMan.CorpseRemoval.Description>
+	<RocketMan.StatCacheSettings>Configuración del caché de estadísticas</RocketMan.StatCacheSettings>
+	<RocketMan.Adaptive>Modo Adaptativo</RocketMan.Adaptive>
+	<RocketMan.Adaptive.Description>Actívalo durante 30 minutos después de crear una nueva partida o cambiar tu lista de mods.</RocketMan.Adaptive.Description>
+	<RocketMan.EnableGearStatCaching>Activar almacenamiento de estadísticas de equipo</RocketMan.EnableGearStatCaching>
+	<RocketMan.Debugging>Activar debugging</RocketMan.Debugging>
+	<RocketMan.Debugging.Description>Solo para usuarios avanzados y modders</RocketMan.Debugging.Description>
+	<!-- Soyuz Soyuz.TabContent_DilationSettings -->
+	<Soyuz.Tab>Controles para la demora del tiempo</Soyuz.Tab>
+	<Soyuz.Colored.Disabled>Deshabilitado</Soyuz.Colored.Disabled>
+	<Soyuz.Colored.IgnoredAndDisabled>Ignorado y deshabilitado</Soyuz.Colored.IgnoredAndDisabled>
+	<Soyuz.Colored.IsFastMoving>Se mueve rápido</Soyuz.Colored.IsFastMoving>
+	<Soyuz.Colored.IgnorePlayerFaction>Ignora la facción del jugador</Soyuz.Colored.IgnorePlayerFaction>
+	<Soyuz.Colored.IgnoreAllFaction>Ignora todas las facciones</Soyuz.Colored.IgnoreAllFaction>
+	<Soyuz.EnableTimeDilation>Activar la demora del tiempo</Soyuz.EnableTimeDilation>
+	<Soyuz.Current.Enable>Habilitado</Soyuz.Current.Enable>
+	<Soyuz.Current.IgnorePlayerFaction>Ignora la facción del jugador</Soyuz.Current.IgnorePlayerFaction>
+	<Soyuz.Current.IgnoreAllFactions>Ignora todas las facciones</Soyuz.Current.IgnoreAllFactions>
+	<Soyuz.Current.FastPawn>El peón se mueve demasiado rápido para estar limitado</Soyuz.Current.FastPawn>
+	<Soyuz.Current.Ignored>Este peón será ignorado porque:</Soyuz.Current.Ignored>
+	<Soyuz.Current.MoveSpeed>Este tipo se mueve a una velocidad media de {0} celdas/segundo</Soyuz.Current.MoveSpeed>
+	<Soyuz.Current.EnableTimeDilation>Activar la demora del tiempo</Soyuz.Current.EnableTimeDilation>
+	<Soyuz.Current.EnableTimeDilationVisitors>Activar la demora del tiempo para visitantes</Soyuz.Current.EnableTimeDilationVisitors>
+	<Soyuz.Current.EnableTimeWorldPawns>Activar la demora del tiempo para los peones del mundo</Soyuz.Current.EnableTimeWorldPawns>
+	<Soyuz.Current.EnableTimeWildlife>Activar la demora del tiempo para la vida salvaje</Soyuz.Current.EnableTimeWildlife>
+	<Soyuz.Current.EnableTimeColonnyAnimals>Activar la demora del tiempo para los animales de la colonia</Soyuz.Current.EnableTimeColonnyAnimals>
+	<Soyuz.DilationDisabled>¡Demora del tiempo desactivada!</Soyuz.DilationDisabled>
+	<Soyuz.EnableDataLogging>Activar el registro de datos</Soyuz.EnableDataLogging>
+	<Soyuz.Debug150MTPS>Establecer el multiplicador de ticks en 150x</Soyuz.Debug150MTPS>
+	<Soyuz.FlashPawns>Resaltar los peones demorados</Soyuz.FlashPawns>
+	<Soyuz.AlwaysDilate>Simular el comportamiento fuera de pantalla</Soyuz.AlwaysDilate>
+	<!-- Proton Proton.TabContent_Alerts -->
+	<Proton.Tab>Controles de alerta</Proton.Tab>
+	<Proton.Colored.ActiveNow>Activar ahora</Proton.Colored.ActiveNow>
+	<Proton.Colored.IgnoredAndBad>Ignorado y comportándose mal</Proton.Colored.IgnoredAndBad>
+	<Proton.Colored.DisabledOrBad>Deshabilitado o comportándose mal</Proton.Colored.DisabledOrBad>
+	<Proton.Colored.Ignored>Ignorado (para alertas críticas)</Proton.Colored.Ignored>
+	<Proton.Enable>Activar controles de alerta</Proton.Enable>
+	<Proton.DisableAll.P1>DESHABILITAR</Proton.DisableAll.P1>
+	<Proton.DisableAll.P2>todas las alertas</Proton.DisableAll.P2>
+	<Proton.Disabled>Controles deshabilitados</Proton.Disabled>
+	<Proton.AlertsDisabled>Se han deshabilitado todas las alertas</Proton.AlertsDisabled>
+	<Proton.MaxIn>Ejecución máxima en</Proton.MaxIn>
+	<Proton.MinUpdate>Intervalo mínimo de actualización</Proton.MinUpdate>
+	<Proton.Enabled>Habilitado</Proton.Enabled>
+	<Proton.IgnoreThis>Ignorar esto (volverá al comportamiento original)</Proton.IgnoreThis>
+	<Proton.AlertName>Nombre de la alerta</Proton.AlertName>
+	<Proton.Avg>Tiempo medio de ejecución</Proton.Avg>
+	<Proton.TimeSinceLast>Tiempo desde su última actualización</Proton.TimeSinceLast>
+</LanguageData>

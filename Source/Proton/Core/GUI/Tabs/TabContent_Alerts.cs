@@ -20,7 +20,7 @@ namespace Proton
 
         public override bool ShouldShow => RocketPrefs.Enabled;
 
-        public override string Label => "Alerts settings";
+        public override string Label => "Proton.Tab".Translate();
 
         public static readonly Color warningColor = new Color(1f, 0.913f, 0.541f, 0.2f);
         public static readonly Color dangerColor = new Color(0.972f, 0.070f, 0.137f, 0.2f);
@@ -35,10 +35,10 @@ namespace Proton
             if (descriptionBoxes == null)
             {
                 descriptionBoxes = new List<Pair<Color, string>>();
-                descriptionBoxes.Add(new Pair<Color, string>(Color.green, "Active now"));
-                descriptionBoxes.Add(new Pair<Color, string>(Color.yellow, "Ignored and behaving badly"));
-                descriptionBoxes.Add(new Pair<Color, string>(Color.red, "Disabled or behaving badly"));
-                descriptionBoxes.Add(new Pair<Color, string>(Color.blue, "Ignored (for critical alerts)"));
+                descriptionBoxes.Add(new Pair<Color, string>(Color.green, "Proton.Colored.ActiveNow".Translate()));
+                descriptionBoxes.Add(new Pair<Color, string>(Color.yellow, "Proton.Colored.IgnoredAndBad".Translate()));
+                descriptionBoxes.Add(new Pair<Color, string>(Color.red, "Proton.Colored.DisabledOrBad".Translate()));
+                descriptionBoxes.Add(new Pair<Color, string>(Color.blue, "Proton.Colored.Ignored".Translate()));
             }
         }
 
@@ -56,10 +56,10 @@ namespace Proton
             {
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.CheckboxLabeled(rect.TopPartPixels(20), "Enable alerts controls", ref RocketPrefs.AlertThrottling);
+                Widgets.CheckboxLabeled(rect.TopPartPixels(20), "Proton.Enable".Translate(), ref RocketPrefs.AlertThrottling);
                 rect.yMin += 20;
                 bool disabled = RocketPrefs.DisableAllAlert;
-                Widgets.CheckboxLabeled(rect.TopPartPixels(20), "<color=red>DISABLE</color> all alerts", ref RocketPrefs.DisableAllAlert);
+                Widgets.CheckboxLabeled(rect.TopPartPixels(20), "<color=red>" + "Proton.DisableAll.P1".Translate() + "</color> " + "Proton.DisableAll.P2".Translate(), ref RocketPrefs.DisableAllAlert);
                 if (disabled != RocketPrefs.DisableAllAlert && RocketPrefs.DisableAllAlert)
                 {
                     foreach (Alert alert in Context.alerts)
@@ -79,7 +79,7 @@ namespace Proton
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Text.Font = GameFont.Medium;
                 Widgets.DrawMenuSection(rect);
-                Widgets.Label(rect, RocketPrefs.DisableAllAlert ? "Alerts are disabled!" : "Alerts contorls disabled!");
+                Widgets.Label(rect, RocketPrefs.DisableAllAlert ? "Proton.Disabled".Translate() : "Proton.AlertsDisabled".Translate());
             });
             rect.yMin = max - 60;
             rect.yMax = max;
@@ -96,13 +96,13 @@ namespace Proton
                     {
                         Text.Anchor = TextAnchor.MiddleLeft;
                         Text.Font = GameFont.Tiny;
-                        Widgets.Label(tempRect, "Max execution in <color=blue>MS</color>");
+                        Widgets.Label(tempRect, "Proton.MaxIn".Translate() + " <color=green>MS</color>");
                     },
                     (tempRect) =>
                     {
                         Text.Anchor = TextAnchor.MiddleLeft;
                         Text.Font = GameFont.Tiny;
-                        Widgets.Label(tempRect, "Min update interval in <color=blue>MS</color>");
+                        Widgets.Label(tempRect, "Proton.MinUpdate".Translate() +" <color=green>MS</color>");
                     },
                 }, drawDivider: false);
                 RocketMan.GUIUtility.Row(curRect.BottomHalf(), new List<Action<Rect>>()
@@ -170,14 +170,14 @@ namespace Proton
                         curRect.yMin += 25;
                         bool enabled = curSettings.enabledInt;
                         string color = enabled ? "white" : "red";
-                        Widgets.CheckboxLabeled(curRect.TopPartPixels(20), $"<color={color}>Enabled</color>", ref enabled);
+                        Widgets.CheckboxLabeled(curRect.TopPartPixels(20), $"<color={color}>" + "Proton.Enabled".Translate() + "</color>", ref enabled);
                         if (enabled != curSettings.enabledInt && enabled)
                         {
                             curSettings.UpdateAlert(true);
                         }
                         curSettings.Enabled = enabled;
                         curRect.yMin += 20;
-                        Widgets.CheckboxLabeled(curRect.TopPartPixels(20), "Ignore this (will revert to vanilla behavior)", ref curSettings.ignored);
+                        Widgets.CheckboxLabeled(curRect.TopPartPixels(20), "Proton.IgnoreThis".Translate(), ref curSettings.ignored);
                         inRect.yMin += 80;
                     });
                 }
@@ -204,15 +204,15 @@ namespace Proton
                         {
                         (curRect) =>
                         {
-                            Widgets.Label(curRect, "Alert name");
+                            Widgets.Label(curRect, "Proton.AlertName".Translate());
                         },
                         (curRect) =>
                         {
-                            Widgets.Label(curRect, "Average execution time");
+                            Widgets.Label(curRect, "Proton.Avg".Translate());
                         },
                         (curRect) =>
                         {
-                            Widgets.Label(curRect, "Time since last update");
+                            Widgets.Label(curRect, "Proton.TimeSinceLast".Translate());
                         }
                         }, (rect, action) => { action.Invoke(rect); }, drawBackground: false);
             });
