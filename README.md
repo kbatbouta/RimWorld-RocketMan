@@ -1,16 +1,21 @@
-## <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2479389928&searchtext=">RimWorld-RocketMan</a>:
-[Alt text](/master/Textures/RocketMan/UI/rocketman_main.pngimg.jpg?raw=true "Optional Title")
+# <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2479389928&searchtext=">RimWorld-RocketMan</a>
+
 [![Build](https://github.com/kbatbouta/RimWorld-RocketMan/actions/workflows/main.yml/badge.svg)](https://github.com/kbatbouta/RimWorld-RocketMan/actions/workflows/main.yml) ![Version](https://img.shields.io/badge/Rimworld-1.2-brightgreen.svg)
+
+![Alt text](https://github.com/kbatbouta/RimWorld-RocketMan/blob/master/Textures/RocketMan/UI/rocketman_main.png?raw=true)
+
+
+## Description:
 
 RocketMan is a RimWorld mod that is designed to improve RimWorld performance.
 
-##### Important note: RocketMan should be the last mod in your mod list.
+<b>Important note: RocketMan should be the last mod in your mod list.</b>
 
-### Features:
+## Features:
 
 Description comming soon...
 
-### Notes: 
+## Notes: 
 
 1. RocketMan doesn't support RimThreaded and never will.
 2. Currently The Multiplayer mod is not supported.
@@ -20,7 +25,7 @@ Github Link: https://github.com/kbatbouta/RocketMan
 
 RocketMan is OpenSource and for anyone to use, modify, update.
 
-### Credits: 
+## Credits: 
 
 * The main developer: Karim (aka Krkr)
 * The Thumbnail: Trisscar.
@@ -33,7 +38,7 @@ DISCLAIMER: I’m not responsible in any way for damage done by RocketMan to you
 RocketMan support a new rule system to avoid compatibility issues.
 This works by placing `RocketRules.xml` files in `YourModFolder/Extras/RocketRules.xml`
 
-#### Request and notification system
+### Request and notification system
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <RocketRules>
@@ -54,7 +59,7 @@ and that prefix notify rocketman to clear the cache
 
 **Note on notification types** For now there is only one which is `PawnDirty`. This system is the new way forword for your mod to call RocketMan regardless of the load order.
 
-#### Special Thanks goes to:
+## Special Thanks goes to:
 
 * Madman666 the entire Dubwise server for the help and testing they provided!
 * Trisscar for their awesome thumbnail.
