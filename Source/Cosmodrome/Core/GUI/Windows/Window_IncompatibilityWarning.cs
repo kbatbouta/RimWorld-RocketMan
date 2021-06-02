@@ -110,7 +110,7 @@ namespace RocketMan
                     standard.Gap();
                     Text.Font = GameFont.Tiny;
                     Text.Anchor = TextAnchor.UpperLeft;
-                    standard.Label("<color=gray>"+ "RocketMan.Disclaimer".Translate() +"</color>");
+                    standard.Label("<color=gray>" + "RocketMan.Disclaimer".Translate() + "</color>");
                 }
                 else
                 {

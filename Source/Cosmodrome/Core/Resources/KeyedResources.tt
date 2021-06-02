@@ -1,0 +1,55 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System.IO" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#  
+    // Constants  
+    string englishLanguagePath = "Languages/English/Keyed/Translations.xml";
+    // ->                                    <-
+    // Gives you the location of MySolution.sln
+    string solutionPath = Host.ResolveAssemblyReference("$(SolutionDir)"); 
+    // Gives you the mod path
+    
+    string modPath = System.IO.Directory.GetParent(solutionPath).ToString();         
+    XmlDocument doc = new XmlDocument();
+    doc.Load(Path.Combine(modPath, englishLanguagePath));
+#>
+using System;
+using Verse;
+
+namespace RocketMan
+{    
+    /*
+     * This file is auto generated! Mod path is:
+     * <#= Path.Combine(modPath, englishLanguagePath) #>
+     */ 
+    public static class KeyedResources 
+    {     
+<# 
+    foreach (XmlNode node in doc.DocumentElement.ChildNodes)
+    {
+        if (node.NodeType == XmlNodeType.Element)
+        { 
+            string name = node.Name.Replace('.','_');
+            string key = node.Name;                             
+#>                              
+        ///<summary> Keyed string with key<c><#= node.Name #></c> with text:
+        ///
+        ///<code><#= node.InnerText #></code>
+        ///</summary>       
+        public static string <#= name #> {
+            get =>  "<#= key #>".Translate();
+        }             
+<#                           
+        }              
+    }
+#>
+    }
+}
