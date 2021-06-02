@@ -96,13 +96,13 @@ namespace Proton
                     {
                         Text.Anchor = TextAnchor.MiddleLeft;
                         Text.Font = GameFont.Tiny;
-                        Widgets.Label(tempRect, "Proton.MaxIn".Translate() + " <color=blue>MS</color>");
+                        Widgets.Label(tempRect, "Proton.MaxIn".Translate() + " <color=green>MS</color>");
                     },
                     (tempRect) =>
                     {
                         Text.Anchor = TextAnchor.MiddleLeft;
                         Text.Font = GameFont.Tiny;
-                        Widgets.Label(tempRect, "Proton.MinUpdate".Translate() +" <color=blue>MS</color>");
+                        Widgets.Label(tempRect, "Proton.MinUpdate".Translate() +" <color=green>MS</color>");
                     },
                 }, drawDivider: false);
                 RocketMan.GUIUtility.Row(curRect.BottomHalf(), new List<Action<Rect>>()
