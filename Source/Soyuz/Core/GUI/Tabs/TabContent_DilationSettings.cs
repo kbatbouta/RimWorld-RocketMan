@@ -55,6 +55,7 @@ namespace Soyuz.Tabs
 
         public override void DoContent(Rect rect)
         {
+            RocketMan.GUIUtility.StashGUIState();
             Listing_Standard standard = new Listing_Standard(GameFont.Tiny);
             standard.Begin(rect.TopPartPixels(115 + (RocketDebugPrefs.Debug ? 100 : 0)));
             standard.CheckboxLabeled("Soyuz.Current.EnableTimeDilation".Translate(), ref RocketPrefs.TimeDilation);
@@ -86,6 +87,7 @@ namespace Soyuz.Tabs
                 Widgets.DrawMenuSection(rect);
                 Widgets.Label(rect, "Soyuz.DilationDisabled".Translate());
             });
+            RocketMan.GUIUtility.RestoreGUIState();
         }
 
         private void DoExtras(Rect inRect)
