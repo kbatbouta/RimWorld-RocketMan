@@ -64,6 +64,9 @@ namespace Soyuz
                 || !DefDatabase<ThingDef>.defsByName.TryGetValue(this.name, out var def)
                 || this.isFastMovingInitialized == true)
                 return;
+
+            this.pawnDef = def;
+
             if (this.version != SETTINGS_VERSION)
             {
                 this.Notify_VersionChanged();
@@ -71,15 +74,14 @@ namespace Soyuz
             }
             try
             {
-                if (this.pawnDef.StatBaseDefined(StatDefOf.MoveSpeed))
+                if (StatDefOf.MoveSpeed != null && (this.pawnDef?.StatBaseDefined(StatDefOf.MoveSpeed) ?? false))
                 {
                     this.isFastMoving = this.pawnDef.GetStatValueAbstract(StatDefOf.MoveSpeed) > 8;
                     this.isFastMovingInitialized = true;
                 }
             }
-            catch (Exception er)
+            catch
             {
-                Log.Error($"SOYUZ: Error initializing race def {this.pawnDef} with error:{er}");
             }
         }
 

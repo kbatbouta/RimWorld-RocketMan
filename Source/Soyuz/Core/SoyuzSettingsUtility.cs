@@ -37,7 +37,9 @@ namespace Soyuz
                 if (element.pawnDef == null)
                 {
                     element.ResolveContent();
-                    if (element.pawnDef == null) continue;
+
+                    if (element.pawnDef == null)
+                        continue;
                 }
                 element.Cache();
             }
