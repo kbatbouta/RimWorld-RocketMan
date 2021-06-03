@@ -178,10 +178,9 @@ namespace RocketMan
                 Text.Font = GameFont.Small;
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Widgets.Label(textRect.TopPart(0.6f), (Find.TickManager?.Paused ?? false) ?
-                    "RocketMan.Unpause".Translate() :
-                     "<color=orange>" + "RocketMan.RocketMan".Translate() + "</color> " + "RocketMan.Warming".Translate());
+                    KeyedResources.RocketMan_Unpause : "<color=orange>" + KeyedResources.RocketMan_RocketMan + "</color> " + KeyedResources.RocketMan_Warming);
                 Text.Font = GameFont.Tiny;
-                Widgets.Label(textRect.BottomPart(0.4f), "RocketMan.HideProgressBar".Translate());
+                Widgets.Label(textRect.BottomPart(0.4f), KeyedResources.RocketMan_HideProgressBar);
                 DoProgressBar(progressRect);
             }
             catch (Exception er)

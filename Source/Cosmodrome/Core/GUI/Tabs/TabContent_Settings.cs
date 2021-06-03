@@ -21,9 +21,9 @@ namespace RocketMan.Tabs
                         Text.Font = GameFont.Medium;
                         Text.Anchor = TextAnchor.MiddleCenter;
                         if (Find.TickManager.Paused)
-                            Widgets.Label(rect, "RocketMan.Settings.PleaseWait".Translate());
+                            Widgets.Label(rect, KeyedResources.RocketMan_Settings_PleaseWait);
                         else
-                            Widgets.Label(rect, "RocketMan.Settings.PleaseWait".Translate());
+                            Widgets.Label(rect, KeyedResources.RocketMan_Settings_PleaseUnpause);
                     });
                 }
                 else

@@ -1,14 +1,14 @@
 ﻿<#@ template language="C#" #>
 <#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ template debug="true" hostspecific="true" language="C#" #>
 <#@ output extension=".cs" #>
-<#@ import namespace="System.IO" #>
-<#@ assembly name="System.Xml" #>
-<#@ import namespace="System.Xml" #>
-<#@ import namespace="System.Text.RegularExpressions" #>
 <#  
     // Constants  
     string englishLanguagePath = "Languages/English/Keyed/Translations.xml";
@@ -21,15 +21,27 @@
     XmlDocument doc = new XmlDocument();
     doc.Load(Path.Combine(modPath, englishLanguagePath));
 #>
-using System;
 using Verse;
 
 namespace RocketMan
 {    
-    /*
-     * This file is auto generated! Mod path is:
-     * <#= Path.Combine(modPath, englishLanguagePath) #>
-     */ 
+    // Auto generated file!
+    // -------------------------------------------------
+    // This file is auto generated! Mod path is:
+    // <#= Path.Combine(modPath, englishLanguagePath) #>
+    // -------------------------------------------------
+    /// <summary> 
+    /// <para>Keyed string database. This Class is generated automatically by a T4 template <c>Source/Resources/KeyedResources.tt</c></para> 
+    /// <description>
+    /// <para>This class contains all keyed translation nodes along with their text content. All properties here are formated like this</para> 
+    /// </description>  
+    /// <example>  
+    /// This is an example for a node in <c>Translations.xml</c> called <c>A.RimWorld.Translation.Node</c>
+    /// <code>    
+    /// public static string A_RimWorld_Translation_Node => "A.RimWorld.Translation.Node".Translate();    
+    /// </code>        
+    /// </example>    
+    /// </summary>
     public static class KeyedResources 
     {     
 <# 
@@ -40,11 +52,11 @@ namespace RocketMan
             string name = node.Name.Replace('.','_');
             string key = node.Name;                             
 #>                              
-        ///<summary> Keyed string with key<c><#= node.Name #></c> with text:
+        /// <summary> Keyed string with key <c><#= node.Name #></c> with inner text set to:
         ///
-        ///<code><#= node.InnerText #></code>
-        ///</summary>       
-        public static string <#= name #> {
+        /// <code><#= node.InnerText #></code>
+        /// </summary>       
+        public static TaggedString <#= name #> {
             get =>  "<#= key #>".Translate();
         }             
 <#                           
