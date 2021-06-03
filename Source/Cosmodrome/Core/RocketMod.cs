@@ -261,7 +261,8 @@ namespace RocketMan
                 base.ExposeData();
                 if (Scribe.mode == LoadSaveMode.Saving) WriteStats();
                 if (Scribe.mode == LoadSaveMode.Saving && RocketPrefs.WarmingUp && !(WarmUpMapComponent.current?.Finished ?? true)) WarmUpMapComponent.current.AbortWarmUp();
-                if (Scribe.mode != LoadSaveMode.Saving) ReadStats();
+                //
+                // if (Scribe.mode != LoadSaveMode.Saving) ReadStats();
 
                 Scribe_Values.Look(ref RocketPrefs.Enabled, "enabled", true);
                 Scribe_Values.Look(ref RocketPrefs.StatGearCachingEnabled, "statGearCachingEnabled", true);
