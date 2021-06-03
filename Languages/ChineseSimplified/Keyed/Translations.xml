@@ -6,7 +6,7 @@
 	<RocketMan.IUnderstand>我已了解! 继续游戏!</RocketMan.IUnderstand>
 	<RocketMan.ChangeBack>你随意可更改Mod列表中的Mod及移除RocketMan!</RocketMan.ChangeBack>
 	<RocketMan.OpenModList>我已了解!打开Mod配置!</RocketMan.OpenModList>
-	<RocketMan.Disclaimer>若你无视该消息则RocketMan团队不会伸以援手!</RocketMan.Disclaimer>
+	<RocketMan.Disclaimer>若你无视该消息则RocketMan团队不会提供任何支持!</RocketMan.Disclaimer>
 	<RocketMan.Unpause>请勿暂停游戏!</RocketMan.Unpause>
 	<RocketMan.Warming>启动中!请稍后...</RocketMan.Warming>
 	<RocketMan.HideProgressBar>此提示可在RocketMan设置中隐藏/禁用</RocketMan.HideProgressBar>
@@ -18,7 +18,7 @@
 	<RocketMan.ShowIcon.Description>因受游戏限制，部分设置无法在游戏主界面的Mod选项中配置。</RocketMan.ShowIcon.Description>
 	<RocketMan.ProgressBar>游戏开始时显示启动进度条</RocketMan.ProgressBar>
 	<RocketMan.ProgressBar.Description>开启此选项会在你载入新地图时显示启动进度条。</RocketMan.ProgressBar.Description>
-	<RocketMan.Junk>Junk</RocketMan.Junk>
+	<RocketMan.Junk>垃圾</RocketMan.Junk>
 	<RocketMan.CorpseRemoval>启用自动清除尸体</RocketMan.CorpseRemoval>
 	<RocketMan.CorpseRemoval.Description>为保持游戏平衡性，该机制只会清除存在于视野外一段时间及非玩家基地(居住区)附近的尸体。</RocketMan.CorpseRemoval.Description>
 	<RocketMan.StatCacheSettings>数据缓存配置</RocketMan.StatCacheSettings>
