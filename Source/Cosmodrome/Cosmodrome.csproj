@@ -41,7 +41,6 @@
 	<ItemGroup>
 		<Folder Include="Core\" />
 		<Folder Include="Properties\" />
-		<Folder Include="Core\GUI\Dialogs\" />
 		<Folder Include="Core\Resources\" />
 	</ItemGroup>
 	<ItemGroup>

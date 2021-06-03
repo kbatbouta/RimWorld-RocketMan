@@ -20,7 +20,7 @@ namespace RocketMan
         private static List<Action> onWorldLoaded;
         private static List<Action> onMapLoaded;
         private static List<Action> onMapComponentsInitializing;
-        private static List<Action> onTick;
+        private static List<Action> onTickRare;
         private static List<Action> onTickLong;
 
         public static List<Action> onStaticConstructors;
@@ -39,7 +39,7 @@ namespace RocketMan
             onWorldLoaded = FunctionsUtility.GetActions<OnWorldLoaded>().ToList();
             onMapLoaded = FunctionsUtility.GetActions<OnMapLoaded>().ToList();
             onMapComponentsInitializing = FunctionsUtility.GetActions<OnMapComponentsInitializing>().ToList();
-            onTick = FunctionsUtility.GetActions<OnTick>().ToList();
+            onTickRare = FunctionsUtility.GetActions<OnTickRare>().ToList();
             onDebugginEnabled = FunctionsUtility.GetActions<OnDebugginEnabled>().ToList();
             onDebugginDisabled = FunctionsUtility.GetActions<OnDebugginDisabled>().ToList();
             onTickLong = FunctionsUtility.GetActions<OnTickLong>().ToList();
@@ -109,14 +109,16 @@ namespace RocketMan
         {
             base.Tick(currentTick);
             CheckDebugging();
-
-            if (currentTick % RocketPrefs.UniversalCacheAge != 0) return;
-
-            for (var i = 0; i < onTick.Count; i++) onTick[i].Invoke();
-
-            if (currentTick % (RocketPrefs.UniversalCacheAge * 5) != 0) return;
-
-            for (var i = 0; i < onTickLong.Count; i++) onTickLong[i].Invoke();
+            if (currentTick % GenTicks.TickRareInterval == 0)
+            {
+                for (var i = 0; i < onTickRare.Count; i++)
+                    onTickRare[i].Invoke();
+            }
+            if (currentTick % GenTicks.TickLongInterval == 0)
+            {
+                for (var i = 0; i < onTickLong.Count; i++)
+                    onTickLong[i].Invoke();
+            }
         }
 
         public void ClearCache()
@@ -171,7 +173,7 @@ namespace RocketMan
 
 
         [AttributeUsage(AttributeTargets.Method)]
-        public class OnTick : Attribute
+        public class OnTickRare : Attribute
         {
         }
 

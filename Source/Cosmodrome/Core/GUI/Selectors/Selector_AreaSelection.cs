@@ -14,7 +14,7 @@ namespace RocketMan
 
         public override float RowHeight => 25f;
 
-        protected override bool DoSingleItem(Rect rect, Area item)
+        protected override void DoSingleItem(Rect rect, Area item)
         {
             var color = item.Color;
             color.a = 0.5f;
@@ -22,8 +22,6 @@ namespace RocketMan
             Widgets.DrawHighlightIfMouseover(rect);
             Widgets.Label(rect.RightPart(0.8f), item.Label);
             Widgets.DrawBoxSolid(rect.LeftPartPixels(10f), color);
-            if (Widgets.ButtonInvisible(rect)) return true;
-            return false;
         }
 
         protected override bool ItemMatchSearchString(Area item)

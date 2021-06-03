@@ -13,6 +13,7 @@
 	<!-- RocketMan RocketMan.TabContent_Settings -->
 	<RocketMan.RocketMan>RocketMan</RocketMan.RocketMan>
 	<RocketMan.Tab>Home</RocketMan.Tab>
+	<RocketMan.Close>Close</RocketMan.Close>
 	<RocketMan.Enable>Home</RocketMan.Enable>
 	<RocketMan.ShowIcon>Show RocketMan button/icon</RocketMan.ShowIcon>
 	<RocketMan.ShowIcon.Description>Due to game limiations some options aren't available from the game menu settings.</RocketMan.ShowIcon.Description>

@@ -22,6 +22,14 @@ namespace RocketMan.Tabs
 
         public override void DoContent(Rect rect)
         {
+            if (Widgets.ButtonText(rect.TopPartPixels(20), "Select test"))
+            {
+                Find.WindowStack.Add(new Selector_DefSelection(DefDatabase<ThingDef>.AllDefs, (def) =>
+                {
+                    Log.Message(def.defName);
+                }));
+            }
+            rect.yMin += 20;
             RocketMan.GUIUtility.ScrollView(rect, ref scrollPosition, stats,
                 (stat) =>
                 {

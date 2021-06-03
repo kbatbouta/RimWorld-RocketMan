@@ -22,7 +22,7 @@ namespace RocketMan
 
         public override float RowHeight => 24f;
 
-        public override void FillContents(Rect inRect)
+        public override void DoContent(Rect inRect)
         {
             FillTypeContent(inRect);
         }
@@ -31,23 +31,17 @@ namespace RocketMan
         {
             try
             {
-                viewRect = inRect.AtZero();
-                viewRect.height = count * RowHeight;
-                viewRect.width -= 20;
-                Widgets.DrawMenuSection(inRect);
-                Widgets.BeginScrollView(inRect.ContractedBy(2), ref scrollPosition, viewRect);
-                Text.Font = GameFont.Tiny;
-                var curRect = viewRect.TopPartPixels(RowHeight);
-                foreach (var item in types)
-                {
-                    if (DoSingleItem(curRect, item))
+                GUIUtility.ScrollView(inRect, ref scrollPosition, types,
+                    heightLambda: (type) => !searchString.NullOrEmpty() ? (ItemMatchSearchString(type) ? -1f : RowHeight) : RowHeight,
+                    elementLambda: (rect, type) =>
                     {
-                        selectionAction.Invoke(item);
-                        if (!integrated) Close();
-                    }
-                    curRect.y += RowHeight;
-                }
-                Widgets.EndScrollView();
+                        DoSingleItem(rect, type);
+                        if (Widgets.ButtonInvisible(rect))
+                        {
+                            selectionAction.Invoke(type);
+                            if (!integrated) Close();
+                        }
+                    });
             }
             catch (Exception er)
             {
@@ -55,16 +49,13 @@ namespace RocketMan
             }
         }
 
-        protected override bool DoSingleItem(Rect rect, Type item)
+        protected override void DoSingleItem(Rect rect, Type item)
         {
             string name;
             if (!cache.TryGetValue(item, out name))
                 name = cache[item] = item.Name.Translate();
             Widgets.DrawHighlightIfMouseover(rect);
             Widgets.Label(rect, name);
-            if (Widgets.ButtonInvisible(rect))
-                return true;
-            return false;
         }
 
         protected override bool ItemMatchSearchString(Type item)

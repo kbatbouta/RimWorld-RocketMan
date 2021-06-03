@@ -21,31 +21,26 @@ namespace RocketMan
 
         public override void DoWindowContents(Rect inRect)
         {
-            var font = Text.Font;
-            var anchor = Text.Anchor;
-            integrated = false;
-            inRect.height -= 30;
-            FillContents(inRect);
-            inRect.height += 30;
-            if (Widgets.ButtonText(inRect.BottomPartPixels(30), "ColonyManager2Close".Translate())) Close();
-
-            Text.Font = font;
-            Text.Anchor = anchor;
+            GUIUtility.ExecuteSafeGUIAction(() =>
+            {
+                integrated = false;
+                inRect.height -= 30;
+                DoContent(inRect);
+                inRect.height += 30;
+                if (Widgets.ButtonText(inRect.BottomPartPixels(30), KeyedResources.RocketMan_Close)) Close();
+            });
         }
 
         public void DoIntegratedContents(Rect inRect)
         {
-            var font = Text.Font;
-            var anchor = Text.Anchor;
-
-            integrated = true;
-            FillContents(inRect);
-
-            Text.Font = font;
-            Text.Anchor = anchor;
+            GUIUtility.ExecuteSafeGUIAction(() =>
+            {
+                integrated = true;
+                DoContent(inRect);
+            });
         }
 
-        public abstract void FillContents(Rect inRect);
+        public abstract void DoContent(Rect inRect);
 
         public override void Close(bool doCloseSound = true)
         {

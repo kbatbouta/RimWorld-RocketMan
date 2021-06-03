@@ -143,6 +143,16 @@ namespace RocketMan
                    _RocketMan_Tab : _RocketMan_Tab = "RocketMan.Tab".Translate();
         }             
                            
+        private static TaggedString _RocketMan_Close = null;
+        /// <summary> Keyed string with key <c>RocketMan.Close</c> with inner text set to:
+        ///
+        /// <code>Close</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Close {
+            get => _RocketMan_Close != null ? 
+                   _RocketMan_Close : _RocketMan_Close = "RocketMan.Close".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_Enable = null;
         /// <summary> Keyed string with key <c>RocketMan.Enable</c> with inner text set to:
         ///

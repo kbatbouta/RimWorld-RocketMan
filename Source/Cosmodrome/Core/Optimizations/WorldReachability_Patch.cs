@@ -142,7 +142,7 @@ namespace RocketMan.Optimizations
 #endif
             }
 
-            [Main.OnTick]
+            [Main.OnTickRare]
             public static void FlushMessages()
             {
                 var counter = 0;

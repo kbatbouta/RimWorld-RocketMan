@@ -10,7 +10,6 @@ namespace RocketMan
     {
         public IEnumerable<T> items;
         public Action<T> selectionAction;
-        private Rect viewRect = Rect.zero;
 
         public ISelector_GenericSelection(IEnumerable<T> defs, Action<T> selectionAction, bool integrated = false,
             Action closeAction = null) : base(integrated, closeAction)
@@ -21,10 +20,10 @@ namespace RocketMan
 
         public virtual float RowHeight => 54f;
 
-        protected abstract bool DoSingleItem(Rect rect, T item);
+        protected abstract void DoSingleItem(Rect rect, T item);
         protected abstract bool ItemMatchSearchString(T item);
 
-        public override void FillContents(Rect inRect)
+        public override void DoContent(Rect inRect)
         {
             if (useSearchBar)
             {
@@ -40,30 +39,19 @@ namespace RocketMan
                 inRect.y += 25;
                 inRect.height -= 25;
             }
-
             try
             {
-                viewRect = inRect.AtZero();
-                viewRect.height = items.Count() * RowHeight;
-                viewRect.width -= 20;
-                Widgets.DrawMenuSection(inRect);
-                Widgets.BeginScrollView(inRect.ContractedBy(2), ref scrollPosition, viewRect);
-                Text.Font = GameFont.Tiny;
-                var curRect = viewRect.TopPartPixels(RowHeight);
-                foreach (var item in items)
-                {
-                    if (useSearchBar && !ItemMatchSearchString(item))
-                        continue;
-                    if (DoSingleItem(curRect, item))
+                GUIUtility.ScrollView(inRect, ref scrollPosition, items,
+                    heightLambda: (item) => !searchString.NullOrEmpty() ? (ItemMatchSearchString(item) ? -1f : RowHeight) : RowHeight,
+                    elementLambda: (rect, item) =>
                     {
-                        selectionAction.Invoke(item);
-                        if (!integrated) Close();
-                    }
-
-                    curRect.y += RowHeight;
-                }
-
-                Widgets.EndScrollView();
+                        DoSingleItem(rect, item);
+                        if (Widgets.ButtonInvisible(rect))
+                        {
+                            selectionAction.Invoke(item);
+                            if (!integrated) Close();
+                        }
+                    });
             }
             catch (Exception er)
             {

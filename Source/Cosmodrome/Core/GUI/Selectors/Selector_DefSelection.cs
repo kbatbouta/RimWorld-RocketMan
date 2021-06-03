@@ -12,12 +12,10 @@ namespace RocketMan
         {
         }
 
-        protected override bool DoSingleItem(Rect rect, Def item)
+        protected override void DoSingleItem(Rect rect, Def item)
         {
             Widgets.DrawHighlightIfMouseover(rect);
             Widgets.DefLabelWithIcon(rect, item, 2);
-            if (Widgets.ButtonInvisible(rect)) return true;
-            return false;
         }
 
         protected override bool ItemMatchSearchString(Def item)
