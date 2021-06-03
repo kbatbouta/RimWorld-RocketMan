@@ -71,7 +71,9 @@ namespace Proton
 
         private Stopwatch stopwatch = new Stopwatch();
 
-        private string lastVersion;
+        private int lastVersion;
+
+        private const int SettingsVersion = 1;
 
         public AlertSettings()
         {
@@ -106,10 +108,10 @@ namespace Proton
             Scribe_Values.Look(ref typeId, "typeId");
             Scribe_Values.Look(ref enabledInt, "enabled2", true);
             Scribe_Values.Look(ref avgT, "avgT", 0.05f);
-            Scribe_Values.Look(ref lastVersion, "lastVersion");
-            if (lastVersion != RocketAssembliesInfo.Version)
+            Scribe_Values.Look(ref lastVersion, "lastVersion_NewTemp", defaultValue: -1);
+            if (lastVersion != SettingsVersion)
             {
-                this.lastVersion = RocketAssembliesInfo.Version;
+                this.lastVersion = SettingsVersion;
                 this.Verify();
             }
         }

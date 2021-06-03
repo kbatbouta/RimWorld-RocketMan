@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -204,14 +205,20 @@ namespace RocketMan
                 || statsSettings.Count == 0
                 || statsSettings.Count != DefDatabase<StatDef>.DefCount)
                 BuildStatSettings();
+            List<StatSettings> valid = new List<StatSettings>();
             foreach (StatSettings settings in statsSettings)
             {
-                if (DefDatabase<StatDef>.defsByName.TryGetValue(settings.defName, out StatDef def))
+                if (settings.defName != null && DefDatabase<StatDef>.defsByName.TryGetValue(settings.defName, out StatDef def))
+                {
                     settings.expireAfter = RocketStates.StatExpiry[def.index];
+                    valid.Add(settings);
+                }
             }
+            statsSettings = valid;
         }
 
         [Main.OnDefsLoaded]
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used in Main.OnDefsLoaded")]
         private static void ReadStats()
         {
             if (false
@@ -219,32 +226,44 @@ namespace RocketMan
                 || statsSettings.Count == 0
                 || statsSettings.Count != DefDatabase<StatDef>.DefCount)
                 BuildStatSettings();
+            List<StatSettings> valid = new List<StatSettings>();
             foreach (StatSettings settings in statsSettings)
             {
-                if (DefDatabase<StatDef>.defsByName.TryGetValue(settings.defName, out StatDef def))
+                if (settings.defName != null && DefDatabase<StatDef>.defsByName.TryGetValue(settings.defName, out StatDef def) && def != null)
+                {
+                    def.ResolveReferences();
                     RocketStates.StatExpiry[def.index] = settings.expireAfter;
+                    valid.Add(settings);
+                    settings.statDef = def;
+                }
             }
+            statsSettings = valid;
         }
 
         private static void BuildStatSettings()
         {
             statsSettings = new List<StatSettings>();
             foreach (StatDef stat in DefDatabase<StatDef>.AllDefs)
-                statsSettings.Add(new StatSettings(stat));
+            {
+                StatSettings settings = new StatSettings(stat);
+                RocketStates.StatExpiry[stat.index] = settings.expireAfter;
+                statsSettings.Add(settings);
+            }
         }
 
         public class StatSettings : IExposable
         {
             public float expireAfter;
             public string defName;
+            public StatDef statDef;
 
             public StatSettings() { }
 
             public StatSettings(StatDef statDef)
             {
+                this.statDef = statDef;
                 this.defName = statDef.defName;
                 this.expireAfter = Tools.PredictValueFromString(defName);
-                RocketStates.StatExpiry[statDef.index] = expireAfter;
             }
 
             public void ExposeData()

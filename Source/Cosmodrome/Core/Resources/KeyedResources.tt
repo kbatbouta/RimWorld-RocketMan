@@ -25,6 +25,7 @@ using Verse;
 
 namespace RocketMan
 {    
+
     // Auto generated file!
     // -------------------------------------------------
     // This file is auto generated! Mod path is:
@@ -51,13 +52,15 @@ namespace RocketMan
         { 
             string name = node.Name.Replace('.','_');
             string key = node.Name;                             
-#>                              
+#>                           
+        private static TaggedString _<#= name #> = null;
         /// <summary> Keyed string with key <c><#= node.Name #></c> with inner text set to:
         ///
         /// <code><#= node.InnerText #></code>
         /// </summary>       
         public static TaggedString <#= name #> {
-            get =>  "<#= key #>".Translate();
+            get => _<#= name #> != null ? 
+                   _<#= name #> : _<#= name #> = "<#= key #>".Translate();
         }             
 <#                           
         }              

@@ -41,6 +41,7 @@
 	<ItemGroup>
 		<Folder Include="Core\" />
 		<Folder Include="Properties\" />
+		<Folder Include="Core\GUI\Dialogs\" />
 		<Folder Include="Core\Resources\" />
 	</ItemGroup>
 	<ItemGroup>
@@ -50,20 +51,24 @@
 		<None Include="..\..\About\*.xml" CopyToOutputDirectory="Never">
 			<Link>Assets\About\%(FileName)%(Extension)</Link>
 		</None>
-		<None Include="..\..\Languages\*\*\*.xml" CopyToOutputDirectory="Never">
+		<None Include="..\..\Languages\English\*\*.xml" CopyToOutputDirectory="Never">
 			<Link>Assets\Language\%(FileName)%(Extension)</Link>
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<None Remove="Core\Resources\" />
 		<None Remove="Core\Modules\" />
+		<None Remove="Core\GUI\ Dialogs\" />
+		<None Remove="Core\Resources\" />
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Update="Core\Resources\KeyedResources.cs">
+		<Compile Update="Properties\AssemblyInfo.cs">
+			<DependentUpon>AssemblyInfo.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\KeyedResources.cs">
 		  <DependentUpon>KeyedResources.tt</DependentUpon>
 		</Compile>
-		<Compile Update="Properties\AssemblyInfo.cs">
-		  <DependentUpon>AssemblyInfo.tt</DependentUpon>
+		<Compile Update="Core\Resources\KeyedResources.cs">
+		  <DependentUpon>KeyedResources.tt</DependentUpon>
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
@@ -79,13 +84,17 @@
 		<None Update="..\..\1.2\Extras\RocketRules_Incompatibilities.xml">
 			<Link>Assets\Extras\\RocketRules_Incompatibilities.xml</Link>
 		</None>
-		<None Update="Core\Resources\KeyedResources.tt">
+		<None Update="Properties\AssemblyInfo.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+		</None>
+		<None Update="Resources\KeyedResources.tt">
 		  <Generator>TextTemplatingFileGenerator</Generator>
 		  <LastGenOutput>KeyedResources.cs</LastGenOutput>
 		</None>
-		<None Update="Properties\AssemblyInfo.tt">
+		<None Update="Core\Resources\KeyedResources.tt">
 		  <Generator>TextTemplatingFileGenerator</Generator>
-		  <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+		  <LastGenOutput>KeyedResources.cs</LastGenOutput>
 		</None>
 	</ItemGroup>
 	<PropertyGroup>

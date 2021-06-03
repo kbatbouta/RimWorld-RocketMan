@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LanguageData>	
+<LanguageData>
 	<RocketMan.Settings.PleaseUnpause>Please unpause the game... RocketMan is warming up!</RocketMan.Settings.PleaseUnpause>
 	<RocketMan.Settings.PleaseWait>Please wait... RocketMan is warming up!</RocketMan.Settings.PleaseWait>
-	<RocketMan.IncompatibilityWindow.Description>You are running incompatibile mods with RocketMan. This type of incompatilibity will nuke/destroy your save! You can Disable RocketMan or You continue on your own responsibility. these mods are:\n</RocketMan.IncompatibilityWindow.Description>
-	<RocketMan.IUnderstand>Yes, I understand! Continue!</RocketMan.IUnderstand>
-	<RocketMan.ChangeBack>You could always change your mod list and remove RocketMan!</RocketMan.ChangeBack>
-	<RocketMan.OpenModList>Yes, I understand! Open the modlist manager!</RocketMan.OpenModList>
-	<RocketMan.Disclaimer>The RocketMan team will provide no support if you choose to ignore this message!</RocketMan.Disclaimer>
+	<RocketMan.IncompatibilityWindow.Title>You are running incompatible mods</RocketMan.IncompatibilityWindow.Title>
+	<RocketMan.IncompatibilityWindow.Description>You are running incompatibile mods with RocketMan. This type of incompatilibity will nuke/destroy your save! You can Disable RocketMan or You continue on your own responsibility.\nCurrent incompatible mods are:\n</RocketMan.IncompatibilityWindow.Description>
+	<RocketMan.IncompatibilityWindow.Continue>Yes, I understand! Continue!</RocketMan.IncompatibilityWindow.Continue>
+	<RocketMan.IncompatibilityWindow.OpenModManager>Open the mod manager</RocketMan.IncompatibilityWindow.OpenModManager>
+	<RocketMan.IncompatibilityWindow.Disclaimer>The RocketMan team will provide no support if you choose to ignore this message or continue!</RocketMan.IncompatibilityWindow.Disclaimer>
 	<RocketMan.Unpause>Please unpause the game!</RocketMan.Unpause>
 	<RocketMan.Warming>is warming up! Please wait...</RocketMan.Warming>
 	<RocketMan.HideProgressBar>You can hide/disable in RocketMan's settings</RocketMan.HideProgressBar>

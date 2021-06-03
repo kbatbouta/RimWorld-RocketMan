@@ -2,6 +2,7 @@
 
 namespace RocketMan
 {    
+
     // Auto generated file!
     // -------------------------------------------------
     // This file is auto generated! Mod path is:
@@ -21,533 +22,665 @@ namespace RocketMan
     /// </summary>
     public static class KeyedResources 
     {     
-                              
+                           
+        private static TaggedString _RocketMan_Settings_PleaseUnpause = null;
         /// <summary> Keyed string with key <c>RocketMan.Settings.PleaseUnpause</c> with inner text set to:
         ///
         /// <code>Please unpause the game... RocketMan is warming up!</code>
         /// </summary>       
         public static TaggedString RocketMan_Settings_PleaseUnpause {
-            get =>  "RocketMan.Settings.PleaseUnpause".Translate();
+            get => _RocketMan_Settings_PleaseUnpause != null ? 
+                   _RocketMan_Settings_PleaseUnpause : _RocketMan_Settings_PleaseUnpause = "RocketMan.Settings.PleaseUnpause".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_Settings_PleaseWait = null;
         /// <summary> Keyed string with key <c>RocketMan.Settings.PleaseWait</c> with inner text set to:
         ///
         /// <code>Please wait... RocketMan is warming up!</code>
         /// </summary>       
         public static TaggedString RocketMan_Settings_PleaseWait {
-            get =>  "RocketMan.Settings.PleaseWait".Translate();
+            get => _RocketMan_Settings_PleaseWait != null ? 
+                   _RocketMan_Settings_PleaseWait : _RocketMan_Settings_PleaseWait = "RocketMan.Settings.PleaseWait".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_IncompatibilityWindow_Title = null;
+        /// <summary> Keyed string with key <c>RocketMan.IncompatibilityWindow.Title</c> with inner text set to:
+        ///
+        /// <code>You are running incompatible mods</code>
+        /// </summary>       
+        public static TaggedString RocketMan_IncompatibilityWindow_Title {
+            get => _RocketMan_IncompatibilityWindow_Title != null ? 
+                   _RocketMan_IncompatibilityWindow_Title : _RocketMan_IncompatibilityWindow_Title = "RocketMan.IncompatibilityWindow.Title".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_IncompatibilityWindow_Description = null;
         /// <summary> Keyed string with key <c>RocketMan.IncompatibilityWindow.Description</c> with inner text set to:
         ///
-        /// <code>You are running incompatibile mods with RocketMan. This type of incompatilibity will nuke/destroy your save! You can Disable RocketMan or You continue on your own responsibility. these mods are:\n</code>
+        /// <code>You are running incompatibile mods with RocketMan. This type of incompatilibity will nuke/destroy your save! You can Disable RocketMan or You continue on your own responsibility.\nCurrent incompatible mods are:\n</code>
         /// </summary>       
         public static TaggedString RocketMan_IncompatibilityWindow_Description {
-            get =>  "RocketMan.IncompatibilityWindow.Description".Translate();
+            get => _RocketMan_IncompatibilityWindow_Description != null ? 
+                   _RocketMan_IncompatibilityWindow_Description : _RocketMan_IncompatibilityWindow_Description = "RocketMan.IncompatibilityWindow.Description".Translate();
         }             
-                              
-        /// <summary> Keyed string with key <c>RocketMan.IUnderstand</c> with inner text set to:
+                           
+        private static TaggedString _RocketMan_IncompatibilityWindow_Continue = null;
+        /// <summary> Keyed string with key <c>RocketMan.IncompatibilityWindow.Continue</c> with inner text set to:
         ///
         /// <code>Yes, I understand! Continue!</code>
         /// </summary>       
-        public static TaggedString RocketMan_IUnderstand {
-            get =>  "RocketMan.IUnderstand".Translate();
+        public static TaggedString RocketMan_IncompatibilityWindow_Continue {
+            get => _RocketMan_IncompatibilityWindow_Continue != null ? 
+                   _RocketMan_IncompatibilityWindow_Continue : _RocketMan_IncompatibilityWindow_Continue = "RocketMan.IncompatibilityWindow.Continue".Translate();
         }             
-                              
-        /// <summary> Keyed string with key <c>RocketMan.ChangeBack</c> with inner text set to:
+                           
+        private static TaggedString _RocketMan_IncompatibilityWindow_OpenModManager = null;
+        /// <summary> Keyed string with key <c>RocketMan.IncompatibilityWindow.OpenModManager</c> with inner text set to:
         ///
-        /// <code>You could always change your mod list and remove RocketMan!</code>
+        /// <code>Open the mod manager</code>
         /// </summary>       
-        public static TaggedString RocketMan_ChangeBack {
-            get =>  "RocketMan.ChangeBack".Translate();
+        public static TaggedString RocketMan_IncompatibilityWindow_OpenModManager {
+            get => _RocketMan_IncompatibilityWindow_OpenModManager != null ? 
+                   _RocketMan_IncompatibilityWindow_OpenModManager : _RocketMan_IncompatibilityWindow_OpenModManager = "RocketMan.IncompatibilityWindow.OpenModManager".Translate();
         }             
-                              
-        /// <summary> Keyed string with key <c>RocketMan.OpenModList</c> with inner text set to:
+                           
+        private static TaggedString _RocketMan_IncompatibilityWindow_Disclaimer = null;
+        /// <summary> Keyed string with key <c>RocketMan.IncompatibilityWindow.Disclaimer</c> with inner text set to:
         ///
-        /// <code>Yes, I understand! Open the modlist manager!</code>
+        /// <code>The RocketMan team will provide no support if you choose to ignore this message or continue!</code>
         /// </summary>       
-        public static TaggedString RocketMan_OpenModList {
-            get =>  "RocketMan.OpenModList".Translate();
+        public static TaggedString RocketMan_IncompatibilityWindow_Disclaimer {
+            get => _RocketMan_IncompatibilityWindow_Disclaimer != null ? 
+                   _RocketMan_IncompatibilityWindow_Disclaimer : _RocketMan_IncompatibilityWindow_Disclaimer = "RocketMan.IncompatibilityWindow.Disclaimer".Translate();
         }             
-                              
-        /// <summary> Keyed string with key <c>RocketMan.Disclaimer</c> with inner text set to:
-        ///
-        /// <code>The RocketMan team will provide no support if you choose to ignore this message!</code>
-        /// </summary>       
-        public static TaggedString RocketMan_Disclaimer {
-            get =>  "RocketMan.Disclaimer".Translate();
-        }             
-                              
+                           
+        private static TaggedString _RocketMan_Unpause = null;
         /// <summary> Keyed string with key <c>RocketMan.Unpause</c> with inner text set to:
         ///
         /// <code>Please unpause the game!</code>
         /// </summary>       
         public static TaggedString RocketMan_Unpause {
-            get =>  "RocketMan.Unpause".Translate();
+            get => _RocketMan_Unpause != null ? 
+                   _RocketMan_Unpause : _RocketMan_Unpause = "RocketMan.Unpause".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_Warming = null;
         /// <summary> Keyed string with key <c>RocketMan.Warming</c> with inner text set to:
         ///
         /// <code>is warming up! Please wait...</code>
         /// </summary>       
         public static TaggedString RocketMan_Warming {
-            get =>  "RocketMan.Warming".Translate();
+            get => _RocketMan_Warming != null ? 
+                   _RocketMan_Warming : _RocketMan_Warming = "RocketMan.Warming".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_HideProgressBar = null;
         /// <summary> Keyed string with key <c>RocketMan.HideProgressBar</c> with inner text set to:
         ///
         /// <code>You can hide/disable in RocketMan's settings</code>
         /// </summary>       
         public static TaggedString RocketMan_HideProgressBar {
-            get =>  "RocketMan.HideProgressBar".Translate();
+            get => _RocketMan_HideProgressBar != null ? 
+                   _RocketMan_HideProgressBar : _RocketMan_HideProgressBar = "RocketMan.HideProgressBar".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_RocketMan = null;
         /// <summary> Keyed string with key <c>RocketMan.RocketMan</c> with inner text set to:
         ///
         /// <code>RocketMan</code>
         /// </summary>       
         public static TaggedString RocketMan_RocketMan {
-            get =>  "RocketMan.RocketMan".Translate();
+            get => _RocketMan_RocketMan != null ? 
+                   _RocketMan_RocketMan : _RocketMan_RocketMan = "RocketMan.RocketMan".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_Tab = null;
         /// <summary> Keyed string with key <c>RocketMan.Tab</c> with inner text set to:
         ///
         /// <code>Home</code>
         /// </summary>       
         public static TaggedString RocketMan_Tab {
-            get =>  "RocketMan.Tab".Translate();
+            get => _RocketMan_Tab != null ? 
+                   _RocketMan_Tab : _RocketMan_Tab = "RocketMan.Tab".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_Enable = null;
         /// <summary> Keyed string with key <c>RocketMan.Enable</c> with inner text set to:
         ///
         /// <code>Home</code>
         /// </summary>       
         public static TaggedString RocketMan_Enable {
-            get =>  "RocketMan.Enable".Translate();
+            get => _RocketMan_Enable != null ? 
+                   _RocketMan_Enable : _RocketMan_Enable = "RocketMan.Enable".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_ShowIcon = null;
         /// <summary> Keyed string with key <c>RocketMan.ShowIcon</c> with inner text set to:
         ///
         /// <code>Show RocketMan button/icon</code>
         /// </summary>       
         public static TaggedString RocketMan_ShowIcon {
-            get =>  "RocketMan.ShowIcon".Translate();
+            get => _RocketMan_ShowIcon != null ? 
+                   _RocketMan_ShowIcon : _RocketMan_ShowIcon = "RocketMan.ShowIcon".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_ShowIcon_Description = null;
         /// <summary> Keyed string with key <c>RocketMan.ShowIcon.Description</c> with inner text set to:
         ///
         /// <code>Due to game limiations some options aren't available from the game menu settings.</code>
         /// </summary>       
         public static TaggedString RocketMan_ShowIcon_Description {
-            get =>  "RocketMan.ShowIcon.Description".Translate();
+            get => _RocketMan_ShowIcon_Description != null ? 
+                   _RocketMan_ShowIcon_Description : _RocketMan_ShowIcon_Description = "RocketMan.ShowIcon.Description".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_ProgressBar = null;
         /// <summary> Keyed string with key <c>RocketMan.ProgressBar</c> with inner text set to:
         ///
         /// <code>Show warmup progress bar on startup</code>
         /// </summary>       
         public static TaggedString RocketMan_ProgressBar {
-            get =>  "RocketMan.ProgressBar".Translate();
+            get => _RocketMan_ProgressBar != null ? 
+                   _RocketMan_ProgressBar : _RocketMan_ProgressBar = "RocketMan.ProgressBar".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_ProgressBar_Description = null;
         /// <summary> Keyed string with key <c>RocketMan.ProgressBar.Description</c> with inner text set to:
         ///
         /// <code>This will show a warmup progress bar when you load a new map.</code>
         /// </summary>       
         public static TaggedString RocketMan_ProgressBar_Description {
-            get =>  "RocketMan.ProgressBar.Description".Translate();
+            get => _RocketMan_ProgressBar_Description != null ? 
+                   _RocketMan_ProgressBar_Description : _RocketMan_ProgressBar_Description = "RocketMan.ProgressBar.Description".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_Junk = null;
         /// <summary> Keyed string with key <c>RocketMan.Junk</c> with inner text set to:
         ///
         /// <code>Junk</code>
         /// </summary>       
         public static TaggedString RocketMan_Junk {
-            get =>  "RocketMan.Junk".Translate();
+            get => _RocketMan_Junk != null ? 
+                   _RocketMan_Junk : _RocketMan_Junk = "RocketMan.Junk".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_CorpseRemoval = null;
         /// <summary> Keyed string with key <c>RocketMan.CorpseRemoval</c> with inner text set to:
         ///
         /// <code>Enable automatic corpses removal.</code>
         /// </summary>       
         public static TaggedString RocketMan_CorpseRemoval {
-            get =>  "RocketMan.CorpseRemoval".Translate();
+            get => _RocketMan_CorpseRemoval != null ? 
+                   _RocketMan_CorpseRemoval : _RocketMan_CorpseRemoval = "RocketMan.CorpseRemoval".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_CorpseRemoval_Description = null;
         /// <summary> Keyed string with key <c>RocketMan.CorpseRemoval.Description</c> with inner text set to:
         ///
         /// <code>This removes corpses that aren't in view for a while and that aren't near your base to avoid breaking the game balance.</code>
         /// </summary>       
         public static TaggedString RocketMan_CorpseRemoval_Description {
-            get =>  "RocketMan.CorpseRemoval.Description".Translate();
+            get => _RocketMan_CorpseRemoval_Description != null ? 
+                   _RocketMan_CorpseRemoval_Description : _RocketMan_CorpseRemoval_Description = "RocketMan.CorpseRemoval.Description".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_StatCacheSettings = null;
         /// <summary> Keyed string with key <c>RocketMan.StatCacheSettings</c> with inner text set to:
         ///
         /// <code>Stats cache settings</code>
         /// </summary>       
         public static TaggedString RocketMan_StatCacheSettings {
-            get =>  "RocketMan.StatCacheSettings".Translate();
+            get => _RocketMan_StatCacheSettings != null ? 
+                   _RocketMan_StatCacheSettings : _RocketMan_StatCacheSettings = "RocketMan.StatCacheSettings".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_Adaptive = null;
         /// <summary> Keyed string with key <c>RocketMan.Adaptive</c> with inner text set to:
         ///
         /// <code>Adaptive mode</code>
         /// </summary>       
         public static TaggedString RocketMan_Adaptive {
-            get =>  "RocketMan.Adaptive".Translate();
+            get => _RocketMan_Adaptive != null ? 
+                   _RocketMan_Adaptive : _RocketMan_Adaptive = "RocketMan.Adaptive".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_Adaptive_Description = null;
         /// <summary> Keyed string with key <c>RocketMan.Adaptive.Description</c> with inner text set to:
         ///
         /// <code>Enable for 30 minutes after creating a new save or changing your mod list.</code>
         /// </summary>       
         public static TaggedString RocketMan_Adaptive_Description {
-            get =>  "RocketMan.Adaptive.Description".Translate();
+            get => _RocketMan_Adaptive_Description != null ? 
+                   _RocketMan_Adaptive_Description : _RocketMan_Adaptive_Description = "RocketMan.Adaptive.Description".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_EnableGearStatCaching = null;
         /// <summary> Keyed string with key <c>RocketMan.EnableGearStatCaching</c> with inner text set to:
         ///
         /// <code>Enable gear stat caching</code>
         /// </summary>       
         public static TaggedString RocketMan_EnableGearStatCaching {
-            get =>  "RocketMan.EnableGearStatCaching".Translate();
+            get => _RocketMan_EnableGearStatCaching != null ? 
+                   _RocketMan_EnableGearStatCaching : _RocketMan_EnableGearStatCaching = "RocketMan.EnableGearStatCaching".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_Debugging = null;
         /// <summary> Keyed string with key <c>RocketMan.Debugging</c> with inner text set to:
         ///
         /// <code>Enable debugging</code>
         /// </summary>       
         public static TaggedString RocketMan_Debugging {
-            get =>  "RocketMan.Debugging".Translate();
+            get => _RocketMan_Debugging != null ? 
+                   _RocketMan_Debugging : _RocketMan_Debugging = "RocketMan.Debugging".Translate();
         }             
-                              
+                           
+        private static TaggedString _RocketMan_Debugging_Description = null;
         /// <summary> Keyed string with key <c>RocketMan.Debugging.Description</c> with inner text set to:
         ///
         /// <code>Only for advanced users and modders</code>
         /// </summary>       
         public static TaggedString RocketMan_Debugging_Description {
-            get =>  "RocketMan.Debugging.Description".Translate();
+            get => _RocketMan_Debugging_Description != null ? 
+                   _RocketMan_Debugging_Description : _RocketMan_Debugging_Description = "RocketMan.Debugging.Description".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Tab = null;
         /// <summary> Keyed string with key <c>Soyuz.Tab</c> with inner text set to:
         ///
         /// <code>Time Dilation Controls</code>
         /// </summary>       
         public static TaggedString Soyuz_Tab {
-            get =>  "Soyuz.Tab".Translate();
+            get => _Soyuz_Tab != null ? 
+                   _Soyuz_Tab : _Soyuz_Tab = "Soyuz.Tab".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Colored_Disabled = null;
         /// <summary> Keyed string with key <c>Soyuz.Colored.Disabled</c> with inner text set to:
         ///
         /// <code>Disabled</code>
         /// </summary>       
         public static TaggedString Soyuz_Colored_Disabled {
-            get =>  "Soyuz.Colored.Disabled".Translate();
+            get => _Soyuz_Colored_Disabled != null ? 
+                   _Soyuz_Colored_Disabled : _Soyuz_Colored_Disabled = "Soyuz.Colored.Disabled".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Colored_IgnoredAndDisabled = null;
         /// <summary> Keyed string with key <c>Soyuz.Colored.IgnoredAndDisabled</c> with inner text set to:
         ///
         /// <code>Ignored and disabled</code>
         /// </summary>       
         public static TaggedString Soyuz_Colored_IgnoredAndDisabled {
-            get =>  "Soyuz.Colored.IgnoredAndDisabled".Translate();
+            get => _Soyuz_Colored_IgnoredAndDisabled != null ? 
+                   _Soyuz_Colored_IgnoredAndDisabled : _Soyuz_Colored_IgnoredAndDisabled = "Soyuz.Colored.IgnoredAndDisabled".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Colored_IsFastMoving = null;
         /// <summary> Keyed string with key <c>Soyuz.Colored.IsFastMoving</c> with inner text set to:
         ///
         /// <code>Is fast moving</code>
         /// </summary>       
         public static TaggedString Soyuz_Colored_IsFastMoving {
-            get =>  "Soyuz.Colored.IsFastMoving".Translate();
+            get => _Soyuz_Colored_IsFastMoving != null ? 
+                   _Soyuz_Colored_IsFastMoving : _Soyuz_Colored_IsFastMoving = "Soyuz.Colored.IsFastMoving".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Colored_IgnorePlayerFaction = null;
         /// <summary> Keyed string with key <c>Soyuz.Colored.IgnorePlayerFaction</c> with inner text set to:
         ///
         /// <code>Ignores player faction</code>
         /// </summary>       
         public static TaggedString Soyuz_Colored_IgnorePlayerFaction {
-            get =>  "Soyuz.Colored.IgnorePlayerFaction".Translate();
+            get => _Soyuz_Colored_IgnorePlayerFaction != null ? 
+                   _Soyuz_Colored_IgnorePlayerFaction : _Soyuz_Colored_IgnorePlayerFaction = "Soyuz.Colored.IgnorePlayerFaction".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Colored_IgnoreAllFaction = null;
         /// <summary> Keyed string with key <c>Soyuz.Colored.IgnoreAllFaction</c> with inner text set to:
         ///
         /// <code>Ignores all factions</code>
         /// </summary>       
         public static TaggedString Soyuz_Colored_IgnoreAllFaction {
-            get =>  "Soyuz.Colored.IgnoreAllFaction".Translate();
+            get => _Soyuz_Colored_IgnoreAllFaction != null ? 
+                   _Soyuz_Colored_IgnoreAllFaction : _Soyuz_Colored_IgnoreAllFaction = "Soyuz.Colored.IgnoreAllFaction".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_EnableTimeDilation = null;
         /// <summary> Keyed string with key <c>Soyuz.EnableTimeDilation</c> with inner text set to:
         ///
         /// <code>Enable time dilation</code>
         /// </summary>       
         public static TaggedString Soyuz_EnableTimeDilation {
-            get =>  "Soyuz.EnableTimeDilation".Translate();
+            get => _Soyuz_EnableTimeDilation != null ? 
+                   _Soyuz_EnableTimeDilation : _Soyuz_EnableTimeDilation = "Soyuz.EnableTimeDilation".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_Enable = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.Enable</c> with inner text set to:
         ///
         /// <code>Enable</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_Enable {
-            get =>  "Soyuz.Current.Enable".Translate();
+            get => _Soyuz_Current_Enable != null ? 
+                   _Soyuz_Current_Enable : _Soyuz_Current_Enable = "Soyuz.Current.Enable".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_IgnorePlayerFaction = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.IgnorePlayerFaction</c> with inner text set to:
         ///
         /// <code>Ignore player faction</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_IgnorePlayerFaction {
-            get =>  "Soyuz.Current.IgnorePlayerFaction".Translate();
+            get => _Soyuz_Current_IgnorePlayerFaction != null ? 
+                   _Soyuz_Current_IgnorePlayerFaction : _Soyuz_Current_IgnorePlayerFaction = "Soyuz.Current.IgnorePlayerFaction".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_IgnoreAllFactions = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.IgnoreAllFactions</c> with inner text set to:
         ///
         /// <code>Ignore all factions</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_IgnoreAllFactions {
-            get =>  "Soyuz.Current.IgnoreAllFactions".Translate();
+            get => _Soyuz_Current_IgnoreAllFactions != null ? 
+                   _Soyuz_Current_IgnoreAllFactions : _Soyuz_Current_IgnoreAllFactions = "Soyuz.Current.IgnoreAllFactions".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_FastPawn = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.FastPawn</c> with inner text set to:
         ///
         /// <code>This pawn move too fast to be throttled</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_FastPawn {
-            get =>  "Soyuz.Current.FastPawn".Translate();
+            get => _Soyuz_Current_FastPawn != null ? 
+                   _Soyuz_Current_FastPawn : _Soyuz_Current_FastPawn = "Soyuz.Current.FastPawn".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_Ignored = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.Ignored</c> with inner text set to:
         ///
         /// <code>This pawn will be ignored because:</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_Ignored {
-            get =>  "Soyuz.Current.Ignored".Translate();
+            get => _Soyuz_Current_Ignored != null ? 
+                   _Soyuz_Current_Ignored : _Soyuz_Current_Ignored = "Soyuz.Current.Ignored".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_MoveSpeed = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.MoveSpeed</c> with inner text set to:
         ///
         /// <code>This kind move at an average speed of {0} cell/seconds</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_MoveSpeed {
-            get =>  "Soyuz.Current.MoveSpeed".Translate();
+            get => _Soyuz_Current_MoveSpeed != null ? 
+                   _Soyuz_Current_MoveSpeed : _Soyuz_Current_MoveSpeed = "Soyuz.Current.MoveSpeed".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_EnableTimeDilation = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.EnableTimeDilation</c> with inner text set to:
         ///
         /// <code>Enable time dilation</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_EnableTimeDilation {
-            get =>  "Soyuz.Current.EnableTimeDilation".Translate();
+            get => _Soyuz_Current_EnableTimeDilation != null ? 
+                   _Soyuz_Current_EnableTimeDilation : _Soyuz_Current_EnableTimeDilation = "Soyuz.Current.EnableTimeDilation".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_EnableTimeDilationVisitors = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.EnableTimeDilationVisitors</c> with inner text set to:
         ///
         /// <code>Enable time dilation for visitors</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_EnableTimeDilationVisitors {
-            get =>  "Soyuz.Current.EnableTimeDilationVisitors".Translate();
+            get => _Soyuz_Current_EnableTimeDilationVisitors != null ? 
+                   _Soyuz_Current_EnableTimeDilationVisitors : _Soyuz_Current_EnableTimeDilationVisitors = "Soyuz.Current.EnableTimeDilationVisitors".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_EnableTimeWorldPawns = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.EnableTimeWorldPawns</c> with inner text set to:
         ///
         /// <code>Enable time dilation for world pawns</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_EnableTimeWorldPawns {
-            get =>  "Soyuz.Current.EnableTimeWorldPawns".Translate();
+            get => _Soyuz_Current_EnableTimeWorldPawns != null ? 
+                   _Soyuz_Current_EnableTimeWorldPawns : _Soyuz_Current_EnableTimeWorldPawns = "Soyuz.Current.EnableTimeWorldPawns".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_EnableTimeWildlife = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.EnableTimeWildlife</c> with inner text set to:
         ///
         /// <code>Enable time dilation for wildlife</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_EnableTimeWildlife {
-            get =>  "Soyuz.Current.EnableTimeWildlife".Translate();
+            get => _Soyuz_Current_EnableTimeWildlife != null ? 
+                   _Soyuz_Current_EnableTimeWildlife : _Soyuz_Current_EnableTimeWildlife = "Soyuz.Current.EnableTimeWildlife".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Current_EnableTimeColonnyAnimals = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.EnableTimeColonnyAnimals</c> with inner text set to:
         ///
         /// <code>Enable time dilation for colony animals</code>
         /// </summary>       
         public static TaggedString Soyuz_Current_EnableTimeColonnyAnimals {
-            get =>  "Soyuz.Current.EnableTimeColonnyAnimals".Translate();
+            get => _Soyuz_Current_EnableTimeColonnyAnimals != null ? 
+                   _Soyuz_Current_EnableTimeColonnyAnimals : _Soyuz_Current_EnableTimeColonnyAnimals = "Soyuz.Current.EnableTimeColonnyAnimals".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_DilationDisabled = null;
         /// <summary> Keyed string with key <c>Soyuz.DilationDisabled</c> with inner text set to:
         ///
         /// <code>Time dilation disabled!</code>
         /// </summary>       
         public static TaggedString Soyuz_DilationDisabled {
-            get =>  "Soyuz.DilationDisabled".Translate();
+            get => _Soyuz_DilationDisabled != null ? 
+                   _Soyuz_DilationDisabled : _Soyuz_DilationDisabled = "Soyuz.DilationDisabled".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_EnableDataLogging = null;
         /// <summary> Keyed string with key <c>Soyuz.EnableDataLogging</c> with inner text set to:
         ///
         /// <code>Enable data logging</code>
         /// </summary>       
         public static TaggedString Soyuz_EnableDataLogging {
-            get =>  "Soyuz.EnableDataLogging".Translate();
+            get => _Soyuz_EnableDataLogging != null ? 
+                   _Soyuz_EnableDataLogging : _Soyuz_EnableDataLogging = "Soyuz.EnableDataLogging".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_Debug150MTPS = null;
         /// <summary> Keyed string with key <c>Soyuz.Debug150MTPS</c> with inner text set to:
         ///
         /// <code>Set tick multiplier to 150x</code>
         /// </summary>       
         public static TaggedString Soyuz_Debug150MTPS {
-            get =>  "Soyuz.Debug150MTPS".Translate();
+            get => _Soyuz_Debug150MTPS != null ? 
+                   _Soyuz_Debug150MTPS : _Soyuz_Debug150MTPS = "Soyuz.Debug150MTPS".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_FlashPawns = null;
         /// <summary> Keyed string with key <c>Soyuz.FlashPawns</c> with inner text set to:
         ///
         /// <code>Flash dilated pawns</code>
         /// </summary>       
         public static TaggedString Soyuz_FlashPawns {
-            get =>  "Soyuz.FlashPawns".Translate();
+            get => _Soyuz_FlashPawns != null ? 
+                   _Soyuz_FlashPawns : _Soyuz_FlashPawns = "Soyuz.FlashPawns".Translate();
         }             
-                              
+                           
+        private static TaggedString _Soyuz_AlwaysDilate = null;
         /// <summary> Keyed string with key <c>Soyuz.AlwaysDilate</c> with inner text set to:
         ///
         /// <code>Simulate offscreen behavior</code>
         /// </summary>       
         public static TaggedString Soyuz_AlwaysDilate {
-            get =>  "Soyuz.AlwaysDilate".Translate();
+            get => _Soyuz_AlwaysDilate != null ? 
+                   _Soyuz_AlwaysDilate : _Soyuz_AlwaysDilate = "Soyuz.AlwaysDilate".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_Tab = null;
         /// <summary> Keyed string with key <c>Proton.Tab</c> with inner text set to:
         ///
         /// <code>Alert controls</code>
         /// </summary>       
         public static TaggedString Proton_Tab {
-            get =>  "Proton.Tab".Translate();
+            get => _Proton_Tab != null ? 
+                   _Proton_Tab : _Proton_Tab = "Proton.Tab".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_Colored_ActiveNow = null;
         /// <summary> Keyed string with key <c>Proton.Colored.ActiveNow</c> with inner text set to:
         ///
         /// <code>Active now</code>
         /// </summary>       
         public static TaggedString Proton_Colored_ActiveNow {
-            get =>  "Proton.Colored.ActiveNow".Translate();
+            get => _Proton_Colored_ActiveNow != null ? 
+                   _Proton_Colored_ActiveNow : _Proton_Colored_ActiveNow = "Proton.Colored.ActiveNow".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_Colored_IgnoredAndBad = null;
         /// <summary> Keyed string with key <c>Proton.Colored.IgnoredAndBad</c> with inner text set to:
         ///
         /// <code>Ignored and behaving badly</code>
         /// </summary>       
         public static TaggedString Proton_Colored_IgnoredAndBad {
-            get =>  "Proton.Colored.IgnoredAndBad".Translate();
+            get => _Proton_Colored_IgnoredAndBad != null ? 
+                   _Proton_Colored_IgnoredAndBad : _Proton_Colored_IgnoredAndBad = "Proton.Colored.IgnoredAndBad".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_Colored_DisabledOrBad = null;
         /// <summary> Keyed string with key <c>Proton.Colored.DisabledOrBad</c> with inner text set to:
         ///
         /// <code>Disabled or behaving badly</code>
         /// </summary>       
         public static TaggedString Proton_Colored_DisabledOrBad {
-            get =>  "Proton.Colored.DisabledOrBad".Translate();
+            get => _Proton_Colored_DisabledOrBad != null ? 
+                   _Proton_Colored_DisabledOrBad : _Proton_Colored_DisabledOrBad = "Proton.Colored.DisabledOrBad".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_Colored_Ignored = null;
         /// <summary> Keyed string with key <c>Proton.Colored.Ignored</c> with inner text set to:
         ///
         /// <code>Ignored (for critical alerts)</code>
         /// </summary>       
         public static TaggedString Proton_Colored_Ignored {
-            get =>  "Proton.Colored.Ignored".Translate();
+            get => _Proton_Colored_Ignored != null ? 
+                   _Proton_Colored_Ignored : _Proton_Colored_Ignored = "Proton.Colored.Ignored".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_Enable = null;
         /// <summary> Keyed string with key <c>Proton.Enable</c> with inner text set to:
         ///
         /// <code>Enable alerts controls</code>
         /// </summary>       
         public static TaggedString Proton_Enable {
-            get =>  "Proton.Enable".Translate();
+            get => _Proton_Enable != null ? 
+                   _Proton_Enable : _Proton_Enable = "Proton.Enable".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_DisableAll_P1 = null;
         /// <summary> Keyed string with key <c>Proton.DisableAll.P1</c> with inner text set to:
         ///
         /// <code>DISABLE</code>
         /// </summary>       
         public static TaggedString Proton_DisableAll_P1 {
-            get =>  "Proton.DisableAll.P1".Translate();
+            get => _Proton_DisableAll_P1 != null ? 
+                   _Proton_DisableAll_P1 : _Proton_DisableAll_P1 = "Proton.DisableAll.P1".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_DisableAll_P2 = null;
         /// <summary> Keyed string with key <c>Proton.DisableAll.P2</c> with inner text set to:
         ///
         /// <code>all alerts</code>
         /// </summary>       
         public static TaggedString Proton_DisableAll_P2 {
-            get =>  "Proton.DisableAll.P2".Translate();
+            get => _Proton_DisableAll_P2 != null ? 
+                   _Proton_DisableAll_P2 : _Proton_DisableAll_P2 = "Proton.DisableAll.P2".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_Disabled = null;
         /// <summary> Keyed string with key <c>Proton.Disabled</c> with inner text set to:
         ///
         /// <code>Controls disabled</code>
         /// </summary>       
         public static TaggedString Proton_Disabled {
-            get =>  "Proton.Disabled".Translate();
+            get => _Proton_Disabled != null ? 
+                   _Proton_Disabled : _Proton_Disabled = "Proton.Disabled".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_AlertsDisabled = null;
         /// <summary> Keyed string with key <c>Proton.AlertsDisabled</c> with inner text set to:
         ///
         /// <code>All alerts are disabled</code>
         /// </summary>       
         public static TaggedString Proton_AlertsDisabled {
-            get =>  "Proton.AlertsDisabled".Translate();
+            get => _Proton_AlertsDisabled != null ? 
+                   _Proton_AlertsDisabled : _Proton_AlertsDisabled = "Proton.AlertsDisabled".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_MaxIn = null;
         /// <summary> Keyed string with key <c>Proton.MaxIn</c> with inner text set to:
         ///
         /// <code>Max execution in</code>
         /// </summary>       
         public static TaggedString Proton_MaxIn {
-            get =>  "Proton.MaxIn".Translate();
+            get => _Proton_MaxIn != null ? 
+                   _Proton_MaxIn : _Proton_MaxIn = "Proton.MaxIn".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_MinUpdate = null;
         /// <summary> Keyed string with key <c>Proton.MinUpdate</c> with inner text set to:
         ///
         /// <code>Min update interval</code>
         /// </summary>       
         public static TaggedString Proton_MinUpdate {
-            get =>  "Proton.MinUpdate".Translate();
+            get => _Proton_MinUpdate != null ? 
+                   _Proton_MinUpdate : _Proton_MinUpdate = "Proton.MinUpdate".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_Enabled = null;
         /// <summary> Keyed string with key <c>Proton.Enabled</c> with inner text set to:
         ///
         /// <code>Enabled</code>
         /// </summary>       
         public static TaggedString Proton_Enabled {
-            get =>  "Proton.Enabled".Translate();
+            get => _Proton_Enabled != null ? 
+                   _Proton_Enabled : _Proton_Enabled = "Proton.Enabled".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_IgnoreThis = null;
         /// <summary> Keyed string with key <c>Proton.IgnoreThis</c> with inner text set to:
         ///
         /// <code>Ignore this (will revert to vanilla behavior)</code>
         /// </summary>       
         public static TaggedString Proton_IgnoreThis {
-            get =>  "Proton.IgnoreThis".Translate();
+            get => _Proton_IgnoreThis != null ? 
+                   _Proton_IgnoreThis : _Proton_IgnoreThis = "Proton.IgnoreThis".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_AlertName = null;
         /// <summary> Keyed string with key <c>Proton.AlertName</c> with inner text set to:
         ///
         /// <code>Alert name</code>
         /// </summary>       
         public static TaggedString Proton_AlertName {
-            get =>  "Proton.AlertName".Translate();
+            get => _Proton_AlertName != null ? 
+                   _Proton_AlertName : _Proton_AlertName = "Proton.AlertName".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_Avg = null;
         /// <summary> Keyed string with key <c>Proton.Avg</c> with inner text set to:
         ///
         /// <code>Average execution time</code>
         /// </summary>       
         public static TaggedString Proton_Avg {
-            get =>  "Proton.Avg".Translate();
+            get => _Proton_Avg != null ? 
+                   _Proton_Avg : _Proton_Avg = "Proton.Avg".Translate();
         }             
-                              
+                           
+        private static TaggedString _Proton_TimeSinceLast = null;
         /// <summary> Keyed string with key <c>Proton.TimeSinceLast</c> with inner text set to:
         ///
         /// <code>Time since last update</code>
         /// </summary>       
         public static TaggedString Proton_TimeSinceLast {
-            get =>  "Proton.TimeSinceLast".Translate();
+            get => _Proton_TimeSinceLast != null ? 
+                   _Proton_TimeSinceLast : _Proton_TimeSinceLast = "Proton.TimeSinceLast".Translate();
         }             
     }
 }
