@@ -44,7 +44,7 @@ namespace RocketMan
             doCloseX = false;
             layer = WindowLayer.Super;
             this.finishedAction = finishedAction;
-            this.message = "RocketMan.IncompatibilityWindow.Description".Translate();
+            this.message = KeyedResources.RocketMan_IncompatibilityWindow_Description;
             int counter = 0;
             foreach (string m in IncompatibilityHelper.incompatibleMods)
             {
@@ -85,7 +85,7 @@ namespace RocketMan
                 standard.Label("Are you <color=red>sure</color> you understand what can happen if you <color=red>continue</color>?");
                 if (SecondsElapsed > COUNTDOWN_LENGTH)
                 {
-                    if (standard.ButtonText("RocketMan.IUnderstand".Translate()))
+                    if (standard.ButtonText(KeyedResources.RocketMan_IUnderstand))
                     {
                         stopwatch.Stop();
                         finished = true;
@@ -95,11 +95,11 @@ namespace RocketMan
                     standard.Gap();
                     Text.Font = GameFont.Tiny;
                     Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                    standard.Label("<color=gray>" + "RocketMan.ChangeBack".Translate() + "</color>");
+                    standard.Label("<color=gray>" + KeyedResources.RocketMan_ChangeBack + "</color>");
                     Text.Font = GameFont.Small;
                     Text.CurFontStyle.fontStyle = FontStyle.BoldAndItalic;
                     standard.Gap();
-                    if (standard.ButtonText("RocketMan.OpenModList".Translate()))
+                    if (standard.ButtonText(KeyedResources.RocketMan_OpenModList))
                     {
                         stopwatch.Stop();
                         finished = true;
@@ -110,7 +110,7 @@ namespace RocketMan
                     standard.Gap();
                     Text.Font = GameFont.Tiny;
                     Text.Anchor = TextAnchor.UpperLeft;
-                    standard.Label("<color=gray>" + "RocketMan.Disclaimer".Translate() + "</color>");
+                    standard.Label("<color=gray>" + KeyedResources.RocketMan_Disclaimer + "</color>");
                 }
                 else
                 {

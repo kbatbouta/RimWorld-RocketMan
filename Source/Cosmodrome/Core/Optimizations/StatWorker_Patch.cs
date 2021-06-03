@@ -56,69 +56,13 @@ namespace RocketMan.Optimizations
         internal static MethodBase m_GetValueUnfinalized_Transpiler =
             AccessTools.Method(typeof(StatWorker_GetValueUnfinalized_Hijacked_Patch), "Transpiler");
 
-        internal static Dictionary<int, int> signatures = new Dictionary<int, int>();
-
-        internal static Dictionary<int, Tuple<float, int, int>> cache =
-            new Dictionary<int, Tuple<float, int, int>>(1000);
-
-        internal static List<Tuple<int, int, float>> requests = new List<Tuple<int, int, float>>();
-
-        internal static Dictionary<int, float> expiryCache = new Dictionary<int, float>();
-        internal static List<string> messages = new List<string>();
-
-        internal static int counter;
-        internal static int cleanUps;
-
-        private static Stopwatch expiryStopWatch = new Stopwatch();
-
-        internal static void ProcessExpiryCache()
-        {
-            if (requests.Count == 0 || Find.TickManager == null)
-                return;
-            expiryStopWatch.Reset();
-            expiryStopWatch.Start();
-            if (RocketPrefs.Learning && !Find.TickManager.Paused && Find.TickManager.TickRateMultiplier <= 3f)
-                if (counter++ % 20 == 0 && expiryCache.Count != 0)
-                {
-                    foreach (var unit in expiryCache)
-                    {
-                        RocketStates.StatExpiry[unit.Key] = (byte)Mathf.Clamp(unit.Value, 0f, 255f);
-                        cleanUps++;
-                    }
-                    expiryCache.Clear();
-                }
-
-            while (requests.Count > 0 && expiryStopWatch.ElapsedMilliseconds <= 1)
-            {
-                Tuple<int, int, float> request;
-                request = requests.Pop();
-                var statIndex = request.Item1;
-
-                var deltaT = Mathf.Abs(request.Item2);
-                var deltaX = Mathf.Abs(request.Item3);
-
-                if (expiryCache.TryGetValue(statIndex, out var value))
-                    expiryCache[statIndex] +=
-                        Mathf.Clamp(RocketPrefs.LearningRate * (deltaT / 100 - deltaX * deltaT), -5, 5);
-                else
-                    expiryCache[statIndex] = RocketStates.StatExpiry[statIndex];
-            }
-            expiryStopWatch.Stop();
-        }
-
-        [Main.OnTickLong]
-        public static void CleanCache()
-        {
-            if (Find.TickManager.TickRateMultiplier <= 3f)
-                cache.Clear();
-        }
+        internal static Dictionary<int, Tuple<float, int, int>> cache = new Dictionary<int, Tuple<float, int, int>>();
 
         public static void Dirty(Pawn pawn)
         {
-            var signature = pawn.GetSignature(true);
-#if DEBUG
-            if (RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: changed signature for pawn {0} to {1}", pawn, signature));
-#endif
+            int signature = pawn.GetSignature(true);
+            if (RocketDebugPrefs.Debug && RocketDebugPrefs.StatLogging)
+                Log.Message(string.Format("ROCKETMAN: changed signature for pawn {0} to {1}", pawn, signature));
         }
 
         internal static IEnumerable<MethodBase> TargetMethodsUnfinalized()
@@ -143,26 +87,24 @@ namespace RocketMan.Optimizations
 
         public static IEnumerable<MethodBase> TargetMethods()
         {
-            var methods = TargetMethodsUnfinalized().Where(m => true
-                                                                && m != null
-                                                                && !m.IsAbstract
-                                                                && m.HasMethodBody()
-                                                                && !m.DeclaringType.IsAbstract).ToHashSet();
-
-            return methods;
+            return TargetMethodsUnfinalized()
+                .Where(m => true && m != null && m.IsValidTarget())
+                .ToHashSet();
         }
 
         public static float UpdateCache(int key, StatWorker statWorker, StatRequest req, bool applyPostProcess,
-            int tick, Tuple<float, int, int> store)
+            int tick, Tuple<float, int, int> store, int signature)
         {
-            var value = statWorker.GetValueUnfinalized(req, applyPostProcess);
-            if (RocketPrefs.Learning)
+            float value = statWorker.GetValueUnfinalized(req, applyPostProcess);
+            if (RocketPrefs.Learning && store != null)
             {
-                requests.Add(new Tuple<int, int, float>(statWorker.stat.index, tick - (store?.Item2 ?? tick),
-                    Mathf.Abs(value - (store?.Item1 ?? value))));
-                if (Rand.Chance(0.1f)) ProcessExpiryCache();
+                float t = RocketStates.StatExpiry[statWorker.stat.index];
+                float T = (tick - store.Item2);
+                float a = Mathf.Abs(value - store.Item1) / Mathf.Max(value, store.Item1, 1f);
+                RocketStates.StatExpiry[statWorker.stat.index] = Mathf.Clamp(
+                        t - Mathf.Clamp(RocketPrefs.LearningRate * (T * a - t), -0.1f, 0.25f),
+                        0f, 1024f);
             }
-
             cache[key] = new Tuple<float, int, int>(value, tick, req.thingInt?.GetSignature() ?? -1);
             return value;
         }
@@ -176,14 +118,14 @@ namespace RocketMan.Optimizations
                 && tick >= 600
                 && !IgnoreMeDatabase.ShouldIgnore(statWorker.stat))
             {
-                var key = Tools.GetKey(statWorker, req, applyPostProcess);
-                var signature = req.thingInt?.GetSignature() ?? -1;
+                int key = Tools.GetKey(statWorker, req, applyPostProcess);
+                int signature = req.thingInt?.GetSignature() ?? -1;
 
                 if (!cache.TryGetValue(key, out var store))
-                    return UpdateCache(key, statWorker, req, applyPostProcess, tick, store);
+                    return UpdateCache(key, statWorker, req, applyPostProcess, tick, store, signature);
 
                 if (tick - store.Item2 - 1 > RocketStates.StatExpiry[statWorker.stat.index] || signature != store.Item3)
-                    return UpdateCache(key, statWorker, req, applyPostProcess, tick, store);
+                    return UpdateCache(key, statWorker, req, applyPostProcess, tick, store, signature);
                 return store.Item1;
             }
             return statWorker.GetValueUnfinalized(req, applyPostProcess);

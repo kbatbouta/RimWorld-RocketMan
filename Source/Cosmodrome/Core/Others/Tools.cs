@@ -46,8 +46,7 @@ namespace RocketMan
             }
             catch (Exception er)
             {
-                if (RocketDebugPrefs.Debug) Log.Warning(string.Format("ROCKETMAN: Notify_Dirty error of {0} at {1}",
-                        er.Message, er.StackTrace));
+                Log.Warning(string.Format("ROCKETMAN: Notify_Dirty error of {0} at {1}", er.Message, er.StackTrace));
             }
         }
 

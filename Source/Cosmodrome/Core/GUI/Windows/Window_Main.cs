@@ -55,8 +55,6 @@ namespace RocketMan
                 // TODO fix this mess
                 // For profiling reasons...
                 RocketStates.LastFrame = Time.frameCount;
-                // For Stat settings reason...
-                RocketMod.ReadStats();
                 // Actual work                                
                 GUI.color = Color.white;
                 // Create the RocketMan stamp
@@ -94,6 +92,7 @@ namespace RocketMan
             base.Close(doCloseSound);
             RocketDebugPrefs.DogData = false;
             Finder.RocketManWindow = null;
+            RocketMod.Settings.Write();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace RocketMan
 {
     public partial class RocketMod
     {
-        [Main.OnTick]
+        [Main.OnTickLong]
         [Main.OnDefsLoaded]
         public static void UpdateExceptions()
         {

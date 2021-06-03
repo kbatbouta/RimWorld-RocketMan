@@ -11,7 +11,7 @@ namespace RocketMan
 
         public static int SingleTickLeft = 0;
 
-        public static byte[] StatExpiry = new byte[ushort.MaxValue];
+        public static float[] StatExpiry = new float[ushort.MaxValue];
 
         public static bool[] DilatedDefs = new bool[ushort.MaxValue];
 

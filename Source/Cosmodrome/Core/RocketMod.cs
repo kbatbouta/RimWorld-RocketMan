@@ -12,17 +12,13 @@ namespace RocketMan
 {
     public partial class RocketMod : Mod
     {
-        private static RocketModSettings settings;
-
         private static readonly Listing_Standard standard = new Listing_Standard();
 
         private static List<StatSettings> statsSettings = new List<StatSettings>();
 
-        private static List<DilationSettings> dilationSettings = new List<DilationSettings>();
-
-        private static string searchString = "";
-
         private static int frameCounter = 0;
+
+        public static RocketModSettings Settings;
 
         public static RocketMod instance;
 
@@ -58,7 +54,7 @@ namespace RocketMan
                 foreach (var action in Main.onInitialization)
                     action.Invoke();
                 instance = this;
-                settings = GetSettings<RocketModSettings>();
+                Settings = GetSettings<RocketModSettings>();
                 UpdateExceptions();
             }
         }
@@ -107,22 +103,15 @@ namespace RocketMan
 
         public override void WriteSettings()
         {
-            if (RocketPrefs.WarmingUp)
-                return;
-            else
+            if (!RocketPrefs.WarmingUp)
             {
-                UpdateStats();
-                UpdateDilationDefs();
-                UpdateExceptions();
+                Settings.Write();
                 base.WriteSettings();
             }
         }
 
         public static void DoSettings(Rect inRect, bool doStats = true, Action<Listing_Standard> extras = null)
         {
-            ReadStats();
-            ReadDilationSettings();
-
             var font = Text.Font;
             var anchor = Text.Anchor;
             var style = Text.CurFontStyle.fontStyle;
@@ -188,7 +177,7 @@ namespace RocketMan
                 }
             }
             standard.End();
-            try { if (frameCounter++ % 5 == 0 && !RocketPrefs.WarmingUp) settings.Write(); }
+            try { if (frameCounter++ % 90 == 0 && !RocketPrefs.WarmingUp) Settings.Write(); }
             catch (Exception er) { Log.Warning($"ROCKETMAN:[NOTANERROR] Writing settings failed with error {er}"); }
             Text.Font = font;
             Text.Anchor = anchor;
@@ -208,201 +197,60 @@ namespace RocketMan
             RocketStates.SingleTickIncrement = false;
         }
 
-        public static void DoStatSettings(Rect rect)
+        private static void WriteStats()
         {
-            UpdateStats();
-            var counter = 0;
-            var font = Text.Font;
-            var anchor = Text.Anchor;
-            Text.Font = GameFont.Small;
-            searchString = Widgets
-                .TextArea(rect.TopPartPixels(25), searchString)
-                .ToLower();
-            rect.yMin += 35;
-            Widgets.DrawMenuSection(rect);
-            rect.yMax -= 5;
-            rect.xMax -= 5;
-            Widgets.BeginScrollView(rect.ContractedBy(1), ref scrollPositionStatSettings,
-                new Rect(Vector2.zero, new Vector2(rect.width - 15, statsSettings.Count * 54)));
-            Text.Font = GameFont.Tiny;
-            Vector2 size = new Vector2(rect.width - 20, 54);
-            Rect curRect = new Rect(new Vector2(2, 2), size);
-            foreach (var settings in statsSettings)
-            {
-                if (searchString.Trim() == "" || settings.stat.ToLower().Contains(searchString))
-                {
-                    Rect rowRect = curRect.ContractedBy(5);
-                    Text.Font = GameFont.Tiny;
-                    Text.Anchor = TextAnchor.MiddleLeft;
-                    if (counter % 2 == 0)
-                        Widgets.DrawBoxSolid(curRect, new Color(0.2f, 0.2f, 0.2f));
-                    Widgets.DrawHighlightIfMouseover(curRect);
-                    Widgets.Label(rowRect.TopHalf(), string.Format("{0}. {1} set to expire in {2} ticks", counter++,
-                        settings.stat,
-                        settings.expireAfter));
-                    settings.expireAfter =
-                        (byte)Widgets.HorizontalSlider(rowRect.BottomHalf(), settings.expireAfter, 0, 255);
-                    curRect.y += size.y;
-                }
-            }
-            Widgets.EndScrollView();
-            Text.Font = font;
-            Text.Anchor = anchor;
-
-            foreach (var setting in statsSettings)
-                RocketStates.StatExpiry[DefDatabase<StatDef>.defsByName[setting.stat].index] = (byte)setting.expireAfter;
-
-            if (!RocketPrefs.WarmingUp && (WarmUpMapComponent.current?.Finished ?? true))
-            {
-                instance.WriteSettings();
-                UpdateExceptions();
-            }
-        }
-
-        public static void ReadStats()
-        {
-            if (statsSettings == null || statsSettings.Count == 0) return;
-
-            foreach (var setting in statsSettings)
-                setting.expireAfter = RocketStates.StatExpiry[DefDatabase<StatDef>.defsByName[setting.stat].index];
-        }
-
-        public static void ReadDilationSettings()
-        {
-            if (dilationSettings == null || dilationSettings.Count == 0) return;
-
-            foreach (var setting in dilationSettings)
-            {
-                if (DefDatabase<ThingDef>.defsByName.TryGetValue(setting.def, out var td))
-                    setting.dilated = RocketStates.DilatedDefs[td.index];
-                else
-                    Log.Warning("ROCKETMAN: Failed to find stat upon reloading!");
-            }
-        }
-
-        [Main.OnDefsLoaded]
-        public static void UpdateDilationDefs()
-        {
-            if (dilationSettings == null) dilationSettings = new List<DilationSettings>();
-            var failed = false;
-            var defs = DefDatabase<ThingDef>.AllDefs.Where(
-                d => d.race != null).ToList();
-            if (statsSettings.Count != defs.Count())
-            {
-                dilationSettings.Clear();
-                foreach (var def in defs)
-                    dilationSettings.Add(new DilationSettings()
-                    {
-                        def = def.defName,
-                        dilated = def.race.Animal && !def.race.IsMechanoid && !def.race.Humanlike
-                    });
-            }
-
-            foreach (var setting in dilationSettings)
-            {
-                if (setting?.def != null && DefDatabase<ThingDef>.defsByName.TryGetValue(setting.def, out ThingDef def))
-                    RocketStates.DilatedDefs[def.index] = setting.dilated;
-                else
-                {
-                    failed = true;
-                    break;
-                }
-            }
-            if (failed)
-            {
-                Log.Warning("SOYUZ: Failed to reindex the ThingDef database");
-                statsSettings.Clear();
-
-                UpdateStats();
-            }
-        }
-
-        public static void Reset()
-        {
-            var defs = DefDatabase<StatDef>.AllDefs;
-            statsSettings.Clear();
-            foreach (var def in defs)
-                statsSettings.Add(new StatSettings
-                { stat = def.defName, expireAfter = def.defName.PredictValueFromString() });
-            var failed = false;
-            foreach (var setting in statsSettings)
-            {
-                if (setting?.stat != null && DefDatabase<StatDef>.defsByName.TryGetValue(setting.stat, out StatDef def))
-                    RocketStates.StatExpiry[def.index] = (byte)setting.expireAfter;
-                else
-                {
-                    failed = true;
-                    break;
-                }
-            }
-            if (failed)
-            {
-                Log.Warning("SOYUZ: Failed to reindex the statDef database");
-                statsSettings.Clear();
-
-                UpdateStats();
-            }
-            dilationSettings.Clear();
-            UpdateDilationDefs();
-            UpdateExceptions();
-        }
-
-        [Main.OnDefsLoaded]
-        public static void UpdateStats()
-        {
-            if (statsSettings == null) statsSettings = new List<StatSettings>();
-
-            var defs = DefDatabase<StatDef>.AllDefs;
-            if (statsSettings.Count != defs.Count())
-            {
-                statsSettings.Clear();
-                foreach (var def in defs)
-                    statsSettings.Add(new StatSettings
-                    { stat = def.defName, expireAfter = def.defName.PredictValueFromString() });
-            }
-            bool failed = false;
+            if (false
+                || statsSettings == null
+                || statsSettings.Count == 0
+                || statsSettings.Count != DefDatabase<StatDef>.DefCount)
+                BuildStatSettings();
             foreach (StatSettings settings in statsSettings)
             {
-                if (settings?.stat != null && DefDatabase<StatDef>.defsByName.TryGetValue(settings.stat, out StatDef def))
-                    RocketStates.StatExpiry[def.index] = (byte)settings.expireAfter;
-                else
-                {
-                    failed = true;
-                    break;
-                }
+                if (DefDatabase<StatDef>.defsByName.TryGetValue(settings.defName, out StatDef def))
+                    settings.expireAfter = RocketStates.StatExpiry[def.index];
             }
-            if (failed)
+        }
+
+        [Main.OnDefsLoaded]
+        private static void ReadStats()
+        {
+            if (false
+                || statsSettings == null
+                || statsSettings.Count == 0
+                || statsSettings.Count != DefDatabase<StatDef>.DefCount)
+                BuildStatSettings();
+            foreach (StatSettings settings in statsSettings)
             {
-                Log.Warning("Failed to reindex the statDef database");
-                statsSettings.Clear();
-
-                UpdateStats();
+                if (DefDatabase<StatDef>.defsByName.TryGetValue(settings.defName, out StatDef def))
+                    RocketStates.StatExpiry[def.index] = settings.expireAfter;
             }
+        }
 
-            UpdateExceptions();
+        private static void BuildStatSettings()
+        {
+            statsSettings = new List<StatSettings>();
+            foreach (StatDef stat in DefDatabase<StatDef>.AllDefs)
+                statsSettings.Add(new StatSettings(stat));
         }
 
         public class StatSettings : IExposable
         {
-            public int expireAfter;
-            public string stat;
+            public float expireAfter;
+            public string defName;
 
-            public void ExposeData()
+            public StatSettings() { }
+
+            public StatSettings(StatDef statDef)
             {
-                Scribe_Values.Look(ref stat, "statDef");
-                Scribe_Values.Look(ref expireAfter, "expiryTime", 5);
+                this.defName = statDef.defName;
+                this.expireAfter = Tools.PredictValueFromString(defName);
+                RocketStates.StatExpiry[statDef.index] = expireAfter;
             }
-        }
-
-        public class DilationSettings : IExposable
-        {
-            public bool dilated = true;
-            public string def;
 
             public void ExposeData()
             {
-                Scribe_Values.Look(ref def, "def");
-                Scribe_Values.Look(ref dilated, "dilated");
+                Scribe_Values.Look(ref defName, "defName");
+                Scribe_Values.Look(ref expireAfter, "expiryTime_newTemp", 5f);
             }
         }
 
@@ -411,8 +259,9 @@ namespace RocketMan
             public override void ExposeData()
             {
                 base.ExposeData();
+                if (Scribe.mode == LoadSaveMode.Saving) WriteStats();
                 if (Scribe.mode == LoadSaveMode.Saving && RocketPrefs.WarmingUp && !(WarmUpMapComponent.current?.Finished ?? true)) WarmUpMapComponent.current.AbortWarmUp();
-                if (Scribe.mode == LoadSaveMode.LoadingVars) ReadStats();
+                if (Scribe.mode != LoadSaveMode.Saving) ReadStats();
 
                 Scribe_Values.Look(ref RocketPrefs.Enabled, "enabled", true);
                 Scribe_Values.Look(ref RocketPrefs.StatGearCachingEnabled, "statGearCachingEnabled", true);
@@ -434,7 +283,10 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.MainButtonToggle, "mainButtonToggle", true);
                 Scribe_Values.Look(ref RocketPrefs.CorpsesRemovalEnabled, "corpsesRemovalEnabled", false);
                 Scribe_Collections.Look(ref statsSettings, "statsSettings", LookMode.Deep);
-                Scribe_Collections.Look(ref dilationSettings, "dilationSettings", LookMode.Deep);
+                if (statsSettings == null)
+                {
+                    statsSettings = new List<StatSettings>();
+                }
                 RocketPrefs.TimeDilationCaravans = false;
                 foreach (var action in Main.onScribe)
                     action.Invoke();
