@@ -19,8 +19,10 @@ namespace Proton
         {
             Scribe_Values.Look(ref executionTimeLimit, "executionTimeLimit_NewTemp", 35);
             Scribe_Values.Look(ref minInterval, "minInterval_NewTemp", 2f);
+
             List<AlertSettings> alertsSettings = Context.alertSettingsByIndex?.ToList() ?? new List<AlertSettings>();
             Scribe_Collections.Look(ref alertsSettings, "settings", LookMode.Deep);
+
             if (Scribe.mode != LoadSaveMode.Saving && alertsSettings != null)
             {
                 foreach (var s in alertsSettings)

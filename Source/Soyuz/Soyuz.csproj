@@ -24,8 +24,9 @@
         <NoStdLib>true</NoStdLib>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DebugType>full</DebugType>
         <OutputPath>..\..\1.2\Plugins</OutputPath>
-        <DefineConstants>TRACE;DEBUG</DefineConstants>
+        <DefineConstants>TRACE;DEBUG;NETFRAMEWORK;NET472;</DefineConstants>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <NoStdLib>true</NoStdLib>
     </PropertyGroup>

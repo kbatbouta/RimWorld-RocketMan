@@ -41,11 +41,12 @@ namespace RocketMan
             foreach (var method in RocketAssembliesInfo.Assemblies
                 //.Where(ass => !ass.FullName.Contains("System") && !ass.FullName.Contains("VideoTool"))                
                 .SelectMany(a => AccessTools.GetTypesFromAssembly(a))
-                .SelectMany(t => t.GetMethods())
+                .SelectMany(t => AccessTools.GetDeclaredMethods(t))
                 .Where(m => m.HasAttribute<T>())
                 .ToArray())
             {
-                if (Prefs.DevMode && RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: Found action with attribute {0}, {1}:{2}", typeof(T).Name,
+                // if (Prefs.DevMode && RocketDebugPrefs.Debug)
+                Log.Message(string.Format("ROCKETMAN: Found action with attribute {0}, {1}:{2}", typeof(T).Name,
                      method.DeclaringType.Name, method.Name));
                 yield return () => { method.Invoke(null, null); };
             }
@@ -56,11 +57,12 @@ namespace RocketMan
             foreach (var method in RocketAssembliesInfo.Assemblies
                 //.Where(ass => !ass.FullName.Contains("System") && !ass.FullName.Contains("VideoTool"))
                 .SelectMany(a => AccessTools.GetTypesFromAssembly(a))
-                .SelectMany(t => t.GetMethods())
+                .SelectMany(t => AccessTools.GetDeclaredMethods(t))
                 .Where(m => m.HasAttribute<T>())
                 .ToArray())
             {
-                if (Prefs.DevMode && RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: Found function with attribute {0}, {1}:{2}", typeof(T).Name,
+                // if (Prefs.DevMode && RocketDebugPrefs.Debug)
+                Log.Message(string.Format("ROCKETMAN: Found function with attribute {0}, {1}:{2}", typeof(T).Name,
                     method.DeclaringType.Name, method.Name));
                 yield return () => { return (P)method.Invoke(null, null); };
             }
@@ -71,11 +73,12 @@ namespace RocketMan
             foreach (var method in RocketAssembliesInfo.Assemblies
                 //.Where(ass => !ass.FullName.Contains("System") && !ass.FullName.Contains("VideoTool"))
                 .SelectMany(a => AccessTools.GetTypesFromAssembly(a))
-                .SelectMany(t => t.GetMethods())
+                .SelectMany(t => AccessTools.GetDeclaredMethods(t))
                 .Where(m => m.HasAttribute<T>())
                 .ToArray())
             {
-                if (Prefs.DevMode && RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: Found function with attribute {0}, {1}:{2}", typeof(T).Name,
+                // if (Prefs.DevMode && RocketDebugPrefs.Debug)
+                Log.Message(string.Format("ROCKETMAN: Found function with attribute {0}, {1}:{2}", typeof(T).Name,
                     method.DeclaringType.Name, method.Name));
                 yield return (input) => (K)method.Invoke(null, new object[] { input });
             }
@@ -86,11 +89,12 @@ namespace RocketMan
             foreach (var method in RocketAssembliesInfo.Assemblies
                 //.Where(ass => !ass.FullName.Contains("System") && !ass.FullName.Contains("VideoTool"))
                 .SelectMany(a => AccessTools.GetTypesFromAssembly(a))
-                .SelectMany(t => t.GetMethods())
+                .SelectMany(t => AccessTools.GetDeclaredMethods(t))
                 .Where(m => m.HasAttribute<T>())
                 .ToArray())
             {
-                if (Prefs.DevMode && RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: Found function with attribute {0}, {1}:{2}", typeof(T).Name,
+                // if (Prefs.DevMode && RocketDebugPrefs.Debug)
+                Log.Message(string.Format("ROCKETMAN: Found function with attribute {0}, {1}:{2}", typeof(T).Name,
                     method.DeclaringType.Name, method.Name));
                 yield return (input1, input2) => (U)method.Invoke(null, new object[] { input1, input2 });
             }

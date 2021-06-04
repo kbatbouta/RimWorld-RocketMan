@@ -11,6 +11,10 @@ namespace Proton
         [Main.OnScribe]
         public static void PostScribe()
         {
+            if (Find.World == null)
+            {
+                Log.Message("PROTON: Scribed proton settings");
+            }
             Scribe_Deep.Look(ref Context.settings, "protonSettings");
             if (Context.settings == null)
             {

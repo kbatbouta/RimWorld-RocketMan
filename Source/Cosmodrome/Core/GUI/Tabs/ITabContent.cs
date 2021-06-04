@@ -12,6 +12,10 @@ namespace RocketMan.Tabs
             get => selected;
             set
             {
+                if (selected == value)
+                {
+                    return;
+                }
                 selected = value;
                 if (value) OnSelect();
                 else OnDeselect();
@@ -27,12 +31,18 @@ namespace RocketMan.Tabs
 
         public virtual void OnSelect()
         {
+            if (!RocketPrefs.WarmingUp)
+            {
+                RocketMod.Settings.Write();
+            }
         }
 
         public virtual void OnDeselect()
         {
             if (!RocketPrefs.WarmingUp)
+            {
                 RocketMod.Settings.Write();
+            }
         }
     }
 }
