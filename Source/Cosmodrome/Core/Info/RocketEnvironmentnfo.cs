@@ -58,6 +58,11 @@ namespace RocketMan
             get => Path.Combine(Directory.GetParent(GenFilePaths.ConfigFolderPath).FullName, "RocketMan");
         }
 
+        public static string RocketSettingsPath
+        {
+            get => Path.Combine(CustomConfigFolderPath, GenText.SanitizeFilename($"Mod_{RocketMod.Instance.Content.FolderName}_{RocketMod.Instance.GetType().Name}.xml"));
+        }
+
         public static bool IncompatibilityUnresolved = false;
 
         public static bool SoyuzLoaded = false;

@@ -121,18 +121,18 @@ namespace Soyuz.Tabs
                 heightLambda: (raceSettings) =>
                 {
                     if (searchString?.Trim().NullOrEmpty() ?? true)
-                        return raceSettings.pawnDef != null ? 45f : -0.1f;
-                    return raceSettings.pawnDef != null ?
-                    (raceSettings.pawnDef.label != null && raceSettings.pawnDef.label.ToLower().Contains(searchString) ? 45f : -0.1f)
+                        return raceSettings.def != null ? 45f : -0.1f;
+                    return raceSettings.def != null ?
+                    (raceSettings.def.label != null && raceSettings.def.label.ToLower().Contains(searchString) ? 45f : -0.1f)
                     : -0.1f;
                 },
                 elementLambda: (rect, raceSettings) =>
                 {
                     if (Widgets.ButtonInvisible(rect))
                         currentSettings = raceSettings;
-                    bool ignored = IgnoreMeDatabase.ShouldIgnore(raceSettings.pawnDef);
+                    bool ignored = IgnoreMeDatabase.ShouldIgnore(raceSettings.def);
                     DoColorBars(ref rect, raceSettings, ignored);
-                    Widgets.DefLabelWithIcon(rect, iconMargin: 4, def: raceSettings.pawnDef);
+                    Widgets.DefLabelWithIcon(rect, iconMargin: 4, def: raceSettings.def);
                 }
             );
         }
@@ -154,19 +154,19 @@ namespace Soyuz.Tabs
                 Text.CurFontStyle.fontStyle = FontStyle.Bold;
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Rect titleRect = rect.TopPartPixels(27);
-                Widgets.Label(titleRect, (settings.pawnDef.label.CapitalizeFirst() ?? settings.pawnDef.defName));
+                Widgets.Label(titleRect, (settings.def.label.CapitalizeFirst() ?? settings.def.defName));
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.MiddleRight;
                 Text.CurFontStyle.fontStyle = FontStyle.Normal;
                 titleRect.xMax -= 25;
-                Widgets.Label(titleRect.RightPart(0.7f), "<color=gray >[" + (settings.pawnDef.modContentPack?.Name ?? "UNKNOWN") + "]</color>");
+                Widgets.Label(titleRect.RightPart(0.7f), "<color=gray >[" + (settings.def.modContentPack?.Name ?? "UNKNOWN") + "]</color>");
             });
             rect.yMin += 30;
             Listing_Standard standard = new Listing_Standard(GameFont.Tiny);
             Text.Font = GameFont.Tiny;
             Text.CurFontStyle.fontStyle = FontStyle.Normal;
             standard.Begin(rect);
-            if (!IgnoreMeDatabase.ShouldIgnore(currentSettings.pawnDef))
+            if (!IgnoreMeDatabase.ShouldIgnore(currentSettings.def))
             {
                 Text.Anchor = TextAnchor.MiddleLeft;
                 standard.CheckboxLabeled("Soyuz.Current.Enable".Translate(),
@@ -175,17 +175,17 @@ namespace Soyuz.Tabs
                     ref currentSettings.ignoreFactions);
                 standard.CheckboxLabeled("Soyuz.Current.IgnorePlayerFaction".Translate(),
                     ref currentSettings.ignorePlayerFaction);
-                currentSettings.Cache();
+                currentSettings.Prepare();
             }
             else if (currentSettings.isFastMoving)
             {
                 standard.Label("<color=yellow>" + "Soyuz.Current.FastPawn".Translate() + "</color>");
-                standard.Label("Soyuz.Current.MoveSpeed".Translate().Formatted(currentSettings.pawnDef.GetStatValueAbstract(StatDefOf.MoveSpeed)));
+                standard.Label("Soyuz.Current.MoveSpeed".Translate().Formatted(currentSettings.def.GetStatValueAbstract(StatDefOf.MoveSpeed)));
             }
             else
             {
                 standard.Label("<color=yellow>" + "Soyuz.Current.Ignored".Translate() + "</color>");
-                standard.Label(IgnoreMeDatabase.Report(currentSettings.pawnDef));
+                standard.Label(IgnoreMeDatabase.Report(currentSettings.def));
             }
             standard.End();
 

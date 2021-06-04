@@ -21,7 +21,7 @@ namespace Proton
 
         public bool Enabled
         {
-            get => enabledInt && (avgT < Context.settings.executionTimeLimit || counter < 15 || ignored);
+            get => enabledInt && (avgT < Context.Settings.executionTimeLimit || counter < 15 || ignored);
             set
             {
                 enabledInt = value;
@@ -52,12 +52,12 @@ namespace Proton
                     return true;
                 if (ignored)
                     return true;
-                if (avgT >= Context.settings.executionTimeLimit)
+                if (avgT >= Context.Settings.executionTimeLimit)
                     return false;
                 float elapsedSeconds = ((float)stopwatch.ElapsedTicks / Stopwatch.Frequency);
                 if (avgT > 2.5f)
                     return elapsedSeconds > Math.Min(30f * (avgT - 1.5f), 60);
-                if (elapsedSeconds <= Context.settings.minInterval)
+                if (elapsedSeconds <= Context.Settings.minInterval)
                     return false;
                 if (elapsedSeconds >= 25f)
                     return true;
@@ -94,7 +94,7 @@ namespace Proton
                 stopwatch = new Stopwatch();
                 stopwatch.Start();
             }
-            if (!ignored && counter > 30 && avgT > Context.settings.executionTimeLimit)
+            if (!ignored && counter > 30 && avgT > Context.Settings.executionTimeLimit)
             {
                 enabledInt = false;
                 UpdateAlert();
@@ -123,18 +123,18 @@ namespace Proton
             if (alert != null)
             {
                 if (removeReadout)
-                    Context.readoutInstance.activeAlerts.Remove(alert);
+                    Context.ReadoutInstance.activeAlerts.Remove(alert);
                 alert.cachedActive = false;
                 return;
             }
-            for (int i = 0; i < Context.alerts.Length; i++)
+            for (int i = 0; i < Context.Alerts.Length; i++)
             {
-                if (Context.alertSettingsByIndex[i] == this && Context.alerts[i] != null)
+                if (Context.AlertSettingsByIndex[i] == this && Context.Alerts[i] != null)
                 {
-                    Alert alert = Context.alerts[i];
-                    Context.alertToSettings[alert] = this;
+                    Alert alert = Context.Alerts[i];
+                    Context.AlertToSettings[alert] = this;
                     if (removeReadout)
-                        Context.readoutInstance.activeAlerts.Remove(alert);
+                        Context.ReadoutInstance.activeAlerts.Remove(alert);
                     alert.cachedActive = false;
                 }
             }

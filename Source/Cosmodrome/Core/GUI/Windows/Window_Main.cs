@@ -94,7 +94,7 @@ namespace RocketMan
             Finder.RocketManWindow = null;
             if (!RocketPrefs.WarmingUp)
             {
-                RocketMod.Settings.Write();
+                RocketMod.Instance.WriteSettings();
             }
         }
     }

@@ -26,26 +26,24 @@ namespace Proton
 
         public static void Postfix(AlertsReadout __instance)
         {
-            //
-            //__instance.AllAlerts.SortBy(a => a.GetName());
-            Context.alerts = __instance.AllAlerts.ToArray();
-            Context.alertSettingsByIndex = new AlertSettings[Context.alerts.Length];
+            Context.Alerts = __instance.AllAlerts.ToArray();
+            Context.AlertSettingsByIndex = new AlertSettings[Context.Alerts.Length];
             int index = 0;
-            Context.readoutInstance = __instance;
-            foreach (Alert alert in Context.alerts)
+            Context.ReadoutInstance = __instance;
+            foreach (Alert alert in Context.Alerts)
             {
-                string id = alert.GetType().Name;
-                if (Context.typeIdToSettings.TryGetValue(alert.GetType().Name, out AlertSettings settings))
+                string id = alert.GetType().FullName;
+                if (Context.TypeIdToSettings.TryGetValue(alert.GetType().FullName, out AlertSettings settings))
                 {
-                    Context.alertSettingsByIndex[index] = settings;
+                    Context.AlertSettingsByIndex[index] = settings;
                 }
                 else
                 {
                     settings = new AlertSettings(id);
-                    Context.typeIdToSettings[id] = settings;
-                    Context.alertSettingsByIndex[index] = settings;
+                    Context.TypeIdToSettings[id] = settings;
+                    Context.AlertSettingsByIndex[index] = settings;
                 }
-                Context.alertToSettings[alert] = settings;
+                Context.AlertToSettings[alert] = settings;
                 settings.alert = alert;
                 index++;
             }
@@ -113,7 +111,7 @@ namespace Proton
             for (int i = 0; i < readoutInstance.activeAlerts.Count; i++)
             {
                 Alert alert = readoutInstance.activeAlerts[i];
-                if (Context.alertToSettings.TryGetValue(alert, out AlertSettings settings) && !settings.Enabled)
+                if (Context.AlertToSettings.TryGetValue(alert, out AlertSettings settings) && !settings.Enabled)
                 {
                     settings.UpdateAlert(removeReadout: false);
                     removalList.Add(alert);
@@ -231,7 +229,7 @@ namespace Proton
         {
             if (RocketPrefs.DisableAllAlert)
                 return false;
-            AlertSettings settings = Context.alertSettingsByIndex[index];
+            AlertSettings settings = Context.AlertSettingsByIndex[index];
             if (settings == null)
                 return true;
             return settings.Enabled && settings.ShouldUpdate;
@@ -244,7 +242,7 @@ namespace Proton
 
         private static void StopProfiling(int index)
         {
-            Context.alertSettingsByIndex[index]?.UpdatePerformanceMetrics((float)stopwatch.ElapsedTicks * 1000.0f / (float)Stopwatch.Frequency);
+            Context.AlertSettingsByIndex[index]?.UpdatePerformanceMetrics((float)stopwatch.ElapsedTicks * 1000.0f / (float)Stopwatch.Frequency);
             stopwatch.Stop();
         }
 

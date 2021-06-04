@@ -11,7 +11,7 @@ namespace RocketMan
 {
     public static class Tools
     {
-        public static byte PredictValueFromString(this string name)
+        public static byte PredictStatExpiryFromString(this string name)
         {
             if (false
                 || name.Contains("Combat")

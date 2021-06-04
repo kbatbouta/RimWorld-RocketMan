@@ -18,8 +18,8 @@ namespace RocketMan
 
         public static Window_Main RocketManWindow;
 
-        public static StatSettingsGroup StatSettingsGroup;
-
         public static RocketPluginsLoader PluginsLoader;
+
+        public static StatSettingsGroup StatSettings;
     }
 }

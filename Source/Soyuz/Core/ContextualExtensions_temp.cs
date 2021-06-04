@@ -69,5 +69,22 @@ namespace Soyuz
                 return true;
             return false;
         }
+
+        public static RaceSettings GetRaceSettings(this Pawn pawn)
+        {
+            if (pawn?.def != null && Context.DilationByDef.TryGetValue(pawn.def, out RaceSettings settings))
+            {
+                return settings;
+            }
+            ThingDef def = pawn.def;
+            Context.Settings.AllRaceSettings.Add(settings = new RaceSettings()
+            {
+                def = def,
+                enabled = def.race.Animal && !def.race.Humanlike && !def.race.IsMechanoid,
+                ignoreFactions = false
+            });
+            settings.Prepare();
+            return settings;
+        }
     }
 }

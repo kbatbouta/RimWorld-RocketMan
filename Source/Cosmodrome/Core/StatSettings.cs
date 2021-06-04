@@ -7,11 +7,9 @@ namespace RocketMan
 {
     public class StatSettings : IExposable
     {
-        public float expireAfter;
-
-        public string defName;
-
         public StatDef statDef;
+
+        public float expiryAfter;
 
         public StatSettings()
         {
@@ -20,31 +18,47 @@ namespace RocketMan
         public StatSettings(StatDef statDef)
         {
             this.statDef = statDef;
-            this.defName = statDef.defName;
-            this.expireAfter = Tools.PredictValueFromString(defName);
+            this.expiryAfter = Tools.PredictStatExpiryFromString(statDef.defName);
         }
 
         public void ExposeData()
         {
-            Scribe_Values.Look(ref defName, "defName");
-            Scribe_Values.Look(ref expireAfter, "expiryTime_newTemp", 5f);
+            if (Scribe.mode == LoadSaveMode.Saving && statDef != null)
+            {
+                Resolve();
+            }
+            try
+            {
+                Scribe_Defs.Look(ref statDef, "statDef");
+            }
+            finally
+            {
+                Scribe_Values.Look(ref expiryAfter, "expiryAfter");
+            }
+        }
+
+        public void Prepare()
+        {
+            RocketStates.StatExpiry[statDef.index] = this.expiryAfter;
+        }
+
+        public void Resolve()
+        {
+            this.expiryAfter = RocketStates.StatExpiry[statDef.index];
         }
     }
 
     public class StatSettingsGroup : IExposable
     {
-        public List<StatSettings> AllStatSettings = new List<StatSettings>();
-
-        public StatSettingsGroup()
-        {
-        }
+        public List<StatSettings> AllSettings = new List<StatSettings>();
 
         public void ExposeData()
         {
-            Scribe_Collections.Look(ref AllStatSettings, "statsSettings", LookMode.Deep);
-            if (AllStatSettings == null)
+            Scribe_Collections.Look(ref AllSettings, "AllSettings", LookMode.Deep);
+
+            if (AllSettings == null)
             {
-                AllStatSettings = new List<StatSettings>();
+                AllSettings = new List<StatSettings>();
             }
         }
     }

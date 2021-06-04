@@ -23,9 +23,6 @@ namespace RocketMan
         public static bool Learning = true;
 
         [Main.SettingsField(warmUpValue: false)]
-        public static bool LabelCaching = true;
-
-        [Main.SettingsField(warmUpValue: false)]
         public static bool AlertThrottling = true;
 
         [Main.SettingsField(warmUpValue: false)]
@@ -76,6 +73,7 @@ namespace RocketMan
         [Main.SettingsField(warmUpValue: false)]
         public static bool ShowWarmUpPopup = true;
 
+        [Main.SettingsField(warmUpValue: true)]
         public static bool MainButtonToggle = true;
 
         public const float LearningRate = 0.0005f;

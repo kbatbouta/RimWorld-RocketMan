@@ -26,6 +26,7 @@ namespace RocketMan
         public static List<Action> onStaticConstructors;
         public static List<Action> onInitialization;
         public static List<Action> onScribe;
+        public static List<Action> onSettingsScribedLoaded;
 
         public static List<Func<ITabContent>> yieldTabContent;
 
@@ -45,9 +46,10 @@ namespace RocketMan
             onTickLong = FunctionsUtility.GetActions<OnTickLong>().ToList();
             yieldTabContent = FunctionsUtility.GetFunctions<YieldTabContent, ITabContent>().ToList();
             onScribe = FunctionsUtility.GetActions<Main.OnScribe>().ToList();
+            onSettingsScribedLoaded = FunctionsUtility.GetActions<Main.OnSettingsScribedLoaded>().ToList();
             onStaticConstructors = FunctionsUtility.GetActions<Main.OnStaticConstructor>().ToList();
             onInitialization = FunctionsUtility.GetActions<Main.OnInitialization>().ToList();
-            RocketPrefs.SettingsFields = FieldsUtility.GetFields<SettingsField>().ToArray();
+            RocketPrefs.SettingsFields = FieldsUtility.GetFields<Main.SettingsField>().ToArray();
         }
 
         static Main()
@@ -89,12 +91,17 @@ namespace RocketMan
 
         public override void DefsLoaded()
         {
-            // Reload action            
-            Log.Message("ROCKETMAN: Defs loaded!");
             // --------------
             // Used to tell other parts that defs are ready
             RocketStates.DefsLoaded = true;
+            // Loading Settings
+            Log.Message($"ROCKETMAN: RocketMan settings are stored in <color=red>{RocketEnvironmentInfo.RocketSettingsPath}</color>");
+            RocketMod.Instance.LoadSettings();
+            // Reload action            
+            Log.Message("ROCKETMAN: Defs loaded!");
+            // Execute the flaged methods
             for (var i = 0; i < onDefsLoaded.Count; i++) onDefsLoaded[i].Invoke();
+            // Call base
             base.DefsLoaded();
             // --------------
             // start loading xml data
@@ -211,6 +218,11 @@ namespace RocketMan
 
         [AttributeUsage(AttributeTargets.Method)]
         public class OnScribe : Attribute
+        {
+        }
+
+        [AttributeUsage(AttributeTargets.Method)]
+        public class OnSettingsScribedLoaded : Attribute
         {
         }
 

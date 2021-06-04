@@ -33,7 +33,7 @@ namespace RocketMan.Tabs
         {
             if (!RocketPrefs.WarmingUp)
             {
-                RocketMod.Settings.Write();
+                RocketMod.Instance.WriteSettings();
             }
         }
 
@@ -41,7 +41,7 @@ namespace RocketMan.Tabs
         {
             if (!RocketPrefs.WarmingUp)
             {
-                RocketMod.Settings.Write();
+                RocketMod.Instance.WriteSettings();
             }
         }
     }

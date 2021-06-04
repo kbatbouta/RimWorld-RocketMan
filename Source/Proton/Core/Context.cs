@@ -7,11 +7,16 @@ namespace Proton
 {
     public static class Context
     {
-        public static ProtonSettings settings;
-        public static Dictionary<string, AlertSettings> typeIdToSettings = new Dictionary<string, AlertSettings>();
-        public static Dictionary<Alert, AlertSettings> alertToSettings = new Dictionary<Alert, AlertSettings>();
-        public static AlertsReadout readoutInstance;
-        public static AlertSettings[] alertSettingsByIndex;
-        public static Alert[] alerts;
+        public static ProtonSettings Settings;
+
+        public static Dictionary<string, AlertSettings> TypeIdToSettings = new Dictionary<string, AlertSettings>();
+
+        public static Dictionary<Alert, AlertSettings> AlertToSettings = new Dictionary<Alert, AlertSettings>();
+
+        public static AlertsReadout ReadoutInstance;
+
+        public static AlertSettings[] AlertSettingsByIndex;
+
+        public static Alert[] Alerts;
     }
 }

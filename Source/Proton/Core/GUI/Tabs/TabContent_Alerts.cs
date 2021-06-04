@@ -64,7 +64,7 @@ namespace Proton
                 Widgets.CheckboxLabeled(rect.TopPartPixels(20), "<color=red>" + "Proton.DisableAll.P1".Translate() + "</color> " + "Proton.DisableAll.P2".Translate(), ref RocketPrefs.DisableAllAlert);
                 if (disabled != RocketPrefs.DisableAllAlert && RocketPrefs.DisableAllAlert)
                 {
-                    foreach (Alert alert in Context.alerts)
+                    foreach (Alert alert in Context.Alerts)
                     {
                         alert.cachedActive = false;
                         alert.cachedLabel = string.Empty;
@@ -115,9 +115,9 @@ namespace Proton
                         Text.Font = GameFont.Tiny;
                         if (buffer1 == null)
                         {
-                            buffer1 = $"{Context.settings.executionTimeLimit}";
+                            buffer1 = $"{Context.Settings.executionTimeLimit}";
                         }
-                        Widgets.TextFieldNumeric(tempRect, ref Context.settings.executionTimeLimit, ref buffer1, 1.0f, 100.0f);
+                        Widgets.TextFieldNumeric(tempRect, ref Context.Settings.executionTimeLimit, ref buffer1, 1.0f, 100.0f);
                     },
                     (tempRect) =>
                     {
@@ -125,9 +125,9 @@ namespace Proton
                         Text.Font = GameFont.Tiny;
                         if (buffer2 == null)
                         {
-                            buffer2 = $"{Context.settings.minInterval}";
+                            buffer2 = $"{Context.Settings.minInterval}";
                         }
-                        Widgets.TextFieldNumeric(tempRect, ref Context.settings.minInterval, ref buffer2, 0.5f, 25f);
+                        Widgets.TextFieldNumeric(tempRect, ref Context.Settings.minInterval, ref buffer2, 0.5f, 25f);
                     },
                 }, drawDivider: false);
                 rect.yMin += 63;
@@ -219,12 +219,12 @@ namespace Proton
                         }, (rect, action) => { action.Invoke(rect); }, drawBackground: false);
             });
             inRect.yMin += 25;
-            RocketMan.GUIUtility.ScrollView(inRect, ref scrollPosition, Context.readoutInstance.AllAlerts,
+            RocketMan.GUIUtility.ScrollView(inRect, ref scrollPosition, Context.ReadoutInstance.AllAlerts,
             heightLambda: (alert) =>
             {
                 if (alert == null)
                     return -1.0f;
-                if (!Context.alertToSettings.TryGetValue(alert, out _))
+                if (!Context.AlertToSettings.TryGetValue(alert, out _))
                     return -1.0f;
                 if (searchString == null || searchString.NullOrEmpty())
                     return 35;
@@ -232,8 +232,8 @@ namespace Proton
             },
             elementLambda: (rect, alert) =>
             {
-                AlertSettings settings = Context.alertToSettings[alert];
-                if (settings.AverageExecutionTime > Context.settings.executionTimeLimit)
+                AlertSettings settings = Context.AlertToSettings[alert];
+                if (settings.AverageExecutionTime > Context.Settings.executionTimeLimit)
                 {
                     if (settings.ignored) Widgets.DrawBoxSolid(rect, warningColor);
                     else Widgets.DrawBoxSolid(rect, dangerColor);

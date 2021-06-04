@@ -8,59 +8,50 @@ namespace Soyuz
 {
     public static class SoyuzSettingsUtility
     {
-        private static IEnumerable<ThingDef> allPawnDefs;
-
-        [Main.OnDefsLoaded]
-        public static void LoadSettings()
-        {
-            DefDatabase<ThingDef>.ResolveAllReferences();
-            SoyuzSettingsUtility.allPawnDefs = DefDatabase<ThingDef>.AllDefs
-                .Where(def => def.race != null);
-            Context.Settings = Context.Settings ?? new SoyuzSettings();
-            Context.Settings.AddAllDefs(allPawnDefs);
-            Context.Settings.CacheAll();
-        }
+        private static readonly HashSet<ThingDef> processedDefs = new HashSet<ThingDef>();
 
         [Main.OnScribe]
-        public static void PostScribe()
+        public static void OnScribe()
         {
-            if (Scribe.mode == LoadSaveMode.Saving)
+            Scribe_Deep.Look(ref Context.Settings, "soyuzSettings_NewTemp");
+            if (Context.Settings == null)
             {
-                Context.Settings?.AddAllDefs(allPawnDefs);
-                Context.Settings = Context.Settings ?? new SoyuzSettings();
+                Context.Settings = new SoyuzSettings();
             }
-            Scribe_Deep.Look(ref Context.Settings, "soyuzSettings");
-            if (Scribe.mode != LoadSaveMode.Saving && allPawnDefs != null)
-            {
-                Context.Settings = Context.Settings ?? new SoyuzSettings();
-                Context.Settings.AddAllDefs(allPawnDefs);
-                Context.Settings.CacheAll();
-            }
-            RocketEnvironmentInfo.SoyuzLoaded = true;
         }
 
-        public static RaceSettings GetRaceSettings(this Pawn pawn)
+        [Main.OnSettingsScribedLoaded]
+        public static void OnSettingsScribedLoaded()
         {
-            if (pawn?.def != null && Context.DilationByDef.TryGetValue(pawn.def, out RaceSettings settings))
+            Context.Settings.AllRaceSettings = Context.Settings.AllRaceSettings
+                .AsParallel()
+                .Where(s => s.def != null).ToList();
+            foreach (RaceSettings settings in Context.Settings.AllRaceSettings)
             {
-                return settings;
+                processedDefs.Add(settings.def);
             }
-            ThingDef def = pawn.def;
-            Context.Settings.AllRaceSettings.Add(settings = new RaceSettings()
+            DefDatabase<ThingDef>.ResolveAllReferences();
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs
+                .AsParallel()
+                .Where(d => d.race != null && !processedDefs.Contains(d)))
             {
-                pawnDef = def,
-                name = def.defName,
-                enabled = def.race.Animal && !def.race.Humanlike && !def.race.IsMechanoid,
-                ignoreFactions = false
-            });
-            if (settings.pawnDef.thingClass != typeof(Pawn))
-            {
-                settings.enabled = false;
-                settings.ignoreFactions = false;
-                settings.ignorePlayerFaction = false;
+                processedDefs.Add(def);
+                bool disabled = def.thingClass != typeof(Pawn);
+                Context.Settings.AllRaceSettings.Add(new RaceSettings()
+                {
+                    def = def,
+                    enabled = def.race.Animal
+                        && !disabled
+                        && !def.race.Humanlike
+                        && !def.race.IsMechanoid
+                        && !IgnoreMeDatabase.ShouldIgnore(def),
+                    ignoreFactions = false
+                });
             }
-            settings.Cache();
-            return settings;
+            foreach (RaceSettings settings in Context.Settings.AllRaceSettings)
+            {
+                settings.Prepare();
+            }
         }
     }
 }

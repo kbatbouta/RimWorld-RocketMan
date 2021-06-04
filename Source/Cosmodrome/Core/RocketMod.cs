@@ -15,15 +15,15 @@ namespace RocketMan
     {
         private static readonly Listing_Standard standard = new Listing_Standard();
 
-        public static RocketModSettings Settings;
+        public static RocketSettings Settings;
 
-        public static RocketMod instance;
+        public static RocketMod Instance;
 
         public static Vector2 scrollPositionStatSettings = Vector2.zero;
 
         public RocketMod(ModContentPack content) : base(content)
         {
-            Finder.Mod = this;
+            Finder.Mod = Instance = this;
             Finder.ModContentPack = content;
             Finder.PluginsLoader = new RocketPluginsLoader();
             try
@@ -50,9 +50,6 @@ namespace RocketMan
                 Main.ReloadActions();
                 foreach (var action in Main.onInitialization)
                     action.Invoke();
-                instance = this;
-                Settings = GetSettings<RocketModSettings>();
-                UpdateExceptions();
             }
         }
 
@@ -65,14 +62,6 @@ namespace RocketMan
         {
             base.DoSettingsWindowContents(inRect);
             DoSettings(inRect);
-        }
-
-        public override void WriteSettings()
-        {
-            if (!RocketPrefs.WarmingUp)
-            {
-                base.WriteSettings();
-            }
         }
 
         public static void DoSettings(Rect inRect, bool doStats = true, Action<Listing_Standard> extras = null)
@@ -155,40 +144,6 @@ namespace RocketMan
             RocketPrefs.EnableGridRefresh = false;
             RocketPrefs.RefreshGrid = false;
             RocketStates.SingleTickIncrement = false;
-        }
-
-        public class RocketModSettings : ModSettings
-        {
-            public override void ExposeData()
-            {
-                base.ExposeData();
-                if (Scribe.mode == LoadSaveMode.Saving)
-                {
-                    if (RocketPrefs.WarmingUp && !(WarmUpMapComponent.current?.Finished ?? true))
-                        WarmUpMapComponent.current.AbortWarmUp();
-                }
-                Scribe_Values.Look(ref RocketPrefs.Enabled, "enabled", true);
-                Scribe_Values.Look(ref RocketPrefs.StatGearCachingEnabled, "statGearCachingEnabled", true);
-                Scribe_Values.Look(ref RocketPrefs.Learning, "learning");
-                Scribe_Values.Look(ref RocketDebugPrefs.Debug, "debug", false);
-                Scribe_Values.Look(ref RocketPrefs.ShowWarmUpPopup, "showWarmUpPopup", true);
-                Scribe_Values.Look(ref RocketPrefs.AlertThrottling, "alertThrottling", true);
-                Scribe_Values.Look(ref RocketPrefs.DisableAllAlert, "disableAllAlert", false);
-                Scribe_Values.Look(ref RocketPrefs.TimeDilation, "timeDilation", true);
-                Scribe_Values.Look(ref RocketPrefs.TimeDilationWildlife, "TimeDilationWildlife", true);
-                Scribe_Values.Look(ref RocketPrefs.TimeDilationFire, "TimeDilationFire", false);
-                Scribe_Values.Look(ref RocketPrefs.TimeDilationCaravans, "timeDilationCaravans", false);
-                Scribe_Values.Look(ref RocketPrefs.TimeDilationVisitors, "timeDilationVisitors", false);
-                Scribe_Values.Look(ref RocketPrefs.TimeDilationWorldPawns, "timeDilationWorldPawns", true);
-                Scribe_Values.Look(ref RocketPrefs.TimeDilationColonyAnimals, "timeDialationColonyAnimals", true);
-                Scribe_Values.Look(ref RocketPrefs.TimeDilationCriticalHediffs, "timeDilationCriticalHediffs", true);
-                Scribe_Values.Look(ref RocketPrefs.MainButtonToggle, "mainButtonToggle", true);
-                Scribe_Values.Look(ref RocketPrefs.CorpsesRemovalEnabled, "corpsesRemovalEnabled", false);
-                RocketPrefs.TimeDilationCaravans = false;
-                foreach (var action in Main.onScribe)
-                    action.Invoke();
-                UpdateExceptions();
-            }
         }
     }
 }
