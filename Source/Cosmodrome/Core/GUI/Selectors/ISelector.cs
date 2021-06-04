@@ -7,11 +7,10 @@ namespace RocketMan
     public abstract class ISelector : Window
     {
         protected readonly Action closeAction;
+
         protected bool integrated;
 
         public Vector2 scrollPosition = Vector2.zero;
-        public string searchString = "";
-        public bool useSearchBar = false;
 
         public ISelector(bool integrated = false, Action closeAction = null)
         {
@@ -21,13 +20,15 @@ namespace RocketMan
 
         public override void DoWindowContents(Rect inRect)
         {
+            integrated = false;
             GUIUtility.ExecuteSafeGUIAction(() =>
             {
-                integrated = false;
-                inRect.height -= 30;
+                if (Widgets.ButtonText(inRect.BottomPartPixels(30), KeyedResources.RocketMan_Close))
+                {
+                    Close();
+                }
+                inRect.yMax -= 35;
                 DoContent(inRect);
-                inRect.height += 30;
-                if (Widgets.ButtonText(inRect.BottomPartPixels(30), KeyedResources.RocketMan_Close)) Close();
             });
         }
 

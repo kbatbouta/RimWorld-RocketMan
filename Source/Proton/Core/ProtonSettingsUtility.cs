@@ -13,7 +13,9 @@ namespace Proton
         {
             Scribe_Deep.Look(ref Context.settings, "protonSettings");
             if (Context.settings == null)
+            {
                 Context.settings = new ProtonSettings();
+            }
             RocketEnvironmentInfo.ProtonLoaded = true;
         }
     }

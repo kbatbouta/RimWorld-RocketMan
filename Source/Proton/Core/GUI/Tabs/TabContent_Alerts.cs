@@ -44,10 +44,12 @@ namespace Proton
 
         public override void OnDeselect()
         {
+            base.OnDeselect();
         }
 
         public override void OnSelect()
         {
+            base.OnSelect();
         }
 
         public override void DoContent(Rect rect)

@@ -9,7 +9,12 @@ namespace RocketMan
     public abstract class ISelector_GenericSelection<T> : ISelector
     {
         public IEnumerable<T> items;
+
         public Action<T> selectionAction;
+
+        public string searchString = "";
+
+        public bool useSearchBar = true;
 
         public ISelector_GenericSelection(IEnumerable<T> defs, Action<T> selectionAction, bool integrated = false,
             Action closeAction = null) : base(integrated, closeAction)
@@ -18,7 +23,7 @@ namespace RocketMan
             this.selectionAction = selectionAction;
         }
 
-        public virtual float RowHeight => 54f;
+        public virtual float RowHeight => 28f;
 
         protected abstract void DoSingleItem(Rect rect, T item);
         protected abstract bool ItemMatchSearchString(T item);
@@ -27,22 +32,19 @@ namespace RocketMan
         {
             if (useSearchBar)
             {
-                var rect = inRect.TopPartPixels(30);
+                Rect searchRect = inRect.TopPartPixels(25);
                 Text.Font = GameFont.Tiny;
-                var searchRect = rect.TopPartPixels(20);
-                if (Widgets.ButtonImage(searchRect.LeftPartPixels(20), TexButton.OpenInspector))
+                if (Widgets.ButtonImage(searchRect.LeftPartPixels(25), TexButton.OpenInspector))
                 {
                 }
-
                 searchRect.xMin += 25;
                 searchString = Widgets.TextField(searchRect, searchString).ToLower();
-                inRect.y += 25;
-                inRect.height -= 25;
+                inRect.yMin += 30;
             }
             try
             {
                 GUIUtility.ScrollView(inRect, ref scrollPosition, items,
-                    heightLambda: (item) => !searchString.NullOrEmpty() ? (ItemMatchSearchString(item) ? -1f : RowHeight) : RowHeight,
+                    heightLambda: (item) => !searchString.NullOrEmpty() ? (ItemMatchSearchString(item) ? RowHeight : -1f) : RowHeight,
                     elementLambda: (rect, item) =>
                     {
                         DoSingleItem(rect, item);

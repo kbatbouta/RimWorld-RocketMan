@@ -49,11 +49,12 @@ namespace RocketMan.Tabs
 
         public override void OnSelect()
         {
+            base.OnSelect();
         }
 
         public override void OnDeselect()
         {
-            RocketMod.Settings.Write();
+            base.OnDeselect();
         }
     }
 }

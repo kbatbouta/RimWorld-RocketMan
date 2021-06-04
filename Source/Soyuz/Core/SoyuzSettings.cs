@@ -116,12 +116,65 @@ namespace Soyuz
 
     public class SoyuzSettings : IExposable
     {
-        public List<RaceSettings> raceSettings = new List<RaceSettings>();
+        public List<RaceSettings> AllRaceSettings = new List<RaceSettings>();
+
+        public void AddAllDefs(IEnumerable<ThingDef> allDefs)
+        {
+            HashSet<ThingDef> defs = new HashSet<ThingDef>();
+            foreach (RaceSettings settings in AllRaceSettings)
+            {
+                if (true
+                    && settings.pawnDef == null
+                    && !DefDatabase<ThingDef>.defsByName.TryGetValue(settings.name, out settings.pawnDef))
+                    continue;
+                if (settings.pawnDef != null)
+                    defs.Add(settings.pawnDef);
+            }
+            if (defs.Count == allDefs.Count())
+            {
+                return;
+            }
+            foreach (ThingDef def in allDefs)
+            {
+                if (!defs.Contains(def))
+                {
+                    defs.Add(def);
+                    RaceSettings element = new RaceSettings()
+                    {
+                        pawnDef = def,
+                        name = def.defName,
+                        enabled = def.race.Animal && !def.race.Humanlike && !def.race.IsMechanoid,
+                        ignoreFactions = false
+                    };
+                    if (def.thingClass != typeof(Pawn))
+                    {
+                        element.enabled = false;
+                        element.ignoreFactions = false;
+                        element.ignorePlayerFaction = false;
+                    }
+                    AllRaceSettings.Add(element);
+                }
+            }
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                AllRaceSettings = AllRaceSettings.Where(r => r.pawnDef != null).ToList();
+            }
+        }
+
+        public void CacheAll()
+        {
+            Context.DilationByDef.Clear();
+            foreach (RaceSettings settings in AllRaceSettings)
+            {
+                if (settings.pawnDef != null)
+                    settings.Cache();
+            }
+        }
 
         public void ExposeData()
         {
-            Scribe_Collections.Look(ref raceSettings, "raceSettings", LookMode.Deep);
-            if (raceSettings == null) raceSettings = new List<RaceSettings>();
+            Scribe_Collections.Look(ref AllRaceSettings, "raceSettings", LookMode.Deep);
+            if (AllRaceSettings == null) AllRaceSettings = new List<RaceSettings>();
         }
     }
 }

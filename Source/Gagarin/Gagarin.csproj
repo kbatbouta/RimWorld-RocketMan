@@ -64,6 +64,7 @@
       <None Remove="Core\Others\" />
       <None Remove="Core\Info\" />
       <None Remove="Core\Optimizations\" />
+      <None Remove="..\.editorconfig" />
     </ItemGroup>
     <ItemGroup>
       <Compile Remove="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" />

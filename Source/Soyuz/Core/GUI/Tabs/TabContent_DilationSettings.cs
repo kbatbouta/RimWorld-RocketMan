@@ -47,10 +47,12 @@ namespace Soyuz.Tabs
 
         public override void OnDeselect()
         {
+            base.OnDeselect();
         }
 
         public override void OnSelect()
         {
+            base.OnSelect();
         }
 
         public override void DoContent(Rect rect)
@@ -115,7 +117,7 @@ namespace Soyuz.Tabs
             inRect.yMin += 60;
             Text.Font = GameFont.Tiny;
             Text.CurFontStyle.fontStyle = FontStyle.Normal;
-            RocketMan.GUIUtility.ScrollView<RaceSettings>(inRect, ref scrollPosition, Context.Settings.raceSettings,
+            RocketMan.GUIUtility.ScrollView<RaceSettings>(inRect, ref scrollPosition, Context.Settings.AllRaceSettings,
                 heightLambda: (raceSettings) =>
                 {
                     if (searchString?.Trim().NullOrEmpty() ?? true)
@@ -173,6 +175,7 @@ namespace Soyuz.Tabs
                     ref currentSettings.ignoreFactions);
                 standard.CheckboxLabeled("Soyuz.Current.IgnorePlayerFaction".Translate(),
                     ref currentSettings.ignorePlayerFaction);
+                currentSettings.Cache();
             }
             else if (currentSettings.isFastMoving)
             {

@@ -12,7 +12,8 @@ namespace RocketMan
         {
             foreach (var field in RocketAssembliesInfo.Assemblies
                 .Where(ass => !ass.FullName.Contains("System") && !ass.FullName.Contains("VideoTool"))
-                .SelectMany(a => a.GetLoadableTypes())
+                .SelectMany(a => a.GetTypes())
+                .Where(t => !t.IsAbstract && !t.IsInterface)
                 .SelectMany(t => t.GetFields())
                 .Where(f => f.HasAttribute<T>() && f.IsStatic)
                 .ToArray())

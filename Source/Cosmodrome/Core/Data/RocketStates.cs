@@ -7,6 +7,8 @@ namespace RocketMan
 
         public static int TicksSinceStarted = 0;
 
+        public static bool DefsLoaded = false;
+
         public static bool SingleTickIncrement = false;
 
         public static int SingleTickLeft = 0;

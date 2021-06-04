@@ -77,8 +77,6 @@ namespace RocketMan
 
         public static float LearningRate = 0.0005f;
 
-        public static int UniversalCacheAge = 2500;
-
         public static int AgeOfGetValueUnfinalizedCache = 0;
     }
 }

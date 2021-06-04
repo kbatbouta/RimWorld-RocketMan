@@ -92,7 +92,10 @@ namespace RocketMan
             base.Close(doCloseSound);
             RocketDebugPrefs.DogData = false;
             Finder.RocketManWindow = null;
-            RocketMod.Settings.Write();
+            if (!RocketPrefs.WarmingUp)
+            {
+                RocketMod.Settings.Write();
+            }
         }
     }
 }

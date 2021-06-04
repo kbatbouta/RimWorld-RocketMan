@@ -93,10 +93,12 @@ namespace Soyuz.Tabs
 
         public override void OnDeselect()
         {
+            base.OnDeselect();
         }
 
         public override void OnSelect()
         {
+            base.OnSelect();
             RocketDebugPrefs.DogData = true;
         }
 

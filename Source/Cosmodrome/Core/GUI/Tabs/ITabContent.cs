@@ -21,10 +21,18 @@ namespace RocketMan.Tabs
         public abstract bool ShouldShow { get; }
 
         public virtual float LabelWidth => Text.CalcSize(Label).x;
-        public abstract string Label { get; }
 
+        public abstract string Label { get; }
         public abstract void DoContent(Rect rect);
-        public abstract void OnSelect();
-        public abstract void OnDeselect();
+
+        public virtual void OnSelect()
+        {
+        }
+
+        public virtual void OnDeselect()
+        {
+            if (!RocketPrefs.WarmingUp)
+                RocketMod.Settings.Write();
+        }
     }
 }

@@ -89,6 +89,11 @@ namespace RocketMan
 
         public override void DefsLoaded()
         {
+            // Reload action            
+            Log.Message("ROCKETMAN: Defs loaded!");
+            // --------------
+            // Used to tell other parts that defs are ready
+            RocketStates.DefsLoaded = true;
             for (var i = 0; i < onDefsLoaded.Count; i++) onDefsLoaded[i].Invoke();
             base.DefsLoaded();
             // --------------
@@ -150,7 +155,9 @@ namespace RocketMan
                     break;
             }
             if (!changed)
+            {
                 return;
+            }
             if (debugging == 1)
             {
                 for (var i = 0; i < onDebugginDisabled.Count; i++) onDebugginDisabled[i].Invoke();
