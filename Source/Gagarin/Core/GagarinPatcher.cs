@@ -32,7 +32,7 @@ namespace Gagarin
         public override void OnPatchingSuccessful(MethodBase replacement)
         {
             base.OnPatchingSuccessful(replacement);
-            Log.Message($"GAGARIN: Patched {replacement}");
+            if (RocketDebugPrefs.Debug) Log.Message($"GAGARIN: Patched {replacement}");
         }
 
         public override void OnPatchingFailed(Exception er)
@@ -56,7 +56,7 @@ namespace Gagarin
             {
                 new GagarinPatchInfo(type).Patch(harmony);
             }
-            Log.Message($"SOYUZ: Patching finished");
+            Log.Message($"GAGARIN: Patching finished");
             RocketEnvironmentInfo.GagarinLoaded = true;
         }
     }

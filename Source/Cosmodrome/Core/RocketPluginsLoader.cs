@@ -19,6 +19,8 @@ namespace RocketMan
 
         public RocketPluginsLoader()
         {
+            if (!Directory.Exists(Path.Combine(RocketEnvironmentInfo.CustomConfigFolderPath, "Logs")))
+                Directory.CreateDirectory(Path.Combine(RocketEnvironmentInfo.CustomConfigFolderPath, "Logs"));
             LogWrite("ROCKETMAN: Started!", clear: true);
         }
 
@@ -128,7 +130,7 @@ namespace RocketMan
 
         private void LogWrite(string message, bool clear = false)
         {
-            string logPath = Path.Combine(RocketEnvironmentInfo.CustomConfigFolderPath, "pluginloader.log");
+            string logPath = Path.Combine(RocketEnvironmentInfo.CustomConfigFolderPath, "Logs/pluginloader.log");
             if (clear && File.Exists(logPath))
                 File.Delete(logPath);
             File.WriteAllText(logPath, File.Exists(logPath) ? (File.ReadAllText(logPath) + message + "\n") : message + "\n");

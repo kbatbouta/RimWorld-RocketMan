@@ -95,10 +95,10 @@ namespace RocketMan
 
             private void ScribeRocketPrefs()
             {
+                Scribe_Values.Look(ref RocketDebugPrefs.Debug, "debug", false);
                 Scribe_Values.Look(ref RocketPrefs.Enabled, "enabled", true);
                 Scribe_Values.Look(ref RocketPrefs.Learning, "learning");
                 Scribe_Values.Look(ref RocketPrefs.StatGearCachingEnabled, "statGearCachingEnabled", true);
-                Scribe_Values.Look(ref RocketDebugPrefs.Debug, "debug", false);
                 Scribe_Values.Look(ref RocketPrefs.ShowWarmUpPopup, "showWarmUpPopup", true);
                 Scribe_Values.Look(ref RocketPrefs.AlertThrottling, "alertThrottling", true);
                 Scribe_Values.Look(ref RocketPrefs.DisableAllAlert, "disableAllAlert", false);
