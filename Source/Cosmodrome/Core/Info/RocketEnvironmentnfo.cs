@@ -10,9 +10,9 @@ namespace RocketMan
 
         private static bool isDevEnv = false;
 
-        private const string PluginFolderSubPath = "1.2/Plugins";
+        private const string PluginFolderSubPath = "1.2/Plugins/Stable";
 
-        private const string CustomConfigSubPath = "Custom/RocketMan/";
+        private const string ExperimentalPluginFolderSubPath = "1.2/Plugins/Experimental";
 
         public static bool IsDevEnv
         {
@@ -43,6 +43,11 @@ namespace RocketMan
             get => Path.Combine(Finder.ModContentPack.RootDir, PluginFolderSubPath);
         }
 
+        public static string ExperimentalPluginsFolderPath
+        {
+            get => IsDevEnv ? Path.Combine(Finder.ModContentPack.RootDir, ExperimentalPluginFolderSubPath) : null;
+        }
+
         public static string ConfigFolderPath
         {
             get => GenFilePaths.ConfigFolderPath;
@@ -50,7 +55,7 @@ namespace RocketMan
 
         public static string CustomConfigFolderPath
         {
-            get => Path.Combine(GenFilePaths.ConfigFolderPath, CustomConfigSubPath);
+            get => Path.Combine(Directory.GetParent(GenFilePaths.ConfigFolderPath).FullName, "RocketMan");
         }
 
         public static bool IncompatibilityUnresolved = false;

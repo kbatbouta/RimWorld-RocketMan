@@ -25,7 +25,7 @@ namespace Gagarin
 
         public static string CacheFolderPath
         {
-            get => _cacheFolderPath ?? (_cacheFolderPath = Path.Combine(RocketEnvironmentInfo.ConfigFolderPath, CacheFolderName));
+            get => _cacheFolderPath ?? (_cacheFolderPath = Path.Combine(RocketEnvironmentInfo.CustomConfigFolderPath, CacheFolderName));
         }
 
         private static string _unifiedXmlPath;

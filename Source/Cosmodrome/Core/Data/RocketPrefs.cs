@@ -61,22 +61,23 @@ namespace RocketMan
         [Main.SettingsField(warmUpValue: false)]
         public static bool ThoughtsCaching = true;
 
-        public static bool RefreshGrid = false;
-
-        public static bool EnableGridRefresh = false;
-
         [Main.SettingsField(warmUpValue: false)]
         public static bool StatGearCachingEnabled = false;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool CorpsesRemovalEnabled = true;
 
+        [Main.SettingsField(warmUpValue: false)]
+        public static bool RefreshGrid = false;
+
+        [Main.SettingsField(warmUpValue: false)]
+        public static bool EnableGridRefresh = false;
+
+        [Main.SettingsField(warmUpValue: false)]
         public static bool ShowWarmUpPopup = true;
 
         public static bool MainButtonToggle = true;
 
-        public static float LearningRate = 0.0005f;
-
-        public static int AgeOfGetValueUnfinalizedCache = 0;
+        public const float LearningRate = 0.0005f;
     }
 }

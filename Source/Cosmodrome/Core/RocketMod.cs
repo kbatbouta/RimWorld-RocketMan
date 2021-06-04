@@ -15,8 +15,6 @@ namespace RocketMan
     {
         private static readonly Listing_Standard standard = new Listing_Standard();
 
-        private static List<StatSettings> statsSettings = new List<StatSettings>();
-
         public static RocketModSettings Settings;
 
         public static RocketMod instance;
@@ -27,21 +25,16 @@ namespace RocketMan
         {
             Finder.Mod = this;
             Finder.ModContentPack = content;
+            Finder.PluginsLoader = new RocketPluginsLoader();
             try
             {
-                if (!Directory.Exists(RocketEnvironmentInfo.CustomConfigFolderPath))
+                foreach (Assembly assembly in Finder.PluginsLoader.LoadAll())
                 {
-                    Directory.CreateDirectory(RocketEnvironmentInfo.CustomConfigFolderPath);
+                    RocketAssembliesInfo.Assemblies.Add(assembly);
+                    if (!content.assemblies.loadedAssemblies.Any(a => a.GetName().Name == assembly.GetName().Name))
+                        content.assemblies.loadedAssemblies.Add(assembly);
+                    Log.Message($"<color=orange>ROCKETMAN</color>: Loaded <color=red>{assembly.FullName}</color>");
                 }
-                if (RocketEnvironmentInfo.IsDevEnv)
-                {
-                    Log.Warning("ROCKETMAN: YOU ARE LOADING AN EXPERIMENTAL PLUGIN!");
-                    LoadPlugins("Gagarin.dll", "Gagarin");
-                }
-                LoadPlugins("Soyuz.dll", "Soyuz");
-                LoadPlugins("Proton.dll", "Proton");
-                LoadPlugins("Rocketeer.dll", "Rocketeer");
-                RocketAssembliesInfo.Assemblies.Add(content.assemblies.loadedAssemblies[0]);
             }
             catch (Exception er)
             {
@@ -49,43 +42,17 @@ namespace RocketMan
             }
             finally
             {
+                if (!Directory.Exists(RocketEnvironmentInfo.CustomConfigFolderPath))
+                {
+                    Directory.CreateDirectory(RocketEnvironmentInfo.CustomConfigFolderPath);
+                    Log.Message($"ROCKETMAN: Created RocketMan config folder at <color=orange>{RocketEnvironmentInfo.CustomConfigFolderPath}</color>");
+                }
                 Main.ReloadActions();
                 foreach (var action in Main.onInitialization)
                     action.Invoke();
                 instance = this;
                 Settings = GetSettings<RocketModSettings>();
                 UpdateExceptions();
-            }
-        }
-
-        private static void LoadPlugins(string pluginAssemblyName, string name)
-        {
-            ModContentPack mod = Finder.ModContentPack;
-            string filePath = Path.Combine(RocketEnvironmentInfo.PluginsFolderPath, pluginAssemblyName);
-            if (true
-                && File.Exists(filePath)
-                && LoadedModManager.runningMods.Any(m => m.Name.Contains(name)) == false)
-            {
-                Log.Message($"ROCKETMAN: Plugin found at {filePath}");
-                byte[] rawAssembly = File.ReadAllBytes(filePath);
-
-                Assembly asm;
-                Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-                if (assemblies.All(a => a != null && a.GetName().Name != name))
-                {
-                    asm = AppDomain.CurrentDomain.Load(rawAssembly);
-                    Log.Message(asm.GetName().Name);
-                }
-                else
-                {
-                    asm = assemblies.First(a => a.GetName().Name == name);
-                }
-                if (mod.assemblies.loadedAssemblies.Any(a => a.FullName == asm.FullName))
-                {
-                    return;
-                }
-                RocketAssembliesInfo.Assemblies.Add(asm);
-                mod.assemblies.loadedAssemblies.Add(asm);
             }
         }
 
@@ -190,89 +157,6 @@ namespace RocketMan
             RocketStates.SingleTickIncrement = false;
         }
 
-        private static bool statsLoaded = false;
-
-        private static Dictionary<string, StatSettings> settingsByName = new Dictionary<string, StatSettings>();
-
-        [Main.OnWorldLoaded]
-        public static void ResolveStatSettings()
-        {
-            Log.Message("Resolved stats");
-            foreach (StatSettings settings in statsSettings)
-            {
-                if (settingsByName.TryGetValue(settings.defName, out _))
-                    continue;
-                settingsByName[settings.defName] = settings;
-            }
-            foreach (StatDef statDef in DefDatabase<StatDef>.AllDefs)
-            {
-                if (!settingsByName.TryGetValue(statDef.defName, out StatSettings settings))
-                {
-                    settings = new StatSettings(statDef);
-                    settingsByName[statDef.defName] = settings;
-                    statsSettings.Add(settings);
-                }
-                settings.statDef = statDef;
-                RocketStates.StatExpiry[statDef.index] = settings.expireAfter;
-            }
-            statsLoaded = true;
-        }
-
-        private static void UpdateStatsSettings()
-        {
-            if (!RocketStates.DefsLoaded || !statsLoaded)
-            {
-                return;
-            }
-            foreach (StatSettings settings in statsSettings)
-            {
-                if (settings.statDef == null)
-                    continue;
-                settings.expireAfter = RocketStates.StatExpiry[settings.statDef.index];
-            }
-        }
-
-        [Main.OnScribe]
-        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members")]
-        private static void ScribeStatsSettings()
-        {
-            if (Scribe.mode == LoadSaveMode.Saving)
-            {
-                UpdateStatsSettings();
-            }
-            Scribe_Collections.Look(ref statsSettings, "statsSettings", LookMode.Deep);
-            if (statsSettings == null)
-            {
-                statsSettings = new List<StatSettings>();
-            }
-        }
-
-        public class StatSettings : IExposable
-        {
-            public float expireAfter;
-
-            public string defName;
-
-            public StatDef statDef;
-
-            public StatSettings()
-            {
-            }
-
-            public StatSettings(StatDef statDef)
-            {
-                this.statDef = statDef;
-                this.defName = statDef.defName;
-                this.expireAfter = Tools.PredictValueFromString(defName);
-            }
-
-            public void ExposeData()
-            {
-                Scribe_Values.Look(ref defName, "defName");
-                Scribe_Values.Look(ref expireAfter, "expiryTime_newTemp", 5f);
-            }
-        }
-
         public class RocketModSettings : ModSettings
         {
             public override void ExposeData()
@@ -298,7 +182,6 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationWorldPawns, "timeDilationWorldPawns", true);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationColonyAnimals, "timeDialationColonyAnimals", true);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationCriticalHediffs, "timeDilationCriticalHediffs", true);
-                Scribe_Values.Look(ref RocketPrefs.AgeOfGetValueUnfinalizedCache, "ageOfGetValueUnfinalizedCache");
                 Scribe_Values.Look(ref RocketPrefs.MainButtonToggle, "mainButtonToggle", true);
                 Scribe_Values.Look(ref RocketPrefs.CorpsesRemovalEnabled, "corpsesRemovalEnabled", false);
                 RocketPrefs.TimeDilationCaravans = false;
