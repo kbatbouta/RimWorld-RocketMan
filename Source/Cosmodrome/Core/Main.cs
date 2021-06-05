@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using HugsLib;
+using Microsoft.Build.Utilities;
+using RimWorld;
 using RocketMan.Tabs;
 using Verse;
 
@@ -15,13 +18,18 @@ namespace RocketMan
     {
         private int debugging = 0;
 
-        private static List<Action> onClearCache;
+        private const int TickRareMultiplier = 3;
+        private const int TickLongerMultiplier = 4;
+
         private static List<Action> onDefsLoaded;
         private static List<Action> onWorldLoaded;
         private static List<Action> onMapLoaded;
         private static List<Action> onMapComponentsInitializing;
+        private static List<Action> onTick;
         private static List<Action> onTickRare;
         private static List<Action> onTickLong;
+        private static List<Action> onTickRarer;
+        private static List<Action> onTickLonger;
 
         public static List<Action> onStaticConstructors;
         public static List<Action> onInitialization;
@@ -35,15 +43,17 @@ namespace RocketMan
 
         public static void ReloadActions()
         {
-            onClearCache = FunctionsUtility.GetActions<OnClearCache>().ToList();
             onDefsLoaded = FunctionsUtility.GetActions<OnDefsLoaded>().ToList();
             onWorldLoaded = FunctionsUtility.GetActions<OnWorldLoaded>().ToList();
             onMapLoaded = FunctionsUtility.GetActions<OnMapLoaded>().ToList();
             onMapComponentsInitializing = FunctionsUtility.GetActions<OnMapComponentsInitializing>().ToList();
+            onTick = FunctionsUtility.GetActions<OnTick>().ToList();
             onTickRare = FunctionsUtility.GetActions<OnTickRare>().ToList();
+            onTickRarer = FunctionsUtility.GetActions<OnTickRarer>().ToList();
+            onTickLong = FunctionsUtility.GetActions<OnTickLong>().ToList();
+            onTickLonger = FunctionsUtility.GetActions<OnTickLonger>().ToList();
             onDebugginEnabled = FunctionsUtility.GetActions<OnDebugginEnabled>().ToList();
             onDebugginDisabled = FunctionsUtility.GetActions<OnDebugginDisabled>().ToList();
-            onTickLong = FunctionsUtility.GetActions<OnTickLong>().ToList();
             yieldTabContent = FunctionsUtility.GetFunctions<YieldTabContent, ITabContent>().ToList();
             onScribe = FunctionsUtility.GetActions<Main.OnScribe>().ToList();
             onSettingsScribedLoaded = FunctionsUtility.GetActions<Main.OnSettingsScribedLoaded>().ToList();
@@ -59,16 +69,16 @@ namespace RocketMan
             // TODO more stylizations.
             // this is used to stylize the log output of rocketman.
             EditWindow_Log_DoMessagesListing_Patch.PatchEditWindow_Log();
-            // -------------------------
+            // ----------------------
             // Offical start of the code.            
             onStaticConstructors = FunctionsUtility.GetActions<OnStaticConstructor>().ToList();
             for (var i = 0; i < onStaticConstructors.Count; i++) onStaticConstructors[i].Invoke();
-            // ---------------------------------------
+            // ----------------------
             // TODO implement compatiblity xml support
-            //foreach (var mod in ModsConfig.ActiveModsInLoadOrder)
-            //{
-            //    Log.Message($"{mod.PackageId}, {mod.Name}, {mod.PackageIdPlayerFacing}");
-            //}
+            // foreach (var mod in ModsConfig.ActiveModsInLoadOrder)
+            // {
+            //     Log.Message($"{mod.PackageId}, {mod.Name}, {mod.PackageIdPlayerFacing}");
+            // }
         }
 
         public override void MapLoaded(Map map)
@@ -117,25 +127,41 @@ namespace RocketMan
             Finder.Rocket.PatchAll();
         }
 
+        private BucketActionTicker[] _tickers;
+
         public override void Tick(int currentTick)
         {
+            // --------------
+            // Check if debugging changed
+            this.CheckDebugging();
+            // --------------
+            // Start ticking
             base.Tick(currentTick);
-            CheckDebugging();
-            if (currentTick % GenTicks.TickRareInterval == 0)
-            {
-                for (var i = 0; i < onTickRare.Count; i++)
-                    onTickRare[i].Invoke();
-            }
-            if (currentTick % GenTicks.TickLongInterval == 0)
-            {
-                for (var i = 0; i < onTickLong.Count; i++)
-                    onTickLong[i].Invoke();
-            }
+            // Tick OnTick
+            for (int i = 0; i < onTick.Count; i++) onTick[i].Invoke();
+            // --------------
+            // Initialize buckets
+            if (this._tickers == null) PrepareTickingBuckets();
+            // If this fails we are doomed!
+            // --------------
+            // Tick buckets
+            for (int i = 0; i < this._tickers.Length; i++) _tickers[i].Tick(currentTick);
         }
 
-        public void ClearCache()
+        private void PrepareTickingBuckets()
         {
-            for (var i = 0; i < onClearCache.Count; i++) onClearCache[i].Invoke();
+            this._tickers = new BucketActionTicker[]
+            {
+                new BucketActionTicker(
+                    onTickRare, GenTicks.TickRareInterval),
+                new BucketActionTicker(
+                    onTickRarer, GenTicks.TickRareInterval * Main.TickRareMultiplier),
+                new BucketActionTicker(
+                    onTickLong, GenTicks.TickLongInterval),
+                new BucketActionTicker(
+                    onTickLonger, GenTicks.TickLongInterval * Main.TickLongerMultiplier),
+            };
+            this._tickers = _tickers.Where(t => !t.Empty).ToArray();
         }
 
         private void CheckDebugging()
@@ -175,77 +201,143 @@ namespace RocketMan
             }
         }
 
+        /// <summary>
+        /// The flaged function will be called after the <c>DefDatabase</c> are created. It can be used to performe initialization action on startup.
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnDefsLoaded : Attribute
         {
         }
 
+        /// <summary>
+        /// The flaged function will be called every tick.
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
-        public class OnTickLong : Attribute
+        public class OnTick : Attribute
         {
         }
 
-
+        /// <summary>
+        /// The flaged function will be called every 250 ticks.
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnTickRare : Attribute
         {
         }
 
+        /// <summary>
+        /// The flaged function will be called every 750 ticks.
+        /// </summary>
+        [AttributeUsage(AttributeTargets.Method)]
+        public class OnTickRarer : Attribute
+        {
+        }
+
+        /// <summary>
+        /// The flaged function will be called every 2000 ticks.
+        /// </summary>
+        [AttributeUsage(AttributeTargets.Method)]
+        public class OnTickLong : Attribute
+        {
+        }
+
+        /// <summary>
+        /// The flaged function will be called every 8000 ticks.
+        /// </summary>
+        [AttributeUsage(AttributeTargets.Method)]
+        public class OnTickLonger : Attribute
+        {
+        }
+
+        /// <summary>
+        /// The flaged function will be called after the world is loadeed
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnWorldLoaded : Attribute
         {
         }
 
+        /// <summary>
+        /// The flaged function will be called after a map is loaded
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnMapLoaded : Attribute
         {
         }
 
+        /// <summary>
+        /// The flaged function will be called when a map is being initialized.
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnMapComponentsInitializing : Attribute
         {
         }
 
-        [AttributeUsage(AttributeTargets.Method)]
-        public class OnClearCache : Attribute
-        {
-        }
-
+        /// <summary>
+        /// The flaged function will be called on the <c>OnStaticConstructor</c>
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnStaticConstructor : Attribute
         {
         }
 
+        /// <summary>
+        /// The flaged function will be called when <c>RocketMan</c> is writing or loading settings.
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnScribe : Attribute
         {
         }
 
+        /// <summary>
+        /// The flaged function will be called after <c>RocketMan</c> settings are loaded on startup. This will run after all <c>Def</c>s are loaded. 
+        /// </summary>
+        /// <remarks>
+        /// The flaged function will get called outside the scribing function. Thus <c>Scribe.mod</c> will be <c>Inactive</c>
+        /// </remarks>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnSettingsScribedLoaded : Attribute
         {
         }
 
+        /// <summary>
+        /// The flaged function will be called as soon as RocketMan is loaded. This is the first thing called post initialization.
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnInitialization : Attribute
         {
         }
 
+        /// <summary>
+        /// The flaged function will be called when <c>RocketMan</c> is looking for UI tabs.        
+        /// </summary>
+        /// <remarks>
+        /// Note: The flaged function must have a return type of <c>ITabContent</c>
+        /// </remarks>
         [AttributeUsage(AttributeTargets.Method)]
         public class YieldTabContent : Attribute
         {
         }
 
+        /// <summary>
+        /// The flaged function will be called when debugging is enabled
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnDebugginEnabled : Attribute
         {
         }
 
+        /// <summary>
+        /// The flaged function will be called when debugging is disabled
+        /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnDebugginDisabled : Attribute
         {
         }
 
+        /// <summary>
+        /// This flage static field so it can be accessed by getting all fields with this atteribute
+        /// </summary>
         [AttributeUsage(AttributeTargets.Field)]
         public class SettingsField : Attribute
         {
@@ -254,6 +346,88 @@ namespace RocketMan
             public SettingsField(object warmUpValue)
             {
                 this.warmUpValue = warmUpValue;
+            }
+        }
+
+        internal sealed class BucketActionTicker
+        {
+            private readonly int baseInterval;
+
+            private readonly int bucketInterval;
+
+            private readonly List<Action>[] buckets;
+
+            private readonly bool empty;
+
+            private int cycleIndex = 0;
+
+            public int Interval
+            {
+                get => baseInterval;
+            }
+
+            public bool Empty
+            {
+                get => empty;
+            }
+
+            public BucketActionTicker(IEnumerable<Action> actions, int interval)
+            {
+                if (actions.EnumerableNullOrEmpty())
+                {
+                    this.empty = true;
+                    return;
+                }
+                this.baseInterval = interval;
+                this.bucketInterval = (int)Math.Max((float)interval / (float)actions.Count(), 1);
+                this.buckets = new List<Action>[Math.Min(interval, actions.Count())];
+                for (int i = 0; i < buckets.Length; i++)
+                {
+                    this.buckets[i] = new List<Action>();
+                }
+                int k = 0;
+                foreach (Action action in actions)
+                {
+                    this.buckets[k].Add(action);
+                    k = (k + 1) % this.bucketInterval;
+                }
+                this.Log_BucketData();
+            }
+
+            public void Tick(int currentTick)
+            {
+                if (empty || currentTick % bucketInterval != 0)
+                {
+                    return;
+                }
+                foreach (Action action in this.buckets[this.cycleIndex])
+                {
+                    try
+                    {
+                        action.Invoke();
+                    }
+                    catch (Exception er)
+                    {
+                        this.Log_Error(er);
+                    }
+                }
+                this.cycleIndex = (cycleIndex + 1) % this.buckets.Length;
+            }
+
+            private void Log_Error(Exception er)
+            {
+                Log.Error($"Created ticker bucket: BaseInterval={baseInterval} BucketInterval={bucketInterval} {er}");
+                RocketMan.Logger.Debug($"", exception: er);
+            }
+
+            private void Log_BucketData()
+            {
+                int j = 0;
+                RocketMan.Logger.Debug($"Created ticker bucket: BaseInterval={baseInterval} BucketInterval={bucketInterval}");
+                foreach (List<Action> bucket in buckets)
+                {
+                    RocketMan.Logger.Debug($"Bucket[{j++}].Count = {bucket.Count}");
+                }
             }
         }
     }

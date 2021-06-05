@@ -26,5 +26,32 @@ namespace RocketMan
                 break;
             }
         }
+
+        public static int t1;
+
+        [Main.OnTickRarer]
+        public static void TickRare1()
+        {
+            //Log.Message($"ROCKETMAN: Ticked TickRare1 after {GenTicks.TicksGame - t1}");
+            t1 = GenTicks.TicksGame;
+        }
+
+        public static int t2;
+
+        [Main.OnTickRare]
+        public static void TickRare2()
+        {
+            //Log.Message($"ROCKETMAN: Ticked TickRare2 after {GenTicks.TicksGame - t2}");
+            t2 = GenTicks.TicksGame;
+        }
+
+        public static int t3;
+
+        [Main.OnTickRare]
+        public static void TickRare3()
+        {
+            //Log.Message($"ROCKETMAN: Ticked TickRarer3 after {GenTicks.TicksGame - t3}");
+            t3 = GenTicks.TicksGame;
+        }
     }
 }

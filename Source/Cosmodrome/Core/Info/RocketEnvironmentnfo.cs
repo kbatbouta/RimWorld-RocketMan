@@ -10,6 +10,8 @@ namespace RocketMan
 
         private static bool isDevEnv = false;
 
+        private const string LogFolderName = "Logs";
+
         private const string PluginFolderSubPath = "1.2/Plugins/Stable";
 
         private const string ExperimentalPluginFolderSubPath = "1.2/Plugins/Experimental";
@@ -61,6 +63,11 @@ namespace RocketMan
         public static string RocketSettingsPath
         {
             get => Path.Combine(CustomConfigFolderPath, GenText.SanitizeFilename($"Mod_{RocketMod.Instance.Content.FolderName}_{RocketMod.Instance.GetType().Name}.xml"));
+        }
+
+        public static string LogsFolderPath
+        {
+            get => Path.Combine(CustomConfigFolderPath, LogFolderName);
         }
 
         public static bool IncompatibilityUnresolved = false;

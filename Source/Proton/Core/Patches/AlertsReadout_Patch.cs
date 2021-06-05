@@ -53,6 +53,8 @@ namespace Proton
     [ProtonPatch(typeof(AlertsReadout), nameof(AlertsReadout.AlertsReadoutOnGUI))]
     public static class AlertsReadout_AlertsReadoutOnGUI_Patch
     {
+        private static FieldInfo fEnabled = AccessTools.Field(typeof(RocketPrefs), nameof(RocketPrefs.Enabled));
+
         private static FieldInfo fAlertThrottling = AccessTools.Field(typeof(RocketPrefs), nameof(RocketPrefs.AlertThrottling));
 
         private static FieldInfo fAlertsDisabled = AccessTools.Field(typeof(RocketPrefs), nameof(RocketPrefs.DisableAllAlert));
@@ -62,6 +64,9 @@ namespace Proton
             CodeInstruction[] codes = instructions.ToArray();
             Label l1 = generator.DefineLabel();
             Label l2 = generator.DefineLabel();
+
+            yield return new CodeInstruction(OpCodes.Ldsfld, fEnabled);
+            yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
 
             yield return new CodeInstruction(OpCodes.Ldsfld, fAlertThrottling);
             yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
@@ -98,7 +103,9 @@ namespace Proton
 
         private static void CheckAllActiveAlerts(AlertsReadout readoutInstance)
         {
-            if (!RocketPrefs.AlertThrottling)
+            if (false
+                || !RocketPrefs.AlertThrottling
+                || !RocketPrefs.Enabled)
                 return;
             if (RocketPrefs.DisableAllAlert && readoutInstance.activeAlerts.Count > 0)
             {
@@ -151,6 +158,9 @@ namespace Proton
             Label l5 = generator.DefineLabel();
             Label l6 = generator.DefineLabel();
             Label l7 = generator.DefineLabel();
+
+            yield return new CodeInstruction(OpCodes.Ldsfld, fEnabled);
+            yield return new CodeInstruction(OpCodes.Brfalse_S, l7);
 
             yield return new CodeInstruction(OpCodes.Ldsfld, fAlertThrottling);
             yield return new CodeInstruction(OpCodes.Brfalse_S, l7);

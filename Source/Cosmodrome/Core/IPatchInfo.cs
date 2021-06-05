@@ -93,6 +93,7 @@ namespace RocketMan
             catch (Exception er)
             {
                 Log.Error($"{PluginName}: target type {type.Name}:{er}");
+                Logger.Debug($"", exception: er);
                 throw er;
             }
         }
@@ -140,16 +141,15 @@ namespace RocketMan
                         postfix: postfix != null ? new HarmonyMethod(postfix, priority: postfixPriority) : null,
                         transpiler: transpiler != null ? new HarmonyMethod(transpiler, priority: transpilerPriority) : null,
                         finalizer: finalizer != null ? new HarmonyMethod(finalizer, priority: finalizerPriority) : null);
-                    if (RocketDebugPrefs.Debug)
-                    {
-                        Log.Message($"{PluginName}:[NOTANERROR] patching {target?.DeclaringType?.Name}:{target} finished!");
-                    }
+
+                    Logger.Debug($"{PluginName}:[NOTANERROR] patching {target?.DeclaringType?.Name}:{target} finished!");
                     patchedSuccessfully = true;
                     OnPatchingSuccessful(replacement);
                 }
                 catch (Exception er)
                 {
                     OnPatchingFailed(er);
+                    Logger.Debug($"Patching failed", exception: er);
                     Log.Warning($"{PluginName}:<color=orange>[ERROR]</color> <color=red>patching {target.DeclaringType.Name}:{target} Failed!</color> {er}");
                 }
             }

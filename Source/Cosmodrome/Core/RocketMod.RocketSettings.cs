@@ -26,6 +26,7 @@ namespace RocketMan
                     catch (Exception er)
                     {
                         Log.Error($"ROCKETMAN: Error while scribing settings {er}");
+                        Logger.Debug("Error while scribing settings", exception: er);
                     }
                     finally
                     {
@@ -55,6 +56,7 @@ namespace RocketMan
                 catch (Exception er)
                 {
                     Log.Error($"ROCKETMAN: Error in post srcibe {action} with error {er}");
+                    Logger.Debug("Error in post srcibe", exception: er);
                 }
             }
         }
@@ -73,6 +75,7 @@ namespace RocketMan
             catch (Exception er)
             {
                 Log.Error($"ROCKETMAN: Error while scribing settings {er}");
+                Logger.Debug("Error while scribing settings", exception: er);
             }
             finally
             {
@@ -125,6 +128,7 @@ namespace RocketMan
                     catch (Exception er)
                     {
                         Log.Error($"ROCKETMAN: Error scribing settings with mod {Scribe.mode} in action {action} with error {er}");
+                        Logger.Debug($"Error scribing settings with mod {Scribe.mode}", exception: er);
                     }
                 }
             }

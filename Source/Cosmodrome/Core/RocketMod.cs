@@ -25,6 +25,12 @@ namespace RocketMan
         {
             Finder.Mod = Instance = this;
             Finder.ModContentPack = content;
+            if (!Directory.Exists(RocketEnvironmentInfo.CustomConfigFolderPath))
+            {
+                Directory.CreateDirectory(RocketEnvironmentInfo.CustomConfigFolderPath);
+                Log.Message($"ROCKETMAN: Created RocketMan config folder at <color=orange>{RocketEnvironmentInfo.CustomConfigFolderPath}</color>");
+            }
+            Logger.Initialize();
             Finder.PluginsLoader = new RocketPluginsLoader();
             try
             {
@@ -39,14 +45,10 @@ namespace RocketMan
             catch (Exception er)
             {
                 Log.Error($"ROCKETMAN: loading plugin failed {er.Message}:{er.StackTrace}");
+                Logger.Debug("Loading plugins failed", exception: er);
             }
             finally
             {
-                if (!Directory.Exists(RocketEnvironmentInfo.CustomConfigFolderPath))
-                {
-                    Directory.CreateDirectory(RocketEnvironmentInfo.CustomConfigFolderPath);
-                    Log.Message($"ROCKETMAN: Created RocketMan config folder at <color=orange>{RocketEnvironmentInfo.CustomConfigFolderPath}</color>");
-                }
                 Main.ReloadActions();
                 foreach (var action in Main.onInitialization)
                     action.Invoke();
@@ -73,7 +75,7 @@ namespace RocketMan
                 Text.Font = GameFont.Tiny;
                 Text.CurFontStyle.fontStyle = FontStyle.Normal;
                 bool enabled = RocketPrefs.Enabled;
-                standard.CheckboxLabeled("RocketMan.Enable".Translate(), ref RocketPrefs.Enabled);
+                standard.CheckboxLabeled(KeyedResources.RocketMan_Enable, ref RocketPrefs.Enabled);
                 bool mainButtonToggle = RocketPrefs.MainButtonToggle;
                 standard.CheckboxLabeled("RocketMan.ShowIcon".Translate(), ref RocketPrefs.MainButtonToggle,
                         "RocketMan.ShowIcon.Description".Translate());

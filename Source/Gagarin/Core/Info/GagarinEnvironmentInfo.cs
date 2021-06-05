@@ -12,13 +12,13 @@ namespace Gagarin
     {
         private const string CacheFolderName = "Cache";
 
-        private const string UnifiedXmlFileName = "unified.xml";
+        private const string UnifiedXmlFileName = "Unified.xml";
 
-        private const string UnifiedPatchedOriginalXmlFileName = "unified_original_dump.xml";
+        private const string UnifiedPatchedOriginalXmlFileName = "Unified_Original.xml";
 
-        private const string ModListFileName = "mods.xml";
+        private const string ModListFileName = "ModList.xml";
 
-        private const string HashFileName = "hash.xml";
+        private const string HashFileName = "AssetsHash.xml";
 
 
         private static string _cacheFolderPath;
