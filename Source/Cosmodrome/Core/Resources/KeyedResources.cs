@@ -96,7 +96,7 @@ namespace RocketMan
         private static TaggedString _RocketMan_Alert_StatsLearning_Label = null;
         /// <summary> Keyed string with key <c>RocketMan.Alert_StatsLearning.Label</c> with inner text set to:
         ///
-        /// <code>Adaptive mod is active</code>
+        /// <code>Adaptive mode is active</code>
         /// </summary>       
         public static TaggedString RocketMan_Alert_StatsLearning_Label {
             get => _RocketMan_Alert_StatsLearning_Label != null ? 
@@ -106,11 +106,31 @@ namespace RocketMan
         private static TaggedString _RocketMan_Alert_StatsLearning_Explanation = null;
         /// <summary> Keyed string with key <c>RocketMan.Alert_StatsLearning.Explanation</c> with inner text set to:
         ///
-        /// <code>Adaptive has been active for {0} minutes! It is recomended to have it running for {1} minutes per new save or when you change your mods.</code>
+        /// <code>Adaptive mode has been active for {0} minutes! It is recomended to have it running for {1} minutes per new save or when you change your mods.</code>
         /// </summary>       
         public static TaggedString RocketMan_Alert_StatsLearning_Explanation {
             get => _RocketMan_Alert_StatsLearning_Explanation != null ? 
                    _RocketMan_Alert_StatsLearning_Explanation : _RocketMan_Alert_StatsLearning_Explanation = "RocketMan.Alert_StatsLearning.Explanation".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_AdaptiveAlert_Label = null;
+        /// <summary> Keyed string with key <c>RocketMan.AdaptiveAlert.Label</c> with inner text set to:
+        ///
+        /// <code>Enable adaptive mode alert</code>
+        /// </summary>       
+        public static TaggedString RocketMan_AdaptiveAlert_Label {
+            get => _RocketMan_AdaptiveAlert_Label != null ? 
+                   _RocketMan_AdaptiveAlert_Label : _RocketMan_AdaptiveAlert_Label = "RocketMan.AdaptiveAlert.Label".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_AdaptiveAlert_Description = null;
+        /// <summary> Keyed string with key <c>RocketMan.AdaptiveAlert.Description</c> with inner text set to:
+        ///
+        /// <code>Disable this if you don't want the adaptive mode alert in your alert list.</code>
+        /// </summary>       
+        public static TaggedString RocketMan_AdaptiveAlert_Description {
+            get => _RocketMan_AdaptiveAlert_Description != null ? 
+                   _RocketMan_AdaptiveAlert_Description : _RocketMan_AdaptiveAlert_Description = "RocketMan.AdaptiveAlert.Description".Translate();
         }             
                            
         private static TaggedString _RocketMan_Unpause = null;
@@ -503,6 +523,26 @@ namespace RocketMan
                    _Soyuz_DilationDisabled : _Soyuz_DilationDisabled = "Soyuz.DilationDisabled".Translate();
         }             
                            
+        private static TaggedString _Soyuz_RaceName = null;
+        /// <summary> Keyed string with key <c>Soyuz.RaceName</c> with inner text set to:
+        ///
+        /// <code>Race Name</code>
+        /// </summary>       
+        public static TaggedString Soyuz_RaceName {
+            get => _Soyuz_RaceName != null ? 
+                   _Soyuz_RaceName : _Soyuz_RaceName = "Soyuz.RaceName".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_PackageId = null;
+        /// <summary> Keyed string with key <c>Soyuz.PackageId</c> with inner text set to:
+        ///
+        /// <code>Parent Mod</code>
+        /// </summary>       
+        public static TaggedString Soyuz_PackageId {
+            get => _Soyuz_PackageId != null ? 
+                   _Soyuz_PackageId : _Soyuz_PackageId = "Soyuz.PackageId".Translate();
+        }             
+                           
         private static TaggedString _Soyuz_EnableDataLogging = null;
         /// <summary> Keyed string with key <c>Soyuz.EnableDataLogging</c> with inner text set to:
         ///
@@ -546,7 +586,7 @@ namespace RocketMan
         private static TaggedString _Proton_Tab = null;
         /// <summary> Keyed string with key <c>Proton.Tab</c> with inner text set to:
         ///
-        /// <code>Alert controls</code>
+        /// <code>Alerts Control</code>
         /// </summary>       
         public static TaggedString Proton_Tab {
             get => _Proton_Tab != null ? 

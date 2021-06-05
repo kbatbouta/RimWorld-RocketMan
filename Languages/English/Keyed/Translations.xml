@@ -52,12 +52,14 @@
 	<Soyuz.Current.EnableTimeWildlife>Enable time dilation for wildlife</Soyuz.Current.EnableTimeWildlife>
 	<Soyuz.Current.EnableTimeColonnyAnimals>Enable time dilation for colony animals</Soyuz.Current.EnableTimeColonnyAnimals>
 	<Soyuz.DilationDisabled>Time dilation disabled!</Soyuz.DilationDisabled>
+	<Soyuz.RaceName>Race</Soyuz.RaceName>
+	<Soyuz.PackageId>Parent mod</Soyuz.PackageId>
 	<Soyuz.EnableDataLogging>Enable data logging</Soyuz.EnableDataLogging>
 	<Soyuz.Debug150MTPS>Set tick multiplier to 150x</Soyuz.Debug150MTPS>
 	<Soyuz.FlashPawns>Flash dilated pawns</Soyuz.FlashPawns>
 	<Soyuz.AlwaysDilate>Simulate offscreen behavior</Soyuz.AlwaysDilate>
 	<!-- Proton Proton.TabContent_Alerts -->
-	<Proton.Tab>Alert controls</Proton.Tab>
+	<Proton.Tab>Alerts Control</Proton.Tab>
 	<Proton.Colored.ActiveNow>Active now</Proton.Colored.ActiveNow>
 	<Proton.Colored.IgnoredAndBad>Ignored and behaving badly</Proton.Colored.IgnoredAndBad>
 	<Proton.Colored.DisabledOrBad>Disabled or behaving badly</Proton.Colored.DisabledOrBad>

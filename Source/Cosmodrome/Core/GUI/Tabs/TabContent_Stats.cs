@@ -13,7 +13,7 @@ namespace RocketMan.Tabs
 
         public override string Label => "Statistics";
 
-        public override bool ShouldShow => RocketPrefs.Enabled;
+        public override bool ShouldShow => RocketPrefs.Enabled && RocketDebugPrefs.Debug;
 
         private string searchString = "";
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace RocketMan
 {
@@ -209,6 +211,53 @@ namespace RocketMan
                     curRect.x += step;
                 });
             }
+        }
+
+        public static Rect CheckBoxLabeled(Rect rect, string label, ref bool checkOn, bool disabled = false, GameFont font = GameFont.Tiny, bool placeCheckboxNearText = false, bool drawHighlightIfMouseover = true, Texture2D texChecked = null, Texture2D texUnchecked = null)
+        {
+            bool checkOnInt = checkOn;
+            Rect next = new Rect(rect);
+            next.x += font == GameFont.Tiny ? 20 : 26;
+            ExecuteSafeGUIAction(() =>
+            {
+                Text.Font = font;
+                Text.Anchor = TextAnchor.MiddleLeft;
+                if (placeCheckboxNearText)
+                {
+                    rect.width = Mathf.Min(rect.width, Text.CalcSize(label).x + 24f + 10f);
+                }
+                Widgets.Label(rect, label);
+                if (!disabled && Widgets.ButtonInvisible(rect))
+                {
+                    checkOnInt = !checkOnInt;
+                    if (checkOnInt)
+                    {
+                        SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
+                    }
+                    else
+                    {
+                        SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
+                    }
+                }
+                Rect iconRect = new Rect(rect);
+                iconRect.xMin = iconRect.xMax - rect.height;
+                Color color = GUI.color;
+                if (disabled)
+                {
+                    GUI.color = Widgets.InactiveColor;
+                }
+                GUI.DrawTexture(image: (checkOnInt) ? ((texUnchecked != null) ? texUnchecked : Widgets.CheckboxOffTex) : ((texChecked != null) ? texChecked : Widgets.CheckboxOnTex), position: iconRect);
+                if (disabled)
+                {
+                    GUI.color = color;
+                }
+                if (drawHighlightIfMouseover)
+                {
+                    Widgets.DrawHighlightIfMouseover(rect);
+                }
+            });
+            checkOn = checkOnInt;
+            return next;
         }
 
         public static void ColorBoxDescription(Rect rect, Color color, string description)
