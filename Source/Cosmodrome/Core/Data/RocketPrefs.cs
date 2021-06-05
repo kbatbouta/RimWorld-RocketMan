@@ -23,6 +23,9 @@ namespace RocketMan
         public static bool Learning = true;
 
         [Main.SettingsField(warmUpValue: false)]
+        public static bool LearningAlertEnabled = true;
+
+        [Main.SettingsField(warmUpValue: false)]
         public static bool AlertThrottling = true;
 
         [Main.SettingsField(warmUpValue: false)]

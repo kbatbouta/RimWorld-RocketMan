@@ -93,6 +93,26 @@ namespace RocketMan
                    _RocketMan_IncompatibilityWindow_Disclaimer : _RocketMan_IncompatibilityWindow_Disclaimer = "RocketMan.IncompatibilityWindow.Disclaimer".Translate();
         }             
                            
+        private static TaggedString _RocketMan_Alert_StatsLearning_Label = null;
+        /// <summary> Keyed string with key <c>RocketMan.Alert_StatsLearning.Label</c> with inner text set to:
+        ///
+        /// <code>Adaptive mod is active</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Alert_StatsLearning_Label {
+            get => _RocketMan_Alert_StatsLearning_Label != null ? 
+                   _RocketMan_Alert_StatsLearning_Label : _RocketMan_Alert_StatsLearning_Label = "RocketMan.Alert_StatsLearning.Label".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_Alert_StatsLearning_Explanation = null;
+        /// <summary> Keyed string with key <c>RocketMan.Alert_StatsLearning.Explanation</c> with inner text set to:
+        ///
+        /// <code>Adaptive has been active for {0} minutes! It is recomended to have it running for {1} minutes per new save or when you change your mods.</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Alert_StatsLearning_Explanation {
+            get => _RocketMan_Alert_StatsLearning_Explanation != null ? 
+                   _RocketMan_Alert_StatsLearning_Explanation : _RocketMan_Alert_StatsLearning_Explanation = "RocketMan.Alert_StatsLearning.Explanation".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_Unpause = null;
         /// <summary> Keyed string with key <c>RocketMan.Unpause</c> with inner text set to:
         ///
@@ -156,7 +176,7 @@ namespace RocketMan
         private static TaggedString _RocketMan_Enable = null;
         /// <summary> Keyed string with key <c>RocketMan.Enable</c> with inner text set to:
         ///
-        /// <code>Home</code>
+        /// <code>Enable</code>
         /// </summary>       
         public static TaggedString RocketMan_Enable {
             get => _RocketMan_Enable != null ? 

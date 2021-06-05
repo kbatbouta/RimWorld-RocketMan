@@ -7,6 +7,10 @@
 	<RocketMan.IncompatibilityWindow.Continue>Yes, I understand! Continue!</RocketMan.IncompatibilityWindow.Continue>
 	<RocketMan.IncompatibilityWindow.OpenModManager>Open the mod manager</RocketMan.IncompatibilityWindow.OpenModManager>
 	<RocketMan.IncompatibilityWindow.Disclaimer>The RocketMan team will provide no support if you choose to ignore this message or continue!</RocketMan.IncompatibilityWindow.Disclaimer>
+	<RocketMan.Alert_StatsLearning.Label>Adaptive mode is active</RocketMan.Alert_StatsLearning.Label>
+	<RocketMan.Alert_StatsLearning.Explanation>Adaptive mode has been active for {0} minutes! It is recomended to have it running for {1} minutes per new save or when you change your mods.</RocketMan.Alert_StatsLearning.Explanation>
+	<RocketMan.AdaptiveAlert.Label>Enable adaptive mode alert</RocketMan.AdaptiveAlert.Label>
+	<RocketMan.AdaptiveAlert.Description>Disable this if you don't want the adaptive mode alert in your alert list.</RocketMan.AdaptiveAlert.Description>
 	<RocketMan.Unpause>Please unpause the game!</RocketMan.Unpause>
 	<RocketMan.Warming>is warming up! Please wait...</RocketMan.Warming>
 	<RocketMan.HideProgressBar>You can hide/disable in RocketMan's settings</RocketMan.HideProgressBar>

@@ -108,6 +108,7 @@ namespace RocketMan
                     standard.Label("RocketMan.StatCacheSettings".Translate());
                     Text.CurFontStyle.fontStyle = FontStyle.Normal;
                     standard.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
+                    standard.CheckboxLabeled("RocketMan.AdaptiveAlert.Label".Translate(), ref RocketPrefs.LearningAlertEnabled, "RocketMan.AdaptiveAlert.Description".Translate());
                     standard.CheckboxLabeled("RocketMan.EnableGearStatCaching".Translate(), ref RocketPrefs.StatGearCachingEnabled);
 
                     standard.GapLine();

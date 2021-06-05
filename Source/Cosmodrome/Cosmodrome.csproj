@@ -42,6 +42,7 @@
 		<Folder Include="Core\" />
 		<Folder Include="Properties\" />
 		<Folder Include="Core\Resources\" />
+		<Folder Include="Core\Alerts\" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\..\1.2\**\*.xml" CopyToOutputDirectory="Never">
@@ -58,6 +59,7 @@
 		<None Remove="Core\Modules\" />
 		<None Remove="Core\GUI\ Dialogs\" />
 		<None Remove="Core\Resources\" />
+		<None Remove="Core\Alerts\" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\AssemblyInfo.cs">

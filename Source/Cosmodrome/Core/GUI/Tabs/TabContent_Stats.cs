@@ -15,6 +15,8 @@ namespace RocketMan.Tabs
 
         public override bool ShouldShow => RocketPrefs.Enabled;
 
+        private string searchString = "";
+
         public TabContent_Stats()
         {
             stats = DefDatabase<StatDef>.AllDefs;
@@ -22,18 +24,21 @@ namespace RocketMan.Tabs
 
         public override void DoContent(Rect rect)
         {
-            if (Widgets.ButtonText(rect.TopPartPixels(20), "Select test"))
+            string tempStr = Widgets.TextField(rect.TopPartPixels(25), searchString).ToLower();
+            if (tempStr != searchString)
             {
-                Find.WindowStack.Add(new Selector_DefSelection(DefDatabase<ThingDef>.AllDefs, (def) =>
-                {
-                    Log.Message(def.defName);
-                }));
+                scrollPosition = Vector2.zero;
+                searchString = tempStr;
             }
-            rect.yMin += 20;
+            rect.yMin += 30;
             RocketMan.GUIUtility.ScrollView(rect, ref scrollPosition, stats,
                 (stat) =>
                 {
-                    return 40f;
+                    if (searchString == null || searchString.Trim().NullOrEmpty())
+                    {
+                        return 40.0f;
+                    }
+                    return (stat.label?.ToLower().Contains(searchString) ?? false) ? 40.0f : -1.0f;
                 },
                 (rect, stat) =>
                 {
