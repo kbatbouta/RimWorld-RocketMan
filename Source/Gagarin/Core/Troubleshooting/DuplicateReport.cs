@@ -12,6 +12,10 @@ namespace Gagarin
 
         private readonly List<DuplicationRecord> records = new List<DuplicationRecord>();
 
+        private readonly HashSet<string> xmlNodes = new HashSet<string>();
+
+        private bool coreModInvolved = false;
+
         public struct DuplicationRecord
         {
             public string xmlFilePath;
@@ -51,9 +55,9 @@ namespace Gagarin
             get => name;
         }
 
-        public int Length
+        public bool IsCritical
         {
-            get => records.Count;
+            get => coreModInvolved && HasDuplicates;
         }
 
         public bool HasDuplicates
@@ -61,7 +65,12 @@ namespace Gagarin
             get => records.Count > 1;
         }
 
-        public IEnumerable<DuplicationRecord> Records
+        public int Length
+        {
+            get => records.Count;
+        }
+
+        public List<DuplicationRecord> Records
         {
             get => records;
         }
@@ -78,6 +87,15 @@ namespace Gagarin
 
         public void AddXmlNode(XmlNode node, ModContentPack mod, string xmlFilePath)
         {
+            if (mod?.IsCoreMod ?? true)
+            {
+                coreModInvolved = true;
+            }
+            if (xmlNodes.Contains(node.OuterXml) && !coreModInvolved)
+            {
+                return;
+            }
+            xmlNodes.Add(node.OuterXml);
             records.Add(DuplicationRecord.Create(node, mod, xmlFilePath));
         }
 
@@ -86,9 +104,7 @@ namespace Gagarin
             foreach (DuplicationRecord record in records)
             {
                 if (record.node == node)
-                {
                     return record.mod;
-                }
             }
             return null;
         }
@@ -100,6 +116,7 @@ namespace Gagarin
             document.AppendChild(root = document.CreateElement("DuplicateReport"));
             root.SetAttribute("Name", Name);
             root.SetAttribute("Length", Length.ToString());
+            root.SetAttribute("Critical", coreModInvolved ? "True" : "False");
             foreach (DuplicationRecord record in Records)
             {
                 XmlElement node = document.CreateElement("DuplicationRecord");
@@ -109,7 +126,16 @@ namespace Gagarin
                 node.AppendChild(document.ImportNode(record.node, true));
                 root.AppendChild(node);
             }
-            document.Save(path);
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                CheckCharacters = false,
+                Indent = true,
+                NewLineChars = "\n"
+            };
+            using (XmlWriter writer = XmlWriter.Create(path, settings))
+            {
+                document.Save(writer);
+            }
         }
 
         public override int GetHashCode()

@@ -36,14 +36,24 @@ namespace Gagarin
                     throw new Exception($"GAGARIN:[DUPLICATE] Processor return a DuplicateReport with length={report.Length} for name={report.Name}");
                 }
                 int j = 1;
-                report.Write(Path.Combine(GagarinEnvironmentInfo.ReportsFolderPath, $"{report.Name}_{Rand.Int % 10000}.xml"));
+                report.Write(Path.Combine(GagarinEnvironmentInfo.ReportsFolderPath, $"Report_{GenText.SanitizeFilename(report.Name.CapitalizeFirst())}.xml"));
+                string tag = report.IsCritical ? "CRITICAL" : "IGNOREME";
+                string primaryColor = report.IsCritical ? "orange" : "green";
+                string secondaryColor = report.IsCritical ? "red" : "white";
                 builder.Clear();
-                builder.Append($"GAGARIN:[DUPLICATE] duplicate found for Name={report.Name}");
+                builder.Append($"GAGARIN:[<color={primaryColor}>DUPLICATE:{tag}</color>]<color={secondaryColor}> duplicate found for Name={report.Name}</color>");
                 foreach (DuplicateReport.DuplicationRecord record in report.Records)
                 {
                     builder.AppendInNewLine($"\t{j++}. PackageId={record.mod?.PackageId}\t| ModName={record.mod?.Name}\t| XmlFilePath={record.xmlFilePath}");
                 }
-                Log.Error(builder.ToString());
+                if (report.IsCritical)
+                {
+                    Log.Error(builder.ToString());
+                }
+                else
+                {
+                    Log.Warning(builder.ToString());
+                }
             }
             Log.Message($"GAGARIN:[DUPLICATE] Finished creating reports at <color=red>{GagarinEnvironmentInfo.ReportsFolderPath}</color>");
             nameToReport.Clear();
@@ -85,12 +95,19 @@ namespace Gagarin
             }
         }
 
+        private static bool _preparedOnce = false;
+
         private static void PrepareReportFolder()
         {
+            if (_preparedOnce)
+            {
+                return;
+            }
             if (Directory.Exists(GagarinEnvironmentInfo.ReportsFolderPath))
             {
                 Directory.Delete(GagarinEnvironmentInfo.ReportsFolderPath, recursive: true);
             }
+            _preparedOnce = true;
             Directory.CreateDirectory(GagarinEnvironmentInfo.ReportsFolderPath);
         }
     }
