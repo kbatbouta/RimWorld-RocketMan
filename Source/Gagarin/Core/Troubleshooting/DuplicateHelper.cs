@@ -87,7 +87,7 @@ namespace Gagarin
 
         private static void PrepareReportFolder()
         {
-            if (!Directory.Exists(GagarinEnvironmentInfo.ReportsFolderPath))
+            if (Directory.Exists(GagarinEnvironmentInfo.ReportsFolderPath))
             {
                 Directory.Delete(GagarinEnvironmentInfo.ReportsFolderPath, recursive: true);
             }
