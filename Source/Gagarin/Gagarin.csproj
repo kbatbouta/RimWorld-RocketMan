@@ -49,6 +49,7 @@
         <Folder Include="Core\Others\" />
         <Folder Include="Core\Info\" />
         <Folder Include="Core\Patches\" />
+        <Folder Include="Core\Troubleshooting\" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj">
@@ -65,6 +66,7 @@
       <None Remove="Core\Info\" />
       <None Remove="Core\Optimizations\" />
       <None Remove="..\.editorconfig" />
+      <None Remove="Core\Troubleshooting\" />
     </ItemGroup>
     <ItemGroup>
       <Compile Remove="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" />
