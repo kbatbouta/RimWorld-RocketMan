@@ -2,20 +2,24 @@
 <LanguageData>
 	<RocketMan.Settings.PleaseUnpause>게임을 재개해 주세요... 로켓맨이 시동 중입니다!</RocketMan.Settings.PleaseUnpause>
 	<RocketMan.Settings.PleaseWait>잠시만 기다려 주세요... 로켓맨이 시동 중입니다!</RocketMan.Settings.PleaseWait>
+	<RocketMan.IncompatibilityWindow.Title>호환되지 않는 모드를 사용하고 있습니다.</RocketMan.IncompatibilityWindow.Title>
 	<RocketMan.IncompatibilityWindow.Description>로켓맨과 호환되지 않는 모드를 사용하고 있습니다. 이런 비호환성은 당신의 세이브 파일을 망칠 수 있습니다! 로켓맨을 비활성화하거나 자기 책임으로 계속할 수 있습니다. 이 모드들은:\n</RocketMan.IncompatibilityWindow.Description>
-	<RocketMan.IUnderstand>네, 알겠습니다! 계속할게요!</RocketMan.IUnderstand>
-	<RocketMan.ChangeBack>언제든 모드 목록을 수정하고 로켓맨을 제거할 수 있습니다!</RocketMan.ChangeBack>
-	<RocketMan.OpenModList>네, 알겠습니다! 모드 리스트 관리자를 열게요!</RocketMan.OpenModList>
-	<RocketMan.Disclaimer>이 메시지를 무시하기로 선택하신다면 로켓맨 팀은 아무 지원도 하지 않을 것입니다!</RocketMan.Disclaimer>
+	<RocketMan.IncompatibilityWindow.Continue>네, 알겠습니다! 계속할게요!</RocketMan.IncompatibilityWindow.Continue>
+	<RocketMan.IncompatibilityWindow.OpenModManager>모드 매니저 열기</RocketMan.IncompatibilityWindow.OpenModManager>
+	<RocketMan.IncompatibilityWindow.Disclaimer>이 메시지를 무시하기로 선택하신다면 로켓맨 팀은 아무 지원도 하지 않을 것입니다!</RocketMan.IncompatibilityWindow.Disclaimer>
+	<RocketMan.Alert_StatsLearning.Label>적응형 모드를 사용 중입니다.</RocketMan.Alert_StatsLearning.Label>
+	<RocketMan.Alert_StatsLearning.Explanation>적응형 모드를 {0}분 동안 사용 중입니다! 새로운 세이브 파일을 만들거나 모드 목록을 바꿀 때마다 {1}분 동안 켜 두기를 권장합니다.</RocketMan.Alert_StatsLearning.Explanation>
+	<RocketMan.AdaptiveAlert.Label>적응형 모드 알림 켜기</RocketMan.AdaptiveAlert.Label>
+	<RocketMan.AdaptiveAlert.Description>적응형 모드 알림을 받고 싶지 않으시다면 비활성화하세요.</RocketMan.AdaptiveAlert.Description>
 	<RocketMan.Unpause>게임을 재개해 주세요!</RocketMan.Unpause>
 	<RocketMan.Warming>이 시동 중입니다! 잠시만 기다려 주세요...</RocketMan.Warming>
 	<RocketMan.HideProgressBar>로켓맨 설정에서 숨기거나 비활성화할 수 있습니다.</RocketMan.HideProgressBar>
 
 	<!-- RocketMan RocketMan.TabContent_Settings -->
-
 	<RocketMan.RocketMan>로켓맨</RocketMan.RocketMan>
 	<RocketMan.Tab>홈</RocketMan.Tab>
-	<RocketMan.Enable>홈</RocketMan.Enable>
+	<RocketMan.Close>닫기</RocketMan.Close>
+	<RocketMan.Enable>활성화</RocketMan.Enable>
 	<RocketMan.ShowIcon>로켓맨 버튼/아이콘 보이기</RocketMan.ShowIcon>
 	<RocketMan.ShowIcon.Description>게임의 한계로 인해 몇 가지 옵션은 게임 메뉴 설정에서 볼 수 없습니다.</RocketMan.ShowIcon.Description>	
 	<RocketMan.ProgressBar>시작할 때 시동 진행 막대 보여주기</RocketMan.ProgressBar>
@@ -31,7 +35,6 @@
 	<RocketMan.Debugging.Description>고급 사용자나 모더 전용</RocketMan.Debugging.Description>
 
 	<!-- Soyuz Soyuz.TabContent_DilationSettings -->
-
 	<Soyuz.Tab>시간 팽창 제어</Soyuz.Tab>
 	<Soyuz.Colored.Disabled>비활성화됨</Soyuz.Colored.Disabled>
 	<Soyuz.Colored.IgnoredAndDisabled>무시하고 비활성화됨</Soyuz.Colored.IgnoredAndDisabled>
@@ -48,6 +51,8 @@
 	<Soyuz.Current.EnableTimeDilation>시간 팽창 사용</Soyuz.Current.EnableTimeDilation>
 	<Soyuz.Current.EnableTimeDilationVisitors>방문자들에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeDilationVisitors>
 	<Soyuz.Current.EnableTimeWorldPawns>세계의 폰들에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWorldPawns>
+	<Soyuz.Current.EnableTimeWildlife>야생동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWildlife>
+	<Soyuz.Current.EnableTimeColonnyAnimals>정착지 동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeColonnyAnimals>
 	<Soyuz.DilationDisabled>시간 팽창 비활성화됨!</Soyuz.DilationDisabled>
 	<Soyuz.EnableDataLogging>데이터 로깅 사용</Soyuz.EnableDataLogging>
 	<Soyuz.Debug150MTPS>틱 배수를 150x로 설정</Soyuz.Debug150MTPS>
@@ -55,11 +60,10 @@
 	<Soyuz.AlwaysDilate>화면 밖 행동 시뮬레이션</Soyuz.AlwaysDilate>
 
 	<!-- Proton Proton.TabContent_Alerts -->
-
 	<Proton.Tab>경고 설정</Proton.Tab>
 	<Proton.Colored.ActiveNow>현재 활성화됨</Proton.Colored.ActiveNow>
-	<Proton.Colored.IgnoredAndBad>무시되었고 behaving badly</Proton.Colored.IgnoredAndBad>
-	<Proton.Colored.DisabledOrBad>비활성화되거나 or behaving badly</Proton.Colored.DisabledOrBad>
+	<Proton.Colored.IgnoredAndBad>무시되었고 비정상적으로 행동함</Proton.Colored.IgnoredAndBad>
+	<Proton.Colored.DisabledOrBad>비활성화되거나 비정상적으로 행동함</Proton.Colored.DisabledOrBad>
 	<Proton.Colored.Ignored>무시됨(중요한 경고)</Proton.Colored.Ignored>
 	<Proton.Enable>경고 제어 사용하기</Proton.Enable>	
 	<Proton.DisableAll.P1>비활성화 -</Proton.DisableAll.P1>	
