@@ -38,7 +38,7 @@ namespace Gagarin
                 int j = 1;
                 report.Write(Path.Combine(GagarinEnvironmentInfo.ReportsFolderPath, $"Report_{GenText.SanitizeFilename(report.Name.CapitalizeFirst())}.xml"));
                 string tag = report.IsCritical ? "CRITICAL" : "IGNOREME";
-                string primaryColor = report.IsCritical ? "orange" : "green";
+                string primaryColor = report.IsCritical ? "orange" : "yellow";
                 string secondaryColor = report.IsCritical ? "red" : "white";
                 builder.Clear();
                 builder.Append($"GAGARIN:[<color={primaryColor}>DUPLICATE:{tag}</color>]<color={secondaryColor}> duplicate found for Name={report.Name}</color>");
