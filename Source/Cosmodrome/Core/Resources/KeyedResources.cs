@@ -526,7 +526,7 @@ namespace RocketMan
         private static TaggedString _Soyuz_RaceName = null;
         /// <summary> Keyed string with key <c>Soyuz.RaceName</c> with inner text set to:
         ///
-        /// <code>Race Name</code>
+        /// <code>Race</code>
         /// </summary>       
         public static TaggedString Soyuz_RaceName {
             get => _Soyuz_RaceName != null ? 
@@ -536,7 +536,7 @@ namespace RocketMan
         private static TaggedString _Soyuz_PackageId = null;
         /// <summary> Keyed string with key <c>Soyuz.PackageId</c> with inner text set to:
         ///
-        /// <code>Parent Mod</code>
+        /// <code>Parent mod</code>
         /// </summary>       
         public static TaggedString Soyuz_PackageId {
             get => _Soyuz_PackageId != null ? 
@@ -751,6 +751,16 @@ namespace RocketMan
         public static TaggedString Proton_TimeSinceLast {
             get => _Proton_TimeSinceLast != null ? 
                    _Proton_TimeSinceLast : _Proton_TimeSinceLast = "Proton.TimeSinceLast".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_ParsingReports = null;
+        /// <summary> Keyed string with key <c>Gagarin.ParsingReports</c> with inner text set to:
+        ///
+        /// <code>RocketMan is checking for any duplicated Bases or Defs</code>
+        /// </summary>       
+        public static TaggedString Gagarin_ParsingReports {
+            get => _Gagarin_ParsingReports != null ? 
+                   _Gagarin_ParsingReports : _Gagarin_ParsingReports = "Gagarin.ParsingReports".Translate();
         }             
     }
 }

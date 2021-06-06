@@ -76,4 +76,6 @@
 	<Proton.AlertName>Alert name</Proton.AlertName>
 	<Proton.Avg>Average execution time</Proton.Avg>
 	<Proton.TimeSinceLast>Time since last update</Proton.TimeSinceLast>
+	<!-- Gagarin -->
+	<Gagarin.ParsingReports>RocketMan is checking for any duplicated Bases or Defs</Gagarin.ParsingReports>
 </LanguageData>

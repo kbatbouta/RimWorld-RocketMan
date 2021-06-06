@@ -37,6 +37,7 @@
 		</PackageReference>
 		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
 		<PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="8.0.0" ExcludeAssets="runtime" />
+		<PackageReference Include="XMLDiffPatch" Version="1.0.8.28" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Core\" />
@@ -60,6 +61,7 @@
 		<None Remove="Core\GUI\ Dialogs\" />
 		<None Remove="Core\Resources\" />
 		<None Remove="Core\Alerts\" />
+		<None Remove="XMLDiffPatch" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\AssemblyInfo.cs">
