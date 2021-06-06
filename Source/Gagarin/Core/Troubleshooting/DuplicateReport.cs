@@ -12,8 +12,6 @@ namespace Gagarin
 
         private readonly List<DuplicationRecord> records = new List<DuplicationRecord>();
 
-        private readonly HashSet<string> xmlNodes = new HashSet<string>();
-
         private bool coreModInvolved = false;
 
         public struct DuplicationRecord
@@ -91,11 +89,6 @@ namespace Gagarin
             {
                 coreModInvolved = true;
             }
-            if (xmlNodes.Contains(node.OuterXml) && !coreModInvolved)
-            {
-                return;
-            }
-            xmlNodes.Add(node.OuterXml);
             records.Add(DuplicationRecord.Create(node, mod, xmlFilePath));
         }
 
