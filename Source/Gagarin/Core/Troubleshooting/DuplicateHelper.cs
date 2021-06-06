@@ -70,10 +70,7 @@ namespace Gagarin
                     continue;
                 }
                 XmlElement element = node as XmlElement;
-                if (false
-                    || !element.HasAttribute("Abstract")
-                    || !element.HasAttribute("Name")
-                    || element.GetAttribute("Abstract").ToLower() == "false")
+                if (!element.HasAttribute("Name"))
                 {
                     continue;
                 }
