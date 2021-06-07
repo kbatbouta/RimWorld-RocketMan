@@ -90,7 +90,7 @@ namespace RocketMan
         public override void Close(bool doCloseSound = true)
         {
             base.Close(doCloseSound);
-            RocketDebugPrefs.DogData = false;
+            RocketDebugPrefs.LogData = false;
             Finder.RocketManWindow = null;
             if (!RocketPrefs.WarmingUp)
             {

@@ -140,7 +140,7 @@ namespace RocketMan
         {
             RocketDebugPrefs.Debug = false;
             RocketDebugPrefs.Debug150MTPS = false;
-            RocketDebugPrefs.DogData = false;
+            RocketDebugPrefs.LogData = false;
             RocketDebugPrefs.StatLogging = false;
             RocketDebugPrefs.FlashDilatedPawns = false;
             RocketDebugPrefs.AlwaysDilating = false;

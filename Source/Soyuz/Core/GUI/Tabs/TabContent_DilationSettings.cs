@@ -27,6 +27,10 @@ namespace Soyuz.Tabs
 
         public static List<Pair<Color, string>> descriptionBoxes;
 
+        private Listing_Collapsible collapsible = new Listing_Collapsible();
+
+        private Listing_Collapsible collapsible_debug = new Listing_Collapsible();
+
         public TabContent_DilationSettings()
         {
             if (descriptionBoxes == null)
@@ -58,26 +62,28 @@ namespace Soyuz.Tabs
         public override void DoContent(Rect rect)
         {
             RocketMan.GUIUtility.StashGUIState();
-            Listing_Standard standard = new Listing_Standard(GameFont.Tiny);
-            standard.Begin(rect.TopPartPixels(115 + (RocketDebugPrefs.Debug ? 100 : 0)));
-            standard.CheckboxLabeled("Soyuz.Current.EnableTimeDilation".Translate(), ref RocketPrefs.TimeDilation);
-            standard.GapLine();
-            standard.CheckboxLabeled("Soyuz.Current.EnableTimeWildlife".Translate(), ref RocketPrefs.TimeDilationWildlife);
-            standard.CheckboxLabeled("Soyuz.Current.EnableTimeDilationVisitors".Translate(), ref RocketPrefs.TimeDilationVisitors);
-            standard.CheckboxLabeled("Soyuz.Current.EnableTimeWorldPawns".Translate(), ref RocketPrefs.TimeDilationWorldPawns);
-            standard.CheckboxLabeled("Soyuz.Current.EnableTimeColonnyAnimals".Translate(), ref RocketPrefs.TimeDilationColonyAnimals);
+            collapsible.Begin(rect, KeyedResources.RocketMan_Settings);
+            collapsible.Label(KeyedResources.Soyuz_GeneralTip, invert: true);
+            collapsible.CheckboxLabeled(KeyedResources.Soyuz_Enable, ref RocketPrefs.TimeDilation);
+            collapsible.Line(1);
+            collapsible.Label(KeyedResources.Soyuz_GeneralTip);
+            collapsible.Line(1);
+            collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeWildlife, ref RocketPrefs.TimeDilationWildlife, disabled: !RocketPrefs.TimeDilation);
+            collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeDilationVisitors, ref RocketPrefs.TimeDilationVisitors, disabled: !RocketPrefs.TimeDilation);
+            collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeWorldPawns, ref RocketPrefs.TimeDilationWorldPawns, disabled: !RocketPrefs.TimeDilation);
+            collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeColonyAnimals, ref RocketPrefs.TimeDilationColonyAnimals, disabled: !RocketPrefs.TimeDilation);
+            collapsible.End(ref rect);
             if (RocketDebugPrefs.Debug)
             {
-                standard.GapLine();
-                standard.CheckboxLabeled("Soyuz.EnableDataLogging".Translate(), ref RocketDebugPrefs.DogData, "For debugging only.");
-                standard.CheckboxLabeled("Soyuz.Debug150MTPS".Translate(), ref RocketDebugPrefs.Debug150MTPS, "Dangerous!");
-                standard.CheckboxLabeled("Soyuz.FlashPawns".Translate(),
-                    ref RocketDebugPrefs.FlashDilatedPawns);
-                standard.CheckboxLabeled("Soyuz.AlwaysDilate".Translate(), ref RocketDebugPrefs.AlwaysDilating);
+                rect.yMin -= 1;
+                collapsible_debug.Begin(rect, KeyedResources.RocketMan_Settings_Debugging);
+                collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_EnableDataLogging, ref RocketDebugPrefs.LogData, disabled: !RocketPrefs.TimeDilation);
+                collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_Debug150MTPS, ref RocketDebugPrefs.Debug150MTPS, disabled: !RocketPrefs.TimeDilation);
+                collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_FlashPawns, ref RocketDebugPrefs.FlashDilatedPawns, disabled: !RocketPrefs.TimeDilation);
+                collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_AlwaysDilate, ref RocketDebugPrefs.AlwaysDilating, disabled: !RocketPrefs.TimeDilation);
+                collapsible_debug.End(ref rect);
             }
-            standard.End();
-            rect.yMin += 120 + (RocketDebugPrefs.Debug ? 100 : 0);
-
+            rect.yMin += 5;
             if (RocketPrefs.TimeDilation)
             {
                 DoExtras(rect);
@@ -97,12 +103,14 @@ namespace Soyuz.Tabs
             string oldString = searchString;
             searchString = Widgets.TextField(inRect.TopPartPixels(25), searchString).ToLower();
             if (oldString != searchString)
+            {
                 scrollPosition = Vector2.zero;
+            }
             inRect.yMin += 30;
             if (curSettings != null)
             {
                 DoRaceSettings(inRect);
-                inRect.yMin += 95;
+                inRect.yMin += 100;
             }
             RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
             {
@@ -181,7 +189,7 @@ namespace Soyuz.Tabs
                 RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
                 {
                     Text.Anchor = TextAnchor.MiddleLeft;
-                    Rect curRect = inRect.TopPartPixels(90);
+                    Rect curRect = inRect.TopPartPixels(95);
                     Widgets.DrawMenuSection(curRect);
                     curRect.xMax -= 2;
                     Rect closeRect = curRect.TopPartPixels(20).RightPartPixels(20);
@@ -195,11 +203,12 @@ namespace Soyuz.Tabs
                     curRect.xMin += 5;
                     RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
                     {
-                        Text.Font = GameFont.Tiny;
-                        Text.CurFontStyle.fontStyle = FontStyle.Bold;
-                        Widgets.Label(curRect.TopPartPixels(25), $"{curSettings.def.label?.CapitalizeFirst() ?? curSettings.def.defName}");
+                        Text.Font = GameFont.Small;
+                        //
+                        //Text.CurFontStyle.fontStyle = FontStyle.Bold;
+                        Widgets.Label(curRect.TopPartPixels(30), $"Selection: {curSettings.def.label?.CapitalizeFirst() ?? curSettings.def.defName}");
                     });
-                    curRect.yMin += 25;
+                    curRect.yMin += 30;
                     bool enabled = curSettings.enabled;
                     string color = enabled ? "white" : "red";
                     if (!IgnoreMeDatabase.ShouldIgnore(curSettings.def))

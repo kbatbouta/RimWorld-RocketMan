@@ -20,6 +20,7 @@ namespace RocketMan
         public static void Initialize()
         {
             Logger.logsFolder = RocketEnvironmentInfo.LogsFolderPath;
+
             if (!Directory.Exists(logsFolder))
             {
                 Directory.CreateDirectory(logsFolder);

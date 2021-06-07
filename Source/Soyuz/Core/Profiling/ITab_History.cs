@@ -14,7 +14,7 @@ namespace Soyuz.Profiling
 
         private Vector2 scrollView = Vector2.zero;
             
-        public override bool IsVisible => RocketDebugPrefs.DogData && RocketDebugPrefs.Debug && Prefs.LogVerbose && Prefs.DevMode;
+        public override bool IsVisible => RocketDebugPrefs.LogData && RocketDebugPrefs.Debug && Prefs.LogVerbose && Prefs.DevMode;
 
         public override void UpdateSize()
         {

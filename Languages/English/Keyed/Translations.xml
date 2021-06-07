@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+	<!-- General -->
+	<RocketMan.Settings>Settings</RocketMan.Settings>
+	<RocketMan.Settings.Debugging>Debug Settings</RocketMan.Settings.Debugging>
+	<RocketMan.Collapsible.Expand>[Expand]</RocketMan.Collapsible.Expand>
+	<RocketMan.Collapsible.Hide>[Hide]</RocketMan.Collapsible.Hide>
+	<!-- RocketMan -->
 	<RocketMan.Settings.PleaseUnpause>Please unpause the game... RocketMan is warming up!</RocketMan.Settings.PleaseUnpause>
 	<RocketMan.Settings.PleaseWait>Please wait... RocketMan is warming up!</RocketMan.Settings.PleaseWait>
 	<RocketMan.IncompatibilityWindow.Title>You are running incompatible mods</RocketMan.IncompatibilityWindow.Title>
@@ -33,24 +39,25 @@
 	<RocketMan.Debugging>Enable debugging</RocketMan.Debugging>
 	<RocketMan.Debugging.Description>Only for advanced users and modders</RocketMan.Debugging.Description>
 	<!-- Soyuz Soyuz.TabContent_DilationSettings -->
-	<Soyuz.Tab>Time Dilation Controls</Soyuz.Tab>
+	<Soyuz.Tab>Time dilation control</Soyuz.Tab>
 	<Soyuz.Colored.Disabled>Disabled</Soyuz.Colored.Disabled>
 	<Soyuz.Colored.IgnoredAndDisabled>Ignored and disabled</Soyuz.Colored.IgnoredAndDisabled>
 	<Soyuz.Colored.IsFastMoving>Is fast moving</Soyuz.Colored.IsFastMoving>
 	<Soyuz.Colored.IgnorePlayerFaction>Ignores player faction</Soyuz.Colored.IgnorePlayerFaction>
 	<Soyuz.Colored.IgnoreAllFaction>Ignores all factions</Soyuz.Colored.IgnoreAllFaction>
+	<Soyuz.Enable>Enable</Soyuz.Enable>
+	<Soyuz.GeneralTip>You can use the settings below to fix any issues with dilated pawns.</Soyuz.GeneralTip>
 	<Soyuz.EnableTimeDilation>Enable time dilation</Soyuz.EnableTimeDilation>
+	<Soyuz.EnableTimeDilationVisitors>Enable time dilation for visitors</Soyuz.EnableTimeDilationVisitors>
+	<Soyuz.EnableTimeWorldPawns>Enable time dilation for world pawns</Soyuz.EnableTimeWorldPawns>
+	<Soyuz.EnableTimeWildlife>Enable time dilation for wildlife</Soyuz.EnableTimeWildlife>
+	<Soyuz.EnableTimeColonyAnimals>Enable time dilation for colony animals</Soyuz.EnableTimeColonyAnimals>
 	<Soyuz.Current.Enable>Enable</Soyuz.Current.Enable>
 	<Soyuz.Current.IgnorePlayerFaction>Ignore player faction</Soyuz.Current.IgnorePlayerFaction>
 	<Soyuz.Current.IgnoreAllFactions>Ignore all factions</Soyuz.Current.IgnoreAllFactions>
 	<Soyuz.Current.FastPawn>This pawn move too fast to be throttled</Soyuz.Current.FastPawn>
 	<Soyuz.Current.Ignored>This pawn will be ignored because:</Soyuz.Current.Ignored>
 	<Soyuz.Current.MoveSpeed>This kind move at an average speed of {0} cell/seconds</Soyuz.Current.MoveSpeed>
-	<Soyuz.Current.EnableTimeDilation>Enable time dilation</Soyuz.Current.EnableTimeDilation>
-	<Soyuz.Current.EnableTimeDilationVisitors>Enable time dilation for visitors</Soyuz.Current.EnableTimeDilationVisitors>
-	<Soyuz.Current.EnableTimeWorldPawns>Enable time dilation for world pawns</Soyuz.Current.EnableTimeWorldPawns>
-	<Soyuz.Current.EnableTimeWildlife>Enable time dilation for wildlife</Soyuz.Current.EnableTimeWildlife>
-	<Soyuz.Current.EnableTimeColonnyAnimals>Enable time dilation for colony animals</Soyuz.Current.EnableTimeColonnyAnimals>
 	<Soyuz.DilationDisabled>Time dilation disabled!</Soyuz.DilationDisabled>
 	<Soyuz.RaceName>Race</Soyuz.RaceName>
 	<Soyuz.PackageId>Parent mod</Soyuz.PackageId>
@@ -59,12 +66,13 @@
 	<Soyuz.FlashPawns>Flash dilated pawns</Soyuz.FlashPawns>
 	<Soyuz.AlwaysDilate>Simulate offscreen behavior</Soyuz.AlwaysDilate>
 	<!-- Proton Proton.TabContent_Alerts -->
-	<Proton.Tab>Alerts Control</Proton.Tab>
+	<Proton.Tab>Alert managmenet</Proton.Tab>
 	<Proton.Colored.ActiveNow>Active now</Proton.Colored.ActiveNow>
 	<Proton.Colored.IgnoredAndBad>Ignored and behaving badly</Proton.Colored.IgnoredAndBad>
 	<Proton.Colored.DisabledOrBad>Disabled or behaving badly</Proton.Colored.DisabledOrBad>
 	<Proton.Colored.Ignored>Ignored (for critical alerts)</Proton.Colored.Ignored>
-	<Proton.Enable>Enable alerts controls</Proton.Enable>
+	<Proton.Enable>Enable</Proton.Enable>
+	<Proton.DisalbeAllInfo>If you have Dub's performance analyzer installed RocketMan will override its alert control system. Use this one instead.</Proton.DisalbeAllInfo>
 	<Proton.DisableAll.P1>DISABLE</Proton.DisableAll.P1>
 	<Proton.DisableAll.P2>all alerts</Proton.DisableAll.P2>
 	<Proton.Disabled>Controls disabled</Proton.Disabled>
