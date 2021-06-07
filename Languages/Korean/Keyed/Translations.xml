@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+	<!-- General -->
+	<RocketMan.Settings>설정</RocketMan.Settings>
+	<RocketMan.Settings.Debugging>디버그 설정</RocketMan.Settings.Debugging>
+	<RocketMan.Collapsible.Expand>[펼치기]</RocketMan.Collapsible.Expand>
+	<RocketMan.Collapsible.Hide>[숨기기]</RocketMan.Collapsible.Hide>
+
+	<!-- RocketMan -->
 	<RocketMan.Settings.PleaseUnpause>게임을 재개해 주세요... 로켓맨이 시동 중입니다!</RocketMan.Settings.PleaseUnpause>
 	<RocketMan.Settings.PleaseWait>잠시만 기다려 주세요... 로켓맨이 시동 중입니다!</RocketMan.Settings.PleaseWait>
 	<RocketMan.IncompatibilityWindow.Title>호환되지 않는 모드를 사용하고 있습니다.</RocketMan.IncompatibilityWindow.Title>
@@ -41,31 +48,35 @@
 	<Soyuz.Colored.IsFastMoving>빠르게 움직임</Soyuz.Colored.IsFastMoving>
 	<Soyuz.Colored.IgnorePlayerFaction>플레이어 세력 무시</Soyuz.Colored.IgnorePlayerFaction>
 	<Soyuz.Colored.IgnoreAllFaction>모든 세력 무시</Soyuz.Colored.IgnoreAllFaction>
+	<Soyuz.Enable>활성화</Soyuz.Enable>
+	<Soyuz.GeneralTip>아래의 설정을 이용해 시간 팽창된 폰에 대한 문제를 해결할 수 있습니다.</Soyuz.GeneralTip>
 	<Soyuz.EnableTimeDilation>시간 팽창 사용</Soyuz.EnableTimeDilation>
+	<Soyuz.EnableTimeDilationVisitors>방문자들에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeDilationVisitors>
+	<Soyuz.EnableTimeWorldPawns>세계의 폰들에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWorldPawns>
+	<Soyuz.EnableTimeWildlife>야생동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWildlife>
+	<Soyuz.EnableTimeColonnyAnimals>정착지 동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeColonnyAnimals>
 	<Soyuz.Current.Enable>활성화</Soyuz.Current.Enable>
 	<Soyuz.Current.IgnorePlayerFaction>플레이어 세력 무시</Soyuz.Current.IgnorePlayerFaction>
 	<Soyuz.Current.IgnoreAllFactions>모든 세력 무시</Soyuz.Current.IgnoreAllFactions>
 	<Soyuz.Current.FastPawn>이 폰은 지나치게 빠르게 움직입니다.</Soyuz.Current.FastPawn>
 	<Soyuz.Current.Ignored>이 폰을 다음의 이유로 무시합니다:</Soyuz.Current.Ignored>
 	<Soyuz.Current.MoveSpeed>이 종류는 평균 초당 {0}칸의 속도로 이동합니다.</Soyuz.Current.MoveSpeed>
-	<Soyuz.Current.EnableTimeDilation>시간 팽창 사용</Soyuz.Current.EnableTimeDilation>
-	<Soyuz.Current.EnableTimeDilationVisitors>방문자들에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeDilationVisitors>
-	<Soyuz.Current.EnableTimeWorldPawns>세계의 폰들에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWorldPawns>
-	<Soyuz.Current.EnableTimeWildlife>야생동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWildlife>
-	<Soyuz.Current.EnableTimeColonnyAnimals>정착지 동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeColonnyAnimals>
 	<Soyuz.DilationDisabled>시간 팽창 비활성화됨!</Soyuz.DilationDisabled>
+	<Soyuz.RaceName>종족</Soyuz.RaceName>
+	<Soyuz.PackageId>모드</Soyuz.PackageId>
 	<Soyuz.EnableDataLogging>데이터 로깅 사용</Soyuz.EnableDataLogging>
 	<Soyuz.Debug150MTPS>틱 배수를 150x로 설정</Soyuz.Debug150MTPS>
 	<Soyuz.FlashPawns>시간 팽창된 폰들 깜빡이기</Soyuz.FlashPawns>
 	<Soyuz.AlwaysDilate>화면 밖 행동 시뮬레이션</Soyuz.AlwaysDilate>
 
 	<!-- Proton Proton.TabContent_Alerts -->
-	<Proton.Tab>경고 설정</Proton.Tab>
+	<Proton.Tab>경고 관리</Proton.Tab>
 	<Proton.Colored.ActiveNow>현재 활성화됨</Proton.Colored.ActiveNow>
 	<Proton.Colored.IgnoredAndBad>무시되었고 비정상적으로 행동함</Proton.Colored.IgnoredAndBad>
 	<Proton.Colored.DisabledOrBad>비활성화되거나 비정상적으로 행동함</Proton.Colored.DisabledOrBad>
 	<Proton.Colored.Ignored>무시됨(중요한 경고)</Proton.Colored.Ignored>
 	<Proton.Enable>경고 제어 사용하기</Proton.Enable>	
+	<Proton.DisalbeAllInfo>Dub's performance analyzer를 사용하고 있다면, 로켓맨은 해당 모드의 경고 설정 시스템을 덮어씌울 것입니다. 로켓맨의 경고 관리를 사용하세요.</Proton.DisalbeAllInfo>
 	<Proton.DisableAll.P1>비활성화 -</Proton.DisableAll.P1>	
 	<Proton.DisableAll.P2>모든 경고</Proton.DisableAll.P2>	
 	<Proton.Disabled>경고 제어 비활성화됨</Proton.Disabled>	
@@ -77,4 +88,7 @@
 	<Proton.AlertName>경고 이름</Proton.AlertName>
 	<Proton.Avg>평균 실행 시간</Proton.Avg>
 	<Proton.TimeSinceLast>마지막 갱신 후 시간</Proton.TimeSinceLast>
+
+	<!-- Gagarin -->
+	<Gagarin.ParsingReports>로켓맨이 중복되는 Base나 Def를 검사하고 있습니다.</Gagarin.ParsingReports>
 </LanguageData>
