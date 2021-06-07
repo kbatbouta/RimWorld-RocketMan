@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
+using GUITextState = System.Tuple<string, float, float, Verse.GameFont, UnityEngine.FontStyle>;
 
 namespace RocketMan
 {
@@ -21,6 +24,8 @@ namespace RocketMan
             public Color backgroundColor;
             public bool wordWrap;
         }
+
+        private readonly static Dictionary<GUITextState, float> textHeightCache = new Dictionary<GUITextState, float>(512);
 
         private readonly static List<GUIState> stack = new List<GUIState>();
 
@@ -211,6 +216,50 @@ namespace RocketMan
             }
         }
 
+        public static void CheckBoxLabeled(Rect rect, string label, ref bool checkOn, bool disabled = false, bool monotone = false, float iconWidth = 20, GameFont font = GameFont.Tiny, bool placeCheckboxNearText = false, bool drawHighlightIfMouseover = true, Texture2D texChecked = null, Texture2D texUnchecked = null)
+        {
+            bool checkOnInt = checkOn;
+            ExecuteSafeGUIAction(() =>
+            {
+                Text.Font = font;
+                Text.Anchor = TextAnchor.MiddleLeft;
+                if (placeCheckboxNearText)
+                {
+                    rect.width = Mathf.Min(rect.width, Text.CalcSize(label).x + 24f + 10f);
+                }
+                Widgets.Label(rect, label);
+                if (!disabled && Widgets.ButtonInvisible(rect))
+                {
+                    checkOnInt = !checkOnInt;
+                    if (checkOnInt)
+                    {
+                        SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
+                    }
+                    else
+                    {
+                        SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
+                    }
+                }
+                Rect iconRect = new Rect(0f, 0f, iconWidth, iconWidth);
+                iconRect.center = rect.RightPartPixels(iconWidth).center;
+                Color color = GUI.color;
+                if (disabled || monotone)
+                {
+                    GUI.color = Widgets.InactiveColor;
+                }
+                GUI.DrawTexture(image: (checkOnInt) ? ((texChecked != null) ? texChecked : Widgets.CheckboxOnTex) : ((texUnchecked != null) ? texUnchecked : Widgets.CheckboxOffTex), position: iconRect);
+                if (disabled || monotone)
+                {
+                    GUI.color = color;
+                }
+                if (drawHighlightIfMouseover)
+                {
+                    Widgets.DrawHighlightIfMouseover(rect);
+                }
+            });
+            checkOn = checkOnInt;
+        }
+
         public static void ColorBoxDescription(Rect rect, Color color, string description)
         {
             Rect textRect = new Rect(rect.x + 30, rect.y, rect.width - 30, rect.height);
@@ -224,6 +273,36 @@ namespace RocketMan
                 Widgets.DrawBoxSolid(boxRect, color);
                 Widgets.Label(textRect, description.Fit(textRect));
             });
+        }
+
+        public static float GetTextHeight(this string text, Rect rect)
+        {
+            return text != null ? CalcTextHeight(text, rect.width) : 0;
+        }
+
+        public static float GetTextHeight(this string text, float width)
+        {
+            return text != null ? CalcTextHeight(text, width) : 0;
+        }
+
+        public static float GetTextHeight(this TaggedString text, float width)
+        {
+            return text != null ? CalcTextHeight(text, width) : 0;
+        }
+
+        public static float CalcTextHeight(string text, float width)
+        {
+            GUITextState key = GetGUIState(text, width);
+            if (textHeightCache.TryGetValue(key, out float height))
+            {
+                return height;
+            }
+            return textHeightCache[key] = Text.CalcHeight(text, width);
+        }
+
+        private static GUITextState GetGUIState(string text, float width)
+        {
+            return new GUITextState(text, width, Prefs.UIScale, Text.Font, Text.CurFontStyle.fontStyle);
         }
     }
 }

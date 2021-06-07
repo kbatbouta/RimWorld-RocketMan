@@ -2,18 +2,19 @@
 using RocketMan;
 using RocketMan.Tabs;
 using UnityEngine;
+using Verse;
 
 namespace Soyuz.Tabs
 {
     public class TabContent_WorldPawnsUtility : ITabContent
     {
+        public override bool ShouldShow => false;
+
+        public override string Label => "World Pawns";
+
         public TabContent_WorldPawnsUtility()
         {
         }
-
-        public override bool ShouldShow => RocketPrefs.Enabled && RocketDebugPrefs.Debug;
-
-        public override string Label => "World Pawns";
 
         public override void DoContent(Rect rect)
         {

@@ -72,8 +72,8 @@ namespace RocketMan.Tabs
                     });
                     GUIUtility.ExecuteSafeGUIAction(() =>
                     {
-                        Text.CurFontStyle.fontStyle = FontStyle.Bold;
                         Text.Font = GameFont.Medium;
+                        Text.CurFontStyle.fontStyle = FontStyle.Bold;
                         GUI.Label(contentRect.TopPartPixels(25), curTab.Label);
                     });
                     contentRect.yMin += 30;

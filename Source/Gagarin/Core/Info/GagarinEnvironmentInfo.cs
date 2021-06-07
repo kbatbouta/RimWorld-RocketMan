@@ -12,6 +12,8 @@ namespace Gagarin
     {
         private const string CacheFolderName = "Cache";
 
+        private const string ReportsFolderName = "Reports";
+
         private const string UnifiedXmlFileName = "Unified.xml";
 
         private const string UnifiedPatchedOriginalXmlFileName = "Unified_Original.xml";
@@ -26,6 +28,13 @@ namespace Gagarin
         public static string CacheFolderPath
         {
             get => _cacheFolderPath ?? (_cacheFolderPath = Path.Combine(RocketEnvironmentInfo.CustomConfigFolderPath, CacheFolderName));
+        }
+
+        private static string _reportsFolderPath;
+
+        public static string ReportsFolderPath
+        {
+            get => _reportsFolderPath ?? (_reportsFolderPath = Path.Combine(RocketEnvironmentInfo.CustomConfigFolderPath, ReportsFolderName));
         }
 
         private static string _unifiedXmlPath;

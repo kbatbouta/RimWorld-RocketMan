@@ -116,7 +116,7 @@ namespace Soyuz
                 Skip(pawn);
                 return;
             }
-            if (RocketDebugPrefs.DogData && Time.frameCount - RocketStates.LastFrame < 60)
+            if (RocketDebugPrefs.LogData && Time.frameCount - RocketStates.LastFrame < 60)
             {
                 _stopwatch.Reset();
                 _stopwatch.Start();
@@ -126,7 +126,7 @@ namespace Soyuz
         public static void EndTick(this Pawn pawn)
         {
             _pawnTick = null;
-            if (RocketDebugPrefs.DogData && Time.frameCount - RocketStates.LastFrame < 60)
+            if (RocketDebugPrefs.LogData && Time.frameCount - RocketStates.LastFrame < 60)
             {
                 _stopwatch.Stop();
                 var performanceModel = pawn.GetPerformanceModel();

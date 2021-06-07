@@ -99,7 +99,7 @@ namespace Soyuz.Tabs
         public override void OnSelect()
         {
             base.OnSelect();
-            RocketDebugPrefs.DogData = true;
+            RocketDebugPrefs.LogData = true;
         }
 
         [Main.YieldTabContent]

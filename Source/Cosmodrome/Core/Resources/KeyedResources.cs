@@ -23,6 +23,46 @@ namespace RocketMan
     public static class KeyedResources 
     {     
                            
+        private static TaggedString _RocketMan_Settings = null;
+        /// <summary> Keyed string with key <c>RocketMan.Settings</c> with inner text set to:
+        ///
+        /// <code>Settings</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Settings {
+            get => _RocketMan_Settings != null ? 
+                   _RocketMan_Settings : _RocketMan_Settings = "RocketMan.Settings".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_Settings_Debugging = null;
+        /// <summary> Keyed string with key <c>RocketMan.Settings.Debugging</c> with inner text set to:
+        ///
+        /// <code>Debug Settings</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Settings_Debugging {
+            get => _RocketMan_Settings_Debugging != null ? 
+                   _RocketMan_Settings_Debugging : _RocketMan_Settings_Debugging = "RocketMan.Settings.Debugging".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_Collapsible_Expand = null;
+        /// <summary> Keyed string with key <c>RocketMan.Collapsible.Expand</c> with inner text set to:
+        ///
+        /// <code>[Expand]</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Collapsible_Expand {
+            get => _RocketMan_Collapsible_Expand != null ? 
+                   _RocketMan_Collapsible_Expand : _RocketMan_Collapsible_Expand = "RocketMan.Collapsible.Expand".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_Collapsible_Hide = null;
+        /// <summary> Keyed string with key <c>RocketMan.Collapsible.Hide</c> with inner text set to:
+        ///
+        /// <code>[Hide]</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Collapsible_Hide {
+            get => _RocketMan_Collapsible_Hide != null ? 
+                   _RocketMan_Collapsible_Hide : _RocketMan_Collapsible_Hide = "RocketMan.Collapsible.Hide".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_Settings_PleaseUnpause = null;
         /// <summary> Keyed string with key <c>RocketMan.Settings.PleaseUnpause</c> with inner text set to:
         ///
@@ -96,7 +136,7 @@ namespace RocketMan
         private static TaggedString _RocketMan_Alert_StatsLearning_Label = null;
         /// <summary> Keyed string with key <c>RocketMan.Alert_StatsLearning.Label</c> with inner text set to:
         ///
-        /// <code>Adaptive mod is active</code>
+        /// <code>Adaptive mode is active</code>
         /// </summary>       
         public static TaggedString RocketMan_Alert_StatsLearning_Label {
             get => _RocketMan_Alert_StatsLearning_Label != null ? 
@@ -106,11 +146,31 @@ namespace RocketMan
         private static TaggedString _RocketMan_Alert_StatsLearning_Explanation = null;
         /// <summary> Keyed string with key <c>RocketMan.Alert_StatsLearning.Explanation</c> with inner text set to:
         ///
-        /// <code>Adaptive has been active for {0} minutes! It is recomended to have it running for {1} minutes per new save or when you change your mods.</code>
+        /// <code>Adaptive mode has been active for {0} minutes! It is recomended to have it running for {1} minutes per new save or when you change your mods.</code>
         /// </summary>       
         public static TaggedString RocketMan_Alert_StatsLearning_Explanation {
             get => _RocketMan_Alert_StatsLearning_Explanation != null ? 
                    _RocketMan_Alert_StatsLearning_Explanation : _RocketMan_Alert_StatsLearning_Explanation = "RocketMan.Alert_StatsLearning.Explanation".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_AdaptiveAlert_Label = null;
+        /// <summary> Keyed string with key <c>RocketMan.AdaptiveAlert.Label</c> with inner text set to:
+        ///
+        /// <code>Enable adaptive mode alert</code>
+        /// </summary>       
+        public static TaggedString RocketMan_AdaptiveAlert_Label {
+            get => _RocketMan_AdaptiveAlert_Label != null ? 
+                   _RocketMan_AdaptiveAlert_Label : _RocketMan_AdaptiveAlert_Label = "RocketMan.AdaptiveAlert.Label".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_AdaptiveAlert_Description = null;
+        /// <summary> Keyed string with key <c>RocketMan.AdaptiveAlert.Description</c> with inner text set to:
+        ///
+        /// <code>Disable this if you don't want the adaptive mode alert in your alert list.</code>
+        /// </summary>       
+        public static TaggedString RocketMan_AdaptiveAlert_Description {
+            get => _RocketMan_AdaptiveAlert_Description != null ? 
+                   _RocketMan_AdaptiveAlert_Description : _RocketMan_AdaptiveAlert_Description = "RocketMan.AdaptiveAlert.Description".Translate();
         }             
                            
         private static TaggedString _RocketMan_Unpause = null;
@@ -373,6 +433,26 @@ namespace RocketMan
                    _Soyuz_Colored_IgnoreAllFaction : _Soyuz_Colored_IgnoreAllFaction = "Soyuz.Colored.IgnoreAllFaction".Translate();
         }             
                            
+        private static TaggedString _Soyuz_Enable = null;
+        /// <summary> Keyed string with key <c>Soyuz.Enable</c> with inner text set to:
+        ///
+        /// <code>Enable</code>
+        /// </summary>       
+        public static TaggedString Soyuz_Enable {
+            get => _Soyuz_Enable != null ? 
+                   _Soyuz_Enable : _Soyuz_Enable = "Soyuz.Enable".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_GeneralTip = null;
+        /// <summary> Keyed string with key <c>Soyuz.GeneralTip</c> with inner text set to:
+        ///
+        /// <code>You can use the settings below to fix any issues with dilated pawns.</code>
+        /// </summary>       
+        public static TaggedString Soyuz_GeneralTip {
+            get => _Soyuz_GeneralTip != null ? 
+                   _Soyuz_GeneralTip : _Soyuz_GeneralTip = "Soyuz.GeneralTip".Translate();
+        }             
+                           
         private static TaggedString _Soyuz_EnableTimeDilation = null;
         /// <summary> Keyed string with key <c>Soyuz.EnableTimeDilation</c> with inner text set to:
         ///
@@ -381,6 +461,46 @@ namespace RocketMan
         public static TaggedString Soyuz_EnableTimeDilation {
             get => _Soyuz_EnableTimeDilation != null ? 
                    _Soyuz_EnableTimeDilation : _Soyuz_EnableTimeDilation = "Soyuz.EnableTimeDilation".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_EnableTimeDilationVisitors = null;
+        /// <summary> Keyed string with key <c>Soyuz.EnableTimeDilationVisitors</c> with inner text set to:
+        ///
+        /// <code>Enable time dilation for visitors</code>
+        /// </summary>       
+        public static TaggedString Soyuz_EnableTimeDilationVisitors {
+            get => _Soyuz_EnableTimeDilationVisitors != null ? 
+                   _Soyuz_EnableTimeDilationVisitors : _Soyuz_EnableTimeDilationVisitors = "Soyuz.EnableTimeDilationVisitors".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_EnableTimeWorldPawns = null;
+        /// <summary> Keyed string with key <c>Soyuz.EnableTimeWorldPawns</c> with inner text set to:
+        ///
+        /// <code>Enable time dilation for world pawns</code>
+        /// </summary>       
+        public static TaggedString Soyuz_EnableTimeWorldPawns {
+            get => _Soyuz_EnableTimeWorldPawns != null ? 
+                   _Soyuz_EnableTimeWorldPawns : _Soyuz_EnableTimeWorldPawns = "Soyuz.EnableTimeWorldPawns".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_EnableTimeWildlife = null;
+        /// <summary> Keyed string with key <c>Soyuz.EnableTimeWildlife</c> with inner text set to:
+        ///
+        /// <code>Enable time dilation for wildlife</code>
+        /// </summary>       
+        public static TaggedString Soyuz_EnableTimeWildlife {
+            get => _Soyuz_EnableTimeWildlife != null ? 
+                   _Soyuz_EnableTimeWildlife : _Soyuz_EnableTimeWildlife = "Soyuz.EnableTimeWildlife".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_EnableTimeColonyAnimals = null;
+        /// <summary> Keyed string with key <c>Soyuz.EnableTimeColonyAnimals</c> with inner text set to:
+        ///
+        /// <code>Enable time dilation for colony animals</code>
+        /// </summary>       
+        public static TaggedString Soyuz_EnableTimeColonyAnimals {
+            get => _Soyuz_EnableTimeColonyAnimals != null ? 
+                   _Soyuz_EnableTimeColonyAnimals : _Soyuz_EnableTimeColonyAnimals = "Soyuz.EnableTimeColonyAnimals".Translate();
         }             
                            
         private static TaggedString _Soyuz_Current_Enable = null;
@@ -443,56 +563,6 @@ namespace RocketMan
                    _Soyuz_Current_MoveSpeed : _Soyuz_Current_MoveSpeed = "Soyuz.Current.MoveSpeed".Translate();
         }             
                            
-        private static TaggedString _Soyuz_Current_EnableTimeDilation = null;
-        /// <summary> Keyed string with key <c>Soyuz.Current.EnableTimeDilation</c> with inner text set to:
-        ///
-        /// <code>Enable time dilation</code>
-        /// </summary>       
-        public static TaggedString Soyuz_Current_EnableTimeDilation {
-            get => _Soyuz_Current_EnableTimeDilation != null ? 
-                   _Soyuz_Current_EnableTimeDilation : _Soyuz_Current_EnableTimeDilation = "Soyuz.Current.EnableTimeDilation".Translate();
-        }             
-                           
-        private static TaggedString _Soyuz_Current_EnableTimeDilationVisitors = null;
-        /// <summary> Keyed string with key <c>Soyuz.Current.EnableTimeDilationVisitors</c> with inner text set to:
-        ///
-        /// <code>Enable time dilation for visitors</code>
-        /// </summary>       
-        public static TaggedString Soyuz_Current_EnableTimeDilationVisitors {
-            get => _Soyuz_Current_EnableTimeDilationVisitors != null ? 
-                   _Soyuz_Current_EnableTimeDilationVisitors : _Soyuz_Current_EnableTimeDilationVisitors = "Soyuz.Current.EnableTimeDilationVisitors".Translate();
-        }             
-                           
-        private static TaggedString _Soyuz_Current_EnableTimeWorldPawns = null;
-        /// <summary> Keyed string with key <c>Soyuz.Current.EnableTimeWorldPawns</c> with inner text set to:
-        ///
-        /// <code>Enable time dilation for world pawns</code>
-        /// </summary>       
-        public static TaggedString Soyuz_Current_EnableTimeWorldPawns {
-            get => _Soyuz_Current_EnableTimeWorldPawns != null ? 
-                   _Soyuz_Current_EnableTimeWorldPawns : _Soyuz_Current_EnableTimeWorldPawns = "Soyuz.Current.EnableTimeWorldPawns".Translate();
-        }             
-                           
-        private static TaggedString _Soyuz_Current_EnableTimeWildlife = null;
-        /// <summary> Keyed string with key <c>Soyuz.Current.EnableTimeWildlife</c> with inner text set to:
-        ///
-        /// <code>Enable time dilation for wildlife</code>
-        /// </summary>       
-        public static TaggedString Soyuz_Current_EnableTimeWildlife {
-            get => _Soyuz_Current_EnableTimeWildlife != null ? 
-                   _Soyuz_Current_EnableTimeWildlife : _Soyuz_Current_EnableTimeWildlife = "Soyuz.Current.EnableTimeWildlife".Translate();
-        }             
-                           
-        private static TaggedString _Soyuz_Current_EnableTimeColonnyAnimals = null;
-        /// <summary> Keyed string with key <c>Soyuz.Current.EnableTimeColonnyAnimals</c> with inner text set to:
-        ///
-        /// <code>Enable time dilation for colony animals</code>
-        /// </summary>       
-        public static TaggedString Soyuz_Current_EnableTimeColonnyAnimals {
-            get => _Soyuz_Current_EnableTimeColonnyAnimals != null ? 
-                   _Soyuz_Current_EnableTimeColonnyAnimals : _Soyuz_Current_EnableTimeColonnyAnimals = "Soyuz.Current.EnableTimeColonnyAnimals".Translate();
-        }             
-                           
         private static TaggedString _Soyuz_DilationDisabled = null;
         /// <summary> Keyed string with key <c>Soyuz.DilationDisabled</c> with inner text set to:
         ///
@@ -501,6 +571,26 @@ namespace RocketMan
         public static TaggedString Soyuz_DilationDisabled {
             get => _Soyuz_DilationDisabled != null ? 
                    _Soyuz_DilationDisabled : _Soyuz_DilationDisabled = "Soyuz.DilationDisabled".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_RaceName = null;
+        /// <summary> Keyed string with key <c>Soyuz.RaceName</c> with inner text set to:
+        ///
+        /// <code>Race</code>
+        /// </summary>       
+        public static TaggedString Soyuz_RaceName {
+            get => _Soyuz_RaceName != null ? 
+                   _Soyuz_RaceName : _Soyuz_RaceName = "Soyuz.RaceName".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_PackageId = null;
+        /// <summary> Keyed string with key <c>Soyuz.PackageId</c> with inner text set to:
+        ///
+        /// <code>Parent mod</code>
+        /// </summary>       
+        public static TaggedString Soyuz_PackageId {
+            get => _Soyuz_PackageId != null ? 
+                   _Soyuz_PackageId : _Soyuz_PackageId = "Soyuz.PackageId".Translate();
         }             
                            
         private static TaggedString _Soyuz_EnableDataLogging = null;
@@ -546,7 +636,7 @@ namespace RocketMan
         private static TaggedString _Proton_Tab = null;
         /// <summary> Keyed string with key <c>Proton.Tab</c> with inner text set to:
         ///
-        /// <code>Alert controls</code>
+        /// <code>Alerts Control</code>
         /// </summary>       
         public static TaggedString Proton_Tab {
             get => _Proton_Tab != null ? 
@@ -596,11 +686,21 @@ namespace RocketMan
         private static TaggedString _Proton_Enable = null;
         /// <summary> Keyed string with key <c>Proton.Enable</c> with inner text set to:
         ///
-        /// <code>Enable alerts controls</code>
+        /// <code>Enable</code>
         /// </summary>       
         public static TaggedString Proton_Enable {
             get => _Proton_Enable != null ? 
                    _Proton_Enable : _Proton_Enable = "Proton.Enable".Translate();
+        }             
+                           
+        private static TaggedString _Proton_DisalbeAllInfo = null;
+        /// <summary> Keyed string with key <c>Proton.DisalbeAllInfo</c> with inner text set to:
+        ///
+        /// <code>If you have Dub's performance analyzer installed RocketMan will override its alert control system. Use this one instead.</code>
+        /// </summary>       
+        public static TaggedString Proton_DisalbeAllInfo {
+            get => _Proton_DisalbeAllInfo != null ? 
+                   _Proton_DisalbeAllInfo : _Proton_DisalbeAllInfo = "Proton.DisalbeAllInfo".Translate();
         }             
                            
         private static TaggedString _Proton_DisableAll_P1 = null;
@@ -711,6 +811,16 @@ namespace RocketMan
         public static TaggedString Proton_TimeSinceLast {
             get => _Proton_TimeSinceLast != null ? 
                    _Proton_TimeSinceLast : _Proton_TimeSinceLast = "Proton.TimeSinceLast".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_ParsingReports = null;
+        /// <summary> Keyed string with key <c>Gagarin.ParsingReports</c> with inner text set to:
+        ///
+        /// <code>RocketMan is checking for any duplicated Bases or Defs</code>
+        /// </summary>       
+        public static TaggedString Gagarin_ParsingReports {
+            get => _Gagarin_ParsingReports != null ? 
+                   _Gagarin_ParsingReports : _Gagarin_ParsingReports = "Gagarin.ParsingReports".Translate();
         }             
     }
 }
