@@ -28,6 +28,9 @@
 	<RocketMan.Tab>홈</RocketMan.Tab>
 	<RocketMan.Close>닫기</RocketMan.Close>
 	<RocketMan.Enable>활성화</RocketMan.Enable>
+	<RocketMan.Experimental>실험적 기능</RocketMan.Experimental>
+	<RocketMan.EnableGagarin>로딩 시간 줄이기</RocketMan.EnableGagarin>
+	<RocketMan.EnableGagarin.Tip>로켓맨은 xml 패치 연산을 캐싱해서 로딩 시간을 줄이려고 시도할 것입니다. 이 설정을 활성화한 후 로켓맨이 캐시를 생성하려면 게임을 두 번 재시작해야 합니다. 모드를 얼마나 많이 사용하는지, 그리고 어떤 모드를 사용하는지에 따라 2배 정도까지 로딩이 빨라집니다. Combat Extended나 Doc universal과 같이 xml 패치가 많은 모드들에 대해 사용하기를 권장합니다.</RocketMan.EnableGagarin.Tip>
 	<RocketMan.ShowIcon>로켓맨 버튼/아이콘 보이기</RocketMan.ShowIcon>
 	<RocketMan.ShowIcon.Description>게임의 한계로 인해 몇 가지 옵션은 게임 메뉴 설정에서 볼 수 없습니다.</RocketMan.ShowIcon.Description>	
 	<RocketMan.ProgressBar>시작할 때 시동 진행 막대 보여주기</RocketMan.ProgressBar>
@@ -57,6 +60,8 @@
 	<Soyuz.EnableTimeCriticalHediffs>치명적인 건강 상태의 폰들에 대해 시간 팽창 사용</Soyuz.EnableTimeCriticalHediffs>
 	<Soyuz.EnableTimeWildlife>야생동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWildlife>
 	<Soyuz.EnableTimeColonnyAnimals>정착지 동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeColonnyAnimals>
+	<Soyuz.EnableTimeColonists>정착민들에 대해 시간 팽창 사용</Soyuz.EnableTimeColonists>
+	<Soyuz.EnableTimeColonists.Warning>경고: 매우 위험합니다. 모드 제작자가 허용하지 않는 한 사용하지 마십시오. 사용 시 세이브 파일이 망가지거나 이상행동이 나타날 수 있습니다.</Soyuz.EnableTimeColonists.Warning>	
 	<Soyuz.Current.Enable>활성화</Soyuz.Current.Enable>
 	<Soyuz.Current.Tip>무엇을 하고 있는지 이해할 때만 아래의 설정을 변경하세요. 선택한 종족의 설정을 변경할 수 있습니다.</Soyuz.Current.Tip>
 	<Soyuz.Current.IgnorePlayerFaction>플레이어 세력 무시</Soyuz.Current.IgnorePlayerFaction>
