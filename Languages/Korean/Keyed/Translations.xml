@@ -5,6 +5,7 @@
 	<RocketMan.Settings.Debugging>디버그 설정</RocketMan.Settings.Debugging>
 	<RocketMan.Collapsible.Expand>[펼치기]</RocketMan.Collapsible.Expand>
 	<RocketMan.Collapsible.Hide>[숨기기]</RocketMan.Collapsible.Hide>
+	<RocketMan.Selection>선택: {0}</RocketMan.Selection>
 
 	<!-- RocketMan -->
 	<RocketMan.Settings.PleaseUnpause>게임을 재개해 주세요... 로켓맨이 시동 중입니다!</RocketMan.Settings.PleaseUnpause>
@@ -53,9 +54,11 @@
 	<Soyuz.EnableTimeDilation>시간 팽창 사용</Soyuz.EnableTimeDilation>
 	<Soyuz.EnableTimeDilationVisitors>방문자들에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeDilationVisitors>
 	<Soyuz.EnableTimeWorldPawns>세계의 폰들에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWorldPawns>
+	<Soyuz.EnableTimeCriticalHediffs>치명적인 건강 상태의 폰들에 대해 시간 팽창 사용</Soyuz.EnableTimeCriticalHediffs>
 	<Soyuz.EnableTimeWildlife>야생동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWildlife>
 	<Soyuz.EnableTimeColonnyAnimals>정착지 동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeColonnyAnimals>
 	<Soyuz.Current.Enable>활성화</Soyuz.Current.Enable>
+	<Soyuz.Current.Tip>무엇을 하고 있는지 이해할 때만 아래의 설정을 변경하세요. 선택한 종족의 설정을 변경할 수 있습니다.</Soyuz.Current.Tip>
 	<Soyuz.Current.IgnorePlayerFaction>플레이어 세력 무시</Soyuz.Current.IgnorePlayerFaction>
 	<Soyuz.Current.IgnoreAllFactions>모든 세력 무시</Soyuz.Current.IgnoreAllFactions>
 	<Soyuz.Current.FastPawn>이 폰은 지나치게 빠르게 움직입니다.</Soyuz.Current.FastPawn>
