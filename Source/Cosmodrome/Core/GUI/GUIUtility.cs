@@ -5,63 +5,11 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
-using GUITextState = System.Tuple<string, float, float, Verse.GameFont, UnityEngine.FontStyle>;
 
 namespace RocketMan
 {
-    public static class GUIUtility
+    public static partial class GUIUtility
     {
-        private struct GUIState
-        {
-            public GameFont font;
-            public FontStyle curStyle;
-            public FontStyle curTextAreaReadOnlyStyle;
-            public FontStyle curTextAreaStyle;
-            public FontStyle curTextFieldStyle;
-            public TextAnchor anchor;
-            public Color color;
-            public Color contentColor;
-            public Color backgroundColor;
-            public bool wordWrap;
-        }
-
-        private readonly static Dictionary<GUITextState, float> textHeightCache = new Dictionary<GUITextState, float>(512);
-
-        private readonly static List<GUIState> stack = new List<GUIState>();
-
-        public static void StashGUIState()
-        {
-            stack.Add(new GUIState()
-            {
-                font = Text.Font,
-                curStyle = Text.CurFontStyle.fontStyle,
-                curTextAreaReadOnlyStyle = Text.CurTextAreaReadOnlyStyle.fontStyle,
-                curTextAreaStyle = Text.CurTextAreaStyle.fontStyle,
-                curTextFieldStyle = Text.CurTextFieldStyle.fontStyle,
-                anchor = Text.Anchor,
-                color = GUI.color,
-                wordWrap = Text.WordWrap,
-                contentColor = GUI.contentColor,
-                backgroundColor = GUI.backgroundColor
-            });
-        }
-
-        public static void RestoreGUIState()
-        {
-            GUIState config = stack.Last();
-            stack.RemoveLast();
-            Text.Font = config.font;
-            Text.CurTextAreaReadOnlyStyle.fontStyle = config.curTextAreaReadOnlyStyle;
-            Text.CurTextAreaStyle.fontStyle = config.curTextAreaStyle;
-            Text.CurTextFieldStyle.fontStyle = config.curTextFieldStyle;
-            Text.CurFontStyle.fontStyle = config.curStyle;
-            GUI.color = config.color;
-            GUI.contentColor = config.contentColor;
-            GUI.backgroundColor = config.backgroundColor;
-            Text.WordWrap = config.wordWrap;
-            Text.Anchor = config.anchor;
-        }
-
         public static Exception ExecuteSafeGUIAction(Action function, Action fallbackAction = null, bool catchExceptions = false)
         {
             StashGUIState();
@@ -96,6 +44,7 @@ namespace RocketMan
 
         public static void ScrollView<T>(Rect rect, ref Vector2 scrollPosition, IEnumerable<T> elements, Func<T, float> heightLambda, Action<Rect, T> elementLambda, Func<T, IComparable> orderByLambda = null, bool drawBackground = true, bool showScrollbars = true, bool catchExceptions = false, bool drawMouseOverHighlights = true)
         {
+            StashGUIState();
             Exception exception = null;
             if (drawBackground)
             {
@@ -119,7 +68,6 @@ namespace RocketMan
             }
             j = 0;
             Widgets.BeginScrollView(rect, ref scrollPosition, contentRect, showScrollbars: showScrollbars);
-            StashGUIState();
             try
             {
                 Rect currentRect = new Rect(1, 0, w, 0);
@@ -156,8 +104,8 @@ namespace RocketMan
             }
             finally
             {
-                RestoreGUIState();
                 Widgets.EndScrollView();
+                RestoreGUIState();
             }
             if (exception != null && !catchExceptions)
                 throw exception;
@@ -183,8 +131,8 @@ namespace RocketMan
                     curRect.y = j * rowStep + rect.y;
                     ExecuteSafeGUIAction(() =>
                     {
+                        GUIFont.Font = GameFont.Tiny;
                         Text.Anchor = TextAnchor.MiddleLeft;
-                        Text.Font = GameFont.Tiny;
                         cellLambda(curRect, elements[k++]);
                     });
                 }
@@ -221,7 +169,7 @@ namespace RocketMan
             bool checkOnInt = checkOn;
             ExecuteSafeGUIAction(() =>
             {
-                Text.Font = font;
+                GUIFont.Font = font;
                 Text.Anchor = TextAnchor.MiddleLeft;
                 if (placeCheckboxNearText)
                 {
@@ -268,41 +216,11 @@ namespace RocketMan
             ExecuteSafeGUIAction(() =>
             {
                 Text.Anchor = TextAnchor.MiddleLeft;
-                Text.Font = GameFont.Tiny;
-                Text.CurFontStyle.fontStyle = FontStyle.Normal;
+                GUIFont.Font = GameFont.Tiny;
+                GUIFont.FontStyle = FontStyle.Normal;
                 Widgets.DrawBoxSolid(boxRect, color);
-                Widgets.Label(textRect, description.Fit(textRect));
+                Widgets.Label(textRect, description);
             });
-        }
-
-        public static float GetTextHeight(this string text, Rect rect)
-        {
-            return text != null ? CalcTextHeight(text, rect.width) : 0;
-        }
-
-        public static float GetTextHeight(this string text, float width)
-        {
-            return text != null ? CalcTextHeight(text, width) : 0;
-        }
-
-        public static float GetTextHeight(this TaggedString text, float width)
-        {
-            return text != null ? CalcTextHeight(text, width) : 0;
-        }
-
-        public static float CalcTextHeight(string text, float width)
-        {
-            GUITextState key = GetGUIState(text, width);
-            if (textHeightCache.TryGetValue(key, out float height))
-            {
-                return height;
-            }
-            return textHeightCache[key] = Text.CalcHeight(text, width);
-        }
-
-        private static GUITextState GetGUIState(string text, float width)
-        {
-            return new GUITextState(text, width, Prefs.UIScale, Text.Font, Text.CurFontStyle.fontStyle);
         }
     }
 }

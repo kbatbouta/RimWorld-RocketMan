@@ -110,8 +110,7 @@ namespace Soyuz
             if (false
                 || !RocketPrefs.Enabled
                 || !RocketPrefs.TimeDilation
-                || !pawn.IsValidWildlifeOrWorldPawn()
-                || (!RocketPrefs.TimeDilationCriticalHediffs && pawn.HasCriticalHediff()))
+                || !pawn.IsValidWildlifeOrWorldPawn())
             {
                 Skip(pawn);
                 return;

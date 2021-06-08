@@ -58,14 +58,14 @@ namespace Soyuz.Profiling
                 if (curRecords[i].value < minY)
                     minY = curRecords[i].value;
             }
-            var font = Text.Font;
+            var font = GUIFont.Font;
             var anchor = Text.Anchor;
-            Text.Font = GameFont.Tiny;
+            GUIFont.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.UpperLeft;
             Widgets.Label(numbersRect.TopPartPixels(25), $"{maxY * 100}{unit}");
             Text.Anchor = TextAnchor.LowerLeft;
             Widgets.Label(numbersRect.BottomPartPixels(25), $"{minY * 100}{unit}");
-            Text.Font = font;
+            GUIFont.Font = font;
             Text.Anchor = anchor;
             float dTickMax = curRecords.Last().Tick - curRecords.First().Tick;
             var curA = rect.position + new Vector2(0, rect.height);

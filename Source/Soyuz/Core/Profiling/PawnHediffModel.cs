@@ -60,7 +60,7 @@ namespace Soyuz.Profiling
             }
             var font = Text.Font;
             var anchor = Text.Anchor;
-            Text.Font = GameFont.Tiny;
+            GUIFont.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.UpperLeft;
             Widgets.Label(numbersRect.TopPartPixels(25), $"{maxY * 100}{unit}");
             Text.Anchor = TextAnchor.LowerLeft;

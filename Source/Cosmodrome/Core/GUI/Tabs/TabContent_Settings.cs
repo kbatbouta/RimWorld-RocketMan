@@ -5,6 +5,7 @@ namespace RocketMan.Tabs
 {
     public class TabContent_Settings : ITabContent
     {
+        public override Texture2D Icon => TexTab.Settings;
         public override string Label => KeyedResources.RocketMan_Tab;
         public override bool ShouldShow => true;
 
@@ -18,7 +19,7 @@ namespace RocketMan.Tabs
                 {
                     GUIUtility.ExecuteSafeGUIAction(() =>
                     {
-                        Text.Font = GameFont.Medium;
+                        GUIFont.Font = GameFont.Medium;
                         Text.Anchor = TextAnchor.MiddleCenter;
                         if (Find.TickManager.Paused)
                             Widgets.Label(rect, KeyedResources.RocketMan_Settings_PleaseWait);

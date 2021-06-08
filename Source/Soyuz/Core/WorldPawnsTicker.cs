@@ -15,12 +15,19 @@ namespace Soyuz
         public const int BucketCount = 30;
 
         private static HashSet<Pawn> pawns = new HashSet<Pawn>();
+
         private static HashSet<Pawn> caravaningPawns = new HashSet<Pawn>();
+
         private static HashSet<Pawn> previousBucket = new HashSet<Pawn>();
+
         private static HashSet<Pawn>[] buckets;
+
         private static Game game;
+
         private static bool dirty = false;
+
         public static int curIndex = 0;
+
         public static int curCycle = 0;
 
         public static bool isActive = false;
@@ -139,6 +146,13 @@ namespace Soyuz
 
         public static HashSet<Pawn> GetPawns(bool fallbackMode = false)
         {
+            if (buckets == null)
+            {
+                Log.Message("SOYUZ: GetPawns called before initialization");
+                TryInitialize();
+
+                return Find.WorldPawns.pawnsAlive;
+            }
             HashSet<Pawn> bucket = buckets[curIndex];
             curIndex = GenTicks.TicksGame % 30;
             if (curIndex == 0)

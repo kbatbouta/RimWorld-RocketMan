@@ -25,8 +25,8 @@ namespace Soyuz.Tabs
         public override void DoContent(Rect rect)
         {
             standard.Begin(rect.TopPartPixels(95 + (RocketDebugPrefs.Debug ? 120 : 0)));
-            var font = Text.Font;
-            Text.Font = GameFont.Tiny;
+            var font = GUIFont.Font;
+            GUIFont.Font = GameFont.Tiny;
             standard.CheckboxLabeled("Enable time dilation", ref RocketPrefs.TimeDilation, "Experimental.");
             standard.GapLine();
             // TODO: remake this
@@ -43,7 +43,7 @@ namespace Soyuz.Tabs
                     ref RocketDebugPrefs.FlashDilatedPawns);
                 standard.CheckboxLabeled("Simulate offscreen behavior", ref RocketDebugPrefs.AlwaysDilating);
             }
-            Text.Font = font;
+            GUIFont.Font = font;
             standard.End();
             rect.yMin += 85 + (RocketDebugPrefs.Debug ? 120 : 0);
             DoExtras(rect);
@@ -60,9 +60,9 @@ namespace Soyuz.Tabs
             {
                 return;
             }
-            var font = Text.Font;
+            var font = GUIFont.Font;
             var anchor = Text.Anchor;
-            Text.Font = GameFont.Tiny;
+            GUIFont.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleLeft;
             rect.yMin += 25;
             var searchRect = rect.TopPartPixels(25);
@@ -76,7 +76,7 @@ namespace Soyuz.Tabs
                 var height = 128 + (RocketDebugPrefs.Debug ? 75 : 0);
                 var selectionRect = rect.TopPartPixels(height);
                 Widgets.DrawMenuSection(selectionRect);
-                Text.Font = GameFont.Tiny;
+                GUIFont.Font = GameFont.Tiny;
                 Widgets.DefLabelWithIcon(selectionRect.TopPartPixels(54), curSelection.pawnDef);
                 if (Widgets.ButtonImage(selectionRect.RightPartPixels(30).TopPartPixels(30).ContractedBy(5),
                     TexButton.CloseXSmall))
@@ -86,7 +86,7 @@ namespace Soyuz.Tabs
                 }
                 selectionRect.yMin += 54;
                 standard_extras.Begin(selectionRect.ContractedBy(3));
-                Text.Font = GameFont.Tiny;
+                GUIFont.Font = GameFont.Tiny;
                 if (!IgnoreMeDatabase.ShouldIgnore(curSelection.pawnDef))
                 {
                     standard_extras.CheckboxLabeled($"Enable dilation for {curSelection.pawnDef?.label ?? "_"}", ref curSelection.enabled, tooltip: "Used to control which races are dilated/throttled in case of a problem.");
@@ -149,7 +149,7 @@ namespace Soyuz.Tabs
                 curRect.y += 58;
             }
             Widgets.EndScrollView();
-            Text.Font = font;
+            GUIFont.Font = font;
             Text.Anchor = anchor;
             Finder.Mod.WriteSettings();
             SoyuzSettingsUtility.CacheSettings();

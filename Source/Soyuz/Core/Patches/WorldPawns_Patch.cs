@@ -23,8 +23,14 @@ namespace Soyuz.Patches
         [SoyuzPatch(typeof(WorldPawns), nameof(WorldPawns.DoMothballProcessing))]
         public static class WorldPawns_DoMothballProcessing_Patch
         {
+            public static void Prefix(WorldPawns __instance)
+            {
+                WorldPawnsTicker.isActive = false;
+            }
+
             public static void Postfix(WorldPawns __instance)
             {
+                WorldPawnsTicker.isActive = true;
                 WorldPawnsTicker.SetDirty();
             }
         }
@@ -56,6 +62,18 @@ namespace Soyuz.Patches
             {
                 WorldPawnsTicker.SetDirty();
                 WorldPawnsTicker.Deregister(p);
+            }
+        }
+
+        [SoyuzPatch(typeof(WorldPawns), nameof(WorldPawns.ShouldAutoTendTo))]
+        public class WorldPawns_ShouldAutoTendTo_Patch
+        {
+            public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+                ILGenerator generator)
+            {
+                return instructions.MethodReplacer(
+                    AccessTools.Method(typeof(Gen), nameof(Gen.IsHashIntervalTick), new[] { typeof(Thing), typeof(int) }),
+                    AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsCustomTickInterval)));
             }
         }
 

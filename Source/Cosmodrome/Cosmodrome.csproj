@@ -44,7 +44,7 @@
 		<Folder Include="Properties\" />
 		<Folder Include="Core\Resources\" />
 		<Folder Include="Core\Alerts\" />
-		<Folder Include="Core\GUI\Elements\" />
+		<Folder Include="Core\GUI\Listings\" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\..\1.2\**\*.xml" CopyToOutputDirectory="Never">
