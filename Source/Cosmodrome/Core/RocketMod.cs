@@ -21,6 +21,8 @@ namespace RocketMan
 
         private static readonly Listing_Collapsible collapsible_debug = new Listing_Collapsible();
 
+        private static readonly Listing_Collapsible collapsible_experimental = new Listing_Collapsible();
+
         public static RocketSettings Settings;
 
         public static RocketMod Instance;
@@ -112,6 +114,7 @@ namespace RocketMan
                     {
                         collapsible_debug.Expanded = false;
                         collapsible_junk.Expanded = false;
+                        collapsible_experimental.Expanded = false;
                     }
                     collapsible_other.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
                     collapsible_other.CheckboxLabeled("RocketMan.AdaptiveAlert.Label".Translate(), ref RocketPrefs.LearningAlertEnabled, "RocketMan.AdaptiveAlert.Description".Translate());
@@ -119,12 +122,32 @@ namespace RocketMan
                     collapsible_other.End(ref inRect);
                     inRect.yMin += 5;
 
+                    expanded = collapsible_experimental.Expanded;
+                    collapsible_experimental.Begin(inRect, KeyedResources.RocketMan_Experimental);
+                    if (collapsible_experimental.Expanded != expanded)
+                    {
+                        collapsible_debug.Expanded = false;
+                        collapsible_junk.Expanded = false;
+                        collapsible_other.Expanded = false;
+                    }
+                    collapsible_experimental.Label(KeyedResources.RocketMan_EnableGagarin_Tip);
+                    bool devKeyEnabled = File.Exists(RocketEnvironmentInfo.DevKeyFilePath);
+                    if (collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_EnableGagarin, ref devKeyEnabled))
+                    {
+                        if (!devKeyEnabled && File.Exists(RocketEnvironmentInfo.DevKeyFilePath))
+                            File.Delete(RocketEnvironmentInfo.DevKeyFilePath);
+                        if (devKeyEnabled && !File.Exists(RocketEnvironmentInfo.DevKeyFilePath))
+                            File.WriteAllText(RocketEnvironmentInfo.DevKeyFilePath, "enabled");
+                    }
+                    collapsible_experimental.End(ref inRect);
+                    inRect.yMin += 5;
                     expanded = collapsible_debug.Expanded;
                     collapsible_debug.Begin(inRect, "Debugging options");
                     if (collapsible_debug.Expanded != expanded)
                     {
                         collapsible_other.Expanded = false;
                         collapsible_junk.Expanded = false;
+                        collapsible_experimental.Expanded = false;
                     }
                     if (collapsible_debug.CheckboxLabeled("RocketMan.Debugging".Translate(), ref RocketDebugPrefs.Debug, "RocketMan.Debugging.Description".Translate())
                     && !RocketDebugPrefs.Debug)

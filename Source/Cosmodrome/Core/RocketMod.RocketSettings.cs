@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -100,21 +101,25 @@ namespace RocketMan
             {
                 Scribe_Values.Look(ref RocketDebugPrefs.Debug, "debug", false);
                 Scribe_Values.Look(ref RocketPrefs.Enabled, "enabled", true);
-                Scribe_Values.Look(ref RocketPrefs.Learning, "learning");
+                Scribe_Values.Look(ref RocketPrefs.Learning, "learning", true);
                 Scribe_Values.Look(ref RocketPrefs.StatGearCachingEnabled, "statGearCachingEnabled", true);
                 Scribe_Values.Look(ref RocketPrefs.ShowWarmUpPopup, "showWarmUpPopup", true);
                 Scribe_Values.Look(ref RocketPrefs.AlertThrottling, "alertThrottling", true);
                 Scribe_Values.Look(ref RocketPrefs.DisableAllAlert, "disableAllAlert", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilation, "timeDilation", true);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationWildlife, "TimeDilationWildlife", true);
+                Scribe_Values.Look(ref RocketPrefs.TimeDilationColonists, "TimeDilationColonists", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationFire, "TimeDilationFire", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationCaravans, "timeDilationCaravans", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationVisitors, "timeDilationVisitors", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationWorldPawns, "timeDilationWorldPawns", true);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationColonyAnimals, "timeDialationColonyAnimals", true);
-                Scribe_Values.Look(ref RocketPrefs.TimeDilationCriticalHediffs, "timeDilationCriticalHediffs", true);
+                Scribe_Values.Look(ref RocketPrefs.TimeDilationCriticalHediffs, "timeDilationCriticalHediffs_newtemp", false);
                 Scribe_Values.Look(ref RocketPrefs.MainButtonToggle, "mainButtonToggle", true);
-                Scribe_Values.Look(ref RocketPrefs.CorpsesRemovalEnabled, "corpsesRemovalEnabled", false);
+                Scribe_Values.Look(ref RocketPrefs.CorpsesRemovalEnabled, "corpsesRemovalEnabled", true);
+
+                if (!RocketEnvironmentInfo.IsDevEnv)
+                    RocketPrefs.TimeDilationColonists = false;
             }
 
             private void ScribeExtras()

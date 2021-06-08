@@ -52,11 +52,11 @@ namespace RocketMan
                     $"<color=red>{assemblyName}</color> and file name of " +
                     $"<color=red>{fileName}</color>");
                 string symbolStorePath = filePath.Substring(0, filePath.Length - 3) + "pdb";
-                if (RocketEnvironmentInfo.IsDevEnv && File.Exists(symbolStorePath))
-                {
-                    yield return LoadAssembly_AssemblyResolve(assemblyName, filePath, symbolStorePath);
-                }
-                else
+                //if (RocketEnvironmentInfo.IsDevEnv && File.Exists(symbolStorePath))
+                //{
+                //    yield return LoadAssembly_AssemblyResolve(assemblyName, filePath, symbolStorePath);
+                //}
+                //else
                 {
                     yield return LoadAssembly_AssemblyResolve(assemblyName, filePath);
                 }

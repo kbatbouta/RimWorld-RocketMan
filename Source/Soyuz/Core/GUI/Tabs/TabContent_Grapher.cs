@@ -18,7 +18,7 @@ namespace Soyuz.Tabs
 
         public override string Label => "Grapher";
 
-        public override bool ShouldShow => RocketPrefs.Enabled && RocketPrefs.TimeDilation;
+        public override bool ShouldShow => RocketDebugPrefs.Debug && RocketPrefs.TimeDilation;
 
         public override void DoContent(Rect rect)
         {

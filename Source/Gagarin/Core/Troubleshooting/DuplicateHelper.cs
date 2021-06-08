@@ -30,9 +30,18 @@ namespace Gagarin
             get => duplicates;
         }
 
+        public static void QueueReportProcessing()
+        {
+            LongEventHandler.QueueLongEvent(() => JoinReportParser(), textKey: "Gagarin.ParsingReports", false, null);
+        }
+
         public static void ParseCreateReports(XmlDocument document, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
         {
             Log.Message("GAGARIN:[DUPLICATE]: Started!");
+            if (Context.IsRecovering)
+            {
+                return;
+            }
             List<DuplicateReport> duplicates_Base;
             List<DuplicateReport> duplicates_defName;
             bool failed = true;
@@ -76,6 +85,10 @@ namespace Gagarin
 
         private static void ParseReportsOffMainThread()
         {
+            if (Context.IsRecovering)
+            {
+                return;
+            }
             StringBuilder builder = new StringBuilder();
             GenThreading.ParallelForEach(duplicates.ToList(),
             (d) =>
@@ -105,7 +118,7 @@ namespace Gagarin
                 {
                     builder.AppendInNewLine($"\t{j++}. PackageId={record.mod?.PackageId}\t| ModName={record.mod?.Name}\t| XmlFilePath={record.xmlFilePath}");
                 }
-                Log.Error(builder.ToString());
+                Log.Message(builder.ToString());
             }
             Log.Message($"GAGARIN:[DUPLICATE] Finished creating reports at <color=red>{GagarinEnvironmentInfo.ReportsFolderPath}</color>");
             nameToReport.Clear();
@@ -113,7 +126,7 @@ namespace Gagarin
 
         private static void JoinReportParser()
         {
-            if (Thread_ReportParser == null)
+            if (Thread_ReportParser == null || Context.IsRecovering)
             {
                 return;
             }
@@ -231,11 +244,5 @@ namespace Gagarin
             Directory.CreateDirectory(GagarinEnvironmentInfo.ReportsFolderPath);
         }
 
-        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members")]
-        [Main.OnInitialization]
-        private static void QueueReportProcessing()
-        {
-            LongEventHandler.QueueLongEvent(() => JoinReportParser(), textKey: KeyedResources.Gagarin_ParsingReports, false, null);
-        }
     }
 }

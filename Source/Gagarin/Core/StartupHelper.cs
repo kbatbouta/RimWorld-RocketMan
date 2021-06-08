@@ -38,6 +38,8 @@ namespace Gagarin
                 Directory.CreateDirectory(GagarinEnvironmentInfo.CacheFolderPath);
             }
 
+            Log.Warning("GAGARIN: <color=green>Cache not found!</color>");
+
             RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
         }
 

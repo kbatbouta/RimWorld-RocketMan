@@ -35,7 +35,7 @@ namespace RocketMan
         public static bool TimeDilation = true;
 
         [Main.SettingsField(warmUpValue: false)]
-        public static bool TimeDilationCriticalHediffs = true;
+        public static bool TimeDilationCriticalHediffs = false;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool TimeDilationWorldPawns = true;
@@ -51,6 +51,9 @@ namespace RocketMan
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool TimeDilationWildlife = true;
+
+        [Main.SettingsField(warmUpValue: false)]
+        public static bool TimeDilationColonists = true;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool TimeDilationColonyAnimals = true;

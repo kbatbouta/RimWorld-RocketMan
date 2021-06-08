@@ -253,6 +253,36 @@ namespace RocketMan
                    _RocketMan_Enable : _RocketMan_Enable = "RocketMan.Enable".Translate();
         }             
                            
+        private static TaggedString _RocketMan_Experimental = null;
+        /// <summary> Keyed string with key <c>RocketMan.Experimental</c> with inner text set to:
+        ///
+        /// <code>Experimental features</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Experimental {
+            get => _RocketMan_Experimental != null ? 
+                   _RocketMan_Experimental : _RocketMan_Experimental = "RocketMan.Experimental".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_EnableGagarin = null;
+        /// <summary> Keyed string with key <c>RocketMan.EnableGagarin</c> with inner text set to:
+        ///
+        /// <code>Enable load time reduction (Faster loading times)</code>
+        /// </summary>       
+        public static TaggedString RocketMan_EnableGagarin {
+            get => _RocketMan_EnableGagarin != null ? 
+                   _RocketMan_EnableGagarin : _RocketMan_EnableGagarin = "RocketMan.EnableGagarin".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_EnableGagarin_Tip = null;
+        /// <summary> Keyed string with key <c>RocketMan.EnableGagarin.Tip</c> with inner text set to:
+        ///
+        /// <code>RocketMan will attempt to reduce your loading time by caching Xml patch operations. After you active this settings restart your game twice inorder to RocketMan to create the cache. Depending on how many mods you use and what mods you could see upto 2x faster loading time. This is recommended to be used with Xml patch heavy mods such as Combat Extended or Doc universal.</code>
+        /// </summary>       
+        public static TaggedString RocketMan_EnableGagarin_Tip {
+            get => _RocketMan_EnableGagarin_Tip != null ? 
+                   _RocketMan_EnableGagarin_Tip : _RocketMan_EnableGagarin_Tip = "RocketMan.EnableGagarin.Tip".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_ShowIcon = null;
         /// <summary> Keyed string with key <c>RocketMan.ShowIcon</c> with inner text set to:
         ///
@@ -521,6 +551,26 @@ namespace RocketMan
         public static TaggedString Soyuz_EnableTimeColonyAnimals {
             get => _Soyuz_EnableTimeColonyAnimals != null ? 
                    _Soyuz_EnableTimeColonyAnimals : _Soyuz_EnableTimeColonyAnimals = "Soyuz.EnableTimeColonyAnimals".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_EnableTimeColonists = null;
+        /// <summary> Keyed string with key <c>Soyuz.EnableTimeColonists</c> with inner text set to:
+        ///
+        /// <code>Enable time dilation for colonists</code>
+        /// </summary>       
+        public static TaggedString Soyuz_EnableTimeColonists {
+            get => _Soyuz_EnableTimeColonists != null ? 
+                   _Soyuz_EnableTimeColonists : _Soyuz_EnableTimeColonists = "Soyuz.EnableTimeColonists".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_EnableTimeColonists_Warning = null;
+        /// <summary> Keyed string with key <c>Soyuz.EnableTimeColonists.Warning</c> with inner text set to:
+        ///
+        /// <code>WARNING: This is extremely dangerous. DO NOT USE THIS unless the mod author allow you to do so. Using this can break your saves and result in strange behaviour</code>
+        /// </summary>       
+        public static TaggedString Soyuz_EnableTimeColonists_Warning {
+            get => _Soyuz_EnableTimeColonists_Warning != null ? 
+                   _Soyuz_EnableTimeColonists_Warning : _Soyuz_EnableTimeColonists_Warning = "Soyuz.EnableTimeColonists.Warning".Translate();
         }             
                            
         private static TaggedString _Soyuz_Current_Enable = null;
