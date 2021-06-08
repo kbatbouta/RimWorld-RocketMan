@@ -26,6 +26,9 @@
 	<RocketMan.Tab>Home</RocketMan.Tab>
 	<RocketMan.Close>Close</RocketMan.Close>
 	<RocketMan.Enable>Enable</RocketMan.Enable>
+	<RocketMan.Experimental>Experimental features</RocketMan.Experimental>
+	<RocketMan.EnableGagarin>Enable load time reduction (Faster loading times)</RocketMan.EnableGagarin>
+	<RocketMan.EnableGagarin.Tip>RocketMan will attempt to reduce your loading time by caching Xml patch operations. After you active this settings restart your game twice inorder to RocketMan to create the cache. Depending on how many mods you use and what mods you could see upto 2x faster loading time. This is recommended to be used with Xml patch heavy mods such as Combat Extended or Doc universal.</RocketMan.EnableGagarin.Tip>
 	<RocketMan.ShowIcon>Show RocketMan button/icon</RocketMan.ShowIcon>
 	<RocketMan.ShowIcon.Description>Due to game limiations some options aren't available from the game menu settings.</RocketMan.ShowIcon.Description>
 	<RocketMan.ProgressBar>Show warmup progress bar on startup</RocketMan.ProgressBar>

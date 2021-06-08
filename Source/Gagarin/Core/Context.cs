@@ -11,6 +11,10 @@ namespace Gagarin
 
         public static bool IsLoadingModXML = false;
 
+        public static bool IsRecovering = false;
+
+        public static bool LoadingFinished = false;
+
         public static ModContentPack Core;
 
         public static Dictionary<XmlNode, LoadableXmlAsset> DefsXmlAssets = new Dictionary<XmlNode, LoadableXmlAsset>();

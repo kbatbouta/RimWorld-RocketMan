@@ -73,7 +73,6 @@ namespace Gagarin
             get => File.Exists(UnifiedXmlFilePath) && File.Exists(HashFilePath) && Directory.Exists(CacheFolderPath);
         }
 
-
         private static bool _modListChangedInt;
 
         private static bool _modListChanged;

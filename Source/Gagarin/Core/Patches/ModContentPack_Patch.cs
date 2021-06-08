@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RocketMan;
 using Verse;
 
 namespace Gagarin
@@ -11,14 +12,18 @@ namespace Gagarin
         {
             public static void Prefix(ModContentPack __instance)
             {
-                Context.CurrentLoadingMod = __instance;
+                if (!Context.IsRecovering)
+                    Context.CurrentLoadingMod = __instance;
             }
 
             public static void Postfix(ModContentPack __instance)
             {
-                __instance.LoadPatches();
+                if (!Context.IsRecovering)
+                {
+                    __instance.LoadPatches();
 
-                Context.CurrentLoadingMod = null;
+                    Context.CurrentLoadingMod = null;
+                }
             }
         }
     }

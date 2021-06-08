@@ -29,6 +29,7 @@ namespace Soyuz
                 return false;
             if (pawn.def.race.Humanlike)
                 return false;
+            // TODO redo this
             // if (pawn.def.race.Humanlike)
             // {
             //    Faction playerFaction = Faction.OfPlayer;

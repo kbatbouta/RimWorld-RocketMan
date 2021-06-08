@@ -20,23 +20,33 @@ namespace Gagarin
 
         public static void Postfix(LoadableXmlAsset __instance, string contents)
         {
-            if (Context.IsLoadingModXML)
+            if (!Context.IsRecovering && Context.IsLoadingModXML)
             {
-                UInt64 current = CalculateHash(contents);
-                string id = __instance.GetLoadableId();
-
-                lock (Context.AssetsHashes)
+                try
                 {
-                    if (!Context.AssetsHashes.TryGetValue(id, out UInt64 old) || current != old)
-                    {
-                        Context.IsUsingCache = false;
+                    UInt64 current = CalculateHash(contents);
+                    string id = __instance.GetLoadableId();
 
-                        if (GagarinEnvironmentInfo.CacheExists)
-                            Log.Warning($"GAGARIN: Asset changed! " +
-                                $"<color=red>{__instance.name}</color>:<color=red>{Context.CurrentLoadingMod?.PackageId ?? "Unknown"}</color> " +
-                                $"in {__instance.fullFolderPath}");
+                    lock (Context.AssetsHashes)
+                    {
+                        if (!Context.AssetsHashes.TryGetValue(id, out UInt64 old) || current != old)
+                        {
+                            Context.IsUsingCache = false;
+
+                            if (GagarinEnvironmentInfo.CacheExists)
+                                Log.Warning($"GAGARIN: Asset changed! " +
+                                    $"<color=red>{__instance.name}</color>:<color=red>{Context.CurrentLoadingMod?.PackageId ?? "Unknown"}</color> " +
+                                    $"in {__instance.fullFolderPath}");
+                        }
+                        Context.AssetsHashes[id] = current;
                     }
-                    Context.AssetsHashes[id] = current;
+                }
+                catch (Exception er)
+                {
+                    Logger.Debug("GAGARIN: Failed in LoadableXmlAsset", exception: er);
+
+                    Context.IsRecovering = true;
+                    Context.IsUsingCache = false;
                 }
             }
         }

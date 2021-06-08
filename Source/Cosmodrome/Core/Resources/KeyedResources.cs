@@ -253,6 +253,36 @@ namespace RocketMan
                    _RocketMan_Enable : _RocketMan_Enable = "RocketMan.Enable".Translate();
         }             
                            
+        private static TaggedString _RocketMan_Experimental = null;
+        /// <summary> Keyed string with key <c>RocketMan.Experimental</c> with inner text set to:
+        ///
+        /// <code>Experimental features</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Experimental {
+            get => _RocketMan_Experimental != null ? 
+                   _RocketMan_Experimental : _RocketMan_Experimental = "RocketMan.Experimental".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_EnableGagarin = null;
+        /// <summary> Keyed string with key <c>RocketMan.EnableGagarin</c> with inner text set to:
+        ///
+        /// <code>Enable load time reduction (Faster loading times)</code>
+        /// </summary>       
+        public static TaggedString RocketMan_EnableGagarin {
+            get => _RocketMan_EnableGagarin != null ? 
+                   _RocketMan_EnableGagarin : _RocketMan_EnableGagarin = "RocketMan.EnableGagarin".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_EnableGagarin_Tip = null;
+        /// <summary> Keyed string with key <c>RocketMan.EnableGagarin.Tip</c> with inner text set to:
+        ///
+        /// <code>RocketMan will attempt to reduce your loading time by caching Xml patch operations. After you active this settings restart your game twice inorder to RocketMan to create the cache. Depending on how many mods you use and what mods you could see upto 2x faster loading time. This is recommended to be used with Xml patch heavy mods such as Combat Extended or Doc universal.</code>
+        /// </summary>       
+        public static TaggedString RocketMan_EnableGagarin_Tip {
+            get => _RocketMan_EnableGagarin_Tip != null ? 
+                   _RocketMan_EnableGagarin_Tip : _RocketMan_EnableGagarin_Tip = "RocketMan.EnableGagarin.Tip".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_ShowIcon = null;
         /// <summary> Keyed string with key <c>RocketMan.ShowIcon</c> with inner text set to:
         ///
