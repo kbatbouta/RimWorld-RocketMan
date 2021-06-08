@@ -29,8 +29,8 @@ namespace Soyuz
                 return false;
             if (pawn.def.race.Humanlike)
                 return false;
-            //if (pawn.def.race.Humanlike)
-            //{
+            // if (pawn.def.race.Humanlike)
+            // {
             //    Faction playerFaction = Faction.OfPlayer;
             //    if (pawn.factionInt == playerFaction)
             //        return false;
@@ -59,7 +59,7 @@ namespace Soyuz
             //            return true;
             //    }
             //    return false;
-            //}
+            // } 
             RaceSettings raceSettings = pawn.GetRaceSettings();
             if (pawn.factionInt == Faction.OfPlayer)
                 return !raceSettings.ignorePlayerFaction && RocketPrefs.TimeDilationColonyAnimals;
