@@ -493,6 +493,16 @@ namespace RocketMan
                    _Soyuz_EnableTimeWorldPawns : _Soyuz_EnableTimeWorldPawns = "Soyuz.EnableTimeWorldPawns".Translate();
         }             
                            
+        private static TaggedString _Soyuz_EnableTimeCriticalHediffs = null;
+        /// <summary> Keyed string with key <c>Soyuz.EnableTimeCriticalHediffs</c> with inner text set to:
+        ///
+        /// <code>Enable time dilation for pawns with critical hediffs</code>
+        /// </summary>       
+        public static TaggedString Soyuz_EnableTimeCriticalHediffs {
+            get => _Soyuz_EnableTimeCriticalHediffs != null ? 
+                   _Soyuz_EnableTimeCriticalHediffs : _Soyuz_EnableTimeCriticalHediffs = "Soyuz.EnableTimeCriticalHediffs".Translate();
+        }             
+                           
         private static TaggedString _Soyuz_EnableTimeWildlife = null;
         /// <summary> Keyed string with key <c>Soyuz.EnableTimeWildlife</c> with inner text set to:
         ///

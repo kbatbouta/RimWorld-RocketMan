@@ -75,6 +75,7 @@ namespace Soyuz.Tabs
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeWildlife, ref RocketPrefs.TimeDilationWildlife, disabled: !RocketPrefs.TimeDilation);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeDilationVisitors, ref RocketPrefs.TimeDilationVisitors, disabled: !RocketPrefs.TimeDilation);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeWorldPawns, ref RocketPrefs.TimeDilationWorldPawns, disabled: !RocketPrefs.TimeDilation);
+            collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeCriticalHediffs, ref RocketPrefs.TimeDilationCriticalHediffs, disabled: !RocketPrefs.TimeDilation);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeColonyAnimals, ref RocketPrefs.TimeDilationColonyAnimals, disabled: !RocketPrefs.TimeDilation);
             collapsible.End(ref rect);
             if (RocketDebugPrefs.Debug)

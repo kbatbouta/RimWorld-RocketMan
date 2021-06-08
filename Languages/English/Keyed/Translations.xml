@@ -51,6 +51,7 @@
 	<Soyuz.EnableTimeDilation>Enable time dilation</Soyuz.EnableTimeDilation>
 	<Soyuz.EnableTimeDilationVisitors>Enable time dilation for visitors</Soyuz.EnableTimeDilationVisitors>
 	<Soyuz.EnableTimeWorldPawns>Enable time dilation for world pawns</Soyuz.EnableTimeWorldPawns>
+	<Soyuz.EnableTimeCriticalHediffs>Enable time dilation for pawns with critical hediffs</Soyuz.EnableTimeCriticalHediffs>
 	<Soyuz.EnableTimeWildlife>Enable time dilation for wildlife</Soyuz.EnableTimeWildlife>
 	<Soyuz.EnableTimeColonyAnimals>Enable time dilation for colony animals</Soyuz.EnableTimeColonyAnimals>
 	<Soyuz.Current.Enable>Enable</Soyuz.Current.Enable>
