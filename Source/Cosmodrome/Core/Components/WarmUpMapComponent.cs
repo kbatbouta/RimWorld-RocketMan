@@ -166,7 +166,7 @@ namespace RocketMan
         {
             FontStyle style = Text.CurFontStyle.fontStyle;
             Color color = GUI.color;
-            GameFont font = Text.Font;
+            GameFont font = GUIFont.Font;
             TextAnchor anchor = Text.Anchor;
             try
             {
@@ -175,11 +175,11 @@ namespace RocketMan
                 Rect progressRect = inRect.BottomHalf();
                 progressRect.xMin += 25;
                 progressRect.xMax -= 25;
-                Text.Font = GameFont.Small;
+                GUIFont.Font = GameFont.Small;
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Widgets.Label(textRect.TopPart(0.6f), (Find.TickManager?.Paused ?? false) ?
                     KeyedResources.RocketMan_Unpause : "<color=orange>" + KeyedResources.RocketMan_RocketMan + "</color> " + KeyedResources.RocketMan_Warming);
-                Text.Font = GameFont.Tiny;
+                GUIFont.Font = GameFont.Tiny;
                 Widgets.Label(textRect.BottomPart(0.4f), KeyedResources.RocketMan_HideProgressBar);
                 DoProgressBar(progressRect);
             }
@@ -190,7 +190,7 @@ namespace RocketMan
             finally
             {
                 Text.Anchor = anchor;
-                Text.Font = font;
+                GUIFont.Font = font;
                 Text.CurFontStyle.fontStyle = style;
                 GUI.color = color;
             }

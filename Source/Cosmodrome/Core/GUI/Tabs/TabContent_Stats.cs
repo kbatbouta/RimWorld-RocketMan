@@ -13,6 +13,8 @@ namespace RocketMan.Tabs
 
         public override string Label => "Statistics";
 
+        public override Texture2D Icon => TexTab.Stats;
+
         public override bool ShouldShow => RocketPrefs.Enabled && RocketDebugPrefs.Debug;
 
         private string searchString = "";
@@ -42,8 +44,9 @@ namespace RocketMan.Tabs
                 },
                 (rect, stat) =>
                 {
-                    Widgets.Label(rect.TopPartPixels(20), stat.label.CapitalizeFirst());
                     GUIUtility.StashGUIState();
+                    GUIFont.size = GUIFontSize.Tiny;
+                    Widgets.Label(rect.TopPartPixels(20), stat.label.CapitalizeFirst());
                     Text.Anchor = TextAnchor.UpperRight;
                     Text.CurFontStyle.fontStyle = FontStyle.Italic;
                     Widgets.Label(rect, $"{RocketStates.StatExpiry[stat.index]} Ticks");

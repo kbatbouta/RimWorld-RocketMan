@@ -11,6 +11,8 @@ namespace Soyuz.Tabs
 {
     public class TabContent_DilationSettings : ITabContent
     {
+        public override Texture2D Icon => TexTab.Dilation;
+
         public override bool ShouldShow => RocketPrefs.Enabled;
 
         public override string Label => "Soyuz.Tab".Translate();
@@ -30,6 +32,8 @@ namespace Soyuz.Tabs
         private Listing_Collapsible collapsible = new Listing_Collapsible();
 
         private Listing_Collapsible collapsible_debug = new Listing_Collapsible();
+
+        private Listing_Collapsible collapsible_selection = new Listing_Collapsible();
 
         public TabContent_DilationSettings()
         {
@@ -91,7 +95,7 @@ namespace Soyuz.Tabs
             else RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
             {
                 Text.Anchor = TextAnchor.MiddleCenter;
-                Text.Font = GameFont.Medium;
+                GUIFont.Font = GameFont.Medium;
                 Widgets.DrawMenuSection(rect);
                 Widgets.Label(rect, "Soyuz.DilationDisabled".Translate());
             });
@@ -109,21 +113,22 @@ namespace Soyuz.Tabs
             inRect.yMin += 30;
             if (curSettings != null)
             {
-                DoRaceSettings(inRect);
-                inRect.yMin += 100;
+                DoRaceSettings(ref inRect);
+                // ------------------
+                // inRect.yMin += 100;
             }
             RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
             {
                 Rect curRect = inRect.TopPartPixels(60);
                 Widgets.DrawMenuSection(curRect);
-                Text.Font = GameFont.Tiny;
+                GUIFont.Font = GameFont.Tiny;
                 RocketMan.GUIUtility.GridView<Pair<Color, string>>(curRect, 2, descriptionBoxes, (rect, pair) =>
                 {
                     RocketMan.GUIUtility.ColorBoxDescription(rect, pair.first, pair.second);
                 }, drawBackground: false);
             });
             inRect.yMin += 60;
-            Text.Font = GameFont.Tiny;
+            GUIFont.Font = GameFont.Tiny;
             Text.CurFontStyle.fontStyle = FontStyle.Normal;
             RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
             {
@@ -182,63 +187,33 @@ namespace Soyuz.Tabs
             );
         }
 
-        private void DoRaceSettings(Rect inRect)
+        private void DoRaceSettings(ref Rect inRect)
         {
             if (curSettings != null)
             {
-                RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
+                collapsible_selection.Expanded = true;
+                collapsible_selection.Begin(inRect, KeyedResources.RocketMan_Selection.Formatted(curSettings.def.label?.CapitalizeFirst() ?? curSettings.def.defName), drawIcon: false, drawInfo: false);
+                if (!IgnoreMeDatabase.ShouldIgnore(curSettings.def))
                 {
-                    Text.Anchor = TextAnchor.MiddleLeft;
-                    Rect curRect = inRect.TopPartPixels(95);
-                    Widgets.DrawMenuSection(curRect);
-                    curRect.xMax -= 2;
-                    Rect closeRect = curRect.TopPartPixels(20).RightPartPixels(20);
-                    closeRect.x -= 3;
-                    closeRect.y += 3;
-                    if (Widgets.ButtonImage(closeRect, TexButton.CloseXSmall, true))
-                    {
-                        curSettings = null;
-                        return;
-                    }
-                    curRect.xMin += 5;
-                    RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
-                    {
-                        Text.Font = GameFont.Small;
-                        //
-                        //Text.CurFontStyle.fontStyle = FontStyle.Bold;
-                        Widgets.Label(curRect.TopPartPixels(30), $"Selection: {curSettings.def.label?.CapitalizeFirst() ?? curSettings.def.defName}");
-                    });
-                    curRect.yMin += 30;
-                    bool enabled = curSettings.enabled;
-                    string color = enabled ? "white" : "red";
-                    if (!IgnoreMeDatabase.ShouldIgnore(curSettings.def))
-                    {
-                        Text.Anchor = TextAnchor.MiddleLeft;
-                        RocketMan.GUIUtility.CheckBoxLabeled(curRect.TopPartPixels(20), "Soyuz.Current.Enable".Translate(),
-                            ref curSettings.enabled);
-                        curRect.yMin += 20;
-                        RocketMan.GUIUtility.CheckBoxLabeled(curRect.TopPartPixels(20), "Soyuz.Current.IgnoreAllFactions".Translate(),
-                            ref curSettings.ignoreFactions);
-                        curRect.yMin += 20;
-                        RocketMan.GUIUtility.CheckBoxLabeled(curRect.TopPartPixels(20), "Soyuz.Current.IgnorePlayerFaction".Translate(),
-                            ref curSettings.ignorePlayerFaction);
-                        curRect.yMin += 20;
-                    }
-                    else if (curSettings.isFastMoving)
-                    {
-                        Widgets.Label(curRect.TopPartPixels(20), "<color=yellow>" + "Soyuz.Current.FastPawn".Translate() + "</color>");
-                        curRect.yMin += 20;
-                        Widgets.Label(curRect.TopPartPixels(20), "Soyuz.Current.MoveSpeed".Translate().Formatted(curSettings.def.GetStatValueAbstract(StatDefOf.MoveSpeed)));
-                        curRect.yMin += 20;
-                    }
-                    else
-                    {
-                        Widgets.Label(curRect.TopPartPixels(20), "<color=yellow>" + "Soyuz.Current.Ignored".Translate() + "</color>");
-                        curRect.yMin += 20;
-                        Widgets.Label(curRect.TopPartPixels(20), IgnoreMeDatabase.Report(curSettings.def));
-                        curRect.yMin += 20;
-                    }
-                });
+                    collapsible_selection.CheckboxLabeled("Soyuz.Current.Enable".Translate(), ref curSettings.enabled);
+                    collapsible_selection.Line(1);
+                    collapsible_selection.Label(KeyedResources.Soyuz_Current_Tip);
+                    collapsible_selection.Line(1);
+                    collapsible_selection.CheckboxLabeled("Soyuz.Current.IgnoreAllFactions".Translate(), ref curSettings.ignoreFactions, disabled: !curSettings.enabled);
+                    collapsible_selection.CheckboxLabeled("Soyuz.Current.IgnorePlayerFaction".Translate(), ref curSettings.ignorePlayerFaction, disabled: !curSettings.enabled);
+                }
+                else if (curSettings.isFastMoving)
+                {
+                    collapsible_selection.Label("<color=yellow>" + "Soyuz.Current.FastPawn".Translate() + "</color>");
+                    collapsible_selection.Label("Soyuz.Current.MoveSpeed".Translate().Formatted(curSettings.def.GetStatValueAbstract(StatDefOf.MoveSpeed)));
+                }
+                else
+                {
+                    collapsible_selection.Label("<color=yellow>" + "Soyuz.Current.Ignored".Translate() + "</color>");
+                    collapsible_selection.Label(IgnoreMeDatabase.Report(curSettings.def));
+                }
+                collapsible_selection.End(ref inRect);
+                inRect.yMin += 5;
             }
         }
 

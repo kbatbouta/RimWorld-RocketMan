@@ -13,7 +13,13 @@ namespace RocketMan
 {
     public partial class RocketMod : Mod
     {
-        private static readonly Listing_Standard standard = new Listing_Standard();
+        private static readonly Listing_Collapsible collapsible_general = new Listing_Collapsible();
+
+        private static readonly Listing_Collapsible collapsible_junk = new Listing_Collapsible();
+
+        private static readonly Listing_Collapsible collapsible_other = new Listing_Collapsible();
+
+        private static readonly Listing_Collapsible collapsible_debug = new Listing_Collapsible();
 
         public static RocketSettings Settings;
 
@@ -64,22 +70,21 @@ namespace RocketMan
         {
             base.DoSettingsWindowContents(inRect);
             DoSettings(inRect);
+            GUIUtility.ClearGUIState();
         }
 
         public static void DoSettings(Rect inRect, bool doStats = true, Action<Listing_Standard> extras = null)
         {
             GUIUtility.ExecuteSafeGUIAction(() =>
             {
-                Rect rect = inRect;
-                standard.Begin(rect);
-                Text.Font = GameFont.Tiny;
-                Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                bool enabled = RocketPrefs.Enabled;
-                standard.CheckboxLabeled(KeyedResources.RocketMan_Enable, ref RocketPrefs.Enabled);
-                bool mainButtonToggle = RocketPrefs.MainButtonToggle;
-                standard.CheckboxLabeled("RocketMan.ShowIcon".Translate(), ref RocketPrefs.MainButtonToggle,
-                        "RocketMan.ShowIcon.Description".Translate());
-                if (RocketPrefs.MainButtonToggle != mainButtonToggle)
+                collapsible_general.Expanded = true;
+                collapsible_general.Begin(inRect, KeyedResources.RocketMan_Settings, drawIcon: false, drawInfo: false);
+
+                if (collapsible_general.CheckboxLabeled(KeyedResources.RocketMan_Enable, ref RocketPrefs.Enabled))
+                {
+                    ResetRocketDebugPrefs();
+                }
+                if (collapsible_general.CheckboxLabeled("RocketMan.ShowIcon".Translate(), ref RocketPrefs.MainButtonToggle, "RocketMan.ShowIcon.Description".Translate()))
                 {
                     MainButtonDef mainButton_WindowDef = DefDatabase<MainButtonDef>.GetNamed("RocketWindow", errorOnFail: false);
                     if (mainButton_WindowDef != null)
@@ -89,50 +94,53 @@ namespace RocketMan
                         Log.Message($"ROCKETMAN: <color=red>MainButton</color> is now {state}!");
                     }
                 }
-                if (enabled != RocketPrefs.Enabled && !RocketPrefs.Enabled)
-                {
-                    ResetRocketDebugPrefs();
-                }
+                collapsible_general.CheckboxLabeled("RocketMan.ProgressBar".Translate(), ref RocketPrefs.ShowWarmUpPopup, "RocketMan.ProgressBar.Description".Translate());
+                collapsible_general.End(ref inRect);
+                inRect.yMin += 5;
+
+                bool expanded = false;
                 if (RocketPrefs.Enabled)
                 {
-                    standard.CheckboxLabeled("RocketMan.ProgressBar".Translate(), ref RocketPrefs.ShowWarmUpPopup,
-                        "RocketMan.ProgressBar.Description".Translate());
-                    standard.GapLine();
-                    Text.CurFontStyle.fontStyle = FontStyle.Bold;
-                    standard.Label("RocketMan.Junk".Translate());
-                    Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                    standard.CheckboxLabeled("RocketMan.CorpseRemoval".Translate(), ref RocketPrefs.CorpsesRemovalEnabled,
-                        "RocketMan.CorpseRemoval.Description".Translate());
-                    standard.GapLine();
-                    Text.CurFontStyle.fontStyle = FontStyle.Bold;
-                    standard.Label("RocketMan.StatCacheSettings".Translate());
-                    Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                    standard.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
-                    standard.CheckboxLabeled("RocketMan.AdaptiveAlert.Label".Translate(), ref RocketPrefs.LearningAlertEnabled, "RocketMan.AdaptiveAlert.Description".Translate());
-                    standard.CheckboxLabeled("RocketMan.EnableGearStatCaching".Translate(), ref RocketPrefs.StatGearCachingEnabled);
+                    collapsible_junk.Begin(inRect, "RocketMan.Junk".Translate(), drawIcon: false, drawInfo: false);
+                    collapsible_junk.CheckboxLabeled("RocketMan.CorpseRemoval".Translate(), ref RocketPrefs.CorpsesRemovalEnabled, "RocketMan.CorpseRemoval.Description".Translate());
+                    collapsible_junk.End(ref inRect);
+                    inRect.yMin += 5;
 
-                    standard.GapLine();
-                    bool oldDebugging = RocketDebugPrefs.Debug;
-                    standard.CheckboxLabeled("RocketMan.Debugging".Translate(), ref RocketDebugPrefs.Debug, "RocketMan.Debugging.Description".Translate());
-                    if (oldDebugging != RocketDebugPrefs.Debug && !RocketDebugPrefs.Debug)
+                    expanded = collapsible_other.Expanded;
+                    collapsible_other.Begin(inRect, "RocketMan.StatCacheSettings".Translate());
+                    if (collapsible_other.Expanded != expanded)
+                    {
+                        collapsible_debug.Expanded = false;
+                        collapsible_junk.Expanded = false;
+                    }
+                    collapsible_other.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
+                    collapsible_other.CheckboxLabeled("RocketMan.AdaptiveAlert.Label".Translate(), ref RocketPrefs.LearningAlertEnabled, "RocketMan.AdaptiveAlert.Description".Translate());
+                    collapsible_other.CheckboxLabeled("RocketMan.EnableGearStatCaching".Translate(), ref RocketPrefs.StatGearCachingEnabled);
+                    collapsible_other.End(ref inRect);
+                    inRect.yMin += 5;
+
+                    expanded = collapsible_debug.Expanded;
+                    collapsible_debug.Begin(inRect, "Debugging options");
+                    if (collapsible_debug.Expanded != expanded)
+                    {
+                        collapsible_other.Expanded = false;
+                        collapsible_junk.Expanded = false;
+                    }
+                    if (collapsible_debug.CheckboxLabeled("RocketMan.Debugging".Translate(), ref RocketDebugPrefs.Debug, "RocketMan.Debugging.Description".Translate())
+                    && !RocketDebugPrefs.Debug)
                     {
                         ResetRocketDebugPrefs();
                     }
                     if (RocketDebugPrefs.Debug)
                     {
-                        standard.GapLine();
-                        Text.CurFontStyle.fontStyle = FontStyle.Bold;
-                        standard.Label("Debugging options");
-                        Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                        standard.CheckboxLabeled("Enable Stat Logging (Will kill performance)", ref RocketDebugPrefs.StatLogging);
-                        standard.CheckboxLabeled("Enable GlowGrid flashing", ref RocketDebugPrefs.DrawGlowerUpdates);
-                        standard.CheckboxLabeled("Enable GlowGrid refresh", ref RocketPrefs.EnableGridRefresh);
-                        standard.Gap();
-                        if (standard.ButtonText("Disable debugging related stuff"))
-                            ResetRocketDebugPrefs();
+                        collapsible_debug.Line(1);
+                        collapsible_debug.CheckboxLabeled("Enable Stat Logging (Will kill performance)", ref RocketDebugPrefs.StatLogging);
+                        collapsible_debug.CheckboxLabeled("Enable GlowGrid flashing", ref RocketDebugPrefs.DrawGlowerUpdates);
+                        collapsible_debug.CheckboxLabeled("Enable GlowGrid refresh", ref RocketPrefs.EnableGridRefresh);
+                        collapsible_debug.Gap();
                     }
+                    collapsible_debug.End(ref inRect);
                 }
-                standard.End();
             });
         }
 

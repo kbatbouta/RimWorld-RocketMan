@@ -10,11 +10,15 @@ namespace Soyuz.Tabs
 {
     public class TabContent_Grapher : ITabContent
     {
+        public override Texture2D Icon => TexTab.Graphing;
+
         private static Vector2 scrollPosition = Vector2.zero;
+
         private Listing_Standard standard_Content = new Listing_Standard();
 
         public override string Label => "Grapher";
-        public override bool ShouldShow => RocketDebugPrefs.Debug;
+
+        public override bool ShouldShow => RocketPrefs.Enabled && RocketPrefs.TimeDilation;
 
         public override void DoContent(Rect rect)
         {
@@ -25,11 +29,11 @@ namespace Soyuz.Tabs
             standard_Content.Label("Soyuz grapher");
             Text.CurFontStyle.fontStyle = FontStyle.Normal;
             GUI.color = Color.white;
-            var font = Text.Font;
-            Text.Font = GameFont.Tiny;
+            var font = GUIFont.Font;
+            GUIFont.Font = GameFont.Tiny;
             standard_Content.CheckboxLabeled("Enable time dilation", ref RocketPrefs.TimeDilation, "Experimental.");
             standard_Content.CheckboxLabeled("Flash dilated pawns", ref RocketDebugPrefs.FlashDilatedPawns, "Experimental.");
-            Text.Font = font;
+            GUIFont.Font = font;
             standard_Content.End();
             rect.yMin += 75;
             DoExtras(rect);
@@ -38,18 +42,18 @@ namespace Soyuz.Tabs
         private void DoExtras(Rect rect)
         {
             var anchor = Text.Anchor;
-            var font = Text.Font;
+            var font = GUIFont.Font;
             var style = Text.CurFontStyle.fontStyle;
             Widgets.DrawMenuSection(rect.ContractedBy(1));
             if (Find.Selector.selected.Count == 0 || !(Find.Selector.selected.First() is Pawn pawn))
             {
-                Text.Font = GameFont.Medium;
+                GUIFont.Font = GameFont.Medium;
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Widgets.Label(rect, "Please select a pawn");
             }
             else DoExtras_Internal(rect.ContractedBy(3));
             Text.CurFontStyle.fontStyle = style;
-            Text.Font = font;
+            GUIFont.Font = font;
             Text.Anchor = anchor;
         }
 
@@ -70,7 +74,7 @@ namespace Soyuz.Tabs
                 if (needsModel.TryGetValue(need.GetType(), out var model))
                 {
                     model.DrawGraph(elementRect.BottomPartPixels(70));
-                    Text.Font = GameFont.Tiny;
+                    GUIFont.Font = GameFont.Tiny;
                     Text.CurFontStyle.fontStyle = FontStyle.Bold;
                     Widgets.Label(elementRect.TopPartPixels(14), GenText.CapitalizeFirst(need.def.label));
                     elementRect.y += elementRect.height + 20;
@@ -82,7 +86,7 @@ namespace Soyuz.Tabs
                 if (hediffsModel.TryGetValue(hediff, out var model))
                 {
                     model.DrawGraph(elementRect.BottomPartPixels(70));
-                    Text.Font = GameFont.Tiny;
+                    GUIFont.Font = GameFont.Tiny;
                     Text.CurFontStyle.fontStyle = FontStyle.Bold;
                     Widgets.Label(elementRect.TopPartPixels(14), GenText.CapitalizeFirst(hediff.def.label));
                     elementRect.y += elementRect.height;

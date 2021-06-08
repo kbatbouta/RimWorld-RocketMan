@@ -63,6 +63,16 @@ namespace RocketMan
                    _RocketMan_Collapsible_Hide : _RocketMan_Collapsible_Hide = "RocketMan.Collapsible.Hide".Translate();
         }             
                            
+        private static TaggedString _RocketMan_Selection = null;
+        /// <summary> Keyed string with key <c>RocketMan.Selection</c> with inner text set to:
+        ///
+        /// <code>Selection: {0}</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Selection {
+            get => _RocketMan_Selection != null ? 
+                   _RocketMan_Selection : _RocketMan_Selection = "RocketMan.Selection".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_Settings_PleaseUnpause = null;
         /// <summary> Keyed string with key <c>RocketMan.Settings.PleaseUnpause</c> with inner text set to:
         ///
@@ -376,7 +386,7 @@ namespace RocketMan
         private static TaggedString _Soyuz_Tab = null;
         /// <summary> Keyed string with key <c>Soyuz.Tab</c> with inner text set to:
         ///
-        /// <code>Time Dilation Controls</code>
+        /// <code>Time dilation control</code>
         /// </summary>       
         public static TaggedString Soyuz_Tab {
             get => _Soyuz_Tab != null ? 
@@ -513,6 +523,16 @@ namespace RocketMan
                    _Soyuz_Current_Enable : _Soyuz_Current_Enable = "Soyuz.Current.Enable".Translate();
         }             
                            
+        private static TaggedString _Soyuz_Current_Tip = null;
+        /// <summary> Keyed string with key <c>Soyuz.Current.Tip</c> with inner text set to:
+        ///
+        /// <code>Only tune the settings below if you know what you are doing. These settings help you customize the selected race.</code>
+        /// </summary>       
+        public static TaggedString Soyuz_Current_Tip {
+            get => _Soyuz_Current_Tip != null ? 
+                   _Soyuz_Current_Tip : _Soyuz_Current_Tip = "Soyuz.Current.Tip".Translate();
+        }             
+                           
         private static TaggedString _Soyuz_Current_IgnorePlayerFaction = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.IgnorePlayerFaction</c> with inner text set to:
         ///
@@ -636,7 +656,7 @@ namespace RocketMan
         private static TaggedString _Proton_Tab = null;
         /// <summary> Keyed string with key <c>Proton.Tab</c> with inner text set to:
         ///
-        /// <code>Alerts Control</code>
+        /// <code>Alert managmenet</code>
         /// </summary>       
         public static TaggedString Proton_Tab {
             get => _Proton_Tab != null ? 

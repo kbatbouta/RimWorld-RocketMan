@@ -6,13 +6,15 @@ using Verse;
 
 namespace Soyuz.Tabs
 {
-    public class TabContent_WorldPawnsUtility : ITabContent
+    public class TabContent_WorldPawns : ITabContent
     {
+        public override Texture2D Icon => TexTab.World;
+
         public override bool ShouldShow => false;
 
         public override string Label => "World Pawns";
 
-        public TabContent_WorldPawnsUtility()
+        public TabContent_WorldPawns()
         {
         }
 
@@ -31,7 +33,7 @@ namespace Soyuz.Tabs
         }
 
         [Main.YieldTabContent]
-        public static ITabContent YieldTab() => new TabContent_WorldPawnsUtility();
+        public static ITabContent YieldTab() => new TabContent_WorldPawns();
 
     }
 }

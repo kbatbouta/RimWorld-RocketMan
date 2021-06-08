@@ -5,6 +5,7 @@
 	<RocketMan.Settings.Debugging>Debug Settings</RocketMan.Settings.Debugging>
 	<RocketMan.Collapsible.Expand>[Expand]</RocketMan.Collapsible.Expand>
 	<RocketMan.Collapsible.Hide>[Hide]</RocketMan.Collapsible.Hide>
+	<RocketMan.Selection>Selection: {0}</RocketMan.Selection>
 	<!-- RocketMan -->
 	<RocketMan.Settings.PleaseUnpause>Please unpause the game... RocketMan is warming up!</RocketMan.Settings.PleaseUnpause>
 	<RocketMan.Settings.PleaseWait>Please wait... RocketMan is warming up!</RocketMan.Settings.PleaseWait>
@@ -53,6 +54,7 @@
 	<Soyuz.EnableTimeWildlife>Enable time dilation for wildlife</Soyuz.EnableTimeWildlife>
 	<Soyuz.EnableTimeColonyAnimals>Enable time dilation for colony animals</Soyuz.EnableTimeColonyAnimals>
 	<Soyuz.Current.Enable>Enable</Soyuz.Current.Enable>
+	<Soyuz.Current.Tip>Only tune the settings below if you know what you are doing. These settings help you customize the selected race.</Soyuz.Current.Tip>
 	<Soyuz.Current.IgnorePlayerFaction>Ignore player faction</Soyuz.Current.IgnorePlayerFaction>
 	<Soyuz.Current.IgnoreAllFactions>Ignore all factions</Soyuz.Current.IgnoreAllFactions>
 	<Soyuz.Current.FastPawn>This pawn move too fast to be throttled</Soyuz.Current.FastPawn>
