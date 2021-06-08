@@ -30,6 +30,11 @@ namespace Gagarin
             get => duplicates;
         }
 
+        public static void QueueReportProcessing()
+        {
+            LongEventHandler.QueueLongEvent(() => JoinReportParser(), textKey: "Gagarin.ParsingReports", false, null);
+        }
+
         public static void ParseCreateReports(XmlDocument document, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
         {
             Log.Message("GAGARIN:[DUPLICATE]: Started!");
@@ -239,14 +244,5 @@ namespace Gagarin
             Directory.CreateDirectory(GagarinEnvironmentInfo.ReportsFolderPath);
         }
 
-        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members")]
-        [Main.OnInitialization]
-        private static void QueueReportProcessing()
-        {
-            if (!Context.IsRecovering)
-            {
-                LongEventHandler.QueueLongEvent(() => JoinReportParser(), textKey: KeyedResources.Gagarin_ParsingReports, false, null);
-            }
-        }
     }
 }

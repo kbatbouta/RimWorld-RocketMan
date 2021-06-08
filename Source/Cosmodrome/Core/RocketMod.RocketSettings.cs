@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -107,6 +108,7 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.DisableAllAlert, "disableAllAlert", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilation, "timeDilation", true);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationWildlife, "TimeDilationWildlife", true);
+                Scribe_Values.Look(ref RocketPrefs.TimeDilationColonists, "TimeDilationColonists", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationFire, "TimeDilationFire", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationCaravans, "timeDilationCaravans", false);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationVisitors, "timeDilationVisitors", false);
@@ -115,6 +117,9 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationCriticalHediffs, "timeDilationCriticalHediffs_newtemp", false);
                 Scribe_Values.Look(ref RocketPrefs.MainButtonToggle, "mainButtonToggle", true);
                 Scribe_Values.Look(ref RocketPrefs.CorpsesRemovalEnabled, "corpsesRemovalEnabled", true);
+
+                if (!RocketEnvironmentInfo.IsDevEnv)
+                    RocketPrefs.TimeDilationColonists = false;
             }
 
             private void ScribeExtras()

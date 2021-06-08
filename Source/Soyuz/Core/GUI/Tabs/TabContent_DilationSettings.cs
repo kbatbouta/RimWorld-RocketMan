@@ -78,6 +78,7 @@ namespace Soyuz.Tabs
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeWorldPawns, ref RocketPrefs.TimeDilationWorldPawns, disabled: !RocketPrefs.TimeDilation);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeCriticalHediffs, ref RocketPrefs.TimeDilationCriticalHediffs, disabled: !RocketPrefs.TimeDilation);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeColonyAnimals, ref RocketPrefs.TimeDilationColonyAnimals, disabled: !RocketPrefs.TimeDilation);
+            collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeDilationVisitors, ref RocketPrefs.TimeDilationVisitors, disabled: !RocketPrefs.TimeDilation);
             collapsible.End(ref rect);
             if (RocketDebugPrefs.Debug)
             {
@@ -87,6 +88,14 @@ namespace Soyuz.Tabs
                 collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_Debug150MTPS, ref RocketDebugPrefs.Debug150MTPS, disabled: !RocketPrefs.TimeDilation);
                 collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_FlashPawns, ref RocketDebugPrefs.FlashDilatedPawns, disabled: !RocketPrefs.TimeDilation);
                 collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_AlwaysDilate, ref RocketDebugPrefs.AlwaysDilating, disabled: !RocketPrefs.TimeDilation);
+                if (RocketEnvironmentInfo.IsDevEnv)
+                {
+                    collapsible_debug.Line(1);
+                    collapsible_debug.Label(KeyedResources.RocketMan_Experimental);
+                    collapsible_debug.Gap(3);
+                    collapsible_debug.Label(KeyedResources.Soyuz_EnableTimeColonists_Warning);
+                    collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeColonists, ref RocketPrefs.TimeDilationColonists, disabled: !RocketPrefs.TimeDilation);
+                }
                 collapsible_debug.End(ref rect);
             }
             rect.yMin += 5;
@@ -214,6 +223,7 @@ namespace Soyuz.Tabs
                     collapsible_selection.Label("<color=yellow>" + "Soyuz.Current.Ignored".Translate() + "</color>");
                     collapsible_selection.Label(IgnoreMeDatabase.Report(curSettings.def));
                 }
+                curSettings.Prepare(updating: true);
                 collapsible_selection.End(ref inRect);
                 inRect.yMin += 5;
             }

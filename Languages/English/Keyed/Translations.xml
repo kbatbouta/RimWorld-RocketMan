@@ -57,6 +57,8 @@
 	<Soyuz.EnableTimeCriticalHediffs>Enable time dilation for pawns with critical hediffs</Soyuz.EnableTimeCriticalHediffs>
 	<Soyuz.EnableTimeWildlife>Enable time dilation for wildlife</Soyuz.EnableTimeWildlife>
 	<Soyuz.EnableTimeColonyAnimals>Enable time dilation for colony animals</Soyuz.EnableTimeColonyAnimals>
+	<Soyuz.EnableTimeColonists>Enable time dilation for colonists</Soyuz.EnableTimeColonists>
+	<Soyuz.EnableTimeColonists.Warning>WARNING: This is extremely dangerous. DO NOT USE THIS unless the mod author allow you to do so. Using this can break your saves and result in strange behaviour</Soyuz.EnableTimeColonists.Warning>
 	<Soyuz.Current.Enable>Enable</Soyuz.Current.Enable>
 	<Soyuz.Current.Tip>Only tune the settings below if you know what you are doing. These settings help you customize the selected race.</Soyuz.Current.Tip>
 	<Soyuz.Current.IgnorePlayerFaction>Ignore player faction</Soyuz.Current.IgnorePlayerFaction>

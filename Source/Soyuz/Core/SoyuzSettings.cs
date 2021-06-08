@@ -74,12 +74,15 @@ namespace Soyuz
             }
         }
 
-        public void Prepare()
+        public void Prepare(bool updating = false)
         {
-            Context.DilationByDef[def] = this;
             Context.DilationEnabled[def.index] = this.enabled;
-            Context.DilationInts[def.index] = DilationInt;
-            Context.DilationFastMovingRace[def.index] = isFastMoving;
+            if (!updating)
+            {
+                Context.DilationByDef[def] = this;
+                Context.DilationInts[def.index] = DilationInt;
+                Context.DilationFastMovingRace[def.index] = isFastMoving;
+            }
         }
 
         private void Notify_VersionChanged()

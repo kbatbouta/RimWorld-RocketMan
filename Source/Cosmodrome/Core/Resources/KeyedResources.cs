@@ -553,6 +553,26 @@ namespace RocketMan
                    _Soyuz_EnableTimeColonyAnimals : _Soyuz_EnableTimeColonyAnimals = "Soyuz.EnableTimeColonyAnimals".Translate();
         }             
                            
+        private static TaggedString _Soyuz_EnableTimeColonists = null;
+        /// <summary> Keyed string with key <c>Soyuz.EnableTimeColonists</c> with inner text set to:
+        ///
+        /// <code>Enable time dilation for colonists</code>
+        /// </summary>       
+        public static TaggedString Soyuz_EnableTimeColonists {
+            get => _Soyuz_EnableTimeColonists != null ? 
+                   _Soyuz_EnableTimeColonists : _Soyuz_EnableTimeColonists = "Soyuz.EnableTimeColonists".Translate();
+        }             
+                           
+        private static TaggedString _Soyuz_EnableTimeColonists_Warning = null;
+        /// <summary> Keyed string with key <c>Soyuz.EnableTimeColonists.Warning</c> with inner text set to:
+        ///
+        /// <code>WARNING: This is extremely dangerous. DO NOT USE THIS unless the mod author allow you to do so. Using this can break your saves and result in strange behaviour</code>
+        /// </summary>       
+        public static TaggedString Soyuz_EnableTimeColonists_Warning {
+            get => _Soyuz_EnableTimeColonists_Warning != null ? 
+                   _Soyuz_EnableTimeColonists_Warning : _Soyuz_EnableTimeColonists_Warning = "Soyuz.EnableTimeColonists.Warning".Translate();
+        }             
+                           
         private static TaggedString _Soyuz_Current_Enable = null;
         /// <summary> Keyed string with key <c>Soyuz.Current.Enable</c> with inner text set to:
         ///

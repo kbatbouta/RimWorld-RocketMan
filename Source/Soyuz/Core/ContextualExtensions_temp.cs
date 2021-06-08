@@ -23,44 +23,37 @@ namespace Soyuz
                     return false;
                 return true;
             }
-            if (!Context.DilationEnabled[pawn.def.index] || IgnoreMeDatabase.ShouldIgnore(pawn.def))
+            if (!Context.DilationEnabled[pawn.def.index] || IgnoreMeDatabase.ShouldIgnore(pawn.def) || IsCastingVerb(pawn))
                 return false;
             if (!RocketPrefs.TimeDilationCriticalHediffs && HasHediffPreventingThrottling(pawn))
                 return false;
             if (pawn.def.race.Humanlike)
+            {
+                Faction playerFaction = Faction.OfPlayer;
+                if (!RocketPrefs.TimeDilationColonists && pawn.factionInt == playerFaction)
+                    return false;
+                if (!RocketPrefs.TimeDilationColonists && (pawn.guest?.isPrisonerInt ?? false) && pawn.guest?.hostFactionInt == playerFaction)
+                    return false;
+                if (RocketPrefs.TimeDilationVisitors || RocketPrefs.TimeDilationColonists)
+                {
+                    JobDef jobDef = pawn.jobs?.curJob?.def;
+                    if (jobDef == null)
+                        return false;
+                    if (jobDef == JobDefOf.Wait)
+                        return true;
+                    if (jobDef == JobDefOf.Wait_Wander)
+                        return true;
+                    if (jobDef == JobDefOf.GotoWander)
+                        return true;
+                    if (jobDef == JobDefOf.SocialRelax)
+                        return true;
+                    if (jobDef == JobDefOf.LayDown)
+                        return true;
+                    if (jobDef == JobDefOf.Follow)
+                        return true;
+                }
                 return false;
-            // TODO redo this
-            // if (pawn.def.race.Humanlike)
-            // {
-            //    Faction playerFaction = Faction.OfPlayer;
-            //    if (pawn.factionInt == playerFaction)
-            //        return false;
-            //    if (pawn.guest?.isPrisonerInt ?? false && pawn.guest?.hostFactionInt == playerFaction)
-            //        return false;
-            //    if (RocketPrefs.TimeDilationVisitors)
-            //    {
-            //        JobDef jobDef = pawn.jobs?.curJob?.def;
-            //        if (jobDef == null)
-            //            return false;
-            //        if (IgnoreMeDatabase.ShouldIgnore(jobDef))
-            //            return false;
-            //        if (jobDef == JobDefOf.Goto)
-            //            return true;
-            //        if (jobDef == JobDefOf.Wait_Wander)
-            //            return true;
-            //        if (jobDef == JobDefOf.GotoWander)
-            //            return true;
-            //        if (jobDef == JobDefOf.Wait)
-            //            return true;
-            //        if (jobDef == JobDefOf.SocialRelax)
-            //            return true;
-            //        if (jobDef == JobDefOf.LayDown)
-            //            return true;
-            //        if (jobDef == JobDefOf.Follow)
-            //            return true;
-            //    }
-            //    return false;
-            // } 
+            }
             RaceSettings raceSettings = pawn.GetRaceSettings();
             if (pawn.factionInt == Faction.OfPlayer)
                 return !raceSettings.ignorePlayerFaction && RocketPrefs.TimeDilationColonyAnimals;
@@ -118,6 +111,11 @@ namespace Soyuz
                 }
             }
             return _hediffCache[p] = false;
+        }
+
+        private static bool IsCastingVerb(Pawn p)
+        {
+            return p.verbTracker?.AllVerbs.Any(v => v.WarmingUp) ?? false;
         }
     }
 }

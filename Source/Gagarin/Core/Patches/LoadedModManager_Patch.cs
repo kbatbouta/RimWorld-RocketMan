@@ -66,6 +66,18 @@ namespace Gagarin
             }
         }
 
+        [GagarinPatch(typeof(TKeySystem), nameof(TKeySystem.Parse))]
+        public static class TKeySystem_Parse_Patch
+        {
+            public static void Postfix()
+            {
+                if (!Context.IsRecovering)
+                {
+                    DuplicateHelper.QueueReportProcessing();
+                }
+            }
+        }
+
         [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.ApplyPatches))]
         public static class ApplyPatches_Patch
         {
