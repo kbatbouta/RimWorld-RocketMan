@@ -16,7 +16,7 @@ namespace RocketMan
 
         private int _errors = 0;
 
-        public override Vector2 InitialSize => new Vector2(685, 650);
+        public override Vector2 InitialSize => new Vector2(685, 700);
 
         public Window_Main()
         {
@@ -90,7 +90,7 @@ namespace RocketMan
         public override void Close(bool doCloseSound = true)
         {
             base.Close(doCloseSound);
-            RocketDebugPrefs.DogData = false;
+            RocketDebugPrefs.LogData = false;
             Finder.RocketManWindow = null;
             if (!RocketPrefs.WarmingUp)
             {

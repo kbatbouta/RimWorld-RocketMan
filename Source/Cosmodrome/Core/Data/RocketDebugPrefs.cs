@@ -15,7 +15,7 @@ namespace RocketMan
 
         public static bool DrawGlowerUpdates = false;
 
-        public static bool DogData = false;
+        public static bool LogData = false;
 
         public static bool Debug150MTPS = false;
     }

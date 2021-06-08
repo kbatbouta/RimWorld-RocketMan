@@ -38,6 +38,7 @@
         </PackageReference>
         <PackageReference Include="TaskPubliciser" Version="1.0.3" />
         <PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="8.0.0" ExcludeAssets="runtime" />
+        <PackageReference Include="XMLDiffPatch" Version="1.0.8.28" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Core\" />
@@ -49,6 +50,7 @@
         <Folder Include="Core\Others\" />
         <Folder Include="Core\Info\" />
         <Folder Include="Core\Patches\" />
+        <Folder Include="Core\Troubleshooting\" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj">
@@ -65,6 +67,8 @@
       <None Remove="Core\Info\" />
       <None Remove="Core\Optimizations\" />
       <None Remove="..\.editorconfig" />
+      <None Remove="Core\Troubleshooting\" />
+      <None Remove="XMLDiffPatch" />
     </ItemGroup>
     <ItemGroup>
       <Compile Remove="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" />

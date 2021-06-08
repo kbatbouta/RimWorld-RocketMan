@@ -15,21 +15,36 @@ namespace RocketMan
 
         private readonly static StringBuilder StringBuilder = new StringBuilder();
 
+        private static object _lock = new object();
+
         public static void Initialize()
         {
             Logger.logsFolder = RocketEnvironmentInfo.LogsFolderPath;
+
             if (!Directory.Exists(logsFolder))
+            {
                 Directory.CreateDirectory(logsFolder);
+            }
             foreach (string filePath in Directory.GetFiles(logsFolder))
+            {
                 File.Delete(filePath);
+            }
         }
 
         public static void Debug(string message, Exception exception = null, string file = null)
         {
-            if (file == null)
+            if (exception != null)
             {
-                file = "Rocket.log";
+                Log.Error($"{message.Trim()} with error {exception}");
             }
+            lock (_lock)
+            {
+                Handle(message, exception, file ?? "Rocket.log");
+            }
+        }
+
+        private static void Handle(string message, Exception exception, string file)
+        {
             StringBuilder.Clear();
             StringBuilder.Append('\n');
             StringBuilder.Append(message);
@@ -38,8 +53,8 @@ namespace RocketMan
                 StringBuilder.AppendInNewLine($"<#-ERROR-#>");
                 StringBuilder.AppendInNewLine(exception.GetType().FullName);
                 StringBuilder.AppendInNewLine(exception.Message);
-                StringBuilder.Append('\n');
                 AddStackTrace(StringBuilder, new StackTrace(exception));
+                StringBuilder.Append('\n');
             }
             Flush(StringBuilder, file);
         }

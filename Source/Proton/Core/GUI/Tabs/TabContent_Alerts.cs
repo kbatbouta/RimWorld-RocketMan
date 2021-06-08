@@ -28,6 +28,8 @@ namespace Proton
         private string buffer1;
         private string buffer2;
 
+        private Listing_Collapsible collapsible = new Listing_Collapsible();
+
         public static List<Pair<Color, string>> descriptionBoxes;
 
         public TabContent_Alerts()
@@ -54,35 +56,39 @@ namespace Proton
 
         public override void DoContent(Rect rect)
         {
-            RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
+            collapsible.Begin(rect, KeyedResources.RocketMan_Settings);
+            collapsible.Label(KeyedResources.Proton_DisalbeAllInfo, invert: true);
+            collapsible.CheckboxLabeled(KeyedResources.Proton_Enable, ref RocketPrefs.AlertThrottling);
+            collapsible.Line(1);
+            collapsible.Label(KeyedResources.Proton_DisalbeAllInfo);
+            collapsible.Line(1);
+            if (collapsible.CheckboxLabeled(KeyedResources.Proton_AlertsDisabled, ref RocketPrefs.DisableAllAlert, disabled: !RocketPrefs.AlertThrottling)
+                && RocketPrefs.DisableAllAlert)
             {
-                Text.Font = GameFont.Tiny;
-                Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.CheckboxLabeled(rect.TopPartPixels(20), "Proton.Enable".Translate(), ref RocketPrefs.AlertThrottling);
-                rect.yMin += 20;
-                bool disabled = RocketPrefs.DisableAllAlert;
-                Widgets.CheckboxLabeled(rect.TopPartPixels(20), "<color=red>" + "Proton.DisableAll.P1".Translate() + "</color> " + "Proton.DisableAll.P2".Translate(), ref RocketPrefs.DisableAllAlert);
-                if (disabled != RocketPrefs.DisableAllAlert && RocketPrefs.DisableAllAlert)
+                foreach (Alert alert in Context.Alerts)
                 {
-                    foreach (Alert alert in Context.Alerts)
-                    {
-                        alert.cachedActive = false;
-                        alert.cachedLabel = string.Empty;
-                    }
+                    alert.cachedActive = false;
+                    alert.cachedLabel = string.Empty;
                 }
-                rect.yMin += 25;
-            });
+            }
+            collapsible.End(ref rect);
+            rect.yMin += 5;
             float max = rect.yMax;
             rect.yMax -= 65;
             if (RocketPrefs.AlertThrottling && !RocketPrefs.DisableAllAlert)
-                DoScrollView(rect);
-            else RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
             {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Text.Font = GameFont.Medium;
-                Widgets.DrawMenuSection(rect);
-                Widgets.Label(rect, RocketPrefs.DisableAllAlert ? "Proton.Disabled".Translate() : "Proton.AlertsDisabled".Translate());
-            });
+                DoScrollView(rect);
+            }
+            else
+            {
+                RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
+                {
+                    Text.Anchor = TextAnchor.MiddleCenter;
+                    Text.Font = GameFont.Medium;
+                    Widgets.DrawMenuSection(rect);
+                    Widgets.Label(rect, RocketPrefs.DisableAllAlert ? "Proton.Disabled".Translate() : "Proton.AlertsDisabled".Translate());
+                });
+            }
             rect.yMin = max - 60;
             rect.yMax = max;
             RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
@@ -150,7 +156,7 @@ namespace Proton
                     RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
                     {
                         Text.Anchor = TextAnchor.MiddleLeft;
-                        Rect curRect = inRect.TopPartPixels(75);
+                        Rect curRect = inRect.TopPartPixels(80);
                         Widgets.DrawMenuSection(curRect);
                         curRect.xMax -= 2;
                         Rect closeRect = curRect.TopPartPixels(20).RightPartPixels(20);
@@ -165,22 +171,23 @@ namespace Proton
                         curRect.xMin += 5;
                         RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
                         {
-                            Text.Font = GameFont.Tiny;
-                            Text.CurFontStyle.fontStyle = FontStyle.Bold;
-                            Widgets.Label(curRect.TopPartPixels(25), $"{curAlert.GetName()}");
+                            Text.Font = GameFont.Small;
+                            //
+                            // Text.CurFontStyle.fontStyle = FontStyle.Bold;
+                            Widgets.Label(curRect.TopPartPixels(30), $"Selection: {curAlert.GetName()}");
                         });
-                        curRect.yMin += 25;
+                        curRect.yMin += 33;
                         bool enabled = curSettings.enabledInt;
                         string color = enabled ? "white" : "red";
-                        Widgets.CheckboxLabeled(curRect.TopPartPixels(20), $"<color={color}>" + "Proton.Enabled".Translate() + "</color>", ref enabled);
+                        RocketMan.GUIUtility.CheckBoxLabeled(curRect.TopPartPixels(20), $"<color={color}>" + "Proton.Enabled".Translate() + "</color>", ref enabled);
                         if (enabled != curSettings.enabledInt && enabled)
                         {
                             curSettings.UpdateAlert(true);
                         }
                         curSettings.Enabled = enabled;
                         curRect.yMin += 20;
-                        Widgets.CheckboxLabeled(curRect.TopPartPixels(20), "Proton.IgnoreThis".Translate(), ref curSettings.ignored);
-                        inRect.yMin += 80;
+                        RocketMan.GUIUtility.CheckBoxLabeled(curRect.TopPartPixels(20), "Proton.IgnoreThis".Translate(), ref curSettings.ignored);
+                        inRect.yMin += 85;
                     });
                 }
             });
@@ -249,14 +256,8 @@ namespace Proton
                     {
                         (curRect) =>
                         {
-                            RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
-                            {
-                                Text.Font = GameFont.Tiny;
-                                Text.CurFontStyle.fontStyle = FontStyle.Bold;
-                                string color = settings.Enabled ? "yello" : "while";
-                                curRect.xMin += 3;
-                                Widgets.Label(curRect, $"<color={color}>{alert.GetName().Fit(curRect)}</color>");
-                            });
+                            curRect.xMin += 3;
+                            Widgets.Label(curRect, $"{alert.GetName().Fit(curRect)}");
                         },
                         (curRect) =>
                         {

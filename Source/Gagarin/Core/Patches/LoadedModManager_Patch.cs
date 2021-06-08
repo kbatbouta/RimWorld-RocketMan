@@ -85,6 +85,8 @@ namespace Gagarin
         [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.CombineIntoUnifiedXML))]
         public static class CombineIntoUnifiedXML_Patch
         {
+            private static bool usedCache = false;
+
             [HarmonyPriority(Priority.Last)]
             public static bool Prefix(List<LoadableXmlAsset> xmls, ref XmlDocument __result, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
             {
@@ -92,12 +94,20 @@ namespace Gagarin
                 Log.Warning($"GAGARIN: CombineIntoUnifiedXML has <color=red>Context.IsUsingCache={ Context.IsUsingCache }</color>");
                 if (Context.IsUsingCache)
                 {
+                    usedCache = true;
                     CachedDefHelper.Load(__result = new XmlDocument(), assetlookup);
                     foreach (ModContentPack mod in Context.RunningMods)
                         mod.patches?.Clear();
                     return false;
                 }
                 return true;
+            }
+
+            [HarmonyPriority(Priority.First)]
+            public static void Postfix(XmlDocument __result, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
+            {
+                if (!usedCache && __result != null && !assetlookup.EnumerableNullOrEmpty())
+                    DuplicateHelper.ParseCreateReports(__result, assetlookup);
             }
         }
     }
