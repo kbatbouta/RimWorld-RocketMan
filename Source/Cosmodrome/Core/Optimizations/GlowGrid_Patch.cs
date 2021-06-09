@@ -132,7 +132,7 @@ namespace RocketMan.Optimizations
             }
         }
 
-        [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.RegisterGlower))]
+        [RocketPatch(typeof(GlowGrid), nameof(GlowGrid.RegisterGlower))]
         internal static class RegisterGlower_Patch
         {
             internal static bool Prepare()
@@ -166,7 +166,7 @@ namespace RocketMan.Optimizations
             }
         }
 
-        [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.DeRegisterGlower))]
+        [RocketPatch(typeof(GlowGrid), nameof(GlowGrid.DeRegisterGlower))]
         internal static class DeRegisterGlower_Patch
         {
             internal static bool Prepare()
@@ -202,7 +202,7 @@ namespace RocketMan.Optimizations
         }
 
 
-        [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.RecalculateAllGlow))]
+        [RocketPatch(typeof(GlowGrid), nameof(GlowGrid.RecalculateAllGlow))]
         internal static class RecalculateAllGlow_Patch
         {
             internal static Color32[] tBufferedGrid;
@@ -443,14 +443,9 @@ namespace RocketMan.Optimizations
             }
         }
 
-        [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.MarkGlowGridDirty))]
+        [RocketPatch(typeof(GlowGrid), nameof(GlowGrid.MarkGlowGridDirty))]
         internal static class MarkGlowGridDirty_Patch
         {
-            public static bool Prepare()
-            {
-                return ShouldPatch();
-            }
-
             public static void Prefix(GlowGrid __instance, IntVec3 loc)
             {
                 if (Current.ProgramState == ProgramState.Playing)
@@ -483,21 +478,16 @@ namespace RocketMan.Optimizations
             }
         }
 
-        [HarmonyPatch(typeof(GlowFlooder), nameof(GlowFlooder.AddFloodGlowFor))]
+        [RocketPatch(typeof(GlowFlooder), nameof(GlowFlooder.AddFloodGlowFor))]
         internal static class AddFloodGlow_Patch
         {
-            internal static bool Prepare()
-            {
-                return ShouldPatch();
-            }
-
-            internal static void Prefix(CompGlower theGlower)
+            public static void Prefix(CompGlower theGlower)
             {
                 currentProp = GlowerPorperties.GetGlowerPorperties(theGlower);
                 currentProp.Update();
             }
 
-            internal static void Postfix(CompGlower theGlower)
+            public static void Postfix(CompGlower theGlower)
             {
                 if (currentProp == null && theGlower == null)
                 {
@@ -518,15 +508,10 @@ namespace RocketMan.Optimizations
             }
         }
 
-        [HarmonyPatch(typeof(GlowFlooder), nameof(GlowFlooder.SetGlowGridFromDist))]
+        [RocketPatch(typeof(GlowFlooder), nameof(GlowFlooder.SetGlowGridFromDist))]
         internal static class SetGlowGridFromDist_Patch
         {
-            internal static bool Prepare()
-            {
-                return ShouldPatch();
-            }
-
-            internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
                 ILGenerator generator)
             {
                 var codes = instructions.ToList();
@@ -542,7 +527,7 @@ namespace RocketMan.Optimizations
                 yield return codes.Last();
             }
 
-            internal static void PushIndex(int index, ColorInt color, float distance)
+            public static void PushIndex(int index, ColorInt color, float distance)
             {
                 currentProp.indices.Add(index);
 #if DEBUG

@@ -48,7 +48,8 @@ namespace Soyuz
         [Main.OnInitialization]
         public static void Intialize()
         {
-            IEnumerable<Type> flaggedTypes = GetPatches();
+            IEnumerable<Type> flaggedTypes = GetPatchTypes();
+            LogTypesToFile(flaggedTypes);
             List<SoyuzPatchInfo> patchList = new List<SoyuzPatchInfo>();
             foreach (var type in flaggedTypes)
             {
@@ -59,9 +60,24 @@ namespace Soyuz
             patches = patchList.Where(p => p.IsValid).ToArray();
         }
 
-        private static IEnumerable<Type> GetPatches()
+        private static IEnumerable<Type> GetPatchTypes()
         {
-            return typeof(SoyuzPatcher).Assembly.GetLoadableTypes().Where(t => t.HasAttribute<SoyuzPatch>());
+            List<Type> types = new List<Type>();
+            types.AddRange(AccessTools.GetTypesFromAssembly(typeof(SoyuzPatch).Assembly));
+            types.AddRange(AccessTools.GetTypesFromAssembly(typeof(SoyuzPatch).Assembly).SelectMany(t => t.GetNestedTypes()));
+            return types
+                .Where(t => t.HasAttribute<SoyuzPatch>())
+                .Distinct();
+        }
+
+        private static void LogTypesToFile(IEnumerable<Type> types)
+        {
+            string report = string.Empty;
+            foreach (Type t in types)
+            {
+                report += t.FullName + "\n";
+            }
+            Logger.Debug(report, file: "Types.Soyuz.txt");
         }
     }
 }

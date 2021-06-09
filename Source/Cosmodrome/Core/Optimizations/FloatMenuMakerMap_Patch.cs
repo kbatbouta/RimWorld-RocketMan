@@ -7,7 +7,7 @@ using HarmonyLib;
 using RimWorld;
 using Verse;
 
-namespace RocketMan
+namespace RocketMan.Optimizations
 {
     [RocketPatch(typeof(FloatMenuMakerMap), nameof(FloatMenuMakerMap.AddJobGiverWorkOrders_NewTmp))]
     public static class FloatMenuMakerMapMap_Patch
