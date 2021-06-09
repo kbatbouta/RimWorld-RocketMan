@@ -125,6 +125,7 @@ namespace RocketMan
             // start patching
             RocketPatcher.PatchAll();
             Finder.Rocket.PatchAll();
+            Finder.Harmony.PatchAll();
         }
 
         private BucketActionTicker[] _tickers;

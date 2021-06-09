@@ -132,7 +132,7 @@ namespace RocketMan.Optimizations
             }
         }
 
-        [RocketPatch(typeof(GlowGrid), nameof(GlowGrid.RegisterGlower))]
+        [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.RegisterGlower))]
         internal static class RegisterGlower_Patch
         {
             internal static bool Prepare()
@@ -166,7 +166,7 @@ namespace RocketMan.Optimizations
             }
         }
 
-        [RocketPatch(typeof(GlowGrid), nameof(GlowGrid.DeRegisterGlower))]
+        [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.DeRegisterGlower))]
         internal static class DeRegisterGlower_Patch
         {
             internal static bool Prepare()
@@ -202,7 +202,7 @@ namespace RocketMan.Optimizations
         }
 
 
-        [RocketPatch(typeof(GlowGrid), nameof(GlowGrid.RecalculateAllGlow))]
+        [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.RecalculateAllGlow))]
         internal static class RecalculateAllGlow_Patch
         {
             internal static Color32[] tBufferedGrid;
@@ -443,7 +443,7 @@ namespace RocketMan.Optimizations
             }
         }
 
-        [RocketPatch(typeof(GlowGrid), nameof(GlowGrid.MarkGlowGridDirty))]
+        [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.MarkGlowGridDirty))]
         internal static class MarkGlowGridDirty_Patch
         {
             public static bool Prepare()
@@ -473,7 +473,7 @@ namespace RocketMan.Optimizations
                                 changedProps[mapIndex].Add(prop);
 #if DEBUG
                                 if (RocketDebugPrefs.Debug)
-                                    Log.Message(string.Format("ROCKETMAN: Changed and glow grid dirty at {0} for {1}",
+                                    Log.Message(string.Format("ROCKETMAN: Changed glow grid dirty at {0} for {1}",
                                         loc, glower.parent));
 #endif
                             }
@@ -483,7 +483,7 @@ namespace RocketMan.Optimizations
             }
         }
 
-        [RocketPatch(typeof(GlowFlooder), nameof(GlowFlooder.AddFloodGlowFor))]
+        [HarmonyPatch(typeof(GlowFlooder), nameof(GlowFlooder.AddFloodGlowFor))]
         internal static class AddFloodGlow_Patch
         {
             internal static bool Prepare()
@@ -518,7 +518,7 @@ namespace RocketMan.Optimizations
             }
         }
 
-        [RocketPatch(typeof(GlowFlooder), nameof(GlowFlooder.SetGlowGridFromDist))]
+        [HarmonyPatch(typeof(GlowFlooder), nameof(GlowFlooder.SetGlowGridFromDist))]
         internal static class SetGlowGridFromDist_Patch
         {
             internal static bool Prepare()
@@ -530,7 +530,7 @@ namespace RocketMan.Optimizations
                 ILGenerator generator)
             {
                 var codes = instructions.ToList();
-
+                Log.Message("dude");
                 for (var i = 0; i < codes.Count - 1; i++)
                     yield return codes[i];
 
