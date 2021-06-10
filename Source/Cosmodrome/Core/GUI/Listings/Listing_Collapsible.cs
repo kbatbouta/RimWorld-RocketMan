@@ -80,8 +80,8 @@ namespace RocketMan
             {
                 this.inYMin = inRect.yMin;
                 this.Rect = inRect;
-                GUIFont.Font = GameFont.Tiny;
-                Text.Anchor = TextAnchor.MiddleLeft;
+                GUIFont.Font = GUIFontSize.Tiny;
+                GUIFont.Anchor = TextAnchor.MiddleLeft;
                 RectSlice slice = Slice(title.GetTextHeight(this.insideWidth - 30f));
                 if (hightlightIfMouseOver)
                 {
@@ -92,13 +92,13 @@ namespace RocketMan
                 Rect titleRect = slice.inside;
                 if (drawInfo)
                 {
-                    GUIFont.Font = GameFont.Tiny;
-                    Text.Anchor = TextAnchor.MiddleRight;
+                    GUIFont.Font = GUIFontSize.Tiny;
+                    GUIFont.Anchor = TextAnchor.MiddleRight;
                     Widgets.Label(titleRect, expanded ? KeyedResources.RocketMan_Collapsible_Hide : KeyedResources.RocketMan_Collapsible_Expand);
                 }
-                GUIFont.size = GUIFontSize.Smaller;
-                Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                Text.Anchor = TextAnchor.MiddleLeft;
+                GUIFont.Font = GUIFontSize.Smaller;
+                GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
+                GUIFont.Anchor = TextAnchor.MiddleLeft;
                 if (drawIcon)
                 {
                     Widgets.DrawTextureFitted(titleRect.LeftPartPixels(25), expanded ? TexButton.Collapse : TexButton.Reveal, 0.65f);
@@ -115,8 +115,8 @@ namespace RocketMan
             });
             this.Gap(2);
             GUIUtility.StashGUIState();
-            GUIFont.Font = GameFont.Tiny;
-            Text.CurFontStyle.fontStyle = FontStyle.Normal;
+            GUIFont.Font = GUIFontSize.Tiny;
+            GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
         }
 
         public void Label(TaggedString text, string tooltip = null, bool invert = false, bool hightlightIfMouseOver = true, GUIFontSize fontSize = GUIFontSize.Tiny, FontStyle fontStyle = FontStyle.Normal)
@@ -132,8 +132,8 @@ namespace RocketMan
                 {
                     Widgets.DrawHighlightIfMouseover(slice.outside);
                 }
-                GUIFont.size = fontSize;
-                Text.CurFontStyle.fontStyle = fontStyle;
+                GUIFont.Font = fontSize;
+                GUIFont.CurFontStyle.fontStyle = fontStyle;
                 Widgets.Label(slice.inside, text);
                 if (tooltip != null)
                 {
@@ -152,8 +152,8 @@ namespace RocketMan
             bool checkOnInt = checkOn;
             GUIUtility.ExecuteSafeGUIAction(() =>
             {
-                GUIFont.size = fontSize;
-                Text.CurFontStyle.fontStyle = fontStyle;
+                GUIFont.Font = fontSize;
+                GUIFont.CurFontStyle.fontStyle = fontStyle;
                 RectSlice slice = Slice(text.GetTextHeight(insideWidth - 23f));
                 if (hightlightIfMouseOver)
                 {

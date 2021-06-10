@@ -64,6 +64,7 @@ namespace RocketMan.Tabs
                 curTab = tabs[curTabIndex];
                 if (useSidebar)
                 {
+                    GUIFont.Anchor = TextAnchor.UpperLeft;
                     Rect tabsRect = inRect.LeftPartPixels(50);
                     Rect contentRect = new Rect(inRect);
                     contentRect.xMin += 60;
@@ -73,8 +74,9 @@ namespace RocketMan.Tabs
                     });
                     GUIUtility.ExecuteSafeGUIAction(() =>
                     {
-                        Text.Font = GameFont.Small;
-                        Text.CurFontStyle.fontStyle = FontStyle.Bold;
+                        GUIFont.Font = GUIFontSize.Small;
+                        GUIFont.CurFontStyle.fontStyle = FontStyle.Bold;
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
                         float headerHeight = "RocketMan".GetTextHeight(inRect.width) + 3;
                         Rect rect = contentRect.TopPartPixels(headerHeight);
                         // Create the RocketMan stamp                        
@@ -82,9 +84,9 @@ namespace RocketMan.Tabs
                         // Create the version string
                         rect.xMin += 90;
                         rect.xMax -= 45;
-                        rect.y += 2;
-                        Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                        Text.Font = GameFont.Tiny;
+                        //rect.y += 2;
+                        GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
+                        GUIFont.Font = GUIFontSize.Tiny;
                         Widgets.Label(rect.TopPartPixels(25), $"Version <color=grey>{RocketAssembliesInfo.Version}</color>");
                         // Do the window content
                         contentRect.yMin += headerHeight + 5;
@@ -93,13 +95,15 @@ namespace RocketMan.Tabs
                     });
                     GUIUtility.ExecuteSafeGUIAction(() =>
                     {
-                        GUIFont.size = GUIFontSize.Smaller;
-                        Text.CurFontStyle.fontStyle = FontStyle.Normal;
+                        GUIFont.Font = GUIFontSize.Smaller;
+                        GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
                         Widgets.Label(contentRect.TopPartPixels(25), curTab.Label);
                     });
                     contentRect.yMin += 30;
                     GUIUtility.ExecuteSafeGUIAction(() =>
                     {
+                        GUIFont.Anchor = TextAnchor.UpperLeft;
                         curTab.DoContent(contentRect);
                     });
                 }
@@ -207,8 +211,8 @@ namespace RocketMan.Tabs
             tabBarRect.height = 30 * tabs.Count(t => t.ShouldShow);
             Widgets.DrawMenuSection(rect);
             Widgets.BeginScrollView(rect, ref scrollPosition, tabBarRect);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            GUIFont.Font = GameFont.Tiny;
+            GUIFont.Anchor = TextAnchor.MiddleLeft;
+            GUIFont.Font = GUIFontSize.Tiny;
             var curRect = new Rect(rect.xMin + 5, rect.yMin + 5, 160, 30);
             var counter = 0;
             foreach (var tab in tabs)

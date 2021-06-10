@@ -17,16 +17,12 @@ namespace RocketMan
             public FontStyle curTextAreaReadOnlyStyle;
             public FontStyle curTextAreaStyle;
             public FontStyle curTextFieldStyle;
-            public int curFontStyle_fontSize;
-            public int curTextAreaReadOnlyStyle_fontSize;
-            public int curTextAreaStyle_fontSize;
-            public int curTextFieldStyle_fontSize;
             public TextAnchor anchor;
             public Color color;
             public Color contentColor;
             public Color backgroundColor;
             public bool wordWrap;
-            public RectOffset margin;
+            public bool useCustomFonts;
         }
 
         private readonly static List<GUIState> stack = new List<GUIState>();
@@ -43,14 +39,18 @@ namespace RocketMan
                 anchor = Text.Anchor,
                 color = GUI.color,
                 wordWrap = Text.WordWrap,
-                margin = Text.CurFontStyle.margin,
-                curFontStyle_fontSize = Text.CurFontStyle.fontSize,
-                curTextAreaReadOnlyStyle_fontSize = Text.CurTextAreaReadOnlyStyle.fontSize,
-                curTextFieldStyle_fontSize = Text.CurTextFieldStyle.fontSize,
-                curTextAreaStyle_fontSize = Text.CurTextAreaStyle.fontSize,
                 contentColor = GUI.contentColor,
                 backgroundColor = GUI.backgroundColor,
+                useCustomFonts = GUIFont.UseCustomFonts
             });
+            GUIFont.UseCustomFonts = true;
+            if (stack.Count == 1)
+            {
+                GUIFont.Font = GUIFontSize.Tiny;
+                GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
+                GUIFont.Anchor = TextAnchor.UpperLeft;
+                GUIFont.WordWrap = true;
+            }
         }
 
         public static void RestoreGUIState()
@@ -60,36 +60,33 @@ namespace RocketMan
             Restore(config);
             // TODO
             // FIX THIS SHIT!
-            Restore(config);
+            GUIFont.RestorStyles();
         }
 
         public static void ClearGUIState()
         {
             if (stack.Count > 0)
             {
-                Log.Message("ROCKETMAN: GUI state should be clear at exit");
+                Log.Warning("ROCKETMAN: GUI state should be clear at exit");
                 Restore(stack[0]);
             }
             stack.Clear();
+            GUIFont.RestorStyles();
         }
 
         private static void Restore(GUIState config)
         {
-            Text.CurFontStyle.margin = config.margin;
-            Text.CurTextAreaReadOnlyStyle.fontStyle = config.curTextAreaReadOnlyStyle;
-            Text.CurTextAreaStyle.fontStyle = config.curTextAreaStyle;
-            Text.CurTextFieldStyle.fontStyle = config.curTextFieldStyle;
-            Text.CurFontStyle.fontStyle = config.curStyle;
-            Text.CurFontStyle.fontSize = config.curFontStyle_fontSize;
-            Text.CurTextAreaReadOnlyStyle.fontSize = config.curTextAreaReadOnlyStyle_fontSize;
-            Text.CurTextAreaStyle.fontSize = config.curTextAreaStyle_fontSize;
-            Text.CurTextFieldStyle.fontSize = config.curTextFieldStyle_fontSize;
+            GUIFont.UseCustomFonts = config.useCustomFonts;
+            Text.Font = config.font;
             GUI.color = config.color;
             GUI.contentColor = config.contentColor;
             GUI.backgroundColor = config.backgroundColor;
             Text.WordWrap = config.wordWrap;
             Text.Anchor = config.anchor;
-            Text.Font = config.font;
+            Text.CurFontStyle.fontStyle = config.curStyle;
+            Text.CurTextAreaReadOnlyStyle.fontStyle = config.curTextAreaReadOnlyStyle;
+            Text.CurTextAreaStyle.fontStyle = config.curTextAreaStyle;
+            Text.CurTextFieldStyle.fontStyle = config.curTextFieldStyle;
         }
     }
 }
