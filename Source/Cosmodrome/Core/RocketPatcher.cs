@@ -60,8 +60,8 @@ namespace RocketMan
         private static IEnumerable<Type> GetPatchTypes()
         {
             List<Type> types = new List<Type>();
-            types.AddRange(AccessTools.GetTypesFromAssembly(typeof(RocketPatcher).Assembly));
-            types.AddRange(AccessTools.GetTypesFromAssembly(typeof(RocketPatcher).Assembly).SelectMany(t => t.GetNestedTypes()));
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()));
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()).SelectMany(t => t.GetNestedTypes()));
             return types
                 .Where(t => t.HasAttribute<RocketPatch>())
                 .Distinct();
@@ -74,7 +74,8 @@ namespace RocketMan
             {
                 report += t.FullName + "\n";
             }
-            Logger.Debug(report, file: "Types.txt");
+            Logger.Debug(Assembly.GetExecutingAssembly().FullName, file: "Types.log");
+            Logger.Debug(report, file: "Types.log");
         }
     }
 }

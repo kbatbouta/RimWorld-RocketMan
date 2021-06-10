@@ -63,8 +63,8 @@ namespace Proton
         private static IEnumerable<Type> GetPatchTypes()
         {
             List<Type> types = new List<Type>();
-            types.AddRange(AccessTools.GetTypesFromAssembly(typeof(ProtonPatcher).Assembly));
-            types.AddRange(AccessTools.GetTypesFromAssembly(typeof(ProtonPatcher).Assembly).SelectMany(t => t.GetNestedTypes()));
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()));
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()).SelectMany(t => t.GetNestedTypes()));
             return types
                 .Where(t => t.HasAttribute<ProtonPatch>())
                 .Distinct();
@@ -77,7 +77,8 @@ namespace Proton
             {
                 report += t.FullName + "\n";
             }
-            Logger.Debug(report, file: "Types.Proton.txt");
+            Logger.Debug(Assembly.GetExecutingAssembly().FullName, file: "Types.Proton.log");
+            Logger.Debug(report, file: "Types.Proton.log");
         }
     }
 }

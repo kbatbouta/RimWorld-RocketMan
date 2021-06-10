@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace RocketMan
@@ -29,10 +30,19 @@ namespace RocketMan
         {
             get
             {
-                Assembly mainAssembly = typeof(RocketPrefs).Assembly;
-                if (!assemblies.Contains(mainAssembly)) assemblies.Add(mainAssembly);
+                Assembly mainAssembly = Assembly.GetExecutingAssembly();
+                if (!assemblies.Contains(mainAssembly))
+                    assemblies.Add(mainAssembly);
                 return assemblies;
             }
+        }
+
+        public static IEnumerable<Assembly> RocketManAssembliesInAppDomain
+        {
+            get => AppDomain.CurrentDomain
+                    .GetAssemblies()
+                    .Where(a => a.FullName is string name && name != null && (name.StartsWith("Proton") || name.StartsWith("Cosmodrome") || name.StartsWith("Gagarin") || name.StartsWith("Soyuz")))
+                    .Distinct();
         }
     }
 }

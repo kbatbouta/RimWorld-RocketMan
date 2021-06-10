@@ -63,8 +63,8 @@ namespace Soyuz
         private static IEnumerable<Type> GetPatchTypes()
         {
             List<Type> types = new List<Type>();
-            types.AddRange(AccessTools.GetTypesFromAssembly(typeof(SoyuzPatch).Assembly));
-            types.AddRange(AccessTools.GetTypesFromAssembly(typeof(SoyuzPatch).Assembly).SelectMany(t => t.GetNestedTypes()));
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()));
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()).SelectMany(t => t.GetNestedTypes()));
             return types
                 .Where(t => t.HasAttribute<SoyuzPatch>())
                 .Distinct();
@@ -77,7 +77,8 @@ namespace Soyuz
             {
                 report += t.FullName + "\n";
             }
-            Logger.Debug(report, file: "Types.Soyuz.txt");
+            Logger.Debug(Assembly.GetExecutingAssembly().FullName, file: "Types.Soyuz.log");
+            Logger.Debug(report, file: "Types.Soyuz.log");
         }
     }
 }

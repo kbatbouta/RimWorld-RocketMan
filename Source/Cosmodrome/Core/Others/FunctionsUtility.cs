@@ -39,7 +39,6 @@ namespace RocketMan
         public static IEnumerable<Action> GetActions<T>() where T : Attribute
         {
             foreach (var method in RocketAssembliesInfo.Assemblies
-                //.Where(ass => !ass.FullName.Contains("System") && !ass.FullName.Contains("VideoTool"))                
                 .SelectMany(a => AccessTools.GetTypesFromAssembly(a))
                 .SelectMany(t => AccessTools.GetDeclaredMethods(t))
                 .Where(m => m.HasAttribute<T>())

@@ -64,8 +64,8 @@ namespace Gagarin
         private static IEnumerable<Type> GetPatchTypes()
         {
             List<Type> types = new List<Type>();
-            types.AddRange(AccessTools.GetTypesFromAssembly(typeof(GagarinPatch).Assembly));
-            types.AddRange(AccessTools.GetTypesFromAssembly(typeof(GagarinPatch).Assembly).SelectMany(t => t.GetNestedTypes()));
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()));
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()).SelectMany(t => t.GetNestedTypes()));
             return types
                 .Where(t => t.HasAttribute<GagarinPatch>())
                 .Distinct();
@@ -78,7 +78,8 @@ namespace Gagarin
             {
                 report += t.FullName + "\n";
             }
-            Logger.Debug(report, file: "Types.Gagarin.txt");
+            Logger.Debug(Assembly.GetExecutingAssembly().FullName, file: "Types.Gagarin.log");
+            Logger.Debug(report, file: "Types.Gagarin.log");
         }
     }
 }

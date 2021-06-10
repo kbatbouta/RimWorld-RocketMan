@@ -1,148 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <RootNamespace>Gagarin</RootNamespace>
-        <AssemblyName>Gagarin</AssemblyName>
-        <TargetFramework>net472</TargetFramework>
-        <LangVersion>8.0</LangVersion>
-        <PlatformTarget>x64</PlatformTarget>
-        <OutputPath>..\..\..\1.2\Plugins</OutputPath>
-        <Optimize>true</Optimize>
-        <DebugType>pdbonly</DebugType>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <ReleaseVersion>0.6.3</ReleaseVersion>
-        <Configurations>Release;Debug</Configurations>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <OutputPath>..\..\1.2\Plugins\Experimental</OutputPath>
-        <DefineConstants>TRACE;NDEBUG</DefineConstants>
-        <WarningLevel>4</WarningLevel>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <NoStdLib>true</NoStdLib>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <DebugType>full</DebugType>
-        <OutputPath>..\..\1.2\Plugins\Experimental</OutputPath>
-        <DefineConstants>TRACE;DEBUG;NETFRAMEWORK;NET472;</DefineConstants>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <NoStdLib>true</NoStdLib>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2905" GeneratePathProperty="true" />
-        <PackageReference Include="Lib.Harmony" Version="2.0.4" ExcludeAssets="runtime" />
-        <PackageReference Include="Microsoft.NETCore.Platforms" Version="5.0.2" />
-        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.2">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-        <PackageReference Include="TaskPubliciser" Version="1.0.3" />
-        <PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="8.0.0" ExcludeAssets="runtime" />
-        <PackageReference Include="XMLDiffPatch" Version="1.0.8.28" />
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Core\" />
-        <Folder Include="Core\Deprecated\" />
-        <Folder Include="Core\Deprecated\Optimizations\" />
-        <Folder Include="Core\Deprecated\Others\" />
-        <Folder Include="Core\Deprecated\Patches\" />
-        <Folder Include="Core\Profiling\" />
-        <Folder Include="Core\Others\" />
-        <Folder Include="Core\Info\" />
-        <Folder Include="Core\Patches\" />
-        <Folder Include="Core\Troubleshooting\" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj">
-            <Private>False</Private>
-        </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-      <None Remove="Core\Deprecated\" />
-      <None Remove="Core\Deprecated\Optimizations\" />
-      <None Remove="Core\Deprecated\Others\" />
-      <None Remove="Core\Deprecated\Patches\" />
-      <None Remove="Core\Patches\" />
-      <None Remove="Core\Others\" />
-      <None Remove="Core\Info\" />
-      <None Remove="Core\Optimizations\" />
-      <None Remove="..\.editorconfig" />
-      <None Remove="Core\Troubleshooting\" />
-      <None Remove="XMLDiffPatch" />
-    </ItemGroup>
-    <ItemGroup>
-      <Compile Remove="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" />
-      <Compile Remove="Core\Deprecated\Patches\GenGeneric_Patch.cs" />
-      <Compile Remove="Core\Deprecated\Context.cs" />
-      <Compile Remove="Core\Deprecated\Others\LoadableXmlAssetUtility.cs" />
-      <Compile Remove="Core\Deprecated\Others\RunningModsSetUtility.cs" />
-      <Compile Remove="Core\Deprecated\Optimizations\LoadedModManager_Patch.cs" />
-      <Compile Remove="Core\Deprecated\DefXmlHelper.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Include="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-      <None Include="Core\Deprecated\Patches\GenGeneric_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-      <None Include="Core\Deprecated\Context.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-      <None Include="Core\Deprecated\Others\LoadableXmlAssetUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-      <None Include="Core\Deprecated\Others\RunningModsSetUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-      <None Include="Core\Deprecated\Optimizations\LoadedModManager_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-      <None Include="Core\Deprecated\DefXmlHelper.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    </ItemGroup>
-    <Target Name="Publicise" BeforeTargets="UpdateReferences" Condition="!Exists('$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp_publicised.dll')">
-        <!-- Set our variables -->
-        <PropertyGroup>
-            <AssemblyCSharp>$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll</AssemblyCSharp>
-            <Unity_CoreModule>$(PkgKrafs_Rimworld_Ref)\ref\net472\UnityEngine.CoreModule.dll</Unity_CoreModule>
-            <PubliciseOutputPath>$(PkgKrafs_Rimworld_Ref)\ref\net472\</PubliciseOutputPath>
-            <AssemblyCSharp_Publicised>$(PubliciseOutputPath)Assembly-CSharp_publicised.dll</AssemblyCSharp_Publicised>
-            <Unity_CoreModule_Publicised>$(PubliciseOutputPath)UnityEngine.CoreModule_publicised.dll</Unity_CoreModule_Publicised>
-        </PropertyGroup>
-        <!-- Publicise the dlls (if required) -->
-        <Message Importance="High" Text="Publicising Rimworld Assembly ..." />
-        <Publicise TargetAssemblyPath="$(AssemblyCSharp)" OutputPath="$(PubliciseOutputPath)" Condition="Exists('$(AssemblyCSharp)')" />
-        <Publicise TargetAssemblyPath="$(Unity_CoreModule)" OutputPath="$(PubliciseOutputPath)" Condition="Exists('$(Unity_CoreModule)')" />
-        <!-- Add references to the new publicised dlls -->
-        <Message Importance="High" Text="Replacing reference to un-publicised assemblies with publicised equivalents ..." />
-    </Target>
-    <Target Name="AddRefrences" BeforeTargets="UpdateReferences" AfterTargets="Publicise">
-        <!-- Set our variables -->
-        <PropertyGroup>
-            <AssemblyCSharp>$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll</AssemblyCSharp>
-            <Unity_CoreModule>$(PkgKrafs_Rimworld_Ref)\ref\net472\UnityEngine.CoreModule.dll</Unity_CoreModule>
-            <PubliciseOutputPath>$(PkgKrafs_Rimworld_Ref)\ref\net472\</PubliciseOutputPath>
-            <AssemblyCSharp_Publicised>$(PubliciseOutputPath)Assembly-CSharp_publicised.dll</AssemblyCSharp_Publicised>
-            <Unity_CoreModule_Publicised>$(PubliciseOutputPath)UnityEngine.CoreModule_publicised.dll</Unity_CoreModule_Publicised>
-        </PropertyGroup>
-        <!-- Publicise the dlls (if required) -->
-        <ItemGroup>
-            <Reference Include="$(AssemblyCSharp_Publicised)">
-                <SpecificVersion>false</SpecificVersion>
-                <HintPath>$(AssemblyCSharp_Publicised)</HintPath>
-                <Implicit>true</Implicit>
-                <Private>false</Private>
-            </Reference>
-            <Reference Include="$(Unity_CoreModule_Publicised)">
-                <SpecificVersion>false</SpecificVersion>
-                <HintPath>$(Unity_CoreModule_Publicised)</HintPath>
-                <Implicit>true</Implicit>
-                <Private>false</Private>
-            </Reference>
-        </ItemGroup>
-    </Target>
-    <Target Name="UpdateReferences" AfterTargets="ResolveLockFileReferences">
-        <Message Importance="High" Text="Remove References at ($(PkgKrafs_Rimworld_Ref))" />
-        <ItemGroup>
-            <Reference Remove="$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll" />
-            <Reference Remove="$(PkgKrafs_Rimworld_Ref)\ref\net472\UnityEngine.CoreModule.dll" />
-        </ItemGroup>
-    </Target>
-    <ProjectExtensions>
-      <MonoDevelop>
-        <Properties>
-          <Policies>
-            <StandardHeader Text="" IncludeInNewFiles="False" />
-          </Policies>
-        </Properties>
-      </MonoDevelop>
-    </ProjectExtensions>
+	<PropertyGroup>
+		<RootNamespace>Gagarin</RootNamespace>
+		<AssemblyName>Gagarin</AssemblyName>
+		<TargetFramework>net472</TargetFramework>
+		<LangVersion>8.0</LangVersion>
+		<PlatformTarget>x64</PlatformTarget>
+		<OutputPath>..\..\..\1.2\Plugins</OutputPath>
+		<Optimize>true</Optimize>
+		<DebugType>pdbonly</DebugType>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<ReleaseVersion>0.6.3</ReleaseVersion>
+		<Configurations>Release;Debug</Configurations>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutputPath>..\..\1.2\Plugins\Experimental</OutputPath>
+		<DefineConstants>TRACE;NDEBUG</DefineConstants>
+		<WarningLevel>4</WarningLevel>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<NoStdLib>true</NoStdLib>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>full</DebugType>
+		<OutputPath>..\..\1.2\Plugins\Experimental</OutputPath>
+		<DefineConstants>TRACE;DEBUG;NETFRAMEWORK;NET472;</DefineConstants>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<NoStdLib>true</NoStdLib>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2905" GeneratePathProperty="true" />
+		<PackageReference Include="Lib.Harmony" Version="2.0.4" ExcludeAssets="runtime" />
+		<PackageReference Include="Microsoft.NETCore.Platforms" Version="5.0.2" />
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.2">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
+		<PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="8.0.0" ExcludeAssets="runtime" />
+		<PackageReference Include="XMLDiffPatch" Version="1.0.8.28" ExcludeAssets="runtime" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Core\" />
+		<Folder Include="Core\Deprecated\" />
+		<Folder Include="Core\Deprecated\Optimizations\" />
+		<Folder Include="Core\Deprecated\Others\" />
+		<Folder Include="Core\Deprecated\Patches\" />
+		<Folder Include="Core\Profiling\" />
+		<Folder Include="Core\Others\" />
+		<Folder Include="Core\Info\" />
+		<Folder Include="Core\Patches\" />
+		<Folder Include="Core\Troubleshooting\" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj" ExcludeAssets="runtime">
+			<Private>False</Private>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<None Remove="Core\Deprecated\" />
+		<None Remove="Core\Deprecated\Optimizations\" />
+		<None Remove="Core\Deprecated\Others\" />
+		<None Remove="Core\Deprecated\Patches\" />
+		<None Remove="Core\Patches\" />
+		<None Remove="Core\Others\" />
+		<None Remove="Core\Info\" />
+		<None Remove="Core\Optimizations\" />
+		<None Remove="..\.editorconfig" />
+		<None Remove="Core\Troubleshooting\" />
+		<None Remove="XMLDiffPatch" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" />
+		<Compile Remove="Core\Deprecated\Patches\GenGeneric_Patch.cs" />
+		<Compile Remove="Core\Deprecated\Context.cs" />
+		<Compile Remove="Core\Deprecated\Others\LoadableXmlAssetUtility.cs" />
+		<Compile Remove="Core\Deprecated\Others\RunningModsSetUtility.cs" />
+		<Compile Remove="Core\Deprecated\Optimizations\LoadedModManager_Patch.cs" />
+		<Compile Remove="Core\Deprecated\DefXmlHelper.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Core\Deprecated\Patches\GenerateImpliedDefs_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\Patches\GenGeneric_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\Context.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\Others\LoadableXmlAssetUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\Others\RunningModsSetUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\Optimizations\LoadedModManager_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\DefXmlHelper.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+	</ItemGroup>
+	<Target Name="Publicise" BeforeTargets="UpdateReferences" Condition="!Exists('$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp_publicised.dll')">
+		<!-- Set our variables -->
+		<PropertyGroup>
+			<AssemblyCSharp>$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll</AssemblyCSharp>
+			<Unity_CoreModule>$(PkgKrafs_Rimworld_Ref)\ref\net472\UnityEngine.CoreModule.dll</Unity_CoreModule>
+			<PubliciseOutputPath>$(PkgKrafs_Rimworld_Ref)\ref\net472\</PubliciseOutputPath>
+			<AssemblyCSharp_Publicised>$(PubliciseOutputPath)Assembly-CSharp_publicised.dll</AssemblyCSharp_Publicised>
+			<Unity_CoreModule_Publicised>$(PubliciseOutputPath)UnityEngine.CoreModule_publicised.dll</Unity_CoreModule_Publicised>
+		</PropertyGroup>
+		<!-- Publicise the dlls (if required) -->
+		<Message Importance="High" Text="Publicising Rimworld Assembly ..." />
+		<Publicise TargetAssemblyPath="$(AssemblyCSharp)" OutputPath="$(PubliciseOutputPath)" Condition="Exists('$(AssemblyCSharp)')" />
+		<Publicise TargetAssemblyPath="$(Unity_CoreModule)" OutputPath="$(PubliciseOutputPath)" Condition="Exists('$(Unity_CoreModule)')" />
+		<!-- Add references to the new publicised dlls -->
+		<Message Importance="High" Text="Replacing reference to un-publicised assemblies with publicised equivalents ..." />
+	</Target>
+	<Target Name="AddRefrences" BeforeTargets="UpdateReferences" AfterTargets="Publicise">
+		<!-- Set our variables -->
+		<PropertyGroup>
+			<AssemblyCSharp>$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll</AssemblyCSharp>
+			<Unity_CoreModule>$(PkgKrafs_Rimworld_Ref)\ref\net472\UnityEngine.CoreModule.dll</Unity_CoreModule>
+			<PubliciseOutputPath>$(PkgKrafs_Rimworld_Ref)\ref\net472\</PubliciseOutputPath>
+			<AssemblyCSharp_Publicised>$(PubliciseOutputPath)Assembly-CSharp_publicised.dll</AssemblyCSharp_Publicised>
+			<Unity_CoreModule_Publicised>$(PubliciseOutputPath)UnityEngine.CoreModule_publicised.dll</Unity_CoreModule_Publicised>
+		</PropertyGroup>
+		<!-- Publicise the dlls (if required) -->
+		<ItemGroup>
+			<Reference Include="$(AssemblyCSharp_Publicised)">
+				<SpecificVersion>false</SpecificVersion>
+				<HintPath>$(AssemblyCSharp_Publicised)</HintPath>
+				<Implicit>true</Implicit>
+				<Private>false</Private>
+			</Reference>
+			<Reference Include="$(Unity_CoreModule_Publicised)">
+				<SpecificVersion>false</SpecificVersion>
+				<HintPath>$(Unity_CoreModule_Publicised)</HintPath>
+				<Implicit>true</Implicit>
+				<Private>false</Private>
+			</Reference>
+		</ItemGroup>
+	</Target>
+	<Target Name="UpdateReferences" AfterTargets="ResolveLockFileReferences">
+		<Message Importance="High" Text="Remove References at ($(PkgKrafs_Rimworld_Ref))" />
+		<ItemGroup>
+			<Reference Remove="$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll" />
+			<Reference Remove="$(PkgKrafs_Rimworld_Ref)\ref\net472\UnityEngine.CoreModule.dll" />
+		</ItemGroup>
+	</Target>
+	<ProjectExtensions>
+		<MonoDevelop>
+			<Properties>
+				<Policies>
+					<StandardHeader Text="" IncludeInNewFiles="False" />
+				</Policies>
+			</Properties>
+		</MonoDevelop>
+	</ProjectExtensions>
 </Project>

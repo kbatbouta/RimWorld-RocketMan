@@ -45,6 +45,7 @@
 		<Folder Include="Core\Resources\" />
 		<Folder Include="Core\Alerts\" />
 		<Folder Include="Core\GUI\Listings\" />
+		<Folder Include="Core\Optimizations\Deprecated\" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\..\1.2\**\*.xml" CopyToOutputDirectory="Never">
@@ -56,6 +57,7 @@
 		<None Include="..\..\Languages\English\*\*.xml" CopyToOutputDirectory="Never">
 			<Link>Assets\Language\%(FileName)%(Extension)</Link>
 		</None>
+		<None Include="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Core\Modules\" />
@@ -64,6 +66,10 @@
 		<None Remove="Core\Alerts\" />
 		<None Remove="XMLDiffPatch" />
 		<None Remove="Core\GUI\Elements\" />
+		<None Remove="Core\Optimizations\Deprecated\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\AssemblyInfo.cs">
