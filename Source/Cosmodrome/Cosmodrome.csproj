@@ -46,6 +46,8 @@
 		<Folder Include="Core\Alerts\" />
 		<Folder Include="Core\GUI\Listings\" />
 		<Folder Include="Core\Optimizations\Deprecated\" />
+		<Folder Include="Core\GUI\Core\" />
+		<Folder Include="Core\GUI\Core\Patches\" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\..\1.2\**\*.xml" CopyToOutputDirectory="Never">
@@ -67,6 +69,8 @@
 		<None Remove="XMLDiffPatch" />
 		<None Remove="Core\GUI\Elements\" />
 		<None Remove="Core\Optimizations\Deprecated\" />
+		<None Remove="Core\GUI\Core\" />
+		<None Remove="Core\GUI\Core\Patches\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Remove="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
