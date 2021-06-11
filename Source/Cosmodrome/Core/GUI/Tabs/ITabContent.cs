@@ -25,7 +25,7 @@ namespace RocketMan.Tabs
         public abstract Texture2D Icon { get; }
         public abstract bool ShouldShow { get; }
 
-        public virtual float LabelWidth => Text.CalcSize(Label).x;
+        public virtual float LabelWidth => GUIFont.CalcSize(Label).x;
 
         public abstract string Label { get; }
         public abstract void DoContent(Rect rect);

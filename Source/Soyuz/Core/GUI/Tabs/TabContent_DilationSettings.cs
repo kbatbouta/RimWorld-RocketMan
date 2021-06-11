@@ -105,8 +105,8 @@ namespace Soyuz.Tabs
             }
             else RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
             {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                GUIFont.Font = GameFont.Medium;
+                GUIFont.Anchor = TextAnchor.MiddleCenter;
+                GUIFont.Font = GUIFontSize.Medium;
                 Widgets.DrawMenuSection(rect);
                 Widgets.Label(rect, "Soyuz.DilationDisabled".Translate());
             });
@@ -132,15 +132,15 @@ namespace Soyuz.Tabs
             {
                 Rect curRect = inRect.TopPartPixels(60);
                 Widgets.DrawMenuSection(curRect);
-                GUIFont.Font = GameFont.Tiny;
+                GUIFont.Font = GUIFontSize.Tiny;
                 RocketMan.GUIUtility.GridView<Pair<Color, string>>(curRect, 2, descriptionBoxes, (rect, pair) =>
                 {
                     RocketMan.GUIUtility.ColorBoxDescription(rect, pair.first, pair.second);
                 }, drawBackground: false);
             });
             inRect.yMin += 60;
-            GUIFont.Font = GameFont.Tiny;
-            Text.CurFontStyle.fontStyle = FontStyle.Normal;
+            GUIFont.Font = GUIFontSize.Tiny;
+            GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
             RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
             {
                 Rect tempRect = inRect.TopPartPixels(25);

@@ -29,7 +29,7 @@ namespace RocketMan
             Rect contentRect = new Rect(0, 0, inRect.width - 10, count * 60 + 5);
             GUIUtility.ExecuteSafeGUIAction(() =>
             {
-                GUIFont.Font = GameFont.Tiny;
+                GUIFont.Font = GUIFontSize.Tiny;
                 DoContent(new Rect(5, 5, contentRect.width - 5, 50));
             });
         }

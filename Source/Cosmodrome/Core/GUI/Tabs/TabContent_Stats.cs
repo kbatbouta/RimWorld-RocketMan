@@ -45,10 +45,10 @@ namespace RocketMan.Tabs
                 (rect, stat) =>
                 {
                     GUIUtility.StashGUIState();
-                    GUIFont.size = GUIFontSize.Tiny;
+                    GUIFont.Font = GUIFontSize.Tiny;
                     Widgets.Label(rect.TopPartPixels(20), stat.label.CapitalizeFirst());
-                    Text.Anchor = TextAnchor.UpperRight;
-                    Text.CurFontStyle.fontStyle = FontStyle.Italic;
+                    GUIFont.Anchor = TextAnchor.UpperRight;
+                    GUIFont.CurFontStyle.fontStyle = FontStyle.Italic;
                     Widgets.Label(rect, $"{RocketStates.StatExpiry[stat.index]} Ticks");
                     GUIUtility.RestoreGUIState();
                     RocketStates.StatExpiry[stat.index] = Widgets.HorizontalSlider(rect.BottomPartPixels(20), RocketStates.StatExpiry[stat.index], 0, 1024, false, null, null);

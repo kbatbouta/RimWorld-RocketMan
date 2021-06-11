@@ -87,8 +87,8 @@ namespace Proton
             {
                 RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
                 {
-                    Text.Anchor = TextAnchor.MiddleCenter;
-                    GUIFont.Font = GameFont.Medium;
+                    GUIFont.Anchor = TextAnchor.MiddleCenter;
+                    GUIFont.Font = GUIFontSize.Medium;
                     Widgets.DrawMenuSection(rect);
                     Widgets.Label(rect, RocketPrefs.DisableAllAlert ? "Proton.Disabled".Translate() : "Proton.AlertsDisabled".Translate());
                 });
@@ -106,14 +106,14 @@ namespace Proton
                 {
                     (tempRect) =>
                     {
-                        Text.Anchor = TextAnchor.MiddleLeft;
-                        GUIFont.Font = GameFont.Tiny;
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
+                        GUIFont.Font = GUIFontSize.Tiny;
                         Widgets.Label(tempRect, "Proton.MaxIn".Translate() + " <color=green>MS</color>");
                     },
                     (tempRect) =>
                     {
-                        Text.Anchor = TextAnchor.MiddleLeft;
-                        GUIFont.Font = GameFont.Tiny;
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
+                        GUIFont.Font = GUIFontSize.Tiny;
                         Widgets.Label(tempRect, "Proton.MinUpdate".Translate() +" <color=green>MS</color>");
                     },
                 }, drawDivider: false);
@@ -121,8 +121,8 @@ namespace Proton
                 {
                      (tempRect) =>
                     {
-                        Text.Anchor = TextAnchor.MiddleLeft;
-                        GUIFont.Font = GameFont.Tiny;
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
+                        GUIFont.Font = GUIFontSize.Tiny;
                         if (buffer1 == null)
                         {
                             buffer1 = $"{Context.Settings.executionTimeLimit}";
@@ -131,8 +131,8 @@ namespace Proton
                     },
                     (tempRect) =>
                     {
-                        Text.Anchor = TextAnchor.MiddleLeft;
-                        GUIFont.Font = GameFont.Tiny;
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
+                        GUIFont.Font = GUIFontSize.Tiny;
                         if (buffer2 == null)
                         {
                             buffer2 = $"{Context.Settings.minInterval}";
@@ -214,7 +214,7 @@ namespace Proton
             {
                 Rect curRect = inRect.TopPartPixels(45);
                 Widgets.DrawMenuSection(curRect);
-                GUIFont.Font = GameFont.Tiny;
+                GUIFont.Font = GUIFontSize.Tiny;
                 RocketMan.GUIUtility.GridView<Pair<Color, string>>(curRect, 2, descriptionBoxes, (rect, pair) =>
                 {
                     RocketMan.GUIUtility.ColorBoxDescription(rect, pair.first, pair.second);

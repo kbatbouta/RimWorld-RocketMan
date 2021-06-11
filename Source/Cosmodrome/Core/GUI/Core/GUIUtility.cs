@@ -46,30 +46,30 @@ namespace RocketMan
         {
             StashGUIState();
             Exception exception = null;
-            if (drawBackground)
-            {
-                Widgets.DrawMenuSection(rect);
-                rect = rect.ContractedBy(2);
-            }
-            Rect contentRect = new Rect(0, 0, showScrollbars ? rect.width - 23 : rect.width, 0);
-            IEnumerable<T> elementsInt = orderByLambda == null ? elements : elements.OrderBy(orderByLambda);
-            if (_heights.Length < elementsInt.Count())
-                _heights = new float[elementsInt.Count() * 2];
-            float h;
-            float w = showScrollbars ? rect.width - 16 : rect.width;
-            int j = 0;
-            int k = 0;
-            bool inView = true;
-            foreach (T element in elementsInt)
-            {
-                h = heightLambda.Invoke(element);
-                _heights[j++] = h;
-                contentRect.height += Math.Max(h, 0f);
-            }
-            j = 0;
-            Widgets.BeginScrollView(rect, ref scrollPosition, contentRect, showScrollbars: showScrollbars);
             try
             {
+                if (drawBackground)
+                {
+                    Widgets.DrawMenuSection(rect);
+                    rect = rect.ContractedBy(2);
+                }
+                Rect contentRect = new Rect(0, 0, showScrollbars ? rect.width - 23 : rect.width, 0);
+                IEnumerable<T> elementsInt = orderByLambda == null ? elements : elements.OrderBy(orderByLambda);
+                if (_heights.Length < elementsInt.Count())
+                    _heights = new float[elementsInt.Count() * 2];
+                float h;
+                float w = showScrollbars ? rect.width - 16 : rect.width;
+                int j = 0;
+                int k = 0;
+                bool inView = true;
+                foreach (T element in elementsInt)
+                {
+                    h = heightLambda.Invoke(element);
+                    _heights[j++] = h;
+                    contentRect.height += Math.Max(h, 0f);
+                }
+                j = 0;
+                Widgets.BeginScrollView(rect, ref scrollPosition, contentRect, showScrollbars: showScrollbars);
                 Rect currentRect = new Rect(1, 0, w, 0);
                 foreach (T element in elementsInt)
                 {
@@ -104,8 +104,8 @@ namespace RocketMan
             }
             finally
             {
-                Widgets.EndScrollView();
                 RestoreGUIState();
+                Widgets.EndScrollView();
             }
             if (exception != null && !catchExceptions)
                 throw exception;
@@ -113,67 +113,74 @@ namespace RocketMan
 
         public static void GridView<T>(Rect rect, int columns, List<T> elements, Action<Rect, T> cellLambda, bool drawBackground = true, bool drawVerticalDivider = false)
         {
-            if (drawBackground)
+            ExecuteSafeGUIAction(() =>
             {
-                Widgets.DrawMenuSection(rect);
-            }
-            rect = rect.ContractedBy(1);
-            int rows = (int)Math.Ceiling((decimal)elements.Count / columns);
-            float columnStep = rect.width / columns;
-            float rowStep = rect.height / rows;
-            Rect curRect = new Rect(0, 0, columnStep, rowStep);
-            int k = 0;
-            for (int i = 0; i < columns && k < elements.Count; i++)
-            {
-                curRect.x = i * columnStep + rect.x;
-                for (int j = 0; j < rows && k < elements.Count; j++)
+                if (drawBackground)
                 {
-                    curRect.y = j * rowStep + rect.y;
-                    ExecuteSafeGUIAction(() =>
-                    {
-                        GUIFont.Font = GameFont.Tiny;
-                        Text.Anchor = TextAnchor.MiddleLeft;
-                        cellLambda(curRect, elements[k++]);
-                    });
+                    Widgets.DrawMenuSection(rect);
                 }
-            }
+                rect = rect.ContractedBy(1);
+                int rows = (int)Math.Ceiling((decimal)elements.Count / columns);
+                float columnStep = rect.width / columns;
+                float rowStep = rect.height / rows;
+                Rect curRect = new Rect(0, 0, columnStep, rowStep);
+                int k = 0;
+                for (int i = 0; i < columns && k < elements.Count; i++)
+                {
+                    curRect.x = i * columnStep + rect.x;
+                    for (int j = 0; j < rows && k < elements.Count; j++)
+                    {
+                        curRect.y = j * rowStep + rect.y;
+                        ExecuteSafeGUIAction(() =>
+                        {
+                            GUIFont.Anchor = TextAnchor.MiddleLeft;
+                            GUIFont.Font = GUIFontSize.Tiny;
+                            cellLambda(curRect, elements[k++]);
+                        });
+                    }
+                }
+            });
         }
 
         public static void Row(Rect rect, List<Action<Rect>> contentLambdas, bool drawDivider = true, bool drawBackground = false)
         {
-            if (drawBackground)
+            ExecuteSafeGUIAction(() =>
             {
-                Widgets.DrawMenuSection(rect);
-            }
-            float step = rect.width / contentLambdas.Count;
-            Rect curRect = new Rect(rect.x - 5, rect.y, step - 10, rect.height);
-            for (int i = 0; i < contentLambdas.Count; i++)
-            {
-                Action<Rect> lambda = contentLambdas[i];
-                if (drawDivider && i + 1 < contentLambdas.Count)
+                if (drawBackground)
                 {
-                    Vector2 start = new Vector2(curRect.xMax + 5, curRect.yMin + 1);
-                    Vector2 end = new Vector2(curRect.xMax + 5, curRect.yMax - 1);
-                    Widgets.DrawLine(start, end, Color.white, 1);
+                    Widgets.DrawMenuSection(rect);
                 }
-                ExecuteSafeGUIAction(() =>
+                float step = rect.width / contentLambdas.Count;
+                Rect curRect = new Rect(rect.x - 5, rect.y, step - 10, rect.height);
+                for (int i = 0; i < contentLambdas.Count; i++)
                 {
-                    lambda.Invoke(curRect);
-                    curRect.x += step;
-                });
-            }
+                    Action<Rect> lambda = contentLambdas[i];
+                    if (drawDivider && i + 1 < contentLambdas.Count)
+                    {
+                        Vector2 start = new Vector2(curRect.xMax + 5, curRect.yMin + 1);
+                        Vector2 end = new Vector2(curRect.xMax + 5, curRect.yMax - 1);
+                        Widgets.DrawLine(start, end, Color.white, 1);
+                    }
+                    ExecuteSafeGUIAction(() =>
+                    {
+                        lambda.Invoke(curRect);
+                        curRect.x += step;
+                    });
+                }
+            });
         }
 
-        public static void CheckBoxLabeled(Rect rect, string label, ref bool checkOn, bool disabled = false, bool monotone = false, float iconWidth = 20, GameFont font = GameFont.Tiny, bool placeCheckboxNearText = false, bool drawHighlightIfMouseover = true, Texture2D texChecked = null, Texture2D texUnchecked = null)
+        public static void CheckBoxLabeled(Rect rect, string label, ref bool checkOn, bool disabled = false, bool monotone = false, float iconWidth = 20, GUIFontSize font = GUIFontSize.Tiny, FontStyle fontStyle = FontStyle.Normal, bool placeCheckboxNearText = false, bool drawHighlightIfMouseover = true, Texture2D texChecked = null, Texture2D texUnchecked = null)
         {
             bool checkOnInt = checkOn;
             ExecuteSafeGUIAction(() =>
             {
                 GUIFont.Font = font;
-                Text.Anchor = TextAnchor.MiddleLeft;
+                GUIFont.Anchor = TextAnchor.MiddleLeft;
+                GUIFont.CurFontStyle.fontStyle = fontStyle;
                 if (placeCheckboxNearText)
                 {
-                    rect.width = Mathf.Min(rect.width, Text.CalcSize(label).x + 24f + 10f);
+                    rect.width = Mathf.Min(rect.width, GUIFont.CalcSize(label).x + 24f + 10f);
                 }
                 Widgets.Label(rect, label);
                 if (!disabled && Widgets.ButtonInvisible(rect))
@@ -215,9 +222,9 @@ namespace RocketMan
             boxRect.center = new Vector2(rect.xMin + 15, rect.yMin + rect.height / 2);
             ExecuteSafeGUIAction(() =>
             {
-                Text.Anchor = TextAnchor.MiddleLeft;
-                GUIFont.Font = GameFont.Tiny;
-                GUIFont.FontStyle = FontStyle.Normal;
+                GUIFont.Anchor = TextAnchor.MiddleLeft;
+                GUIFont.Font = GUIFontSize.Tiny;
+                GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
                 Widgets.DrawBoxSolid(boxRect, color);
                 Widgets.Label(textRect, description);
             });

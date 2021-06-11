@@ -5,7 +5,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
-using GUITextState = System.Tuple<string, Verse.GameFont, System.Tuple<float, float>, System.Tuple<int, int, int, int>, System.Tuple<UnityEngine.FontStyle, UnityEngine.FontStyle, UnityEngine.FontStyle, UnityEngine.FontStyle>>;
+using GUITextState = System.Tuple<string, RocketMan.GUIFontSize, System.Tuple<float, float>, System.Tuple<int, int, int, int>, System.Tuple<UnityEngine.FontStyle, UnityEngine.FontStyle, UnityEngine.FontStyle, UnityEngine.FontStyle>>;
 
 namespace RocketMan
 {
@@ -57,12 +57,12 @@ namespace RocketMan
                     width,
                     Prefs.UIScale),
                 new Tuple<int, int, int, int>(
-                    Text.CurFontStyle.fontSize,
+                    GUIFont.CurFontStyle.fontSize,
                     Text.CurTextAreaReadOnlyStyle.fontSize,
                     Text.CurTextAreaStyle.fontSize,
                     Text.CurTextFieldStyle.fontSize),
                 new Tuple<FontStyle, FontStyle, FontStyle, FontStyle>(
-                    Text.CurFontStyle.fontStyle,
+                    GUIFont.CurFontStyle.fontStyle,
                     Text.CurTextAreaReadOnlyStyle.fontStyle,
                     Text.CurTextAreaStyle.fontStyle,
                     Text.CurTextFieldStyle.fontStyle));
