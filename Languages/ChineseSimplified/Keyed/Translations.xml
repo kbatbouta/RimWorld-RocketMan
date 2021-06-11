@@ -64,7 +64,7 @@
   <Soyuz.Current.IgnorePlayerFaction>忽略玩家派系</Soyuz.Current.IgnorePlayerFaction>
   <Soyuz.Current.IgnoreAllFactions>忽略所有派系</Soyuz.Current.IgnoreAllFactions>
   <Soyuz.Current.FastPawn>该生物因移速太快而不受限制</Soyuz.Current.FastPawn>
-  <Soyuz.Current.Ignored>该生物将不受限制，因为:</Soyuz.Current.Ignored>
+  <Soyuz.Current.Ignored>该生物不受限制，因为:</Soyuz.Current.Ignored>
   <Soyuz.Current.MoveSpeed>此类生物的平均移速为 {0} 格/秒</Soyuz.Current.MoveSpeed>
   <Soyuz.DilationDisabled>已禁用间隔扩增!</Soyuz.DilationDisabled>
   <Soyuz.RaceName>种族</Soyuz.RaceName>
