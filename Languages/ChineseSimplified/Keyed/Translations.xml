@@ -17,7 +17,7 @@
   <RocketMan.Alert_StatsLearning.Label>自适应模式已激活</RocketMan.Alert_StatsLearning.Label>
   <RocketMan.Alert_StatsLearning.Explanation>自适应模式已启用了 {0} 分钟!仅建议在开新档或更改Mod列表后启用 {1} 分钟。</RocketMan.Alert_StatsLearning.Explanation>
   <RocketMan.AdaptiveAlert.Label>启用自适应模式警报</RocketMan.AdaptiveAlert.Label>
-  <RocketMan.AdaptiveAlert.Description>若不想看到自适应警报则禁用该选项。</RocketMan.AdaptiveAlert.Description>
+  <RocketMan.AdaptiveAlert.Description>禁用该选项以关闭自适应模式警报。</RocketMan.AdaptiveAlert.Description>
   <RocketMan.Unpause>请勿暂停游戏!</RocketMan.Unpause>
   <RocketMan.Warming>启动中!请稍后...</RocketMan.Warming>
   <RocketMan.HideProgressBar>此提示可在RocketMan设置中隐藏/禁用</RocketMan.HideProgressBar>
