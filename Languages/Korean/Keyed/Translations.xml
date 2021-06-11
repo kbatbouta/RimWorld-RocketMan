@@ -55,11 +55,11 @@
 	<Soyuz.Enable>활성화</Soyuz.Enable>
 	<Soyuz.GeneralTip>아래의 설정을 이용해 시간 팽창된 폰에 대한 문제를 해결할 수 있습니다.</Soyuz.GeneralTip>
 	<Soyuz.EnableTimeDilation>시간 팽창 사용</Soyuz.EnableTimeDilation>
-	<Soyuz.EnableTimeDilationVisitors>방문자들에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeDilationVisitors>
-	<Soyuz.EnableTimeWorldPawns>세계의 폰들에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWorldPawns>
+	<Soyuz.EnableTimeDilationVisitors>방문자들에 대해 시간 팽창 사용</Soyuz.EnableTimeDilationVisitors>
+	<Soyuz.EnableTimeWorldPawns>세계의 폰들에 대해 시간 팽창 사용</Soyuz.EnableTimeWorldPawns>
 	<Soyuz.EnableTimeCriticalHediffs>치명적인 건강 상태의 폰들에 대해 시간 팽창 사용</Soyuz.EnableTimeCriticalHediffs>
-	<Soyuz.EnableTimeWildlife>야생동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeWildlife>
-	<Soyuz.EnableTimeColonnyAnimals>정착지 동물에 대해 시간 팽창 사용</Soyuz.Current.EnableTimeColonnyAnimals>
+	<Soyuz.EnableTimeWildlife>야생동물에 대해 시간 팽창 사용</Soyuz.EnableTimeWildlife>
+	<Soyuz.EnableTimeColonnyAnimals>정착지 동물에 대해 시간 팽창 사용</Soyuz.EnableTimeColonnyAnimals>
 	<Soyuz.EnableTimeColonists>정착민들에 대해 시간 팽창 사용</Soyuz.EnableTimeColonists>
 	<Soyuz.EnableTimeColonists.Warning>경고: 매우 위험합니다. 모드 제작자가 허용하지 않는 한 사용하지 마십시오. 사용 시 세이브 파일이 망가지거나 이상행동이 나타날 수 있습니다.</Soyuz.EnableTimeColonists.Warning>	
 	<Soyuz.Current.Enable>활성화</Soyuz.Current.Enable>
