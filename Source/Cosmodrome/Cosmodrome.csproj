@@ -60,6 +60,7 @@
 			<Link>Assets\Language\%(FileName)%(Extension)</Link>
 		</None>
 		<None Include="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
+		<None Include="Core\Optimizations\Deprecated\GlowGrid_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Core\Modules\" />
@@ -74,6 +75,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Remove="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
+	  <Compile Remove="Core\Optimizations\Deprecated\GlowGrid_Patch.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\AssemblyInfo.cs">

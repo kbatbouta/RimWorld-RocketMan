@@ -11,10 +11,10 @@ namespace Proton
         [Main.OnScribe]
         public static void OnScribe()
         {
-            Scribe_Deep.Look(ref Context.Settings, "protonSettings");
-            if (Context.Settings == null)
+            Scribe_Deep.Look(ref Context.settingsInt, "protonSettings");
+            if (Context.settingsInt == null)
             {
-                Context.Settings = new ProtonSettings();
+                Context.settingsInt = new ProtonSettings();
             }
             RocketEnvironmentInfo.ProtonLoaded = true;
         }
