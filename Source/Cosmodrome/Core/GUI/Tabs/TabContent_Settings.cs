@@ -19,8 +19,8 @@ namespace RocketMan.Tabs
                 {
                     GUIUtility.ExecuteSafeGUIAction(() =>
                     {
-                        GUIFont.Font = GameFont.Medium;
-                        Text.Anchor = TextAnchor.MiddleCenter;
+                        GUIFont.Font = GUIFontSize.Medium;
+                        GUIFont.Anchor = TextAnchor.MiddleCenter;
                         if (Find.TickManager.Paused)
                             Widgets.Label(rect, KeyedResources.RocketMan_Settings_PleaseWait);
                         else

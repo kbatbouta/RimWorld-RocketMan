@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.IO.Ports;
+using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using GUILambda = System.Action<UnityEngine.Rect>;
 
 namespace RocketMan
 {
@@ -80,8 +82,8 @@ namespace RocketMan
             {
                 this.inYMin = inRect.yMin;
                 this.Rect = inRect;
-                GUIFont.Font = GameFont.Tiny;
-                Text.Anchor = TextAnchor.MiddleLeft;
+                GUIFont.Font = GUIFontSize.Tiny;
+                GUIFont.Anchor = TextAnchor.MiddleLeft;
                 RectSlice slice = Slice(title.GetTextHeight(this.insideWidth - 30f));
                 if (hightlightIfMouseOver)
                 {
@@ -92,13 +94,13 @@ namespace RocketMan
                 Rect titleRect = slice.inside;
                 if (drawInfo)
                 {
-                    GUIFont.Font = GameFont.Tiny;
-                    Text.Anchor = TextAnchor.MiddleRight;
+                    GUIFont.Font = GUIFontSize.Tiny;
+                    GUIFont.Anchor = TextAnchor.MiddleRight;
                     Widgets.Label(titleRect, expanded ? KeyedResources.RocketMan_Collapsible_Hide : KeyedResources.RocketMan_Collapsible_Expand);
                 }
-                GUIFont.size = GUIFontSize.Smaller;
-                Text.CurFontStyle.fontStyle = FontStyle.Normal;
-                Text.Anchor = TextAnchor.MiddleLeft;
+                GUIFont.Font = GUIFontSize.Smaller;
+                GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
+                GUIFont.Anchor = TextAnchor.MiddleLeft;
                 if (drawIcon)
                 {
                     Widgets.DrawTextureFitted(titleRect.LeftPartPixels(25), expanded ? TexButton.Collapse : TexButton.Reveal, 0.65f);
@@ -115,8 +117,8 @@ namespace RocketMan
             });
             this.Gap(2);
             GUIUtility.StashGUIState();
-            GUIFont.Font = GameFont.Tiny;
-            Text.CurFontStyle.fontStyle = FontStyle.Normal;
+            GUIFont.Font = GUIFontSize.Tiny;
+            GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
         }
 
         public void Label(TaggedString text, string tooltip = null, bool invert = false, bool hightlightIfMouseOver = true, GUIFontSize fontSize = GUIFontSize.Tiny, FontStyle fontStyle = FontStyle.Normal)
@@ -132,8 +134,8 @@ namespace RocketMan
                 {
                     Widgets.DrawHighlightIfMouseover(slice.outside);
                 }
-                GUIFont.size = fontSize;
-                Text.CurFontStyle.fontStyle = fontStyle;
+                GUIFont.Font = fontSize;
+                GUIFont.CurFontStyle.fontStyle = fontStyle;
                 Widgets.Label(slice.inside, text);
                 if (tooltip != null)
                 {
@@ -152,8 +154,8 @@ namespace RocketMan
             bool checkOnInt = checkOn;
             GUIUtility.ExecuteSafeGUIAction(() =>
             {
-                GUIFont.size = fontSize;
-                Text.CurFontStyle.fontStyle = fontStyle;
+                GUIFont.Font = fontSize;
+                GUIFont.CurFontStyle.fontStyle = fontStyle;
                 RectSlice slice = Slice(text.GetTextHeight(insideWidth - 23f));
                 if (hightlightIfMouseOver)
                 {
@@ -173,7 +175,30 @@ namespace RocketMan
             return changed;
         }
 
-        public void Lambda(float height, Action<Rect> contentLambda, bool invert = false, Action fallback = null)
+        public void Columns(float height, IEnumerable<GUILambda> lambdas, float gap = 5, bool invert = false, bool useMargins = false, Action fallback = null)
+        {
+            if (invert == expanded)
+            {
+                return;
+            }
+            if (lambdas.Count() == 1)
+            {
+                Lambda(height, lambdas.First(), invert, useMargins, fallback);
+                return;
+            }
+            Rect rect = useMargins ? Slice(height).inside : Slice(height).outside;
+            Rect[] columns = rect.Columns(lambdas.Count(), gap);
+            int i = 0;
+            foreach (GUILambda lambda in lambdas)
+            {
+                GUIUtility.ExecuteSafeGUIAction(() =>
+                {
+                    lambda(columns[i++]);
+                }, fallback);
+            }
+        }
+
+        public void Lambda(float height, GUILambda contentLambda, bool invert = false, bool useMargins = false, Action fallback = null)
         {
             if (invert == expanded)
             {
@@ -182,7 +207,7 @@ namespace RocketMan
             RectSlice slice = Slice(height);
             GUIUtility.ExecuteSafeGUIAction(() =>
             {
-                contentLambda(slice.outside);
+                contentLambda(useMargins ? slice.inside : slice.outside);
             }, fallback);
         }
 

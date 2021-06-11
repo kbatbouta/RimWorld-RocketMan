@@ -18,7 +18,7 @@ namespace RocketMan
         {
             var color = item.Color;
             color.a = 0.5f;
-            Text.Anchor = TextAnchor.MiddleLeft;
+            GUIFont.Anchor = TextAnchor.MiddleLeft;
             Widgets.DrawHighlightIfMouseover(rect);
             Widgets.Label(rect.RightPart(0.8f), item.Label);
             Widgets.DrawBoxSolid(rect.LeftPartPixels(10f), color);

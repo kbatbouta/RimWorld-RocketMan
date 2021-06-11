@@ -53,9 +53,9 @@ namespace Soyuz.Tabs
         {
             var stage = 0;
             rect.yMin += 5;
-            Text.CurFontStyle.fontStyle = FontStyle.Bold;
+            GUIFont.CurFontStyle.fontStyle = FontStyle.Bold;
             Widgets.Label(rect.TopPartPixels(25), "Dilated races");
-            Text.CurFontStyle.fontStyle = FontStyle.Normal;
+            GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
             if (Context.Settings == null || Find.Selector == null)
             {
                 return;
