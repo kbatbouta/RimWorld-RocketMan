@@ -25,7 +25,7 @@
   <RocketMan.RocketMan>RocketMan</RocketMan.RocketMan>
   <RocketMan.Tab>主要功能</RocketMan.Tab>
   <RocketMan.Close>关闭</RocketMan.Close>
-  <RocketMan.Enable>主界面设置</RocketMan.Enable>
+  <RocketMan.Enable>启用</RocketMan.Enable>
   <RocketMan.Experimental>实验性功能</RocketMan.Experimental>
   <RocketMan.EnableGagarin>加快载入速度(更短的载入时间)</RocketMan.EnableGagarin>
   <RocketMan.EnableGagarin.Tip>RocketMan通过缓存Xml补丁文件的操作以尝试加快载入游戏的速度。 在启用该选项后请重启两次游戏，以便RocketMan创建缓存。取决于启用的Mod数量及Mod类型至多可缩减一半载入时间。建议在使用Combat Extended或Doc universal这类大量使用Xml补丁的Mod时启用。</RocketMan.EnableGagarin.Tip>
