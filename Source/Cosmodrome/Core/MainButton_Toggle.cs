@@ -6,7 +6,18 @@ namespace RocketMan
 {
     internal class MainButton_Toggle : MainButtonWorker
     {
-        public override bool Disabled => !RocketPrefs.MainButtonToggle ? true : (Find.CurrentMap == null && (!def.validWithoutMap || def == MainButtonDefOf.World) || Find.WorldRoutePlanner.Active && Find.WorldRoutePlanner.FormingCaravan && (!def.validWithoutMap || def == MainButtonDefOf.World));
+        public override bool Disabled
+        {
+            get
+            {
+                this.def.buttonVisible = RocketPrefs.MainButtonToggle;
+                return !RocketPrefs.MainButtonToggle
+                  && Find.CurrentMap == null
+                  && (!def.validWithoutMap || def == MainButtonDefOf.World) || Find.WorldRoutePlanner.Active
+                  && Find.WorldRoutePlanner.FormingCaravan
+                  && (!def.validWithoutMap || def == MainButtonDefOf.World);
+            }
+        }
 
         public override float ButtonBarPercent => RocketPrefs.MainButtonToggle ? base.ButtonBarPercent : 0f;
 
@@ -22,15 +33,13 @@ namespace RocketMan
                 else
                 {
                     Find.WindowStack.Add(
-                        Finder.RocketManWindow == null ? Finder.RocketManWindow = new Window_Main() : Finder.RocketManWindow
-                        );
+                        Finder.RocketManWindow == null ? Finder.RocketManWindow = new Window_Main() : Finder.RocketManWindow);
                 }
             }
             else
             {
                 if (Find.WindowStack.WindowOfType<Window_Main>() == null) Find.WindowStack.Add(
-                    Finder.RocketManWindow == null ? Finder.RocketManWindow = new Window_Main() : Finder.RocketManWindow
-                    );
+                    Finder.RocketManWindow == null ? Finder.RocketManWindow = new Window_Main() : Finder.RocketManWindow);
             }
         }
     }

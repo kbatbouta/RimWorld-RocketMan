@@ -51,13 +51,35 @@ namespace Gagarin
         [Main.OnInitialization]
         public static void PatchAll()
         {
-            foreach (var type in typeof(GagarinPatcher).Assembly.GetTypes()
-                .Where(t => t.HasAttribute<GagarinPatch>()))
+            IEnumerable<Type> types = GetPatchTypes();
+            LogTypesToFile(types);
+            foreach (var type in types)
             {
                 new GagarinPatchInfo(type).Patch(harmony);
             }
             Log.Message($"GAGARIN: Patching finished");
             RocketEnvironmentInfo.GagarinLoaded = true;
+        }
+
+        private static IEnumerable<Type> GetPatchTypes()
+        {
+            List<Type> types = new List<Type>();
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()));
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()).SelectMany(t => t.GetNestedTypes()));
+            return types
+                .Where(t => t.HasAttribute<GagarinPatch>())
+                .Distinct();
+        }
+
+        private static void LogTypesToFile(IEnumerable<Type> types)
+        {
+            string report = string.Empty;
+            foreach (Type t in types)
+            {
+                report += t.FullName + "\n";
+            }
+            Logger.Debug(Assembly.GetExecutingAssembly().FullName, file: "Types.Gagarin.log");
+            Logger.Debug(report, file: "Types.Gagarin.log");
         }
     }
 }

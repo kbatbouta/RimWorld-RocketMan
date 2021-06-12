@@ -85,8 +85,8 @@ namespace RocketMan
                 Logger.Debug($"ROCKETMAN: Create resolve event handler");
                 AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler((sender, args) =>
                 {
-                    Logger.Debug($"ROCKETMAN: Assembly resolve called!");
-                    Logger.Debug($"ROCKETMAN: Assembly resolve event. requesting: {args.RequestingAssembly.GetName().FullName }, args:{args.Name}");
+                    Logger.Debug($"ROCKETMAN: Assembly resolve called!", file: "AssemblyResolve.log");
+                    Logger.Debug($"ROCKETMAN: Assembly resolve event. requesting: {args.RequestingAssembly.GetName().FullName }, args:{args.Name}", file: "AssemblyResolve.log");
                     if (args.Name == assembly.GetName().FullName)
                     {
                         return assembly;

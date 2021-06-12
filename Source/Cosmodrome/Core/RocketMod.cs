@@ -57,6 +57,9 @@ namespace RocketMan
             }
             finally
             {
+                RocketAssembliesInfo.Assemblies.AddRange(RocketAssembliesInfo.RocketManAssembliesInAppDomain);
+                foreach (Assembly assembly in RocketAssembliesInfo.Assemblies)
+                    Logger.Debug($"Found in AppDomain after loading assembly {assembly.FullName}", file: "Assemblies.log");
                 Main.ReloadActions();
                 foreach (var action in Main.onInitialization)
                     action.Invoke();

@@ -44,7 +44,7 @@ namespace RocketMan.Optimizations
         }
     }
 
-    [RocketPatch()]
+    [RocketPatch]
     internal static class StatWorker_GetValueUnfinalized_Hijacked_Patch
     {
         internal static MethodBase m_GetValueUnfinalized = AccessTools.Method(typeof(StatWorker), "GetValueUnfinalized",

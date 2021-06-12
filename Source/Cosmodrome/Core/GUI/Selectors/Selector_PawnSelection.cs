@@ -17,7 +17,7 @@ namespace RocketMan
         {
             Widgets.DrawHighlightIfMouseover(rect);
             Widgets.DrawTextureFitted(rect.LeftPartPixels(50), PortraitsCache.Get(item, new Vector2(50, 50)), 1);
-            Text.Anchor = TextAnchor.MiddleLeft;
+            GUIFont.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(new Rect(rect.position + new Vector2(60, 0), rect.size - new Vector2(60, 0)),
                 item.Name.ToStringFull);
         }

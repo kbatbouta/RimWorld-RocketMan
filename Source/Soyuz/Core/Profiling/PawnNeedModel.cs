@@ -60,13 +60,13 @@ namespace Soyuz.Profiling
             }
             var font = GUIFont.Font;
             var anchor = Text.Anchor;
-            GUIFont.Font = GameFont.Tiny;
-            Text.Anchor = TextAnchor.UpperLeft;
+            GUIFont.Font = GUIFontSize.Tiny;
+            GUIFont.Anchor = TextAnchor.UpperLeft;
             Widgets.Label(numbersRect.TopPartPixels(25), $"{maxY * 100}{unit}");
-            Text.Anchor = TextAnchor.LowerLeft;
+            GUIFont.Anchor = TextAnchor.LowerLeft;
             Widgets.Label(numbersRect.BottomPartPixels(25), $"{minY * 100}{unit}");
             GUIFont.Font = font;
-            Text.Anchor = anchor;
+            GUIFont.Anchor = anchor;
             float dTickMax = curRecords.Last().Tick - curRecords.First().Tick;
             var curA = rect.position + new Vector2(0, rect.height);
             var curB = rect.position + new Vector2(((curRecords[1].Tick - curRecords[0].Tick) / dTickMax) * rect.width, rect.height);

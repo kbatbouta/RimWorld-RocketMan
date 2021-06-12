@@ -164,10 +164,6 @@ namespace RocketMan
 
         private void DoPopupContent(Rect inRect)
         {
-            FontStyle style = Text.CurFontStyle.fontStyle;
-            Color color = GUI.color;
-            GameFont font = GUIFont.Font;
-            TextAnchor anchor = Text.Anchor;
             try
             {
                 Widgets.DrawWindowBackground(inRect.ExpandedBy(20));
@@ -175,11 +171,11 @@ namespace RocketMan
                 Rect progressRect = inRect.BottomHalf();
                 progressRect.xMin += 25;
                 progressRect.xMax -= 25;
-                GUIFont.Font = GameFont.Small;
-                Text.Anchor = TextAnchor.MiddleCenter;
+                GUIFont.Font = GUIFontSize.Small;
+                GUIFont.Anchor = TextAnchor.MiddleCenter;
                 Widgets.Label(textRect.TopPart(0.6f), (Find.TickManager?.Paused ?? false) ?
                     KeyedResources.RocketMan_Unpause : "<color=orange>" + KeyedResources.RocketMan_RocketMan + "</color> " + KeyedResources.RocketMan_Warming);
-                GUIFont.Font = GameFont.Tiny;
+                GUIFont.Font = GUIFontSize.Tiny;
                 Widgets.Label(textRect.BottomPart(0.4f), KeyedResources.RocketMan_HideProgressBar);
                 DoProgressBar(progressRect);
             }
@@ -189,10 +185,6 @@ namespace RocketMan
             }
             finally
             {
-                Text.Anchor = anchor;
-                GUIFont.Font = font;
-                Text.CurFontStyle.fontStyle = style;
-                GUI.color = color;
             }
         }
 

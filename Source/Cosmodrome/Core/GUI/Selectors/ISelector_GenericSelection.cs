@@ -33,7 +33,7 @@ namespace RocketMan
             if (useSearchBar)
             {
                 Rect searchRect = inRect.TopPartPixels(25);
-                GUIFont.Font = GameFont.Tiny;
+                GUIFont.Font = GUIFontSize.Tiny;
                 if (Widgets.ButtonImage(searchRect.LeftPartPixels(25), TexButton.OpenInspector))
                 {
                 }

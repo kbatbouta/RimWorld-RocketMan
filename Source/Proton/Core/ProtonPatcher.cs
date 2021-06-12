@@ -48,7 +48,8 @@ namespace Proton
         [Main.OnInitialization]
         public static void Intialize()
         {
-            IEnumerable<Type> flaggedTypes = GetPatches();
+            IEnumerable<Type> flaggedTypes = GetPatchTypes();
+            LogTypesToFile(flaggedTypes);
             List<ProtonPatchInfo> patchList = new List<ProtonPatchInfo>();
             foreach (Type type in flaggedTypes)
             {
@@ -59,9 +60,25 @@ namespace Proton
             patches = patchList.Where(p => p.IsValid).ToArray();
         }
 
-        private static IEnumerable<Type> GetPatches()
+        private static IEnumerable<Type> GetPatchTypes()
         {
-            return typeof(ProtonPatcher).Assembly.GetLoadableTypes().Where(t => t.HasAttribute<ProtonPatch>());
+            List<Type> types = new List<Type>();
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()));
+            types.AddRange(AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()).SelectMany(t => t.GetNestedTypes()));
+            return types
+                .Where(t => t.HasAttribute<ProtonPatch>())
+                .Distinct();
+        }
+
+        private static void LogTypesToFile(IEnumerable<Type> types)
+        {
+            string report = string.Empty;
+            foreach (Type t in types)
+            {
+                report += t.FullName + "\n";
+            }
+            Logger.Debug(Assembly.GetExecutingAssembly().FullName, file: "Types.Proton.log");
+            Logger.Debug(report, file: "Types.Proton.log");
         }
     }
 }
