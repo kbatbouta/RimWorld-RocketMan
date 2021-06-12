@@ -137,11 +137,6 @@ namespace Proton
 
                 FloodingMode = FloodingMode.normal;
                 flooder.AddFloodGlowFor(glowerInfo.glower, buffer);
-                if (glowerInfo.FloodNoCavePlants)
-                {
-                    FloodingMode = FloodingMode.noCavePlants;
-                    flooder.AddFloodGlowFor(glowerInfo.glower, buffer);
-                }
 
                 CurrentFloodingGlower.Flooded = true;
                 EmitCells(glowerInfo);
@@ -163,14 +158,7 @@ namespace Proton
             {
                 grid[cell.index].RemoveAll(c => c.glowerInfo.glower == cell.glowerInfo.glower || c.glowerInfo.glower == cell.glowerInfo.glower);
                 glowGrid.glowGrid[cell.index] = SumAt(cell.index);
-            }
-            if (glowerInfo.FloodNoCavePlants)
-            {
-                foreach (LitCell cell in glowerInfo.AllGlowingCellsNoCavePlants)
-                {
-                    gridNoCavePlants[cell.index].RemoveAll(c => c.glowerInfo.glower == cell.glowerInfo.glower || c.glowerInfo.glower == cell.glowerInfo.glower);
-                    glowGrid.glowGridNoCavePlants[cell.index] = SumAtNoCavePlants(cell.index);
-                }
+                glowGrid.glowGridNoCavePlants[cell.index] = SumAtNoCavePlants(cell.index);
             }
             glowerInfo.Reset();
         }
@@ -206,7 +194,7 @@ namespace Proton
         private Color32 SumAtNoCavePlants(int index)
         {
             ColorInt value = new ColorInt(0, 0, 0, 0);
-            foreach (LitCell part in gridNoCavePlants[index])
+            foreach (LitCell part in gridNoCavePlants[index].Where(c => c.glowerInfo.FloodNoCavePlants))
                 value = (part + value).ToColor32.AsColorInt();
             return value.ToColor32;
         }

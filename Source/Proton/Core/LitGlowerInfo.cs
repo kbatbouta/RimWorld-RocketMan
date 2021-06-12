@@ -27,6 +27,8 @@ namespace Proton
 
         private Vector3 position;
 
+        private bool floodNoCavePlants = false;
+
         public CompGlower glower;
 
         public Vector3 Position
@@ -46,7 +48,7 @@ namespace Proton
 
         public bool FloodNoCavePlants
         {
-            get => glower.parent.def.category != ThingCategory.Plant || !glower.parent.def.plant.cavePlant;
+            get => floodNoCavePlants;
         }
 
         public bool Flooded
@@ -78,6 +80,7 @@ namespace Proton
         public LitGlowerInfo(CompGlower glower)
         {
             this.glower = glower;
+            this.floodNoCavePlants = glower.parent.def.category != ThingCategory.Plant || !glower.parent.def.plant.cavePlant;
             this.Reset();
         }
 
@@ -92,6 +95,7 @@ namespace Proton
             glowColor = Props.glowColor;
             overlightRadius = Props.overlightRadius;
             position = glower.parent.TrueCenter().Yto0();
+            floodNoCavePlants = glower.parent.def.category != ThingCategory.Plant || !glower.parent.def.plant.cavePlant;
             collections[0]?.AllCells?.Clear();
             collections[0] = null;
             collections[1]?.AllCells?.Clear();
