@@ -40,11 +40,27 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Core\" />
+		<Folder Include="Core\Deprecated\" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj" ExcludeAssets="runtime">
 			<Private>False</Private>
 		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Core\Deprecated\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="Core\Deprecated\GlowerProperties.cs" />
+	  <Compile Remove="Core\Deprecated\GlowerTracker.cs" />
+	  <Compile Remove="Core\Deprecated\GlowFlooder_Patch.cs" />
+	  <Compile Remove="Core\Deprecated\GlowGrid_Patch.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="Core\Deprecated\GlowerProperties.cs" />
+	  <None Include="Core\Deprecated\GlowerTracker.cs" />
+	  <None Include="Core\Deprecated\GlowFlooder_Patch.cs" />
+	  <None Include="Core\Deprecated\GlowGrid_Patch.cs" />
 	</ItemGroup>
 	<Target Name="Publicise" BeforeTargets="UpdateReferences" Condition="!Exists('$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp_publicised.dll')">
 		<!-- Set our variables -->
