@@ -117,6 +117,7 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationCriticalHediffs, "timeDilationCriticalHediffs_newtemp", false);
                 Scribe_Values.Look(ref RocketPrefs.MainButtonToggle, "mainButtonToggle", true);
                 Scribe_Values.Look(ref RocketPrefs.CorpsesRemovalEnabled, "corpsesRemovalEnabled", true);
+                Scribe_Values.Look(ref RocketPrefs.DisableForcedSlowdowns, "disableForcedSlowdowns", false);
 
                 if (!RocketEnvironmentInfo.IsDevEnv)
                     RocketPrefs.TimeDilationColonists = false;

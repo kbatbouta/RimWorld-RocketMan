@@ -14,8 +14,6 @@ namespace Proton
 {
     public static class GlowFlooder_Patch
     {
-        private static GlowFlooder instance;
-
         private static LitGlowerInfo current;
 
         private static LitGlowerCacher cacher;
@@ -24,7 +22,7 @@ namespace Proton
 
         private static List<LitCell>[] cellGrid;
 
-        private static void Reset()
+        private static void Finilize()
         {
             cacher = null;
 
@@ -40,7 +38,6 @@ namespace Proton
         {
             public static void Prefix(GlowFlooder __instance, CompGlower theGlower)
             {
-                instance = __instance;
                 cacher = __instance.map.GetGlowerCacher();
                 current = cacher.CurrentFloodingGlower;
                 switch (cacher.FloodingMode)
@@ -49,16 +46,12 @@ namespace Proton
                         cells = current.AllGlowingCells;
                         cellGrid = cacher.grid;
                         break;
-                    case FloodingMode.noCavePlants:
-                        cells = current.AllGlowingCellsNoCavePlants;
-                        cellGrid = cacher.gridNoCavePlants;
-                        break;
                 }
             }
 
             public static void Postfix()
             {
-                Reset();
+                Finilize();
             }
         }
 

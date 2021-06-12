@@ -63,6 +63,7 @@ namespace RocketMan
                 if (GUIFont.UseCustomFonts)
                 {
                     anchorInt = value;
+                    Text.anchorInt = value;
                     return;
                 }
                 throw new Exception("Used GUIFont.CurFontStyle outside a safe scope");
@@ -85,6 +86,7 @@ namespace RocketMan
                 if (GUIFont.UseCustomFonts)
                 {
                     wordWrapInt = value;
+                    Text.wordWrapInt = value;
                     return;
                 }
                 throw new Exception("Used GUIFont.CurFontStyle outside a safe scope");

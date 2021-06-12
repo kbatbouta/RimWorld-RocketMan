@@ -36,6 +36,9 @@
 	<RocketMan.Junk>Junk</RocketMan.Junk>
 	<RocketMan.CorpseRemoval>Enable automatic corpses removal.</RocketMan.CorpseRemoval>
 	<RocketMan.CorpseRemoval.Description>This removes corpses that aren't in view for a while and that aren't near your base to avoid breaking the game balance.</RocketMan.CorpseRemoval.Description>
+	<RocketMan.GameSpeed>Game speed settings</RocketMan.GameSpeed>
+	<RocketMan.DisableForcedSlowdowns>Disable forced slowdowns</RocketMan.DisableForcedSlowdowns>
+	<RocketMan.DisableForcedSlowdowns.Description>Disable forced slowdowns by game events. Disable this if you are using SmartSpeed.</RocketMan.DisableForcedSlowdowns.Description>
 	<RocketMan.StatCacheSettings>Stats cache settings</RocketMan.StatCacheSettings>
 	<RocketMan.Adaptive>Adaptive mode</RocketMan.Adaptive>
 	<RocketMan.Adaptive.Description>Enable for 30 minutes after creating a new save or changing your mod list.</RocketMan.Adaptive.Description>
