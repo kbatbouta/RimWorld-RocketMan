@@ -63,6 +63,7 @@ namespace RocketMan
                 if (GUIFont.UseCustomFonts)
                 {
                     anchorInt = value;
+
                     Text.anchorInt = value;
                     return;
                 }
@@ -86,6 +87,7 @@ namespace RocketMan
                 if (GUIFont.UseCustomFonts)
                 {
                     wordWrapInt = value;
+
                     Text.wordWrapInt = value;
                     return;
                 }

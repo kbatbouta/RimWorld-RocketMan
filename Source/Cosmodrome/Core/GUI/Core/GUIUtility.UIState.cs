@@ -43,6 +43,12 @@ namespace RocketMan
                 backgroundColor = GUI.backgroundColor,
                 useCustomFonts = GUIFont.UseCustomFonts
             });
+            if (stack.Count == 1)
+            {
+                Text.Font = GameFont.Tiny;
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.WordWrap = true;
+            }
             GUIFont.UseCustomFonts = true;
             if (stack.Count == 1)
             {
