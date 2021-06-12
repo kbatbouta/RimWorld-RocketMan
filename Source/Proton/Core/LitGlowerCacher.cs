@@ -194,7 +194,7 @@ namespace Proton
         private Color32 SumAtNoCavePlants(int index)
         {
             ColorInt value = new ColorInt(0, 0, 0, 0);
-            foreach (LitCell part in gridNoCavePlants[index].Where(c => c.glowerInfo.FloodNoCavePlants))
+            foreach (LitCell part in grid[index].Where(c => c.glowerInfo.FloodNoCavePlants))
                 value = (part + value).ToColor32.AsColorInt();
             return value.ToColor32;
         }
