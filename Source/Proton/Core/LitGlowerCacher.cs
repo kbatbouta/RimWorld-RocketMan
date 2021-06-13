@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
@@ -17,6 +18,8 @@ namespace Proton
 
         private Color32 zeors = new Color32(0, 0, 0, 0);
 
+        private Stopwatch stopwatch = new Stopwatch();
+
         public readonly Map map;
 
         public readonly GlowGrid glowGrid;
@@ -27,28 +30,38 @@ namespace Proton
 
         public readonly Dictionary<CompGlower, LitGlowerInfo> InfoByComp = new Dictionary<CompGlower, LitGlowerInfo>();
 
-        public List<LitCell>[] grid;
+        public List<LitCell>[] cell_grid;
 
-        public List<LitCell>[] gridNoCavePlants;
+        public ColorInt[] color_Grid;
+
+        public ColorInt[] color_GridNoCavePlants;
 
         public FloodingMode FloodingMode = FloodingMode.none;
 
         public LitGlowerInfo CurrentFloodingGlower;
+
+        public bool FallingBehind = false;
 
         public LitGlowerCacher(Map map)
         {
             this.map = map;
             this.glowGrid = map.glowGrid;
             this.flooder = map.glowFlooder;
-            this.grid = new List<LitCell>[glowGrid.glowGrid.Length];
+            this.cell_grid = new List<LitCell>[glowGrid.glowGrid.Length];
 
-            for (int i = 0; i < this.grid.Length; i++)
-                this.grid[i] = new List<LitCell>();
+            for (int i = 0; i < this.cell_grid.Length; i++)
+                this.cell_grid[i] = new List<LitCell>();
 
             this.buffer = new Color32[glowGrid.glowGrid.Length];
+            this.color_Grid = new ColorInt[glowGrid.glowGrid.Length];
+            this.color_GridNoCavePlants = new ColorInt[glowGrid.glowGrid.Length];
 
-            for (int i = 0; i < this.grid.Length; i++)
+            for (int i = 0; i < this.cell_grid.Length; i++)
+            {
                 this.buffer[i] = new Color32(0, 0, 0, 0);
+                this.color_Grid[i] = new ColorInt(0, 0, 0, 0);
+                this.color_GridNoCavePlants[i] = new ColorInt(0, 0, 0, 0);
+            }
         }
 
         public void Register([NotNull] CompGlower comp)
@@ -103,15 +116,47 @@ namespace Proton
             }
         }
 
+        private static readonly HashSet<int> floodedIndices = new HashSet<int>(1024);
+
         public void Recalculate()
         {
             if (!initialized)
             {
                 Initialize();
             }
+            floodedIndices.Clear();
             foreach (LitGlowerInfo glowerInfo in AllLitGlowers.Where(g => !g.Flooded))
             {
                 Flood(glowerInfo);
+            }
+            foreach (int index in floodedIndices)
+            {
+                SumAtAll(index);
+            }
+        }
+
+        private void Flood(LitGlowerInfo glowerInfo)
+        {
+            try
+            {
+                CurrentFloodingGlower = glowerInfo;
+                CurrentFloodingGlower.Reset();
+
+                FloodingMode = FloodingMode.normal;
+                flooder.AddFloodGlowFor(glowerInfo.glower, buffer);
+
+                CurrentFloodingGlower.Flooded = true;
+
+                floodedIndices.AddRange(glowerInfo.AllGlowingCells.Select(c => c.index));
+            }
+            catch (Exception er)
+            {
+                RocketMan.Logger.Debug($"PROTON: Error while flooding {glowerInfo.glower.parent}", exception: er);
+            }
+            finally
+            {
+                CurrentFloodingGlower = null;
+                FloodingMode = FloodingMode.none;
             }
         }
 
@@ -126,75 +171,60 @@ namespace Proton
             this.initialized = true;
         }
 
-        private void Flood(LitGlowerInfo glowerInfo)
+        private void MapMechDirty(LitGlowerInfo glowerInfo)
         {
-            try
-            {
-                CurrentFloodingGlower = glowerInfo;
-                CurrentFloodingGlower.Reset();
-
-                FloodingMode = FloodingMode.normal;
-                flooder.AddFloodGlowFor(glowerInfo.glower, buffer);
-
-                CurrentFloodingGlower.Flooded = true;
-                EmitCells(glowerInfo);
-            }
-            catch (Exception er)
-            {
-                RocketMan.Logger.Debug($"PROTON: Error while flooding {glowerInfo.glower.parent}", exception: er);
-            }
-            finally
-            {
-                CurrentFloodingGlower = null;
-                FloodingMode = FloodingMode.none;
-            }
+            this.map.mapDrawer.MapMeshDirty(glowerInfo.glower.parent.positionInt, MapMeshFlag.GroundGlow);
         }
 
         private void RemoveAllCells(LitGlowerInfo glowerInfo)
         {
             foreach (LitCell cell in glowerInfo.AllGlowingCells)
             {
-                grid[cell.index].RemoveAll(c => c.glowerInfo.glower == cell.glowerInfo.glower || c.glowerInfo.glower == cell.glowerInfo.glower);
-                glowGrid.glowGrid[cell.index] = SumAt(cell.index);
-                glowGrid.glowGridNoCavePlants[cell.index] = SumAtNoCavePlants(cell.index);
+                cell_grid[cell.index].RemoveAll(c => c.glowerInfo.glower == glowerInfo.glower || c.glowerInfo == glowerInfo);
+                SetIndex(cell.index, color_Grid[cell.index] -= cell.Color);
+
+                if (cell.glowerInfo.FloodNoCavePlants)
+                    SetIndexNoCavePlants(cell.index, color_GridNoCavePlants[cell.index] -= cell.Color);
             }
             glowerInfo.Reset();
         }
 
-        private void EmitCells(LitGlowerInfo glowerInfo)
+        private void SetIndex(int index, ColorInt colorInt)
         {
-            foreach (LitCell cell in glowerInfo.AllGlowingCells)
-            {
-                glowGrid.glowGrid[cell.index] = SumAt(cell.index);
-                if (RocketDebugPrefs.DrawGlowerUpdates)
-                    map.debugDrawer.FlashCell(map.cellIndices.IndexToCell(cell.index), 0.1f, "_+_");
-            }
-
-            if (glowerInfo.FloodNoCavePlants)
-            {
-                foreach (LitCell cell in glowerInfo.AllGlowingCellsNoCavePlants)
-                {
-                    glowGrid.glowGridNoCavePlants[cell.index] = SumAtNoCavePlants(cell.index);
-                    if (RocketDebugPrefs.DrawGlowerUpdates)
-                        map.debugDrawer.FlashCell(map.cellIndices.IndexToCell(cell.index), 0.1f, "_+_");
-                }
-            }
+            glowGrid.glowGrid[index] = new ColorInt(colorInt.r, colorInt.g, colorInt.b, Math.Min(colorInt.a, 1)).ToColor32;
         }
 
-        private Color32 SumAt(int index)
+        private void SetIndexNoCavePlants(int index, ColorInt colorInt)
         {
-            ColorInt result = new ColorInt(0, 0, 0, 0);
-            foreach (LitCell part in grid[index])
-                result = part + result;
-            return result.ToColor32;
+            glowGrid.glowGridNoCavePlants[index] = new ColorInt(colorInt.r, colorInt.g, colorInt.b, Math.Min(colorInt.a, 1)).ToColor32;
         }
 
-        private Color32 SumAtNoCavePlants(int index)
+        private void SumAtAll(int index)
         {
-            ColorInt result = new ColorInt(0, 0, 0, 0);
-            foreach (LitCell part in grid[index].Where(c => c.glowerInfo.FloodNoCavePlants))
-                result = (part + result).ToColor32.AsColorInt();
-            return result.ToColor32;
+            ColorInt color = new ColorInt(0, 0, 0, 0);
+            ColorInt colorNoCavePlants = new ColorInt(0, 0, 0, 0);
+            foreach (LitCell part in cell_grid[index])
+            {
+                color = part + color;
+                if (part.glowerInfo.FloodNoCavePlants)
+                    colorNoCavePlants = part + colorNoCavePlants;
+            }
+            color_Grid[index] = new ColorInt(color.r, color.g, color.b, color.a);
+            color_GridNoCavePlants[index] = new ColorInt(colorNoCavePlants.r, colorNoCavePlants.g, colorNoCavePlants.b, colorNoCavePlants.a);
+            if (color.a >= 1)
+                color.a = 1;
+            if (colorNoCavePlants.a >= 1)
+                colorNoCavePlants.a = 1;
+            glowGrid.glowGrid[index] = color.ToColor32;
+            glowGrid.glowGridNoCavePlants[index] = colorNoCavePlants.ToColor32;
+        }
+
+        private void SumAt(int index)
+        {
+            ColorInt a = new ColorInt(0, 0, 0, 0);
+            foreach (LitCell part in cell_grid[index])
+                a = part + a;
+            glowGrid.glowGrid[index] = a.ToColor32;
         }
     }
 }

@@ -25,6 +25,8 @@ namespace Proton
 
         private readonly List<LitCell> cells = new List<LitCell>();
 
+        private CompProperties_Glower props;
+
         public CompGlower glower;
 
         public Vector3 Position
@@ -70,7 +72,7 @@ namespace Proton
 
         public CompProperties_Glower Props
         {
-            get => glower.Props;
+            get => props == null ? props = glower.Props : props;
         }
 
         public LitGlowerInfo(CompGlower glower)

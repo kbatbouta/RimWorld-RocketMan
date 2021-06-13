@@ -9,6 +9,8 @@ namespace Proton
         [ProtonPatch(typeof(GlowGrid), nameof(GlowGrid.RecalculateAllGlow))]
         public static class RecalculateAllGlow_Patch
         {
+            private static LitGlowerCacher cacher;
+
             public static bool Prefix(GlowGrid __instance)
             {
                 if (Current.ProgramState != ProgramState.Playing)
@@ -23,8 +25,18 @@ namespace Proton
                     }
                     __instance.initialGlowerLocs = null;
                 }
-                __instance.map.GetGlowerCacher().Recalculate();
+                cacher = __instance.map.GetGlowerCacher();
+                cacher.Recalculate();
                 return false;
+            }
+
+            public static void Postfix(GlowGrid __instance)
+            {
+                if (!cacher.FallingBehind)
+                {
+                    return;
+                }
+                __instance.glowGridDirty = true;
             }
         }
 

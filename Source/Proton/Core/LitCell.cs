@@ -7,6 +7,12 @@ namespace Proton
     {
         private readonly ColorInt colorInt;
 
+        private bool alpha;
+
+        private bool zeros;
+
+        private CompProperties_Glower props;
+
         public readonly int index;
 
         public readonly float distance;
@@ -15,17 +21,17 @@ namespace Proton
 
         public ColorInt Color
         {
-            get => new ColorInt(colorInt.r, colorInt.g, colorInt.b, colorInt.a);
+            get => colorInt;
         }
 
         public CompProperties_Glower Props
         {
-            get => glowerInfo.glower.Props;
+            get => props;
         }
 
         public bool ColorIsZeros
         {
-            get => this.colorInt.r == 0 && this.colorInt.g == 0 && this.colorInt.b == 0;
+            get => zeros;
         }
 
         public LitCell(LitGlowerInfo glowerInfo, ColorInt colorInt, int index, float distance)
@@ -34,24 +40,27 @@ namespace Proton
             this.colorInt = colorInt;
             this.index = index;
             this.distance = distance;
+            this.alpha = this.distance < glowerInfo.Props.overlightRadius;
+            this.zeros = this.colorInt.r == 0 && this.colorInt.g == 0 && this.colorInt.b == 0;
+            this.props = glowerInfo.Props;
+            if (this.alpha)
+            {
+                colorInt.a = 1;
+            }
         }
 
-        public static ColorInt operator +(LitCell first, ColorInt secondInt)
+        public static ColorInt operator +(LitCell cell, ColorInt color)
         {
-            if (first.ColorIsZeros)
-                return secondInt;
-            ColorInt result = first.colorInt + secondInt;
-            if (first.distance < first.Props.overlightRadius)
-                result.a = 1;
-            return result;
+            color.a += cell.colorInt.a;
+            color.r += cell.colorInt.r;
+            color.g += cell.colorInt.g;
+            color.b += cell.colorInt.b;
+            return color;
         }
 
-        public static ColorInt operator +(LitCell first, LitCell other)
+        public static ColorInt operator +(ColorInt color, LitCell cell)
         {
-            ColorInt second = other.Color;
-            if (other.distance < other.Props.overlightRadius)
-                second.a = 1;
-            return first + other.colorInt;
+            return cell + color;
         }
     }
 }

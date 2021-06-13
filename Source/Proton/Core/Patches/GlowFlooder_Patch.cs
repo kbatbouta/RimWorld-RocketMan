@@ -44,7 +44,7 @@ namespace Proton
                 {
                     case FloodingMode.normal:
                         cells = current.AllGlowingCells;
-                        cellGrid = cacher.grid;
+                        cellGrid = cacher.cell_grid;
                         break;
                 }
             }
@@ -87,7 +87,7 @@ namespace Proton
             {
                 if (colorInt.r > 0 || colorInt.g > 0 || colorInt.b > 0)
                 {
-                    if (cellGrid[index].Any(g => g.glowerInfo == current))
+                    if (cellGrid[index].Any(g => g.glowerInfo.glower == current.glower))
                         throw new InvalidProgramException("PROTON: Tried to doulbe add a cell");
 
                     if (RocketDebugPrefs.DrawGlowerUpdates)
