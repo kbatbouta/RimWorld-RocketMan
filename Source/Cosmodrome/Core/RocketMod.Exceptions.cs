@@ -9,7 +9,8 @@ namespace RocketMan
         [Main.OnDefsLoaded]
         public static void UpdateExceptions()
         {
-            DefDatabase<StatDef>.ResolveAllReferences();
+            //
+            // DefDatabase<StatDef>.ResolveAllReferences();
             if (StatDefOf.MarketValue != null && StatDefOf.MarketValueIgnoreHp != null)
             {
                 RocketStates.StatExpiry[StatDefOf.MarketValue.index] = 0;

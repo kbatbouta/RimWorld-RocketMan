@@ -31,7 +31,8 @@ namespace RocketMan
             {
                 processedDefs.Add(settings.statDef);
             }
-            DefDatabase<StatDef>.ResolveAllReferences();
+            //
+            // DefDatabase<StatDef>.ResolveAllReferences();
             foreach (StatDef statDef in DefDatabase<StatDef>.AllDefs.Where(s => !processedDefs.Contains(s)))
             {
                 StatSettings settings = new StatSettings(statDef);
