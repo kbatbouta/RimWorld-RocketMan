@@ -15,6 +15,8 @@ namespace Proton
 
         private Color32[] buffer;
 
+        private Color32 zeors = new Color32(0, 0, 0, 0);
+
         public readonly Map map;
 
         public readonly GlowGrid glowGrid;
@@ -39,12 +41,9 @@ namespace Proton
             this.glowGrid = map.glowGrid;
             this.flooder = map.glowFlooder;
             this.grid = new List<LitCell>[glowGrid.glowGrid.Length];
-            this.gridNoCavePlants = new List<LitCell>[glowGrid.glowGridNoCavePlants.Length];
 
             for (int i = 0; i < this.grid.Length; i++)
                 this.grid[i] = new List<LitCell>();
-            for (int i = 0; i < this.gridNoCavePlants.Length; i++)
-                this.gridNoCavePlants[i] = new List<LitCell>();
 
             this.buffer = new Color32[glowGrid.glowGrid.Length];
 
@@ -119,11 +118,10 @@ namespace Proton
         private void Initialize()
         {
             int numGridCells = this.map.cellIndices.NumGridCells;
-
             for (int i = 0; i < numGridCells; i++)
             {
-                this.glowGrid.glowGrid[i] = new Color32(0, 0, 0, 0);
-                this.glowGrid.glowGridNoCavePlants[i] = new Color32(0, 0, 0, 0);
+                this.glowGrid.glowGrid[i] = zeors;
+                this.glowGrid.glowGridNoCavePlants[i] = zeors;
             }
             this.initialized = true;
         }
@@ -185,18 +183,18 @@ namespace Proton
 
         private Color32 SumAt(int index)
         {
-            ColorInt value = new ColorInt(0, 0, 0, 0);
+            ColorInt result = new ColorInt(0, 0, 0, 0);
             foreach (LitCell part in grid[index])
-                value = part + value;
-            return value.ToColor32;
+                result = part + result;
+            return result.ToColor32;
         }
 
         private Color32 SumAtNoCavePlants(int index)
         {
-            ColorInt value = new ColorInt(0, 0, 0, 0);
+            ColorInt result = new ColorInt(0, 0, 0, 0);
             foreach (LitCell part in grid[index].Where(c => c.glowerInfo.FloodNoCavePlants))
-                value = (part + value).ToColor32.AsColorInt();
-            return value.ToColor32;
+                result = (part + result).ToColor32.AsColorInt();
+            return result.ToColor32;
         }
     }
 }

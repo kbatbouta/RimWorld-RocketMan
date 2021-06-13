@@ -106,6 +106,11 @@ namespace RocketMan
                 bool expanded = false;
                 if (RocketPrefs.Enabled)
                 {
+                    collapsible_junk.Begin(inRect, "RocketMan.GameSpeed".Translate(), drawIcon: false, drawInfo: false);
+                    collapsible_junk.CheckboxLabeled("RocketMan.DisableForcedSlowdowns".Translate(), ref RocketPrefs.DisableForcedSlowdowns, "RocketMan.DisableForcedSlowdowns.Description".Translate());
+                    collapsible_junk.End(ref inRect);
+                    inRect.yMin += 5;
+
                     collapsible_junk.Begin(inRect, "RocketMan.Junk".Translate(), drawIcon: false, drawInfo: false);
                     collapsible_junk.CheckboxLabeled("RocketMan.CorpseRemoval".Translate(), ref RocketPrefs.CorpsesRemovalEnabled, "RocketMan.CorpseRemoval.Description".Translate());
                     collapsible_junk.End(ref inRect);

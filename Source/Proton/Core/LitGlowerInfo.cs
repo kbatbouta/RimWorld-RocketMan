@@ -8,10 +8,6 @@ namespace Proton
 {
     public class LitGlowerInfo
     {
-        private class CellCollection
-        {
-            public readonly List<LitCell> AllCells = new List<LitCell>();
-        }
 
         private bool flooded = false;
 
@@ -23,11 +19,11 @@ namespace Proton
 
         private ColorInt glowColor;
 
-        private CellCollection[] collections = new CellCollection[2];
-
         private Vector3 position;
 
         private bool floodNoCavePlants = false;
+
+        private readonly List<LitCell> cells = new List<LitCell>();
 
         public CompGlower glower;
 
@@ -38,12 +34,12 @@ namespace Proton
 
         public List<LitCell> AllGlowingCells
         {
-            get => collections[0] == null ? (collections[0] = new CellCollection()).AllCells : collections[0].AllCells;
+            get => cells;
         }
 
         public List<LitCell> AllGlowingCellsNoCavePlants
         {
-            get => collections[1] == null ? (collections[1] = new CellCollection()).AllCells : collections[1].AllCells;
+            get => FloodNoCavePlants ? cells : new List<LitCell>();
         }
 
         public bool FloodNoCavePlants
@@ -96,12 +92,9 @@ namespace Proton
             overlightRadius = Props.overlightRadius;
             position = glower.parent.TrueCenter().Yto0();
             floodNoCavePlants = glower.parent.def.category != ThingCategory.Plant || !glower.parent.def.plant.cavePlant;
-            collections[0]?.AllCells?.Clear();
-            collections[0] = null;
-            collections[1]?.AllCells?.Clear();
-            collections[1] = null;
             changed = false;
             flooded = false;
+            cells.Clear();
         }
     }
 }

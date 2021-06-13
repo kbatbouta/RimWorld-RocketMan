@@ -10,6 +10,7 @@ namespace RocketMan
         [RocketPatch(typeof(Text), nameof(Text.Anchor), methodType: MethodType.Getter)]
         public static class Text_Anchor_Getter_Patch
         {
+            [HarmonyPriority(int.MinValue)]
             public static bool Prefix(ref TextAnchor __result)
             {
                 if (GUIFont.UseCustomFonts)
@@ -24,6 +25,7 @@ namespace RocketMan
         [RocketPatch(typeof(Text), nameof(Text.Anchor), methodType: MethodType.Setter)]
         public static class Text_Anchor_Setter_Patch
         {
+            [HarmonyPriority(int.MinValue)]
             public static bool Prefix(TextAnchor value)
             {
                 if (GUIFont.UseCustomFonts)
@@ -38,6 +40,7 @@ namespace RocketMan
         [RocketPatch(typeof(Text), nameof(Text.WordWrap), methodType: MethodType.Getter)]
         public static class Text_WordWrap_Getter_Patch
         {
+            [HarmonyPriority(int.MinValue)]
             public static bool Prefix(ref bool __result)
             {
                 if (GUIFont.UseCustomFonts)
@@ -52,6 +55,7 @@ namespace RocketMan
         [RocketPatch(typeof(Text), nameof(Text.WordWrap), methodType: MethodType.Setter)]
         public static class Text_WordWrap_Setter_Patch
         {
+            [HarmonyPriority(int.MinValue)]
             public static bool Prefix(bool value)
             {
                 if (GUIFont.UseCustomFonts)
@@ -66,6 +70,7 @@ namespace RocketMan
         [RocketPatch(typeof(Text), nameof(Text.Font), methodType: MethodType.Getter)]
         public static class Text_Font_Getter_Patch
         {
+            [HarmonyPriority(int.MinValue)]
             public static bool Prefix(ref GameFont __result)
             {
                 if (GUIFont.UseCustomFonts)
@@ -92,6 +97,7 @@ namespace RocketMan
         [RocketPatch(typeof(Text), nameof(Text.Font), methodType: MethodType.Setter)]
         public static class Text_Font_Setter_Patch
         {
+            [HarmonyPriority(int.MinValue)]
             public static bool Prefix(ref GameFont value)
             {
                 if (GUIFont.UseCustomFonts)
@@ -117,6 +123,7 @@ namespace RocketMan
         [RocketPatch(typeof(Text), nameof(Text.CurFontStyle), methodType: MethodType.Getter)]
         public static class Text_CurFontStyle_Patch
         {
+            [HarmonyPriority(int.MinValue)]
             public static bool Prefix(ref GUIStyle __result)
             {
                 if (GUIFont.UseCustomFonts)
@@ -132,6 +139,7 @@ namespace RocketMan
         [RocketPatch(typeof(Text), nameof(Text.CurTextAreaReadOnlyStyle), methodType: MethodType.Getter)]
         public static class Text_CurTextAreaReadOnlyStyle_Patch
         {
+            [HarmonyPriority(int.MinValue)]
             public static bool Prefix(ref GUIStyle __result)
             {
                 if (GUIFont.UseCustomFonts)
@@ -147,6 +155,7 @@ namespace RocketMan
         [RocketPatch(typeof(Text), nameof(Text.CurTextAreaStyle), methodType: MethodType.Getter)]
         public static class Text_CurTextAreaStyle_Patch
         {
+            [HarmonyPriority(int.MinValue)]
             public static bool Prefix(ref GUIStyle __result)
             {
                 if (GUIFont.UseCustomFonts)
@@ -162,6 +171,7 @@ namespace RocketMan
         [RocketPatch(typeof(Text), nameof(Text.CurTextFieldStyle), methodType: MethodType.Getter)]
         public static class Text_CurTextFieldStyle_Patch
         {
+            [HarmonyPriority(int.MinValue)]
             public static bool Prefix(ref GUIStyle __result)
             {
                 if (GUIFont.UseCustomFonts)

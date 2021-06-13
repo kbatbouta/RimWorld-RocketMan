@@ -38,6 +38,9 @@
 	<RocketMan.Junk>폐기물</RocketMan.Junk>
 	<RocketMan.CorpseRemoval>자동으로 시체 제거하기</RocketMan.CorpseRemoval>
 	<RocketMan.CorpseRemoval.Description>게임 밸런스를 위해, 시야에 한동안 들어오지 않고 기지에서 멀리 떨어진 시체를 제거합니다.</RocketMan.CorpseRemoval.Description>
+	<RocketMan.GameSpeed>게임 속도 설정</RocketMan.GameSpeed>
+	<RocketMan.DisableForcedSlowdowns>강제 느려짐 비활성화</RocketMan.DisableForcedSlowdowns>
+	<RocketMan.DisableForcedSlowdowns.Description>게임 내 사건에 의해 강제로 느려지는 것을 방지합니다. Smart Speed를 사용하고 있다면 비활성화하세요.</RocketMan.DisableForcedSlowdowns.Description>
 	<RocketMan.StatCacheSettings>통계 캐시 설정</RocketMan.StatCacheSettings>
 	<RocketMan.Adaptive>적응형 모드</RocketMan.Adaptive>
 	<RocketMan.Adaptive.Description>새로운 세이브 파일을 생성하거나 모드 목록을 바꾼 후 30분 동안 활성화하세요.</RocketMan.Adaptive.Description>

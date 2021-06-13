@@ -353,6 +353,36 @@ namespace RocketMan
                    _RocketMan_CorpseRemoval_Description : _RocketMan_CorpseRemoval_Description = "RocketMan.CorpseRemoval.Description".Translate();
         }             
                            
+        private static TaggedString _RocketMan_GameSpeed = null;
+        /// <summary> Keyed string with key <c>RocketMan.GameSpeed</c> with inner text set to:
+        ///
+        /// <code>Game speed settings</code>
+        /// </summary>       
+        public static TaggedString RocketMan_GameSpeed {
+            get => _RocketMan_GameSpeed != null ? 
+                   _RocketMan_GameSpeed : _RocketMan_GameSpeed = "RocketMan.GameSpeed".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_DisableForcedSlowdowns = null;
+        /// <summary> Keyed string with key <c>RocketMan.DisableForcedSlowdowns</c> with inner text set to:
+        ///
+        /// <code>Disable forced slowdowns</code>
+        /// </summary>       
+        public static TaggedString RocketMan_DisableForcedSlowdowns {
+            get => _RocketMan_DisableForcedSlowdowns != null ? 
+                   _RocketMan_DisableForcedSlowdowns : _RocketMan_DisableForcedSlowdowns = "RocketMan.DisableForcedSlowdowns".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_DisableForcedSlowdowns_Description = null;
+        /// <summary> Keyed string with key <c>RocketMan.DisableForcedSlowdowns.Description</c> with inner text set to:
+        ///
+        /// <code>Disable forced slowdowns by game events. Disable this if you are using SmartSpeed.</code>
+        /// </summary>       
+        public static TaggedString RocketMan_DisableForcedSlowdowns_Description {
+            get => _RocketMan_DisableForcedSlowdowns_Description != null ? 
+                   _RocketMan_DisableForcedSlowdowns_Description : _RocketMan_DisableForcedSlowdowns_Description = "RocketMan.DisableForcedSlowdowns.Description".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_StatCacheSettings = null;
         /// <summary> Keyed string with key <c>RocketMan.StatCacheSettings</c> with inner text set to:
         ///

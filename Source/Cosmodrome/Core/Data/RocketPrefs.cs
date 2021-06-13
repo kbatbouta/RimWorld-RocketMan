@@ -82,6 +82,9 @@ namespace RocketMan
         [Main.SettingsField(warmUpValue: true)]
         public static bool MainButtonToggle = true;
 
+        [Main.SettingsField(warmUpValue: false)]
+        public static bool DisableForcedSlowdowns = false;
+
         public const float LearningRate = 0.0005f;
     }
 }
