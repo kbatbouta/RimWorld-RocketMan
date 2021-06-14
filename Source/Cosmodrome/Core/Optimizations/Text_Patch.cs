@@ -5,7 +5,7 @@ using System.Security.Policy;
 using HarmonyLib;
 using UnityEngine;
 using Verse;
-using GUITextState = System.Tuple<string, Verse.GameFont, System.Tuple<float, float>, System.Tuple<int, int, int, int>, System.Tuple<UnityEngine.FontStyle, UnityEngine.FontStyle, UnityEngine.FontStyle, UnityEngine.FontStyle>>;
+using GUITextState = System.Tuple<string, Verse.GameFont, float, float, bool>;
 
 namespace RocketMan.Optimizations
 {
@@ -92,22 +92,7 @@ namespace RocketMan.Optimizations
 
         private static GUITextState GetGUIState(string text, float width = float.MinValue)
         {
-            return new GUITextState(
-                text,
-                Text.Font,
-                new Tuple<float, float>(
-                    width,
-                    Prefs.UIScale),
-                new Tuple<int, int, int, int>(
-                    Text.CurFontStyle.fontSize,
-                    Text.CurTextAreaReadOnlyStyle.fontSize,
-                    Text.CurTextAreaStyle.fontSize,
-                    Text.CurTextFieldStyle.fontSize),
-                new Tuple<FontStyle, FontStyle, FontStyle, FontStyle>(
-                    Text.CurFontStyle.fontStyle,
-                    Text.CurTextAreaReadOnlyStyle.fontStyle,
-                    Text.CurTextAreaStyle.fontStyle,
-                    Text.CurTextFieldStyle.fontStyle));
+            return new GUITextState(text, Text.fontInt, width, Prefs.UIScale, Text.wordWrapInt);
         }
     }
 }
