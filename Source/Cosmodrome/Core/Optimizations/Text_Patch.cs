@@ -1,0 +1,113 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Policy;
+using HarmonyLib;
+using UnityEngine;
+using Verse;
+using GUITextState = System.Tuple<string, Verse.GameFont, System.Tuple<float, float>, System.Tuple<int, int, int, int>, System.Tuple<UnityEngine.FontStyle, UnityEngine.FontStyle, UnityEngine.FontStyle, UnityEngine.FontStyle>>;
+
+namespace RocketMan.Optimizations
+{
+    public static class Text_Patch
+    {
+        private static Dictionary<GUITextState, Vector2> cacheSize = new Dictionary<GUITextState, Vector2>();
+
+        private static Dictionary<GUITextState, float> cacheHeight = new Dictionary<GUITextState, float>();
+
+        [RocketPatch(typeof(Text), nameof(Text.CalcSize))]
+        public static class CalcSize_Patch
+        {
+            private static bool shouldCache = false;
+
+            private static GUITextState key;
+
+            [HarmonyPriority(int.MaxValue)]
+            public static bool Prefix(string text, ref Vector2 __result)
+            {
+                if (!RocketPrefs.TranslationCaching)
+                {
+                    return !(shouldCache = false);
+                }
+                CalcSize_Patch.key = GetGUIState(text);
+                if (cacheSize.TryGetValue(key, out __result))
+                {
+                    return shouldCache = false;
+                }
+                return shouldCache = true;
+            }
+
+            [HarmonyPriority(int.MinValue)]
+            public static void Postfix(Vector2 __result)
+            {
+                if (shouldCache)
+                {
+                    cacheSize[key] = __result;
+                }
+                shouldCache = false;
+            }
+        }
+
+        [RocketPatch(typeof(Text), nameof(Text.CalcHeight))]
+        public static class CalcHeight_Patch
+        {
+            private static bool shouldCache = false;
+
+            private static GUITextState key;
+
+            [HarmonyPriority(int.MaxValue)]
+            public static bool Prefix(string text, float width, ref float __result)
+            {
+                if (!RocketPrefs.TranslationCaching)
+                {
+                    return !(shouldCache = false);
+                }
+                CalcHeight_Patch.key = GetGUIState(text, width: width);
+                if (cacheHeight.TryGetValue(key, out __result))
+                {
+                    return shouldCache = false;
+                }
+                return shouldCache = true;
+            }
+
+            [HarmonyPriority(int.MinValue)]
+            public static void Postfix(float __result)
+            {
+                if (shouldCache)
+                {
+                    cacheHeight[key] = __result;
+                }
+                shouldCache = false;
+            }
+        }
+
+        [Main.OnTickLonger]
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members")]
+        private static void ClearCache()
+        {
+            // TODO redo this
+            // cacheSize.Clear();
+            cacheHeight.Clear();
+        }
+
+        private static GUITextState GetGUIState(string text, float width = float.MinValue)
+        {
+            return new GUITextState(
+                text,
+                Text.Font,
+                new Tuple<float, float>(
+                    width,
+                    Prefs.UIScale),
+                new Tuple<int, int, int, int>(
+                    Text.CurFontStyle.fontSize,
+                    Text.CurTextAreaReadOnlyStyle.fontSize,
+                    Text.CurTextAreaStyle.fontSize,
+                    Text.CurTextFieldStyle.fontSize),
+                new Tuple<FontStyle, FontStyle, FontStyle, FontStyle>(
+                    Text.CurFontStyle.fontStyle,
+                    Text.CurTextAreaReadOnlyStyle.fontStyle,
+                    Text.CurTextAreaStyle.fontStyle,
+                    Text.CurTextFieldStyle.fontStyle));
+        }
+    }
+}

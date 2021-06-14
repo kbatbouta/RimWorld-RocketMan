@@ -23,9 +23,11 @@ namespace Soyuz
                     return false;
                 return true;
             }
-            if (!Context.DilationEnabled[pawn.def.index] || IgnoreMeDatabase.ShouldIgnore(pawn.def) || IsCastingVerb(pawn))
+            if (IgnoreMeDatabase.ShouldIgnore(pawn.def))
                 return false;
             if (!RocketPrefs.TimeDilationCriticalHediffs && HasHediffPreventingThrottling(pawn))
+                return false;
+            if (IsCastingVerb(pawn))
                 return false;
             if (pawn.def.race.Humanlike)
             {
@@ -37,8 +39,6 @@ namespace Soyuz
                 if (RocketPrefs.TimeDilationVisitors || RocketPrefs.TimeDilationColonists)
                 {
                     JobDef jobDef = pawn.jobs?.curJob?.def;
-                    if (jobDef == null)
-                        return false;
                     if (jobDef == JobDefOf.Wait)
                         return true;
                     if (jobDef == JobDefOf.Wait_Wander)
@@ -54,12 +54,16 @@ namespace Soyuz
                 }
                 return false;
             }
-            RaceSettings raceSettings = pawn.GetRaceSettings();
-            if (pawn.factionInt == Faction.OfPlayer)
-                return !raceSettings.ignorePlayerFaction && RocketPrefs.TimeDilationColonyAnimals;
-            if (pawn.factionInt != null)
-                return !raceSettings.ignoreFactions && RocketPrefs.TimeDilationVisitors;
-            return RocketPrefs.TimeDilationWildlife;
+            if (Context.DilationEnabled[pawn.def.index])
+            {
+                RaceSettings raceSettings = pawn.GetRaceSettings();
+                if (pawn.factionInt == Faction.OfPlayer)
+                    return !raceSettings.ignorePlayerFaction && RocketPrefs.TimeDilationColonyAnimals;
+                if (pawn.factionInt != null)
+                    return !raceSettings.ignoreFactions && RocketPrefs.TimeDilationVisitors;
+                return RocketPrefs.TimeDilationWildlife;
+            }
+            return false;
         }
 
         public static bool IsSkippingTicks_newtemp(this Pawn pawn)

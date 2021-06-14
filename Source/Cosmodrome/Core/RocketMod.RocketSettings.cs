@@ -106,6 +106,7 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.ShowWarmUpPopup, "showWarmUpPopup", true);
                 Scribe_Values.Look(ref RocketPrefs.AlertThrottling, "alertThrottling", true);
                 Scribe_Values.Look(ref RocketPrefs.DisableAllAlert, "disableAllAlert", false);
+                Scribe_Values.Look(ref RocketPrefs.LearningAlertEnabled, "learningAlertEnabled", true);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilation, "timeDilation", true);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationWildlife, "TimeDilationWildlife", true);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationColonists, "TimeDilationColonists", false);
@@ -118,6 +119,7 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.MainButtonToggle, "mainButtonToggle", true);
                 Scribe_Values.Look(ref RocketPrefs.CorpsesRemovalEnabled, "corpsesRemovalEnabled", true);
                 Scribe_Values.Look(ref RocketPrefs.DisableForcedSlowdowns, "disableForcedSlowdowns", false);
+                Scribe_Values.Look(ref RocketPrefs.TranslationCaching, "translationCaching", false);
 
                 if (!RocketEnvironmentInfo.IsDevEnv)
                     RocketPrefs.TimeDilationColonists = false;
