@@ -253,6 +253,16 @@ namespace RocketMan
                    _RocketMan_Enable : _RocketMan_Enable = "RocketMan.Enable".Translate();
         }             
                            
+        private static TaggedString _RocketMan_TranslationCaching = null;
+        /// <summary> Keyed string with key <c>RocketMan.TranslationCaching</c> with inner text set to:
+        ///
+        /// <code>Enalbe text size caching</code>
+        /// </summary>       
+        public static TaggedString RocketMan_TranslationCaching {
+            get => _RocketMan_TranslationCaching != null ? 
+                   _RocketMan_TranslationCaching : _RocketMan_TranslationCaching = "RocketMan.TranslationCaching".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_Experimental = null;
         /// <summary> Keyed string with key <c>RocketMan.Experimental</c> with inner text set to:
         ///

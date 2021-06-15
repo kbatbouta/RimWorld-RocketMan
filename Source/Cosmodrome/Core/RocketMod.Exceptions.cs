@@ -5,11 +5,10 @@ namespace RocketMan
 {
     public partial class RocketMod
     {
-        [Main.OnTickLong]
+        [Main.OnTickRare]
         [Main.OnDefsLoaded]
         public static void UpdateExceptions()
         {
-            DefDatabase<StatDef>.ResolveAllReferences();
             if (StatDefOf.MarketValue != null && StatDefOf.MarketValueIgnoreHp != null)
             {
                 RocketStates.StatExpiry[StatDefOf.MarketValue.index] = 0;

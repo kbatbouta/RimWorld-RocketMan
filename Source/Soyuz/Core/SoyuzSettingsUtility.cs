@@ -30,7 +30,8 @@ namespace Soyuz
             {
                 processedDefs.Add(settings.def);
             }
-            DefDatabase<ThingDef>.ResolveAllReferences();
+            //
+            // DefDatabase<ThingDef>.ResolveAllReferences();
             foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs
                 .AsParallel()
                 .Where(d => d.race != null && !processedDefs.Contains(d)))

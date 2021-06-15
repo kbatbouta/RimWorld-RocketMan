@@ -14,7 +14,7 @@ namespace Soyuz.Tabs
 
         private static Vector2 scrollPosition = Vector2.zero;
 
-        private Listing_Standard standard_Content = new Listing_Standard();
+        private Listing_Collapsible standard_Content = new Listing_Collapsible();
 
         public override string Label => "Grapher";
 
@@ -22,20 +22,27 @@ namespace Soyuz.Tabs
 
         public override void DoContent(Rect rect)
         {
-            standard_Content.Begin(rect);
             GUI.color = Color.red;
-            GUIFont.CurFontStyle.fontStyle = FontStyle.Bold;
-
-            standard_Content.Label("Soyuz grapher");
-            GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
+            standard_Content.Begin(rect, "Information and controls");
             GUI.color = Color.white;
-            var font = GUIFont.Font;
-            GUIFont.Font = GUIFontSize.Tiny;
             standard_Content.CheckboxLabeled("Enable time dilation", ref RocketPrefs.TimeDilation, "Experimental.");
             standard_Content.CheckboxLabeled("Flash dilated pawns", ref RocketDebugPrefs.FlashDilatedPawns, "Experimental.");
-            GUIFont.Font = font;
-            standard_Content.End();
-            rect.yMin += 75;
+            if (Find.Selector.selected.Count == 1 && Find.Selector.selected.First() is Pawn pawn)
+            {
+                standard_Content.Line(1);
+                standard_Content.Label("InspectorTabsResolved are");
+                foreach (var tab in pawn.def.inspectorTabsResolved)
+                    standard_Content.Label($"{tab.GetType().FullName}");
+                standard_Content.Line(1);
+                standard_Content.Label("InspectorTabs are");
+                foreach (var tab in pawn.def.inspectorTabs)
+                    standard_Content.Label($"{tab.FullName}");
+                standard_Content.Line(1);
+                standard_Content.Label("Comps are");
+                foreach (var comp in pawn.def.comps)
+                    standard_Content.Label($"{comp.GetType().FullName}");
+            }
+            standard_Content.End(ref rect);
             DoExtras(rect);
         }
 

@@ -138,6 +138,7 @@ namespace RocketMan
                         collapsible_junk.Expanded = false;
                         collapsible_other.Expanded = false;
                     }
+                    collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_TranslationCaching, ref RocketPrefs.TranslationCaching);
                     collapsible_experimental.Label(KeyedResources.RocketMan_EnableGagarin_Tip);
                     bool devKeyEnabled = File.Exists(RocketEnvironmentInfo.DevKeyFilePath);
                     if (collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_EnableGagarin, ref devKeyEnabled))

@@ -113,6 +113,9 @@
 		  <Generator>TextTemplatingFileGenerator</Generator>
 		  <LastGenOutput>KeyedResources.cs</LastGenOutput>
 		</None>
+		<None Update="..\..\1.2\Defs\KeyBinding.xml">
+		  <Link>Assets\Defs\\KeyBinding.xml</Link>
+		</None>
 	</ItemGroup>
 	<PropertyGroup>
 		<TransformOnBuild>true</TransformOnBuild>
