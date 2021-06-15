@@ -13,16 +13,6 @@ namespace RocketMan
 {
     public partial class RocketMod : Mod
     {
-        private static readonly Listing_Collapsible collapsible_general = new Listing_Collapsible();
-
-        private static readonly Listing_Collapsible collapsible_junk = new Listing_Collapsible();
-
-        private static readonly Listing_Collapsible collapsible_other = new Listing_Collapsible();
-
-        private static readonly Listing_Collapsible collapsible_debug = new Listing_Collapsible();
-
-        private static readonly Listing_Collapsible collapsible_experimental = new Listing_Collapsible();
-
         public static RocketSettings Settings;
 
         public static RocketMod Instance;
@@ -78,8 +68,38 @@ namespace RocketMan
             GUIUtility.ClearGUIState();
         }
 
+        private static readonly Listing_Collapsible.Group_Collapsible group = new Listing_Collapsible.Group_Collapsible();
+
+        private static readonly Listing_Collapsible collapsible_general = new Listing_Collapsible();
+
+        private static readonly Listing_Collapsible collapsible_junk = new Listing_Collapsible(group);
+
+        private static readonly Listing_Collapsible collapsible_other = new Listing_Collapsible(group);
+
+        private static readonly Listing_Collapsible collapsible_debug = new Listing_Collapsible(group);
+
+        private static readonly Listing_Collapsible collapsible_experimental = new Listing_Collapsible(group);
+
+        private static bool guiGroupCreated = false;
+
         public static void DoSettings(Rect inRect, bool doStats = true, Action<Listing_Standard> extras = null)
         {
+            if (!guiGroupCreated)
+            {
+                guiGroupCreated = true;
+
+                collapsible_junk.Group = group;
+                group.Register(collapsible_junk);
+
+                collapsible_other.Group = group;
+                group.Register(collapsible_other);
+
+                collapsible_debug.Group = group;
+                group.Register(collapsible_debug);
+
+                collapsible_experimental.Group = group;
+                group.Register(collapsible_experimental);
+            }
             GUIUtility.ExecuteSafeGUIAction(() =>
             {
                 collapsible_general.Expanded = true;
@@ -103,42 +123,33 @@ namespace RocketMan
                 collapsible_general.End(ref inRect);
                 inRect.yMin += 5;
 
-                bool expanded = false;
                 if (RocketPrefs.Enabled)
                 {
-                    collapsible_junk.Begin(inRect, "RocketMan.GameSpeed".Translate(), drawIcon: false, drawInfo: false);
+                    collapsible_junk.Begin(inRect, "RocketMan.GameSpeed".Translate());
                     collapsible_junk.CheckboxLabeled("RocketMan.DisableForcedSlowdowns".Translate(), ref RocketPrefs.DisableForcedSlowdowns, "RocketMan.DisableForcedSlowdowns.Description".Translate());
                     collapsible_junk.End(ref inRect);
                     inRect.yMin += 5;
 
-                    collapsible_junk.Begin(inRect, "RocketMan.Junk".Translate(), drawIcon: false, drawInfo: false);
+                    collapsible_junk.Begin(inRect, "RocketMan.Junk".Translate());
                     collapsible_junk.CheckboxLabeled("RocketMan.CorpseRemoval".Translate(), ref RocketPrefs.CorpsesRemovalEnabled, "RocketMan.CorpseRemoval.Description".Translate());
                     collapsible_junk.End(ref inRect);
                     inRect.yMin += 5;
 
-                    expanded = collapsible_other.Expanded;
                     collapsible_other.Begin(inRect, "RocketMan.StatCacheSettings".Translate());
-                    if (collapsible_other.Expanded != expanded)
-                    {
-                        collapsible_debug.Expanded = false;
-                        collapsible_junk.Expanded = false;
-                        collapsible_experimental.Expanded = false;
-                    }
+
                     collapsible_other.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
                     collapsible_other.CheckboxLabeled("RocketMan.AdaptiveAlert.Label".Translate(), ref RocketPrefs.LearningAlertEnabled, "RocketMan.AdaptiveAlert.Description".Translate());
                     collapsible_other.CheckboxLabeled("RocketMan.EnableGearStatCaching".Translate(), ref RocketPrefs.StatGearCachingEnabled);
                     collapsible_other.End(ref inRect);
                     inRect.yMin += 5;
 
-                    expanded = collapsible_experimental.Expanded;
                     collapsible_experimental.Begin(inRect, KeyedResources.RocketMan_Experimental);
-                    if (collapsible_experimental.Expanded != expanded)
+
+                    if (RocketEnvironmentInfo.IsDevEnv)
                     {
-                        collapsible_debug.Expanded = false;
-                        collapsible_junk.Expanded = false;
-                        collapsible_other.Expanded = false;
+                        collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_TranslationCaching, ref RocketPrefs.TranslationCaching);
+                        collapsible_experimental.Line(1);
                     }
-                    collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_TranslationCaching, ref RocketPrefs.TranslationCaching);
                     collapsible_experimental.Label(KeyedResources.RocketMan_EnableGagarin_Tip);
                     bool devKeyEnabled = File.Exists(RocketEnvironmentInfo.DevKeyFilePath);
                     if (collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_EnableGagarin, ref devKeyEnabled))
@@ -150,14 +161,8 @@ namespace RocketMan
                     }
                     collapsible_experimental.End(ref inRect);
                     inRect.yMin += 5;
-                    expanded = collapsible_debug.Expanded;
                     collapsible_debug.Begin(inRect, "Debugging options");
-                    if (collapsible_debug.Expanded != expanded)
-                    {
-                        collapsible_other.Expanded = false;
-                        collapsible_junk.Expanded = false;
-                        collapsible_experimental.Expanded = false;
-                    }
+
                     if (collapsible_debug.CheckboxLabeled("RocketMan.Debugging".Translate(), ref RocketDebugPrefs.Debug, "RocketMan.Debugging.Description".Translate())
                     && !RocketDebugPrefs.Debug)
                     {
