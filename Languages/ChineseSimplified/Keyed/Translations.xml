@@ -87,7 +87,7 @@
   <Proton.DisableAll.P1>禁用</Proton.DisableAll.P1>
   <Proton.DisableAll.P2>所有警报</Proton.DisableAll.P2>
   <Proton.Disabled>已禁用配置</Proton.Disabled>
-  <Proton.AlertsDisabled>已禁用所有警报</Proton.AlertsDisabled>
+  <Proton.AlertsDisabled>禁用所有警报</Proton.AlertsDisabled>
   <Proton.MaxIn>最大响应时间</Proton.MaxIn>
   <Proton.MinUpdate>最小刷新间隔</Proton.MinUpdate>
   <Proton.Enabled>启用</Proton.Enabled>
