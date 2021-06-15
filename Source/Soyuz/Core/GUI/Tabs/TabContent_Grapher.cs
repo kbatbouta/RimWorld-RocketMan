@@ -18,12 +18,12 @@ namespace Soyuz.Tabs
 
         public override string Label => "Grapher";
 
-        public override bool ShouldShow => RocketDebugPrefs.Debug && RocketPrefs.TimeDilation;
+        public override bool ShouldShow => RocketPrefs.Enabled && RocketDebugPrefs.Debug && RocketPrefs.TimeDilation;
 
         public override void DoContent(Rect rect)
         {
             GUI.color = Color.red;
-            standard_Content.Begin(rect, "Information and controls");
+            standard_Content.Begin(rect.TopPartPixels(350), "Information and controls");
             GUI.color = Color.white;
             standard_Content.CheckboxLabeled("Enable time dilation", ref RocketPrefs.TimeDilation, "Experimental.");
             standard_Content.CheckboxLabeled("Flash dilated pawns", ref RocketDebugPrefs.FlashDilatedPawns, "Experimental.");
@@ -43,7 +43,7 @@ namespace Soyuz.Tabs
                     standard_Content.Label($"{comp.GetType().FullName}");
             }
             standard_Content.End(ref rect);
-            DoExtras(rect);
+            DoExtras(rect.ExpandedBy(1));
         }
 
         private void DoExtras(Rect rect)

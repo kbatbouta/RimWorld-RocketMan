@@ -25,7 +25,7 @@ namespace RocketMan.Optimizations
             [HarmonyPriority(int.MaxValue)]
             public static bool Prefix(string text, ref Vector2 __result)
             {
-                if (!RocketPrefs.TranslationCaching)
+                if (!RocketPrefs.TranslationCaching || !RocketPrefs.Enabled)
                 {
                     return !(shouldCache = false);
                 }
@@ -58,7 +58,7 @@ namespace RocketMan.Optimizations
             [HarmonyPriority(int.MaxValue)]
             public static bool Prefix(string text, float width, ref float __result)
             {
-                if (!RocketPrefs.TranslationCaching)
+                if (!RocketPrefs.TranslationCaching || !RocketPrefs.Enabled)
                 {
                     return !(shouldCache = false);
                 }
