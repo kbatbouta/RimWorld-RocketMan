@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Verse;
@@ -80,10 +81,22 @@ namespace RocketMan
             get => points.MaxT;
         }
 
+        public float MaxTWithoutAddtion
+        {
+            get => points.MaxTWithoutAddtion;
+            set => points.MaxTWithoutAddtion = value;
+        }
+
         public int ScaleIndex
         {
             get => scaleIndex;
             set => scaleIndex = value;
+        }
+
+        public Listing_Collapsible.Group_Collapsible Group
+        {
+            get => collapsible.Group;
+            set => collapsible.Group = value;
         }
 
         public Grapher(string title, string description = null)
@@ -225,7 +238,6 @@ namespace RocketMan
 
                 hoverRect.xMin = v0.x;
                 hoverRect.xMax = v1.x;
-
                 Widgets.DrawLine(v0, v1, p.color, 1);
 
                 if (Mouse.IsOver(hoverRect))

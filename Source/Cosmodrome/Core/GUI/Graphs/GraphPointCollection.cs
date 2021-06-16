@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using UnityEngine;
 using static RocketMan.Grapher;
 
@@ -15,7 +16,9 @@ namespace RocketMan
 
         private int currentLength = 0;
 
-        private float curdY = 0;
+        private float maxTWithoutAddtion = 60;
+
+        private float curdeltaY = 0;
 
         public GraphPoint First
         {
@@ -75,41 +78,58 @@ namespace RocketMan
             get => currentLength;
         }
 
+        public float MaxTWithoutAddtion
+        {
+            get => maxTWithoutAddtion;
+            set => maxTWithoutAddtion = value;
+        }
+
         public GraphPointCollection()
         {
             for (int i = 0; i < points.Length; i++)
             {
                 points[i] = new GraphPoint(0, 0, new Color(1f, 1f, 1f, 0.1f));
             }
-            currentLength = points.Length;
+            currentLength = 0;
         }
 
         public void Add(GraphPoint point, bool dirty = true)
         {
-            GraphPoint lastPoint = points[(currentPosition + Length - 1) % points.Length];
-            GraphPoint sampledPoint = new GraphPoint();
-            sampledPoint.t = point.t;
-            sampledPoint.y = point.y;
-            sampledPoint.color = point.color;
-            float dY = (sampledPoint.y - lastPoint.y) / (sampledPoint.t - lastPoint.t);
-            if ((Mathf.Abs(dY - curdY) < 1e-2 || Mathf.Abs(sampledPoint.y - lastPoint.y) < 1e-5))
+            if (currentLength == 0)
             {
-                points[(currentPosition + Length - 1) % points.Length] = sampledPoint;
-
-                if (_minY > sampledPoint.y)
-                    _minY = sampledPoint.y;
-                if (_maxY < sampledPoint.y)
-                    _maxY = sampledPoint.y;
-                _maxT = sampledPoint.t;
+                points[0] = point;
+                currentPosition = 1;
+                currentLength = 1;
+                Dirty();
             }
             else
             {
-                points[currentPosition] = sampledPoint;
-                currentPosition = (currentPosition + 1) % points.Length;
-                curdY = dY;
-                if (dirty)
+                GraphPoint lastPoint = points[(currentPosition + Length - 1) % points.Length];
+                float deltaY = (point.y - point.y) / (point.t - lastPoint.t);
+
+                if (Length == points.Length
+                    && lastPoint.t - points[(currentPosition + Length - 2) % points.Length].t < maxTWithoutAddtion
+                    && (Mathf.Abs(deltaY - curdeltaY) < 1e-2 || Mathf.Abs(point.y - lastPoint.y) < 1e-5)
+                    && point.color == lastPoint.color)
                 {
-                    Dirty();
+                    points[(currentPosition + Length - 1) % points.Length] = point;
+
+                    if (_minY > point.y)
+                        _minY = point.y;
+                    if (_maxY < point.y)
+                        _maxY = point.y;
+                    _maxT = point.t;
+                }
+                else
+                {
+                    points[currentPosition] = point;
+                    currentPosition = (currentPosition + 1) % points.Length;
+                    currentLength = Math.Min(currentLength + 1, points.Length);
+                    curdeltaY = deltaY;
+                    if (dirty)
+                    {
+                        Dirty();
+                    }
                 }
             }
         }
@@ -133,9 +153,25 @@ namespace RocketMan
 
         private IEnumerable<GraphPoint> GetPoints()
         {
-            for (int i = 0; i < Length; i++)
+            if (Length == points.Length)
             {
-                yield return points[(currentPosition + i) % points.Length];
+                for (int i = 0; i < Length; i++)
+                {
+                    yield return points[(currentPosition + i) % points.Length];
+                }
+            }
+            else
+            {
+                float t = points[0].t;
+                for (int i = 0; i < Length; i++)
+                {
+                    GraphPoint p = points[i];
+                    if (t < p.t)
+                    {
+                        t = p.t;
+                        yield return p;
+                    }
+                }
             }
         }
     }

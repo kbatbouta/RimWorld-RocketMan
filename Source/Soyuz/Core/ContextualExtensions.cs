@@ -106,6 +106,11 @@ namespace Soyuz
 
         public static void BeginTick(this Pawn pawn)
         {
+            if (RocketDebugPrefs.LogData && Time.frameCount - RocketStates.LastFrame < 60 && pawn == Context.ProfiledPawn)
+            {
+                _stopwatch.Reset();
+                _stopwatch.Start();
+            }
             _pawnTick = pawn;
             if (false
                 || !RocketPrefs.Enabled
@@ -115,38 +120,31 @@ namespace Soyuz
                 Skip(pawn);
                 return;
             }
-            if (RocketDebugPrefs.LogData && Time.frameCount - RocketStates.LastFrame < 60)
-            {
-                _stopwatch.Reset();
-                _stopwatch.Start();
-            }
         }
 
         public static void EndTick(this Pawn pawn)
         {
             _pawnTick = null;
-            if (RocketDebugPrefs.LogData && Time.frameCount - RocketStates.LastFrame < 60)
+            if (RocketDebugPrefs.LogData && Time.frameCount - RocketStates.LastFrame < 60 && pawn == Context.ProfiledPawn)
             {
                 _stopwatch.Stop();
                 var performanceModel = pawn.GetPerformanceModel();
-                performanceModel.AddResult(_stopwatch.ElapsedTicks);
-                if (GenTicks.TicksGame % 150 == 0)
-                {
-                    var needsModel = pawn.GetNeedModels();
-                    if (pawn.needs?.needs != null)
-                        foreach (var need in pawn.needs?.needs)
-                        {
-                            var type = need.GetType();
-                            if (needsModel.TryGetValue(type, out var model)) model.AddResult(need.CurLevelPercentage);
-                            else needsModel[type] = new PawnNeedModel();
-                        }
+                performanceModel.AddResult((float)_stopwatch.ElapsedTicks / (float)Stopwatch.Frequency * (float)1000f);
 
-                    Dictionary<Hediff, PawnHediffModel> hediffModel = pawn.GetHediffModels();
-                    foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+                var needsModel = pawn.GetNeedModels();
+                if (pawn.needs?.needs != null)
+                    foreach (var need in pawn.needs?.needs)
                     {
-                        if (hediffModel.TryGetValue(hediff, out var model)) model.AddResult(hediff.Severity);
-                        else hediffModel[hediff] = new PawnHediffModel();
+                        var type = need.GetType();
+                        if (needsModel.TryGetValue(type, out var model)) model.AddResult(need.CurLevelPercentage);
+                        else needsModel[type] = new PawnNeedModel(need.def.label);
                     }
+
+                Dictionary<Hediff, PawnHediffModel> hediffModel = pawn.GetHediffModels();
+                foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+                {
+                    if (hediffModel.TryGetValue(hediff, out var model)) model.AddResult(hediff.Severity);
+                    else hediffModel[hediff] = new PawnHediffModel(hediff.def.label);
                 }
             }
             else Reset();
@@ -170,7 +168,7 @@ namespace Soyuz
                 return null;
             if (pawnPerformanceModels.TryGetValue(pawn, out var model))
                 return model;
-            return pawnPerformanceModels[pawn] = new PawnPerformanceModel();
+            return pawnPerformanceModels[pawn] = new PawnPerformanceModel("Performance");
         }
 
         public static Dictionary<Type, PawnNeedModel> GetNeedModels(this Pawn pawn)
