@@ -11,6 +11,8 @@ namespace Gagarin
 
         public static bool IsLoadingModXML = false;
 
+        public static bool IsLoadingPatchXML = false;
+
         public static bool IsRecovering = false;
 
         public static bool LoadingFinished = false;
