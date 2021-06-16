@@ -20,7 +20,10 @@ namespace Gagarin
             {
                 if (!Context.IsRecovering)
                 {
-                    __instance.LoadPatches();
+                    if (Context.IsUsingCache)
+                    {
+                        __instance.LoadPatches();
+                    }
 
                     Context.CurrentLoadingMod = null;
                 }

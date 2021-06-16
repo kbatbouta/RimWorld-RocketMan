@@ -78,6 +78,21 @@ namespace Gagarin
             }
         }
 
+        [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.ClearCachedPatches))]
+        public static class ClearCachedPatches_Patch
+        {
+            public static bool Prefix()
+            {
+                if (!Context.IsRecovering && Context.IsUsingCache)
+                {
+                    foreach (ModContentPack mod in Context.RunningMods)
+                        mod.patches?.Clear();
+                    return false;
+                }
+                return true;
+            }
+        }
+
         [GagarinPatch(typeof(LoadedModManager), nameof(LoadedModManager.ApplyPatches))]
         public static class ApplyPatches_Patch
         {
@@ -171,8 +186,6 @@ namespace Gagarin
                         {
                             usedCache = true;
                             CachedDefHelper.Load(__result = new XmlDocument(), assetlookup);
-                            foreach (ModContentPack mod in Context.RunningMods)
-                                mod.patches?.Clear();
                             return false;
                         }
                     }
