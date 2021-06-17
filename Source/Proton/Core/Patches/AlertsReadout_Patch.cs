@@ -238,11 +238,19 @@ namespace Proton
         private static bool ShouldUpdate(int index)
         {
             if (RocketPrefs.DisableAllAlert)
+            {
                 return false;
-            AlertSettings settings = Context.AlertSettingsByIndex[index];
-            if (settings == null)
+            }
+            if (index < 0 || index >= Context.Alerts.Length)
+            {
                 return true;
-            return settings.Enabled && settings.ShouldUpdate;
+            }
+            AlertSettings settings = Context.AlertSettingsByIndex[index];
+            if (settings != null)
+            {
+                return settings.Enabled && settings.ShouldUpdate;
+            }
+            return true;
         }
 
         private static void StartProfiling(int index)
@@ -252,8 +260,11 @@ namespace Proton
 
         private static void StopProfiling(int index)
         {
-            Context.AlertSettingsByIndex[index]?.UpdatePerformanceMetrics((float)stopwatch.ElapsedTicks * 1000.0f / (float)Stopwatch.Frequency);
-            stopwatch.Stop();
+            if (index >= 0 && index < Context.Alerts.Length)
+            {
+                Context.AlertSettingsByIndex[index]?.UpdatePerformanceMetrics((float)stopwatch.ElapsedTicks * 1000.0f / (float)Stopwatch.Frequency);
+                stopwatch.Stop();
+            }
         }
 
         private static int GetCount(AlertsReadout readout) => (int)Math.Max(readout.AllAlerts.Count * 0.75f, 24);

@@ -14,6 +14,8 @@ namespace Soyuz
 
         public static SoyuzSettings Settings;
 
+        public static Pawn ProfiledPawn;
+
         public static readonly int[] DilationInts = new int[ushort.MaxValue];
 
         public static readonly bool[] DilationEnabled = new bool[ushort.MaxValue];

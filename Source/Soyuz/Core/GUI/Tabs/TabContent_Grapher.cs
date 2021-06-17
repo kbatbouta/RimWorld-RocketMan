@@ -5,6 +5,7 @@ using RocketMan;
 using RocketMan.Tabs;
 using UnityEngine;
 using Verse;
+using static RocketMan.Listing_Collapsible;
 
 namespace Soyuz.Tabs
 {
@@ -14,11 +15,15 @@ namespace Soyuz.Tabs
 
         private static Vector2 scrollPosition = Vector2.zero;
 
+        private Pawn currentPawn;
+
+        private Listing_Collapsible.Group_Collapsible group = new Listing_Collapsible.Group_Collapsible();
+
         private Listing_Collapsible standard_Content = new Listing_Collapsible();
 
         public override string Label => "Grapher";
 
-        public override bool ShouldShow => RocketPrefs.Enabled && RocketDebugPrefs.Debug && RocketPrefs.TimeDilation;
+        public override bool ShouldShow => RocketPrefs.Enabled;
 
         public override void DoContent(Rect rect)
         {
@@ -27,21 +32,6 @@ namespace Soyuz.Tabs
             GUI.color = Color.white;
             standard_Content.CheckboxLabeled("Enable time dilation", ref RocketPrefs.TimeDilation, "Experimental.");
             standard_Content.CheckboxLabeled("Flash dilated pawns", ref RocketDebugPrefs.FlashDilatedPawns, "Experimental.");
-            if (Find.Selector.selected.Count == 1 && Find.Selector.selected.First() is Pawn pawn)
-            {
-                standard_Content.Line(1);
-                standard_Content.Label("InspectorTabsResolved are");
-                foreach (var tab in pawn.def.inspectorTabsResolved)
-                    standard_Content.Label($"{tab.GetType().FullName}");
-                standard_Content.Line(1);
-                standard_Content.Label("InspectorTabs are");
-                foreach (var tab in pawn.def.inspectorTabs)
-                    standard_Content.Label($"{tab.FullName}");
-                standard_Content.Line(1);
-                standard_Content.Label("Comps are");
-                foreach (var comp in pawn.def.comps)
-                    standard_Content.Label($"{comp.GetType().FullName}");
-            }
             standard_Content.End(ref rect);
             DoExtras(rect.ExpandedBy(1));
         }
@@ -67,24 +57,26 @@ namespace Soyuz.Tabs
         private void DoExtras_Internal(Rect rect)
         {
             var pawn = Find.Selector.selected.First() as Pawn;
+            if (currentPawn != pawn)
+            {
+                Context.ProfiledPawn = pawn;
+                currentPawn = pawn;
+                group = new Group_Collapsible();
+            }
             var needs = pawn.needs.needs;
             var hediffs = pawn.health.hediffSet.hediffs;
-            var curRect = rect;
-            curRect.ContractedBy(5);
-            curRect.yMin += 5;
-            curRect.width -= 5;
-            Widgets.BeginScrollView(curRect, ref scrollPosition, new Rect(Vector2.zero, new Vector2(rect.width - 15, (120 + 20) * (hediffs.Count + needs.Count()))));
-            var elementRect = new Rect(5, 5, rect.width - 25, 87);
             var needsModel = pawn.GetNeedModels();
+            var performanceModel = pawn.GetPerformanceModel();
+            if (performanceModel.grapher.Group != group)
+                performanceModel.grapher.Group = group;
+            performanceModel.DrawGraph(ref rect);
             foreach (var need in needs)
             {
                 if (needsModel.TryGetValue(need.GetType(), out var model))
                 {
-                    model.DrawGraph(elementRect.BottomPartPixels(70));
-                    GUIFont.Font = GUIFontSize.Tiny;
-                    GUIFont.CurFontStyle.fontStyle = FontStyle.Bold;
-                    Widgets.Label(elementRect.TopPartPixels(14), GenText.CapitalizeFirst(need.def.label));
-                    elementRect.y += elementRect.height + 20;
+                    if (model.grapher.Group != group)
+                        model.grapher.Group = group;
+                    model.DrawGraph(ref rect);
                 }
             }
             var hediffsModel = pawn.GetHediffModels();
@@ -92,14 +84,11 @@ namespace Soyuz.Tabs
             {
                 if (hediffsModel.TryGetValue(hediff, out var model))
                 {
-                    model.DrawGraph(elementRect.BottomPartPixels(70));
-                    GUIFont.Font = GUIFontSize.Tiny;
-                    GUIFont.CurFontStyle.fontStyle = FontStyle.Bold;
-                    Widgets.Label(elementRect.TopPartPixels(14), GenText.CapitalizeFirst(hediff.def.label));
-                    elementRect.y += elementRect.height;
+                    if (model.grapher.Group != group)
+                        model.grapher.Group = group;
+                    model.DrawGraph(ref rect);
                 }
             }
-            Widgets.EndScrollView();
         }
 
         public override void OnDeselect()

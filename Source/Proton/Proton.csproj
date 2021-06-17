@@ -51,28 +51,20 @@
 	  <None Remove="Core\Deprecated\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Compile Remove="Core\Deprecated\GlowerProperties.cs" />
-	  <Compile Remove="Core\Deprecated\GlowerTracker.cs" />
 	  <Compile Remove="Core\Deprecated\GlowFlooder_Patch.cs" />
 	  <Compile Remove="Core\Deprecated\GlowGrid_Patch.cs" />
-	  <Compile Remove="Core\LitCell.cs" />
-	  <Compile Remove="Core\LitGlowerInfo.cs" />
-	  <Compile Remove="Core\LitGlowerCacher.cs" />
-	  <Compile Remove="Core\Patches\GlowFlooder_Patch.cs" />
-	  <Compile Remove="Core\Patches\GlowGrid_Patch.cs" />
-	  <Compile Remove="Core\Others\MapGlowerUtility.cs" />
+	  <Compile Remove="Core\Deprecated\LitCell.cs" />
+	  <Compile Remove="Core\Deprecated\LitGlowerCacher.cs" />
+	  <Compile Remove="Core\Deprecated\LitGlowerInfo.cs" />
+	  <Compile Remove="Core\Deprecated\MapGlowerUtility.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Include="Core\Deprecated\GlowerProperties.cs" />
-	  <None Include="Core\Deprecated\GlowerTracker.cs" />
-	  <None Include="Core\Deprecated\GlowFlooder_Patch.cs" />
-	  <None Include="Core\Deprecated\GlowGrid_Patch.cs" />
-	  <None Include="Core\LitCell.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-	  <None Include="Core\LitGlowerInfo.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-	  <None Include="Core\LitGlowerCacher.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-	  <None Include="Core\Patches\GlowFlooder_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-	  <None Include="Core\Patches\GlowGrid_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-	  <None Include="Core\Others\MapGlowerUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+	  <None Include="Core\Deprecated\GlowFlooder_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+	  <None Include="Core\Deprecated\GlowGrid_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+	  <None Include="Core\Deprecated\LitCell.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+	  <None Include="Core\Deprecated\LitGlowerCacher.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+	  <None Include="Core\Deprecated\LitGlowerInfo.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+	  <None Include="Core\Deprecated\MapGlowerUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
 	</ItemGroup>
 	<Target Name="Publicise" BeforeTargets="UpdateReferences" Condition="!Exists('$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp_publicised.dll')">
 		<!-- Set our variables -->

@@ -30,8 +30,6 @@ namespace RocketMan
                 foreach (Listing_Collapsible collapsible in AllCollapsibles)
                 {
                     collapsible.expanded = false;
-
-                    Log.Message("dude");
                 }
             }
 
