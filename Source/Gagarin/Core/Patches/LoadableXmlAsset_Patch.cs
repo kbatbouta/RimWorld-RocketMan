@@ -20,7 +20,7 @@ namespace Gagarin
 
         public static void Postfix(LoadableXmlAsset __instance, string contents)
         {
-            if (!Context.IsRecovering && Context.IsLoadingModXML)
+            if (Context.IsLoadingModXML)
             {
                 try
                 {
@@ -44,8 +44,6 @@ namespace Gagarin
                 catch (Exception er)
                 {
                     Logger.Debug("GAGARIN: Failed in LoadableXmlAsset", exception: er);
-
-                    Context.IsRecovering = true;
                     Context.IsUsingCache = false;
                 }
             }

@@ -22,24 +22,7 @@ namespace Gagarin
 
                     Logger.Debug("GAGARIN: Removed dev key to recover from error!");
                 }
-                if (Context.IsRecovering)
-                {
-                    Log.Error("GAGARIN: EPIC FAIL!");
-
-                    StackTrace stack = new StackTrace();
-                    if (stack.GetFrame(2).GetMethod().Name == "LoadAllPlayData")
-                    {
-                        Context.IsUsingCache = false;
-                        Context.IsLoadingModXML = false;
-                        int i = 0;
-                        foreach (StackFrame frame in stack.GetFrames())
-                        {
-                            Log.Message($"#_#{i++} {frame.GetMethod().Name}");
-                        }
-                        return false;
-                    }
-                }
-                return true;
+                return !RocketEnvironmentInfo.IsDevEnv;
             }
         }
     }

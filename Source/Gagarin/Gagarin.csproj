@@ -137,12 +137,12 @@
 		</ItemGroup>
 	</Target>
 	<ProjectExtensions>
-		<MonoDevelop>
-			<Properties>
-				<Policies>
-					<StandardHeader Text="" IncludeInNewFiles="False" />
-				</Policies>
-			</Properties>
-		</MonoDevelop>
+	  <MonoDevelop>
+	    <Properties>
+	      <Policies>
+	        <StandardHeader Text="" IncludeInNewFiles="False" />
+	      </Policies>
+	    </Properties>
+	  </MonoDevelop>
 	</ProjectExtensions>
 </Project>

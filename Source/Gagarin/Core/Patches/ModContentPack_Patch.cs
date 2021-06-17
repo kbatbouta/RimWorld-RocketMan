@@ -12,47 +12,39 @@ namespace Gagarin
         {
             public static void Prefix(ModContentPack __instance)
             {
-                if (!Context.IsRecovering)
-                    Context.CurrentLoadingMod = __instance;
+                Context.CurrentLoadingMod = __instance;
             }
 
             public static void Postfix(ModContentPack __instance)
             {
-                if (!Context.IsRecovering)
+                if (Context.IsUsingCache)
                 {
-                    if (Context.IsUsingCache)
-                    {
-                        //
-                        // __instance.LoadPatches();
-                    }
-                    Context.CurrentLoadingMod = null;
+                    //
+                    // __instance.LoadPatches();
                 }
+                Context.CurrentLoadingMod = null;
             }
         }
 
         [GagarinPatch(typeof(ModContentPack), nameof(ModContentPack.LoadPatches))]
         public class ModContentPack_LoadPatches_Patch
         {
-            public static void Prefix(ModContentPack __instance)
+            public static bool Prefix(ModContentPack __instance)
             {
-                if (!Context.IsRecovering)
-                {
-                    Context.CurrentLoadingMod = __instance;
-                }
+                Context.CurrentLoadingMod = __instance;
                 Context.IsLoadingPatchXML = true;
+                return !Context.IsUsingCache;
             }
 
             public static void Postfix(ModContentPack __instance)
             {
-                if (!Context.IsRecovering)
+
+                if (Context.IsUsingCache)
                 {
-                    if (Context.IsUsingCache)
-                    {
-                        //
-                        // __instance.LoadPatches();
-                    }
-                    Context.CurrentLoadingMod = null;
+                    //
+                    // __instance.LoadPatches();
                 }
+                Context.CurrentLoadingMod = null;
                 Context.IsLoadingPatchXML = false;
             }
         }

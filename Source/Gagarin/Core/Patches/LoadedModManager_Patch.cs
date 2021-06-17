@@ -16,52 +16,46 @@ namespace Gagarin
         {
             public static void Prefix()
             {
-                if (!Context.IsRecovering)
+                try
                 {
-                    try
-                    {
-                        Context.IsLoadingModXML = true;
+                    Context.IsLoadingModXML = true;
 
-                        if (File.Exists(GagarinEnvironmentInfo.HashFilePath))
-                        {
-                            Context.AssetsHashes = AssetHashingUtility.Load(GagarinEnvironmentInfo.HashFilePath);
-                        }
-                    }
-                    catch (Exception er)
+                    if (File.Exists(GagarinEnvironmentInfo.HashFilePath))
                     {
-                        Context.IsRecovering = true;
-
-                        Logger.Debug("GAGARIN: Loading error", er);
-                        throw er;
+                        Context.AssetsHashes = AssetHashingUtility.Load(GagarinEnvironmentInfo.HashFilePath);
                     }
+                }
+                catch (Exception er)
+                {
+                    Context.IsRecovering = true;
+
+                    Logger.Debug("GAGARIN: Loading error", er);
+                    throw er;
                 }
             }
 
             public static void Postfix(IEnumerable<LoadableXmlAsset> __result)
             {
-                if (!Context.IsRecovering)
+                try
                 {
-                    try
+                    Context.XmlAssets = new Dictionary<string, LoadableXmlAsset>(
+                    __result.Select(a => new KeyValuePair<string, LoadableXmlAsset>(a.FullFilePath, a)));
+
+                    if (!Context.IsUsingCache)
                     {
-                        Context.XmlAssets = new Dictionary<string, LoadableXmlAsset>(
-                        __result.Select(a => new KeyValuePair<string, LoadableXmlAsset>(a.FullFilePath, a)));
+                        AssetHashingUtility.Dump(Context.AssetsHashes, GagarinEnvironmentInfo.HashFilePath);
 
-                        if (!Context.IsUsingCache)
-                        {
-                            AssetHashingUtility.Dump(Context.AssetsHashes, GagarinEnvironmentInfo.HashFilePath);
-
-                            if (File.Exists(GagarinEnvironmentInfo.UnifiedXmlFilePath))
-                                File.Delete(GagarinEnvironmentInfo.UnifiedXmlFilePath);
-                        }
-                        Context.IsLoadingModXML = false;
+                        if (File.Exists(GagarinEnvironmentInfo.UnifiedXmlFilePath))
+                            File.Delete(GagarinEnvironmentInfo.UnifiedXmlFilePath);
                     }
-                    catch (Exception er)
-                    {
-                        Context.IsRecovering = true;
+                    Context.IsLoadingModXML = false;
+                }
+                catch (Exception er)
+                {
+                    Context.IsRecovering = true;
 
-                        Logger.Debug("GAGARIN: Loading error", er);
-                        throw er;
-                    }
+                    Logger.Debug("GAGARIN: Loading error", er);
+                    throw er;
                 }
             }
         }
@@ -71,10 +65,7 @@ namespace Gagarin
         {
             public static void Postfix()
             {
-                if (!Context.IsRecovering)
-                {
-                    DuplicateHelper.QueueReportProcessing();
-                }
+                DuplicateHelper.QueueReportProcessing();
             }
         }
 
@@ -83,7 +74,7 @@ namespace Gagarin
         {
             public static bool Prefix()
             {
-                if (!Context.IsRecovering && Context.IsUsingCache)
+                if (Context.IsUsingCache)
                 {
                     foreach (ModContentPack mod in Context.RunningMods)
                         mod.patches?.Clear();
@@ -99,28 +90,24 @@ namespace Gagarin
             [HarmonyPriority(Priority.Last)]
             public static bool Prefix()
             {
-                if (!Context.IsRecovering)
+                try
                 {
-                    try
-                    {
-                        CachedDefHelper.Prepare();
+                    CachedDefHelper.Prepare();
 
-                        return !Context.IsUsingCache;
-                    }
-                    catch (Exception er)
-                    {
-                        Context.IsRecovering = true;
-
-                        Logger.Debug("GAGARIN: Loading error", er);
-                        throw er;
-                    }
+                    return !Context.IsUsingCache;
                 }
-                return true;
+                catch (Exception er)
+                {
+                    Context.IsRecovering = true;
+
+                    Logger.Debug("GAGARIN: Loading error", er);
+                    throw er;
+                }
             }
 
             public static void Postfix(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
             {
-                if (!Context.IsRecovering && !Context.IsUsingCache)
+                if (!Context.IsUsingCache)
                 {
                     try
                     {
@@ -151,7 +138,7 @@ namespace Gagarin
             [HarmonyPriority(Priority.Last)]
             public static void Postfix()
             {
-                if (!Context.IsRecovering && !Context.IsUsingCache)
+                if (!Context.IsUsingCache)
                 {
                     try
                     {
@@ -176,26 +163,23 @@ namespace Gagarin
             [HarmonyPriority(Priority.Last)]
             public static bool Prefix(List<LoadableXmlAsset> xmls, ref XmlDocument __result, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
             {
-                if (!Context.IsRecovering)
+                try
                 {
-                    try
+                    Context.DefsXmlAssets = assetlookup;
+                    Log.Warning($"GAGARIN: CombineIntoUnifiedXML has <color=red>Context.IsUsingCache={ Context.IsUsingCache }</color>");
+                    if (Context.IsUsingCache)
                     {
-                        Context.DefsXmlAssets = assetlookup;
-                        Log.Warning($"GAGARIN: CombineIntoUnifiedXML has <color=red>Context.IsUsingCache={ Context.IsUsingCache }</color>");
-                        if (Context.IsUsingCache)
-                        {
-                            usedCache = true;
-                            CachedDefHelper.Load(__result = new XmlDocument(), assetlookup);
-                            return false;
-                        }
+                        usedCache = true;
+                        CachedDefHelper.Load(__result = new XmlDocument(), assetlookup);
+                        return false;
                     }
-                    catch (Exception er)
-                    {
-                        Context.IsRecovering = true;
+                }
+                catch (Exception er)
+                {
+                    Context.IsRecovering = true;
 
-                        Logger.Debug("GAGARIN: Loading error", er);
-                        throw er;
-                    }
+                    Logger.Debug("GAGARIN: Loading error", er);
+                    throw er;
                 }
                 return true;
             }
@@ -203,7 +187,7 @@ namespace Gagarin
             [HarmonyPriority(Priority.First)]
             public static void Postfix(XmlDocument __result, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
             {
-                if (!Context.IsRecovering && !usedCache && __result != null && !assetlookup.EnumerableNullOrEmpty())
+                if (!usedCache && __result != null && !assetlookup.EnumerableNullOrEmpty())
                 {
                     try
                     {
