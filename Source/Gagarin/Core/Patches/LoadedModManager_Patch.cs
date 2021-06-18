@@ -27,8 +27,6 @@ namespace Gagarin
                 }
                 catch (Exception er)
                 {
-                    Context.IsRecovering = true;
-
                     Logger.Debug("GAGARIN: Loading error", er);
                     throw er;
                 }
@@ -38,9 +36,7 @@ namespace Gagarin
             {
                 try
                 {
-                    Context.XmlAssets = new Dictionary<string, LoadableXmlAsset>(
-                    __result.Select(a => new KeyValuePair<string, LoadableXmlAsset>(a.FullFilePath, a)));
-
+                    Context.XmlAssets = new Dictionary<string, LoadableXmlAsset>(__result.Select(a => new KeyValuePair<string, LoadableXmlAsset>(a.FullFilePath, a)));
                     if (!Context.IsUsingCache)
                     {
                         AssetHashingUtility.Dump(Context.AssetsHashes, GagarinEnvironmentInfo.HashFilePath);
@@ -52,8 +48,6 @@ namespace Gagarin
                 }
                 catch (Exception er)
                 {
-                    Context.IsRecovering = true;
-
                     Logger.Debug("GAGARIN: Loading error", er);
                     throw er;
                 }
@@ -77,7 +71,10 @@ namespace Gagarin
                 if (Context.IsUsingCache)
                 {
                     foreach (ModContentPack mod in Context.RunningMods)
+                    {
+                        mod.loadedAnyPatches = false;
                         mod.patches?.Clear();
+                    }
                     return false;
                 }
                 return true;
@@ -98,14 +95,12 @@ namespace Gagarin
                 }
                 catch (Exception er)
                 {
-                    Context.IsRecovering = true;
-
                     Logger.Debug("GAGARIN: Loading error", er);
                     throw er;
                 }
             }
 
-            public static void Postfix(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
+            public static void Postfix(XmlDocument xmlDoc)
             {
                 if (!Context.IsUsingCache)
                 {
@@ -113,7 +108,6 @@ namespace Gagarin
                     {
                         if (File.Exists(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath))
                             File.Delete(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath);
-
                         XmlWriterSettings settings = new XmlWriterSettings
                         {
                             CheckCharacters = false,
@@ -125,8 +119,10 @@ namespace Gagarin
                             xmlDoc.Save(writer);
                         }
                     }
-                    finally
+                    catch (Exception er)
                     {
+                        Logger.Debug("GAGARIN: Loading error", er);
+                        throw er;
                     }
                 }
             }
@@ -146,8 +142,6 @@ namespace Gagarin
                     }
                     catch (Exception er)
                     {
-                        Context.IsRecovering = true;
-
                         Logger.Debug("GAGARIN: Loading error", er);
                         throw er;
                     }
@@ -176,8 +170,6 @@ namespace Gagarin
                 }
                 catch (Exception er)
                 {
-                    Context.IsRecovering = true;
-
                     Logger.Debug("GAGARIN: Loading error", er);
                     throw er;
                 }
@@ -195,8 +187,6 @@ namespace Gagarin
                     }
                     catch (Exception er)
                     {
-                        Context.IsRecovering = true;
-
                         Logger.Debug("GAGARIN: Loading error", er);
                         throw er;
                     }

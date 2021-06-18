@@ -14,13 +14,12 @@ namespace Gagarin
         {
             Finder.Harmony.Patch(AccessTools.Constructor(typeof(LoadableXmlAsset), new[] { typeof(string), typeof(string), typeof(string) }),
                 postfix: new HarmonyMethod(
-                    AccessTools.Method(typeof(LoadableXmlAsset_Constructor_Patch), nameof(LoadableXmlAsset_Constructor_Patch.Postfix))
-                    ));
+                    AccessTools.Method(typeof(LoadableXmlAsset_Constructor_Patch), nameof(LoadableXmlAsset_Constructor_Patch.Postfix))));
         }
 
         public static void Postfix(LoadableXmlAsset __instance, string contents)
         {
-            if (Context.IsLoadingModXML)
+            if (Context.IsLoadingModXML || Context.IsLoadingPatchXML)
             {
                 try
                 {
@@ -32,19 +31,22 @@ namespace Gagarin
                         if (!Context.AssetsHashes.TryGetValue(id, out UInt64 old) || current != old)
                         {
                             Context.IsUsingCache = false;
-
                             if (GagarinEnvironmentInfo.CacheExists)
-                                Log.Warning($"GAGARIN: Asset changed! " +
+                            {
+                                string message = Context.IsLoadingPatchXML ? "Patches changed!" : "Asset changed!";
+
+                                Log.Warning($"GAGARIN: {message}" +
                                     $"<color=red>{__instance.name}</color>:<color=red>{Context.CurrentLoadingMod?.PackageId ?? "Unknown"}</color> " +
                                     $"in {__instance.fullFolderPath}");
+                            }
                         }
                         Context.AssetsHashes[id] = current;
                     }
                 }
                 catch (Exception er)
                 {
-                    Logger.Debug("GAGARIN: Failed in LoadableXmlAsset", exception: er);
                     Context.IsUsingCache = false;
+                    Logger.Debug("GAGARIN: Failed in LoadableXmlAsset", exception: er);
                 }
             }
         }

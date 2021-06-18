@@ -17,12 +17,26 @@ namespace Gagarin
                 if (Directory.Exists(GagarinEnvironmentInfo.CacheFolderPath))
                 {
                     Directory.Delete(GagarinEnvironmentInfo.CacheFolderPath, recursive: true);
-                    if (File.Exists(RocketEnvironmentInfo.DevKeyFilePath))
-                        File.Delete(RocketEnvironmentInfo.DevKeyFilePath);
+
+                    Logger.Debug("GAGARIN: Removed cache to recover from error!");
+                }
+                if (File.Exists(RocketEnvironmentInfo.DevKeyFilePath))
+                {
+                    File.Delete(RocketEnvironmentInfo.DevKeyFilePath);
 
                     Logger.Debug("GAGARIN: Removed dev key to recover from error!");
                 }
                 return !RocketEnvironmentInfo.IsDevEnv;
+            }
+
+            public static void Postfix()
+            {
+                if (RocketEnvironmentInfo.IsDevEnv)
+                {
+                    Logger.Debug("GAGARIN: Restarting!");
+
+                    GenCommandLine.Restart();
+                }
             }
         }
     }

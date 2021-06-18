@@ -30,14 +30,13 @@
 	<ItemGroup>
 		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2905" GeneratePathProperty="true" />
 		<PackageReference Include="Lib.Harmony" Version="2.0.4" ExcludeAssets="runtime" />
+		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
+		<PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="8.0.0" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.NETCore.Platforms" Version="5.0.2" />
 		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.2">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
-		<PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="8.0.0" ExcludeAssets="runtime" />
-		<PackageReference Include="XMLDiffPatch" Version="1.0.8.28" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Core\" />
@@ -74,21 +73,31 @@
 		<None Remove="Core\GUI\Core\" />
 		<None Remove="Core\GUI\Core\Patches\" />
 		<None Remove="Core\GUI\Graphing\" />
+		<None Remove="BCnEncoder" />
+		<None Remove="BCnEncoder.NET.ImageSharp" />
+		<None Remove="SixLabors.ImageSharp" />
+		<None Remove="Microsoft.Toolkit.HighPerformance" />
+		<None Remove="BCnEncoderNet45" />
+		<None Remove="System.Numerics.Vectors" />
+		<None Remove="System.Buffers" />
+		<None Remove="System.Memory" />
+		<None Remove="System.Runtime" />
+		<None Remove="BCnEncoderNet47" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Compile Remove="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
-	  <Compile Remove="Core\Optimizations\Deprecated\GlowGrid_Patch.cs" />
-	  <Compile Remove="Core\GUI\Listings\Listing_Collapsible_temp.cs" />
+		<Compile Remove="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
+		<Compile Remove="Core\Optimizations\Deprecated\GlowGrid_Patch.cs" />
+		<Compile Remove="Core\GUI\Listings\Listing_Collapsible_temp.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\AssemblyInfo.cs">
 			<DependentUpon>AssemblyInfo.tt</DependentUpon>
 		</Compile>
 		<Compile Update="Resources\KeyedResources.cs">
-		  <DependentUpon>KeyedResources.tt</DependentUpon>
+			<DependentUpon>KeyedResources.tt</DependentUpon>
 		</Compile>
 		<Compile Update="Core\Resources\KeyedResources.cs">
-		  <DependentUpon>KeyedResources.tt</DependentUpon>
+			<DependentUpon>KeyedResources.tt</DependentUpon>
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
@@ -109,16 +118,27 @@
 			<LastGenOutput>AssemblyInfo.cs</LastGenOutput>
 		</None>
 		<None Update="Resources\KeyedResources.tt">
-		  <Generator>TextTemplatingFileGenerator</Generator>
-		  <LastGenOutput>KeyedResources.cs</LastGenOutput>
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>KeyedResources.cs</LastGenOutput>
 		</None>
 		<None Update="Core\Resources\KeyedResources.tt">
-		  <Generator>TextTemplatingFileGenerator</Generator>
-		  <LastGenOutput>KeyedResources.cs</LastGenOutput>
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>KeyedResources.cs</LastGenOutput>
 		</None>
 		<None Update="..\..\1.2\Defs\KeyBinding.xml">
-		  <Link>Assets\Defs\\KeyBinding.xml</Link>
+			<Link>Assets\Defs\\KeyBinding.xml</Link>
 		</None>
+		<None Update="..\..\1.2\Assemblies\BCnEncoder.NET.ImageSharp.xml">
+			<Link>Assets\Assemblies\\BCnEncoder.NET.ImageSharp.xml</Link>
+		</None>
+		<None Update="..\..\1.2\Plugins\Experimental\BCnEncoder.NET.ImageSharp.xml">
+			<Link>Assets\Plugins\Experimental\\BCnEncoder.NET.ImageSharp.xml</Link>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="BCnEncoderNet45">
+			<HintPath>..\BCnEncoder\BCnEncoderNet45.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 	<PropertyGroup>
 		<TransformOnBuild>true</TransformOnBuild>

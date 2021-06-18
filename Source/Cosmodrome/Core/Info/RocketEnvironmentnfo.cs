@@ -12,6 +12,8 @@ namespace RocketMan
 
         private const string LogFolderName = "Logs";
 
+        private const string DependenciesSubPath = "1.2/Plugins/Dependencies";
+
         private const string PluginFolderSubPath = "1.2/Plugins/Stable";
 
         private const string ExperimentalPluginFolderSubPath = "1.2/Plugins/Experimental";
@@ -43,6 +45,11 @@ namespace RocketMan
         public static string PluginsFolderPath
         {
             get => Path.Combine(Finder.ModContentPack.RootDir, PluginFolderSubPath);
+        }
+
+        public static string DependenciesFolderPath
+        {
+            get => Path.Combine(Finder.ModContentPack.RootDir, DependenciesSubPath);
         }
 
         public static string ExperimentalPluginsFolderPath

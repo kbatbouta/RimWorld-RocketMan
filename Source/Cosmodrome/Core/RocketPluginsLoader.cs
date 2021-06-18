@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using UnityEngine.Assertions;
 using Verse;
 
@@ -14,7 +15,7 @@ namespace RocketMan
         {
             "Gagarin.dll",
             "Soyuz.dll",
-            "Proton.dll"
+            "Proton.dll",
         };
 
         public RocketPluginsLoader()
@@ -24,16 +25,18 @@ namespace RocketMan
         public IEnumerable<Assembly> LoadAll()
         {
             List<Assembly> assemblies = new List<Assembly>();
+            List<Assembly> dependencies = LoadDirectory(RocketEnvironmentInfo.DependenciesFolderPath).ToList();
+
             if (RocketEnvironmentInfo.IsDevEnv)
             {
                 Log.Message($"ROCKETMAN: Dev enviroment detected! Loading experimental plugins!");
 
                 assemblies.AddRange(
-                    LoadDirectory(RocketEnvironmentInfo.ExperimentalPluginsFolderPath)
+                    LoadDirectory(RocketEnvironmentInfo.ExperimentalPluginsFolderPath).ToList()
                 );
             }
             assemblies.AddRange(
-                LoadDirectory(RocketEnvironmentInfo.PluginsFolderPath)
+                LoadDirectory(RocketEnvironmentInfo.PluginsFolderPath).ToList()
             );
             return assemblies;
         }
@@ -44,26 +47,19 @@ namespace RocketMan
             {
                 string fileName = Path.GetFileName(filePath);
                 string assemblyName = Path.GetFileNameWithoutExtension(filePath);
-                if (!ApprovedAssemblies.Contains(fileName))
-                {
-                    continue;
-                }
+                //if (!ApprovedAssemblies.Contains(fileName) && !RocketAssembliesInfo.ApprovedDependencies.Contains(fileName))
+                //{
+                //    continue;
+                //}
                 Logger.Debug($"ROCKETMAN: Found assembly with name of " +
                     $"<color=red>{assemblyName}</color> and file name of " +
                     $"<color=red>{fileName}</color>");
-                string symbolStorePath = filePath.Substring(0, filePath.Length - 3) + "pdb";
-                //if (RocketEnvironmentInfo.IsDevEnv && File.Exists(symbolStorePath))
-                //{
-                //    yield return LoadAssembly_AssemblyResolve(assemblyName, filePath, symbolStorePath);
-                //}
-                //else
-                {
-                    yield return LoadAssembly_AssemblyResolve(assemblyName, filePath);
-                }
+
+                yield return LoadAssembly(assemblyName, filePath);
             }
         }
 
-        private Assembly LoadAssembly_AssemblyResolve(string assemblyName, string assemblyPath, string symbolsPath = null)
+        private Assembly LoadAssembly(string assemblyName, string assemblyPath, string symbolsPath = null)
         {
             try
             {
@@ -81,18 +77,7 @@ namespace RocketMan
                 assembly = rawSymbolStore != null && RocketEnvironmentInfo.IsDevEnv ?
                                  AppDomain.CurrentDomain.Load(rawAssembly, rawSymbolStore) :
                                  AppDomain.CurrentDomain.Load(rawAssembly);
-                Logger.Debug($"ROCKETMAN: Resolved assembly {assembly?.GetName().FullName} and symbols state is {rawSymbolStore != null && RocketEnvironmentInfo.IsDevEnv}");
-                Logger.Debug($"ROCKETMAN: Create resolve event handler");
-                AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler((sender, args) =>
-                {
-                    Logger.Debug($"ROCKETMAN: Assembly resolve called!", file: "AssemblyResolve.log");
-                    Logger.Debug($"ROCKETMAN: Assembly resolve event. requesting: {args.RequestingAssembly.GetName().FullName }, args:{args.Name}", file: "AssemblyResolve.log");
-                    if (args.Name == assembly.GetName().FullName)
-                    {
-                        return assembly;
-                    }
-                    return null;
-                });
+                Logger.Debug($"ROCKETMAN: Loaded assembly {assembly?.GetName().FullName} and symbols state is {rawSymbolStore != null && RocketEnvironmentInfo.IsDevEnv}");
                 assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName);
                 Logger.Debug($"ROCKETMAN: Assembly is currently [valid={assembly != null }] and Named {assembly.FullName}");
                 if (assembly == null)

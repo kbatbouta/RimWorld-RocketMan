@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using RocketMan;
 using Verse;
 
@@ -17,35 +18,33 @@ namespace Gagarin
 
             public static void Postfix(ModContentPack __instance)
             {
-                if (Context.IsUsingCache)
-                {
-                    //
-                    // __instance.LoadPatches();
-                }
                 Context.CurrentLoadingMod = null;
-            }
-        }
 
-        [GagarinPatch(typeof(ModContentPack), nameof(ModContentPack.LoadPatches))]
-        public class ModContentPack_LoadPatches_Patch
-        {
-            public static bool Prefix(ModContentPack __instance)
+                CheckPatches(__instance);
+            }
+
+            private static void CheckPatches(ModContentPack mod)
             {
-                Context.CurrentLoadingMod = __instance;
                 Context.IsLoadingPatchXML = true;
-                return !Context.IsUsingCache;
-            }
-
-            public static void Postfix(ModContentPack __instance)
-            {
-
-                if (Context.IsUsingCache)
+                Context.CurrentLoadingMod = mod;
+                Exception error = null;
+                try
                 {
-                    //
-                    // __instance.LoadPatches();
+                    DirectXmlLoader.XmlAssetsInModFolder(mod, "Patches/").ToList();
                 }
-                Context.CurrentLoadingMod = null;
-                Context.IsLoadingPatchXML = false;
+                catch (Exception er)
+                {
+                    error = er;
+                }
+                finally
+                {
+                    Context.IsLoadingPatchXML = false;
+                    Context.CurrentLoadingMod = null;
+                }
+                if (error != null)
+                {
+                    throw error;
+                }
             }
         }
     }
