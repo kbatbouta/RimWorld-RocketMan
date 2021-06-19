@@ -21,15 +21,11 @@ namespace Gagarin
         [GagarinPatch(typeof(ModContentLoader<Texture2D>), "LoadTexture", parameters: new Type[] { typeof(VirtualFile) })]
         public static class LoadTexture_Patch
         {
-            [MethodImpl(MethodImplOptions.NoInlining)]
             public static bool Prefix(VirtualFile file, ref Texture2D __result)
             {
-                AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(ResolveHandler);
-
                 return Load(file, ref __result);
             }
 
-            [MethodImpl(MethodImplOptions.NoInlining)]
             private static bool Load(VirtualFile file, ref Texture2D result)
             {
                 if (!file.Exists)
@@ -50,11 +46,11 @@ namespace Gagarin
                     byte[] data = new byte[pixels.Length * 4];
 
                     int k = 0;
-                    for (int i = result.height - 1; i >= 0; i--)
+                    for (int j = 0; j < result.width; j++)
                     {
-                        for (int j = 0; j < result.width; j++)
+                        for (int i = 0; i < result.height; i++)
                         {
-                            Color color = result.GetPixel(j, i);
+                            Color color = result.GetPixel(i, j);
                             data[k] = Convert.ToByte((int)(color.r * 255));
                             data[k + 1] = Convert.ToByte((int)(color.g * 255));
                             data[k + 2] = Convert.ToByte((int)(color.b * 255));
@@ -75,16 +71,6 @@ namespace Gagarin
                     result.Apply(updateMipmaps: true, makeNoLongerReadable: true);
                 }
                 return false;
-            }
-
-            [MethodImpl(MethodImplOptions.NoInlining)]
-            private static Assembly ResolveHandler(object sender, ResolveEventArgs e)
-            {
-                Log.Error($"ROCKETMAN: Trying to resolve {e.Name}");
-
-                Logger.Debug($"ROCKETMAN: Trying to resolve {e.Name}", file: "ResolveHandler.log");
-
-                return null;
             }
 
             private static Texture2D LoadTexture(VirtualFile file)
