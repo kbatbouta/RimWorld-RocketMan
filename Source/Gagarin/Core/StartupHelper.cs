@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using JetBrains.Annotations;
 using RocketMan;
 using Verse;
@@ -37,10 +38,24 @@ namespace Gagarin
             {
                 Directory.CreateDirectory(GagarinEnvironmentInfo.CacheFolderPath);
             }
-
-            Log.Warning("GAGARIN: <color=green>Cache not found!</color>");
-
+            if (!Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
+            {
+                Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
+            }
+            if (!Context.IsUsingCache)
+            {
+                Log.Warning("GAGARIN: <color=green>Cache not found or got purged!</color>");
+            }
             RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
+        }
+
+        private static Assembly ResolveHandler(object sender, ResolveEventArgs e)
+        {
+            Log.Error($"ROCKETMAN: Trying to resolve {e.Name}");
+
+            Logger.Debug($"ROCKETMAN: Trying to resolve {e.Name}", file: "ResolveHandler.log");
+
+            return null;
         }
 
         [Main.OnStaticConstructor]

@@ -25,9 +25,11 @@ namespace Proton
         public override string Label => "Proton.Tab".Translate();
 
         public static readonly Color warningColor = new Color(1f, 0.913f, 0.541f, 0.2f);
+
         public static readonly Color dangerColor = new Color(0.972f, 0.070f, 0.137f, 0.2f);
 
         private string buffer1;
+
         private string buffer2;
 
         private Listing_Collapsible collapsible = new Listing_Collapsible();

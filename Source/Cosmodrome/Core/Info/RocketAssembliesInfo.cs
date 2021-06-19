@@ -11,6 +11,14 @@ namespace RocketMan
 
         private static HashSet<Assembly> assemblies = new HashSet<Assembly>();
 
+        public static readonly string[] ApprovedDependencies = new string[]
+        {
+            "System.Numerics.Vectors.dll",
+            "BCnEncoderNet47.dll",
+            "XmlDiffPatch.dll",
+            "XmlDiffPatch.View.dll",
+        };
+
         public static string Version
         {
             get
