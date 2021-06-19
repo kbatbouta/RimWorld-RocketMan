@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using BCnEncoder.Encoder;
-using BCnEncoder.Shared;
 using HarmonyLib;
+using RimWorld;
 using RimWorld.IO;
-using Unity.Collections;
 using UnityEngine;
 using Verse;
-using Verse.AI;
-using Logger = RocketMan.Logger;
 
 namespace Gagarin
 {
@@ -26,78 +18,66 @@ namespace Gagarin
                 return Load(file, ref __result);
             }
 
+            [HarmonyPriority(Priority.First)]
             private static bool Load(VirtualFile file, ref Texture2D result)
             {
                 if (!file.Exists)
                 {
                     return true;
                 }
-                string ddsPath = GetDDSTexturePath(file);
-                if (File.Exists(ddsPath))
+                string binPath = GetBinTexturePath(file);
+                if (File.Exists(binPath))
                 {
-                    result = LoadDDS(file, ddsPath);
+                    byte[] buffer = File.ReadAllBytes(binPath);
+                    byte[] data = new byte[buffer.Length - (4 + 4 + 4 + 1)];
+                    Array.Copy(buffer, 13, data, 0, data.Length);
+                    // This is the header
+                    // tex.width, tex.height, tex.format, tex.mipmapCount > 1);       
+                    result = new Texture2D(
+                        width: BitConverter.ToInt32(buffer, 0),
+                        height: BitConverter.ToInt32(buffer, 4),
+                        textureFormat: (TextureFormat)BitConverter.ToInt32(buffer, 8),
+                        mipChain: BitConverter.ToBoolean(buffer, 12)
+                    );
+                    result.LoadRawTextureData(data);
+                    result.name = Path.GetFileNameWithoutExtension(file.Name);
+                    result.filterMode = FilterMode.Trilinear;
+                    result.Apply();
                 }
                 else
                 {
                     result = LoadTexture(file);
-                    Color[] pixels = result.GetPixels();
+                    // This is the header
+                    // tex.width, tex.height, tex.format, tex.mipmapCount > 1);                    
+                    byte[] data = result.GetRawTextureData();
+                    byte[] buffer = new byte[data.Length + 4 + 4 + 4 + 1];
+                    BitConverter.GetBytes(result.width).CopyTo(buffer, 0);
+                    BitConverter.GetBytes(result.height).CopyTo(buffer, 4);
+                    BitConverter.GetBytes((int)result.format).CopyTo(buffer, 8);
+                    BitConverter.GetBytes(result.mipmapCount > 1).CopyTo(buffer, 12);
+                    data.CopyTo(buffer, 13);
 
-                    BcEncoder encoder = new BcEncoder();
-                    byte[] data = new byte[pixels.Length * 4];
-
-                    int k = 0;
-                    for (int j = 0; j < result.width; j++)
-                    {
-                        for (int i = 0; i < result.height; i++)
-                        {
-                            Color color = result.GetPixel(i, j);
-                            data[k] = Convert.ToByte((int)(color.r * 255));
-                            data[k + 1] = Convert.ToByte((int)(color.g * 255));
-                            data[k + 2] = Convert.ToByte((int)(color.b * 255));
-                            data[k + 3] = Convert.ToByte((int)(color.a * 255));
-                            k += 4;
-                        }
-                    }
-
-                    encoder.OutputOptions.quality = CompressionQuality.Balanced;
-                    encoder.OutputOptions.format = CompressionFormat.BC3;
-                    encoder.OutputOptions.fileFormat = OutputFileFormat.Dds;
-
-                    using (FileStream fs = File.OpenWrite(ddsPath))
-                    {
-                        encoder.Encode(data, result.width, result.height, fs);
-                    }
-
-                    result.Apply(updateMipmaps: true, makeNoLongerReadable: true);
+                    File.WriteAllBytes(binPath, buffer);
+                    result.Apply(updateMipmaps: false, makeNoLongerReadable: true);
                 }
                 return false;
             }
 
             private static Texture2D LoadTexture(VirtualFile file)
             {
-                Texture2D texture = null;
-
                 byte[] data;
                 data = file.ReadAllBytes();
-                texture = new Texture2D(2, 2, TextureFormat.Alpha8, mipChain: true);
+                Texture2D texture = new Texture2D(2, 2, TextureFormat.Alpha8, mipChain: true);
                 texture.LoadImage(data);
                 texture.Compress(highQuality: true);
                 texture.name = Path.GetFileNameWithoutExtension(file.Name);
                 texture.filterMode = FilterMode.Trilinear;
-                texture.anisoLevel = 8;
+                texture.anisoLevel = 0;
+                texture.Apply(updateMipmaps: true, makeNoLongerReadable: false);
                 return texture;
             }
 
-            private static Texture2D LoadDDS(VirtualFile file, string ddsPath)
-            {
-                Texture2D texture = TextureUtility.Load(ddsPath);
-                texture.name = Path.GetFileNameWithoutExtension(file.Name);
-                texture.filterMode = FilterMode.Trilinear;
-                texture.Apply(true, true);
-                return texture;
-            }
-
-            private static string GetDDSTexturePath(VirtualFile file)
+            private static string GetBinTexturePath(VirtualFile file)
             {
                 string path = Path.Combine(GagarinEnvironmentInfo.TexturesFolderPath, "Texture_" + file.FullPath
                     .Replace('/', '_')
@@ -106,7 +86,7 @@ namespace Gagarin
                     .Replace('#', '_')
                     .Replace('\\', '_')
                     .Replace(':', '_')
-                    .Trim() + ".dds");
+                    .Trim() + ".bin");
                 return path;
             }
         }
