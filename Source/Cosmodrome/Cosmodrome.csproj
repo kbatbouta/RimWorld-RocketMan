@@ -134,6 +134,9 @@
 		<None Update="..\..\1.2\Plugins\Experimental\BCnEncoder.NET.ImageSharp.xml">
 			<Link>Assets\Plugins\Experimental\\BCnEncoder.NET.ImageSharp.xml</Link>
 		</None>
+		<None Update="..\..\1.2\Patches\MothballFix.xml">
+		  <Link>Assets\Patches\\MothballFix.xml</Link>
+		</None>
 	</ItemGroup>
 	<ItemGroup>
 		<Reference Include="BCnEncoderNet45">

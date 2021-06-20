@@ -14,9 +14,9 @@ namespace RocketMan
             bool settingsFound = false;
             try
             {
-                if (File.Exists(RocketEnvironmentInfo.RocketSettingsPath))
+                if (File.Exists(RocketEnvironmentInfo.RocketSettingsFilePath))
                 {
-                    Scribe.loader.InitLoading(RocketEnvironmentInfo.RocketSettingsPath);
+                    Scribe.loader.InitLoading(RocketEnvironmentInfo.RocketSettingsFilePath);
                     try
                     {
                         Scribe_Deep.Look(ref RocketMod.Settings, "ModSettings");
@@ -68,7 +68,7 @@ namespace RocketMan
             {
                 WarmUpMapComponent.current.AbortWarmUp();
             }
-            Scribe.saver.InitSaving(RocketEnvironmentInfo.RocketSettingsPath, "SettingsBlock");
+            Scribe.saver.InitSaving(RocketEnvironmentInfo.RocketSettingsFilePath, "SettingsBlock");
             try
             {
                 Scribe_Deep.Look(ref RocketMod.Settings, "ModSettings");

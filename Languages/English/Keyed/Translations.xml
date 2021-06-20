@@ -98,4 +98,14 @@
 	<Proton.TimeSinceLast>Time since last update</Proton.TimeSinceLast>
 	<!-- Gagarin -->
 	<Gagarin.ParsingReports>RocketMan is checking for any duplicated Bases or Defs</Gagarin.ParsingReports>
+	<Gagarin.Tab>Load time optimization</Gagarin.Tab>
+	<Gagarin.Tip>As long as load time optimization is active it will cache every XML Def. This allows you to skip XML patching. You can disable it from the main menu in RocketMan</Gagarin.Tip>
+	<Gagarin.ClearCache>Clear cache</Gagarin.ClearCache>
+	<Gagarin.ClearCache.Description>Clearing the cache can help resolve XML caching issues incase of a mod update as well as allowing new textures to be cached.\nIt is recommended to clear it every other day.</Gagarin.ClearCache.Description>
+	<Gagarin.EnableTextureCaching>Enable texture caching</Gagarin.EnableTextureCaching>
+	<Gagarin.EnableTextureCaching.Description>Texture caching will speedup your loading time but is not compatible with Graphic setter mod or High Quality texture mod.</Gagarin.EnableTextureCaching.Description>
+	<Gagarin.AdvancedSettings>Advanced settings</Gagarin.AdvancedSettings>
+	<Gagarin.AdvancedSettings.Description>Please only use these if you know what you are doing!</Gagarin.AdvancedSettings.Description>
+	<Gagarin.FilterMode>Filter mode</Gagarin.FilterMode>
+	<Gagarin.MipMapBias>Mip map bias</Gagarin.MipMapBias>
 </LanguageData>

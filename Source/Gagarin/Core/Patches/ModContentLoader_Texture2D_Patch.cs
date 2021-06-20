@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Gagarin.Core;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.IO;
@@ -21,9 +22,17 @@ namespace Gagarin
             [HarmonyPriority(Priority.First)]
             private static bool Load(VirtualFile file, ref Texture2D result, bool fallbackMode = false)
             {
+                if (!GagarinPrefs.TextureCachingEnabled)
+                {
+                    return true;
+                }
                 if (!file.Exists)
                 {
                     return true;
+                }
+                if (TryLoadDDS(file, out result))
+                {
+                    return false;
                 }
                 string binPath = GetBinTexturePath(file);
                 if (File.Exists(binPath) && !fallbackMode)
@@ -44,7 +53,7 @@ namespace Gagarin
                         );
                         result.LoadRawTextureData(data);
                         result.name = Path.GetFileNameWithoutExtension(file.Name);
-                        result.filterMode = FilterMode.Trilinear;
+                        result.filterMode = (FilterMode)GagarinPrefs.FilterMode;
                         result.Apply();
                     }
                     catch (Exception er)
@@ -74,7 +83,7 @@ namespace Gagarin
                         data.CopyTo(buffer, 13);
 
                         File.WriteAllBytes(binPath, buffer);
-                        result.Apply(updateMipmaps: false, makeNoLongerReadable: true);
+                        result.Apply(updateMipmaps: true, makeNoLongerReadable: true);
                     }
                     catch (Exception er)
                     {
@@ -90,13 +99,38 @@ namespace Gagarin
                 byte[] data;
                 data = file.ReadAllBytes();
                 Texture2D texture = new Texture2D(2, 2, TextureFormat.Alpha8, mipChain: true);
+
                 texture.LoadImage(data);
                 texture.Compress(highQuality: true);
                 texture.name = Path.GetFileNameWithoutExtension(file.Name);
-                texture.filterMode = FilterMode.Trilinear;
+                texture.filterMode = (FilterMode)GagarinPrefs.FilterMode;
                 texture.anisoLevel = 0;
-                texture.Apply(updateMipmaps: true, makeNoLongerReadable: false);
+                if (GagarinPrefs.MipMapBias > float.MinValue / 2f)
+                    texture.mipMapBias = GagarinPrefs.MipMapBias;
                 return texture;
+            }
+
+            private static bool TryLoadDDS(VirtualFile file, out Texture2D texture)
+            {
+                texture = null;
+                string ddsPath = Path.ChangeExtension(file.FullPath, ".dds");
+                if (!File.Exists(ddsPath))
+                {
+                    return false;
+                }
+                try
+                {
+                    texture = DDSLoader.Load(ddsPath);
+                    texture.name = Path.GetFileNameWithoutExtension(file.FullPath);
+                    texture.filterMode = (FilterMode)GagarinPrefs.FilterMode;
+                    texture.Apply(true, true);
+                }
+                catch (Exception er)
+                {
+                    RocketMan.Logger.Debug($"GAGARIN: Error loading dds! trying to load png now!", exception: er);
+                    return false;
+                }
+                return true;
             }
 
             private static string GetBinTexturePath(VirtualFile file)

@@ -17,8 +17,10 @@ namespace Gagarin
             Context.Core = LoadedModManager.RunningMods.First(m => m.IsCoreMod);
             Context.IsUsingCache = false;
 
-            Log.Message("GAGARIN: <color=green>StartUpStarted called!</color>");
+            Log.Message("GAGARIN: <color=green>Loading cache settings!</color>");
+            GagarinSettings.LoadSettings();
 
+            Log.Message("GAGARIN: <color=green>StartUpStarted called!</color>");
             if (GagarinEnvironmentInfo.CacheExists)
             {
                 Log.Warning("GAGARIN: <color=green>Cache found</color>");

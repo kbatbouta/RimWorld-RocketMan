@@ -19,6 +19,8 @@ namespace Gagarin
 
         public static ModContentPack Core;
 
+        public static GagarinSettings Settings;
+
         public static Dictionary<XmlNode, LoadableXmlAsset> DefsXmlAssets = new Dictionary<XmlNode, LoadableXmlAsset>();
 
         public static Dictionary<string, LoadableXmlAsset> XmlAssets = new Dictionary<string, LoadableXmlAsset>();
