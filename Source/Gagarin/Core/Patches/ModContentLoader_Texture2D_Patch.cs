@@ -14,12 +14,12 @@ namespace Gagarin
         [GagarinPatch(typeof(ModContentLoader<Texture2D>), "LoadTexture", parameters: new Type[] { typeof(VirtualFile) })]
         public static class LoadTexture_Patch
         {
+            [HarmonyPriority(int.MaxValue)]
             public static bool Prefix(VirtualFile file, ref Texture2D __result)
             {
                 return Load(file, ref __result);
             }
 
-            [HarmonyPriority(Priority.First)]
             private static bool Load(VirtualFile file, ref Texture2D result, bool fallbackMode = false)
             {
                 if (!GagarinPrefs.TextureCachingEnabled)
@@ -122,6 +122,8 @@ namespace Gagarin
                     texture = DDSLoader.Load(ddsPath);
                     texture.name = Path.GetFileNameWithoutExtension(file.FullPath);
                     texture.filterMode = (FilterMode)GagarinPrefs.FilterMode;
+                    texture.anisoLevel = 0;
+                    texture.mipMapBias = GagarinPrefs.MipMapBias < float.MinValue / 2f ? (-0.7f) : GagarinPrefs.MipMapBias;
                     texture.Apply(true, true);
                 }
                 catch (Exception er)
