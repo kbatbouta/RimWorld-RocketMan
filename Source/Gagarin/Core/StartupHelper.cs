@@ -25,7 +25,6 @@ namespace Gagarin
             {
                 Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
             }
-
             Log.Message("GAGARIN: <color=green>StartUpStarted called!</color>");
             if (GagarinEnvironmentInfo.CacheExists)
             {
@@ -35,11 +34,9 @@ namespace Gagarin
 
                 if (GagarinEnvironmentInfo.ModListChanged)
                 {
-                    Log.Warning("GAGARIN: Mod list changed! Deleting cache");
-
-                    if (File.Exists(GagarinEnvironmentInfo.ModListFilePath))
-                        File.Delete(GagarinEnvironmentInfo.ModListFilePath);
                     Context.IsUsingCache = false;
+
+                    Log.Warning("GAGARIN: Mod list changed! Deleting cache");
                 }
             }
             if (!Context.IsUsingCache)
@@ -49,7 +46,19 @@ namespace Gagarin
             Log.Message("GAGARIN: <color=green>Loading cache settings!</color>");
 
             GagarinSettings.LoadSettings();
-            RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
+            if (DateTime.Now.Subtract(GagarinPrefs.CacheCreationTime).Days >= 3)
+            {
+                Context.IsUsingCache = false;
+            }
+            if (GagarinPrefs.Enabled)
+            {
+                GagarinPatcher.PatchAll();
+                RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
+            }
+            else
+            {
+                Log.Message("GAGARIN: <color=red>Gagarin is disabled!</color>");
+            }
         }
 
         private static Assembly ResolveHandler(object sender, ResolveEventArgs e)

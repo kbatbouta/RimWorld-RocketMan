@@ -273,6 +273,26 @@ namespace RocketMan
                    _RocketMan_Experimental : _RocketMan_Experimental = "RocketMan.Experimental".Translate();
         }             
                            
+        private static TaggedString _RocketMan_Experimental_Description = null;
+        /// <summary> Keyed string with key <c>RocketMan.Experimental.Description</c> with inner text set to:
+        ///
+        /// <code>Here you can opt in RocketMan Beta features.\nWarning: do not do this if you don't know what you're doing.</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Experimental_Description {
+            get => _RocketMan_Experimental_Description != null ? 
+                   _RocketMan_Experimental_Description : _RocketMan_Experimental_Description = "RocketMan.Experimental.Description".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_Experimental_OptInBeta = null;
+        /// <summary> Keyed string with key <c>RocketMan.Experimental.OptInBeta</c> with inner text set to:
+        ///
+        /// <code>Opt in RocketMan beta features</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Experimental_OptInBeta {
+            get => _RocketMan_Experimental_OptInBeta != null ? 
+                   _RocketMan_Experimental_OptInBeta : _RocketMan_Experimental_OptInBeta = "RocketMan.Experimental.OptInBeta".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_EnableGagarin = null;
         /// <summary> Keyed string with key <c>RocketMan.EnableGagarin</c> with inner text set to:
         ///
@@ -951,6 +971,16 @@ namespace RocketMan
         public static TaggedString Gagarin_Tab {
             get => _Gagarin_Tab != null ? 
                    _Gagarin_Tab : _Gagarin_Tab = "Gagarin.Tab".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_Expiry = null;
+        /// <summary> Keyed string with key <c>Gagarin.Expiry</c> with inner text set to:
+        ///
+        /// <code>Gagarin cache will expire in: {0} days</code>
+        /// </summary>       
+        public static TaggedString Gagarin_Expiry {
+            get => _Gagarin_Expiry != null ? 
+                   _Gagarin_Expiry : _Gagarin_Expiry = "Gagarin.Expiry".Translate();
         }             
                            
         private static TaggedString _Gagarin_Tip = null;

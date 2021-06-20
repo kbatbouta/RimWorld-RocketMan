@@ -28,6 +28,8 @@
 	<RocketMan.Enable>Enable</RocketMan.Enable>
 	<RocketMan.TranslationCaching>Enalbe text size caching</RocketMan.TranslationCaching>
 	<RocketMan.Experimental>Experimental features</RocketMan.Experimental>
+	<RocketMan.Experimental.Description>Here you can opt in RocketMan Beta features.\nWarning: do not do this if you don't know what you're doing.</RocketMan.Experimental.Description>
+	<RocketMan.Experimental.OptInBeta>Opt in RocketMan beta features</RocketMan.Experimental.OptInBeta>
 	<RocketMan.EnableGagarin>Enable load time reduction (Faster loading times)</RocketMan.EnableGagarin>
 	<RocketMan.EnableGagarin.Tip>RocketMan will attempt to reduce your loading time by caching Xml patch operations. After you active this settings restart your game twice inorder to RocketMan to create the cache. Depending on how many mods you use and what mods you could see upto 2x faster loading time. This is recommended to be used with Xml patch heavy mods such as Combat Extended or Doc universal.</RocketMan.EnableGagarin.Tip>
 	<RocketMan.ShowIcon>Show RocketMan button/icon</RocketMan.ShowIcon>
@@ -99,6 +101,7 @@
 	<!-- Gagarin -->
 	<Gagarin.ParsingReports>RocketMan is checking for any duplicated Bases or Defs</Gagarin.ParsingReports>
 	<Gagarin.Tab>Load time optimization</Gagarin.Tab>
+	<Gagarin.Expiry>Gagarin cache will expire in: {0} days</Gagarin.Expiry>
 	<Gagarin.Tip>As long as load time optimization is active it will cache every XML Def. This allows you to skip XML patching. You can disable it from the main menu in RocketMan</Gagarin.Tip>
 	<Gagarin.ClearCache>Clear cache</Gagarin.ClearCache>
 	<Gagarin.ClearCache.Description>Clearing the cache can help resolve XML caching issues incase of a mod update as well as allowing new textures to be cached.\nIt is recommended to clear it every other day.</Gagarin.ClearCache.Description>

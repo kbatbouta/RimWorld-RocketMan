@@ -45,8 +45,6 @@ namespace Soyuz
                         return true;
                     if (jobDef == JobDefOf.GotoWander)
                         return true;
-                    if (jobDef == JobDefOf.SocialRelax)
-                        return true;
                     if (jobDef == JobDefOf.LayDown)
                         return true;
                     if (jobDef == JobDefOf.Follow)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using RocketMan;
 using Verse;
@@ -7,15 +8,33 @@ namespace Gagarin
 {
     public class GagarinSettings : IExposable
     {
+        private const string FMT = "yyyy-MM-dd HH:mm:ss.fffffff";
+
+        private string creationDateInt = null;
+
         public GagarinSettings()
         {
         }
 
         public void ExposeData()
         {
+            Scribe_Values.Look(ref GagarinPrefs.Enabled, "Enabled", false);
             Scribe_Values.Look(ref GagarinPrefs.TextureCachingEnabled, "TextureCachingEnabled", false);
             Scribe_Values.Look(ref GagarinPrefs.FilterMode, "FilterMode", (int)UnityEngine.FilterMode.Trilinear);
             Scribe_Values.Look(ref GagarinPrefs.MipMapBias, "MipMapBias", float.MinValue);
+
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                this.creationDateInt = GagarinPrefs.CacheCreationTime.ToString(FMT);
+            }
+            Scribe_Values.Look(ref this.creationDateInt, "creationTime", DateTime.Now.ToString(FMT));
+
+            if (Scribe.mode != LoadSaveMode.Saving)
+            {
+                this.creationDateInt = creationDateInt ?? DateTime.Now.ToString(FMT);
+
+                GagarinPrefs.CacheCreationTime = DateTime.ParseExact(this.creationDateInt, FMT, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
+            }
         }
 
         public static void LoadSettings()
