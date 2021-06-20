@@ -41,15 +41,15 @@ namespace Soyuz
                     default:
                         return 1;
                     case CameraZoomRange.Closest:
-                        return 19;
+                        return 15;
                     case CameraZoomRange.Close:
-                        return 17;
+                        return 15;
                     case CameraZoomRange.Middle:
-                        return 15;
+                        return 19;
                     case CameraZoomRange.Far:
-                        return 15;
+                        return 20;
                     case CameraZoomRange.Furthest:
-                        return 7;
+                        return 21;
                 }
             }
         }
@@ -226,16 +226,16 @@ namespace Soyuz
                 || (pawn.thingIDNumber + tick) % 30 == 0
                 || (tick % 250 == 0)
                 || (pawn.jobs?.curJob != null && pawn.jobs?.curJob?.expiryInterval > 0 &&
-                (tick - pawn.jobs.curJob.startTick) % (pawn.jobs.curJob.expiryInterval * 2) == 0))
+                (tick - pawn.jobs.curJob.startTick) % (pawn.jobs.curJob.expiryInterval) == 0))
                 return true;
             if (Context.DilationFastMovingRace[pawn.def.index])
                 return (pawn.thingIDNumber + tick) % 2 == 0;
-            if (pawn.OffScreen())
+            if (pawn.OffScreen() == true)
                 return (pawn.thingIDNumber + tick) % DilationRate == 0;
             if (Context.ZoomRange == CameraZoomRange.Far || Context.ZoomRange == CameraZoomRange.Furthest)
-                return (pawn.thingIDNumber + tick) % 4 == 0;
+                return (pawn.thingIDNumber + tick) % 3 == 0;
             if (Context.ZoomRange == CameraZoomRange.Middle)
-                return (pawn.thingIDNumber + tick) % 2 == 0;
+                return (pawn.thingIDNumber + tick) % 4 == 0;
             return true;
         }
 

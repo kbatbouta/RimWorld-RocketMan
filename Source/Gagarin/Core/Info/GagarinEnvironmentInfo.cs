@@ -24,12 +24,21 @@ namespace Gagarin
 
         private const string HashFileName = "AssetsHash.xml";
 
+        private const string GagarinSettingsFileName = "GagarinSettings.xml";
+
 
         private static string _cacheFolderPath;
 
         public static string CacheFolderPath
         {
             get => _cacheFolderPath ?? (_cacheFolderPath = Path.Combine(RocketEnvironmentInfo.CustomConfigFolderPath, CacheFolderName));
+        }
+
+        private static string _gagarinSettingsPath;
+
+        public static string GagarinSettingsFilePath
+        {
+            get => _gagarinSettingsPath ?? (_gagarinSettingsPath = Path.Combine(CacheFolderPath, GagarinSettingsFileName));
         }
 
         private static string _texturesFolderPath;

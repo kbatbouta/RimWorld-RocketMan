@@ -48,7 +48,6 @@ namespace Gagarin
 
         public readonly static Harmony harmony = new Harmony(Finder.HarmonyID + ".Gagarin");
 
-        [Main.OnInitialization]
         public static void PatchAll()
         {
             IEnumerable<Type> types = GetPatchTypes();

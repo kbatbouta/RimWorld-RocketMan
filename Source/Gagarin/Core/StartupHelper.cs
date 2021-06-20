@@ -17,8 +17,15 @@ namespace Gagarin
             Context.Core = LoadedModManager.RunningMods.First(m => m.IsCoreMod);
             Context.IsUsingCache = false;
 
+            if (!Directory.Exists(GagarinEnvironmentInfo.CacheFolderPath))
+            {
+                Directory.CreateDirectory(GagarinEnvironmentInfo.CacheFolderPath);
+            }
+            if (!Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
+            {
+                Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
+            }
             Log.Message("GAGARIN: <color=green>StartUpStarted called!</color>");
-
             if (GagarinEnvironmentInfo.CacheExists)
             {
                 Log.Warning("GAGARIN: <color=green>Cache found</color>");
@@ -27,26 +34,31 @@ namespace Gagarin
 
                 if (GagarinEnvironmentInfo.ModListChanged)
                 {
-                    Log.Warning("GAGARIN: Mod list changed! Deleting cache");
-
-                    if (File.Exists(GagarinEnvironmentInfo.ModListFilePath))
-                        File.Delete(GagarinEnvironmentInfo.ModListFilePath);
                     Context.IsUsingCache = false;
+
+                    Log.Warning("GAGARIN: Mod list changed! Deleting cache");
                 }
-            }
-            else if (!Directory.Exists(GagarinEnvironmentInfo.CacheFolderPath))
-            {
-                Directory.CreateDirectory(GagarinEnvironmentInfo.CacheFolderPath);
-            }
-            if (!Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
-            {
-                Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
             }
             if (!Context.IsUsingCache)
             {
                 Log.Warning("GAGARIN: <color=green>Cache not found or got purged!</color>");
             }
-            RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
+            Log.Message("GAGARIN: <color=green>Loading cache settings!</color>");
+
+            GagarinSettings.LoadSettings();
+            if (DateTime.Now.Subtract(GagarinPrefs.CacheCreationTime).Days >= 3)
+            {
+                Context.IsUsingCache = false;
+            }
+            if (GagarinPrefs.Enabled)
+            {
+                GagarinPatcher.PatchAll();
+                RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
+            }
+            else
+            {
+                Log.Message("GAGARIN: <color=red>Gagarin is disabled!</color>");
+            }
         }
 
         private static Assembly ResolveHandler(object sender, ResolveEventArgs e)

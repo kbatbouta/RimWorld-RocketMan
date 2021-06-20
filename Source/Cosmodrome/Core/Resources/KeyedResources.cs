@@ -273,6 +273,26 @@ namespace RocketMan
                    _RocketMan_Experimental : _RocketMan_Experimental = "RocketMan.Experimental".Translate();
         }             
                            
+        private static TaggedString _RocketMan_Experimental_Description = null;
+        /// <summary> Keyed string with key <c>RocketMan.Experimental.Description</c> with inner text set to:
+        ///
+        /// <code>Here you can opt in RocketMan Beta features.\nWarning: do not do this if you don't know what you're doing.</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Experimental_Description {
+            get => _RocketMan_Experimental_Description != null ? 
+                   _RocketMan_Experimental_Description : _RocketMan_Experimental_Description = "RocketMan.Experimental.Description".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_Experimental_OptInBeta = null;
+        /// <summary> Keyed string with key <c>RocketMan.Experimental.OptInBeta</c> with inner text set to:
+        ///
+        /// <code>Opt in RocketMan beta features</code>
+        /// </summary>       
+        public static TaggedString RocketMan_Experimental_OptInBeta {
+            get => _RocketMan_Experimental_OptInBeta != null ? 
+                   _RocketMan_Experimental_OptInBeta : _RocketMan_Experimental_OptInBeta = "RocketMan.Experimental.OptInBeta".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_EnableGagarin = null;
         /// <summary> Keyed string with key <c>RocketMan.EnableGagarin</c> with inner text set to:
         ///
@@ -941,6 +961,116 @@ namespace RocketMan
         public static TaggedString Gagarin_ParsingReports {
             get => _Gagarin_ParsingReports != null ? 
                    _Gagarin_ParsingReports : _Gagarin_ParsingReports = "Gagarin.ParsingReports".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_Tab = null;
+        /// <summary> Keyed string with key <c>Gagarin.Tab</c> with inner text set to:
+        ///
+        /// <code>Load time optimization</code>
+        /// </summary>       
+        public static TaggedString Gagarin_Tab {
+            get => _Gagarin_Tab != null ? 
+                   _Gagarin_Tab : _Gagarin_Tab = "Gagarin.Tab".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_Expiry = null;
+        /// <summary> Keyed string with key <c>Gagarin.Expiry</c> with inner text set to:
+        ///
+        /// <code>Gagarin cache will expire in: {0} days</code>
+        /// </summary>       
+        public static TaggedString Gagarin_Expiry {
+            get => _Gagarin_Expiry != null ? 
+                   _Gagarin_Expiry : _Gagarin_Expiry = "Gagarin.Expiry".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_Tip = null;
+        /// <summary> Keyed string with key <c>Gagarin.Tip</c> with inner text set to:
+        ///
+        /// <code>As long as load time optimization is active it will cache every XML Def. This allows you to skip XML patching. You can disable it from the main menu in RocketMan</code>
+        /// </summary>       
+        public static TaggedString Gagarin_Tip {
+            get => _Gagarin_Tip != null ? 
+                   _Gagarin_Tip : _Gagarin_Tip = "Gagarin.Tip".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_ClearCache = null;
+        /// <summary> Keyed string with key <c>Gagarin.ClearCache</c> with inner text set to:
+        ///
+        /// <code>Clear cache</code>
+        /// </summary>       
+        public static TaggedString Gagarin_ClearCache {
+            get => _Gagarin_ClearCache != null ? 
+                   _Gagarin_ClearCache : _Gagarin_ClearCache = "Gagarin.ClearCache".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_ClearCache_Description = null;
+        /// <summary> Keyed string with key <c>Gagarin.ClearCache.Description</c> with inner text set to:
+        ///
+        /// <code>Clearing the cache can help resolve XML caching issues incase of a mod update as well as allowing new textures to be cached.\nIt is recommended to clear it every other day.</code>
+        /// </summary>       
+        public static TaggedString Gagarin_ClearCache_Description {
+            get => _Gagarin_ClearCache_Description != null ? 
+                   _Gagarin_ClearCache_Description : _Gagarin_ClearCache_Description = "Gagarin.ClearCache.Description".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_EnableTextureCaching = null;
+        /// <summary> Keyed string with key <c>Gagarin.EnableTextureCaching</c> with inner text set to:
+        ///
+        /// <code>Enable texture caching</code>
+        /// </summary>       
+        public static TaggedString Gagarin_EnableTextureCaching {
+            get => _Gagarin_EnableTextureCaching != null ? 
+                   _Gagarin_EnableTextureCaching : _Gagarin_EnableTextureCaching = "Gagarin.EnableTextureCaching".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_EnableTextureCaching_Description = null;
+        /// <summary> Keyed string with key <c>Gagarin.EnableTextureCaching.Description</c> with inner text set to:
+        ///
+        /// <code>Texture caching will speedup your loading time but is not compatible with Graphic setter mod or High Quality texture mod.</code>
+        /// </summary>       
+        public static TaggedString Gagarin_EnableTextureCaching_Description {
+            get => _Gagarin_EnableTextureCaching_Description != null ? 
+                   _Gagarin_EnableTextureCaching_Description : _Gagarin_EnableTextureCaching_Description = "Gagarin.EnableTextureCaching.Description".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_AdvancedSettings = null;
+        /// <summary> Keyed string with key <c>Gagarin.AdvancedSettings</c> with inner text set to:
+        ///
+        /// <code>Advanced settings</code>
+        /// </summary>       
+        public static TaggedString Gagarin_AdvancedSettings {
+            get => _Gagarin_AdvancedSettings != null ? 
+                   _Gagarin_AdvancedSettings : _Gagarin_AdvancedSettings = "Gagarin.AdvancedSettings".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_AdvancedSettings_Description = null;
+        /// <summary> Keyed string with key <c>Gagarin.AdvancedSettings.Description</c> with inner text set to:
+        ///
+        /// <code>Please only use these if you know what you are doing!</code>
+        /// </summary>       
+        public static TaggedString Gagarin_AdvancedSettings_Description {
+            get => _Gagarin_AdvancedSettings_Description != null ? 
+                   _Gagarin_AdvancedSettings_Description : _Gagarin_AdvancedSettings_Description = "Gagarin.AdvancedSettings.Description".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_FilterMode = null;
+        /// <summary> Keyed string with key <c>Gagarin.FilterMode</c> with inner text set to:
+        ///
+        /// <code>Filter mode</code>
+        /// </summary>       
+        public static TaggedString Gagarin_FilterMode {
+            get => _Gagarin_FilterMode != null ? 
+                   _Gagarin_FilterMode : _Gagarin_FilterMode = "Gagarin.FilterMode".Translate();
+        }             
+                           
+        private static TaggedString _Gagarin_MipMapBias = null;
+        /// <summary> Keyed string with key <c>Gagarin.MipMapBias</c> with inner text set to:
+        ///
+        /// <code>Mip map bias</code>
+        /// </summary>       
+        public static TaggedString Gagarin_MipMapBias {
+            get => _Gagarin_MipMapBias != null ? 
+                   _Gagarin_MipMapBias : _Gagarin_MipMapBias = "Gagarin.MipMapBias".Translate();
         }             
     }
 }

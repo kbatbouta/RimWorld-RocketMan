@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using BCnEncoder.Encoder;
-using BCnEncoder.Shared;
+using System.Linq;
+using Gagarin.Core;
 using HarmonyLib;
+using RimWorld;
 using RimWorld.IO;
-using Unity.Collections;
 using UnityEngine;
 using Verse;
-using Verse.AI;
-using Logger = RocketMan.Logger;
 
 namespace Gagarin
 {
@@ -21,93 +15,171 @@ namespace Gagarin
         [GagarinPatch(typeof(ModContentLoader<Texture2D>), "LoadTexture", parameters: new Type[] { typeof(VirtualFile) })]
         public static class LoadTexture_Patch
         {
+            [HarmonyPriority(int.MaxValue)]
             public static bool Prefix(VirtualFile file, ref Texture2D __result)
             {
                 return Load(file, ref __result);
             }
 
-            private static bool Load(VirtualFile file, ref Texture2D result)
+            private static bool Load(VirtualFile file, ref Texture2D result, bool fallbackMode = false)
             {
+                if (!GagarinPrefs.TextureCachingEnabled)
+                {
+                    return true;
+                }
                 if (!file.Exists)
                 {
                     return true;
                 }
-                string ddsPath = GetDDSTexturePath(file);
-                if (File.Exists(ddsPath))
+                if (TryLoadDDS(file, out result))
                 {
-                    result = LoadDDS(file, ddsPath);
+                    return false;
+                }
+                if (!Directory.Exists(GagarinEnvironmentInfo.CacheFolderPath))
+                {
+                    Directory.CreateDirectory(GagarinEnvironmentInfo.CacheFolderPath);
+                }
+                if (!Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
+                {
+                    Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
+                }
+                string binPath = GetBinTexturePath(file);
+                if (File.Exists(binPath) && !fallbackMode)
+                {
+                    try
+                    {
+                        byte[] buffer = File.ReadAllBytes(binPath);
+                        byte[] data = new byte[buffer.Length - (4 + 4 + 4 + 1)];
+                        Array.Copy(buffer, 13, data, 0, data.Length);
+
+                        // This is the header
+                        // tex.width, tex.height, tex.format, tex.mipmapCount > 1);       
+                        result = new Texture2D(
+                            width: BitConverter.ToInt32(buffer, 0),
+                            height: BitConverter.ToInt32(buffer, 4),
+                            textureFormat: (TextureFormat)BitConverter.ToInt32(buffer, 8),
+                            mipChain: BitConverter.ToBoolean(buffer, 12)
+                        );
+                        result.LoadRawTextureData(data);
+                        result.name = Path.GetFileNameWithoutExtension(file.Name);
+                        result.filterMode = (FilterMode)GagarinPrefs.FilterMode;
+                        result.Apply();
+                    }
+                    catch (Exception er)
+                    {
+                        RocketMan.Logger.Debug($"GAGARIN: Error loading texture! using fallback mode!", exception: er);
+                        if (File.Exists(binPath))
+                        {
+                            File.Delete(binPath);
+                        }
+                        return Load(file, ref result, fallbackMode: true);
+                    }
                 }
                 else
                 {
-                    result = LoadTexture(file);
-                    Color[] pixels = result.GetPixels();
-
-                    BcEncoder encoder = new BcEncoder();
-                    byte[] data = new byte[pixels.Length * 4];
-
-                    int k = 0;
-                    for (int j = 0; j < result.width; j++)
+                    try
                     {
-                        for (int i = 0; i < result.height; i++)
-                        {
-                            Color color = result.GetPixel(i, j);
-                            data[k] = Convert.ToByte((int)(color.r * 255));
-                            data[k + 1] = Convert.ToByte((int)(color.g * 255));
-                            data[k + 2] = Convert.ToByte((int)(color.b * 255));
-                            data[k + 3] = Convert.ToByte((int)(color.a * 255));
-                            k += 4;
-                        }
+                        result = LoadTexture(file);
+
+                        // This is the header
+                        // tex.width, tex.height, tex.format, tex.mipmapCount > 1);                    
+                        byte[] data = result.GetRawTextureData();
+                        byte[] buffer = new byte[data.Length + 4 + 4 + 4 + 1];
+                        BitConverter.GetBytes(result.width).CopyTo(buffer, 0);
+                        BitConverter.GetBytes(result.height).CopyTo(buffer, 4);
+                        BitConverter.GetBytes((int)result.format).CopyTo(buffer, 8);
+                        BitConverter.GetBytes(result.mipmapCount > 1).CopyTo(buffer, 12);
+                        data.CopyTo(buffer, 13);
+
+                        File.WriteAllBytes(binPath, buffer);
                     }
-
-                    encoder.OutputOptions.quality = CompressionQuality.Balanced;
-                    encoder.OutputOptions.format = CompressionFormat.BC3;
-                    encoder.OutputOptions.fileFormat = OutputFileFormat.Dds;
-
-                    using (FileStream fs = File.OpenWrite(ddsPath))
+                    catch (Exception er)
                     {
-                        encoder.Encode(data, result.width, result.height, fs);
+                        RocketMan.Logger.Debug($"GAGARIN: Error creating texture cache! skipping this one!", exception: er);
+                        return true;
                     }
-
-                    result.Apply(updateMipmaps: true, makeNoLongerReadable: true);
                 }
                 return false;
             }
 
             private static Texture2D LoadTexture(VirtualFile file)
             {
-                Texture2D texture = null;
-
                 byte[] data;
                 data = file.ReadAllBytes();
-                texture = new Texture2D(2, 2, TextureFormat.Alpha8, mipChain: true);
+                Texture2D texture = new Texture2D(2, 2, TextureFormat.Alpha8, mipChain: true);
+
                 texture.LoadImage(data);
                 texture.Compress(highQuality: true);
                 texture.name = Path.GetFileNameWithoutExtension(file.Name);
-                texture.filterMode = FilterMode.Trilinear;
-                texture.anisoLevel = 8;
+                texture.filterMode = (FilterMode)GagarinPrefs.FilterMode;
+                texture.anisoLevel = 0;
+                texture.mipMapBias = GagarinPrefs.MipMapBias < float.MinValue / 2f ? (-0.7f) : GagarinPrefs.MipMapBias;
+                texture.Apply(updateMipmaps: true, makeNoLongerReadable: false);
                 return texture;
             }
 
-            private static Texture2D LoadDDS(VirtualFile file, string ddsPath)
+            private static bool TryLoadDDS(VirtualFile file, out Texture2D texture)
             {
-                Texture2D texture = TextureUtility.Load(ddsPath);
-                texture.name = Path.GetFileNameWithoutExtension(file.Name);
-                texture.filterMode = FilterMode.Trilinear;
-                texture.Apply(true, true);
-                return texture;
+                texture = null;
+                string ddsPath = Path.ChangeExtension(file.FullPath, ".dds");
+                if (!File.Exists(ddsPath))
+                {
+                    return false;
+                }
+                try
+                {
+                    texture = DDSLoader.Load(ddsPath);
+                    texture.name = Path.GetFileNameWithoutExtension(file.FullPath);
+                    texture.filterMode = (FilterMode)GagarinPrefs.FilterMode;
+                    texture.anisoLevel = 0;
+                    texture.mipMapBias = GagarinPrefs.MipMapBias < float.MinValue / 2f ? (-0.7f) : GagarinPrefs.MipMapBias;
+                    texture.Apply(true, true);
+                }
+                catch (Exception er)
+                {
+                    RocketMan.Logger.Debug($"GAGARIN: Error loading dds! trying to load png now!", exception: er);
+                    return false;
+                }
+                return true;
             }
 
-            private static string GetDDSTexturePath(VirtualFile file)
+            private const string textures = "Textures";
+
+            private static readonly char[] invalids = Path.GetInvalidFileNameChars();
+
+            private static string GetBinTexturePath(VirtualFile file)
             {
-                string path = Path.Combine(GagarinEnvironmentInfo.TexturesFolderPath, "Texture_" + file.FullPath
-                    .Replace('/', '_')
-                    .Replace(' ', '_')
-                    .Replace('$', '_')
-                    .Replace('#', '_')
-                    .Replace('\\', '_')
-                    .Replace(':', '_')
-                    .Trim() + ".dds");
-                return path;
+                bool started = false;
+                string original = GenFile.SanitizedFileName("Texture_" + file.FullPath.Trim().Replace('-', '_')) + ".bin";
+                string bin = "";
+                int j;
+                int i;
+                for (i = 0; i < original.Length; i++)
+                {
+                    if (!started)
+                    {
+                        j = 0;
+                        while (j < textures.Length && i < original.Length && original[i] == textures[j])
+                        {
+                            j++;
+                            i++;
+                        }
+                        if (j == textures.Length)
+                        {
+                            started = true;
+                            i--;
+                        }
+                    }
+                    else if (!invalids.Contains(original[i]))
+                    {
+                        bin += original[i];
+                    }
+                }
+                if (!started)
+                {
+                    bin = String.Join("", original.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).Trim();
+                }
+                return Path.Combine(GagarinEnvironmentInfo.TexturesFolderPath, bin);
             }
         }
     }

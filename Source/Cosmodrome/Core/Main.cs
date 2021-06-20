@@ -105,7 +105,7 @@ namespace RocketMan
             // Used to tell other parts that defs are ready
             RocketStates.DefsLoaded = true;
             // Loading Settings
-            Log.Message($"ROCKETMAN: RocketMan settings are stored in <color=red>{RocketEnvironmentInfo.RocketSettingsPath}</color>");
+            Log.Message($"ROCKETMAN: RocketMan settings are stored in <color=red>{RocketEnvironmentInfo.RocketSettingsFilePath}</color>");
             RocketMod.Instance.LoadSettings();
             // Reload action            
             Log.Message("ROCKETMAN: Defs loaded!");

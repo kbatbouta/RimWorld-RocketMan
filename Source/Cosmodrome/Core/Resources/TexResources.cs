@@ -19,5 +19,7 @@ namespace RocketMan
         public static readonly Texture2D World = ContentFinder<Texture2D>.Get("RocketMan/UI/world_icon", true);
 
         public static readonly Texture2D Graphing = ContentFinder<Texture2D>.Get("RocketMan/UI/graph_icon", true);
+
+        public static readonly Texture2D Gagarin = ContentFinder<Texture2D>.Get("RocketMan/UI/gagarin_gear", true);
     }
 }

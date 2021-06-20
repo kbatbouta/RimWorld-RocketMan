@@ -74,7 +74,12 @@ namespace Soyuz.Patches
 
         private static Exception Finalizer(Exception __exception)
         {
-            if (__exception != null) ContextualExtensions.Reset();
+            if (__exception != null)
+            {
+                ContextualExtensions.Reset();
+
+                Logger.Debug("SOYUZ:[NOTSOYUZ] Soyuz caught an error while a pawn is ticking. Soyuz probably didn't cause it since this is just used to catch the exception and reset the state. Unless Soyuz is in the StackTrace it's not it.", exception: __exception);
+            }
             return __exception;
         }
 

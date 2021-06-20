@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using Verse;
 
@@ -7,17 +8,63 @@ namespace Gagarin
 {
     public static class Context
     {
-        public static bool IsUsingCache = false;
+        private static bool _isUsingCache = false;
 
-        public static bool IsLoadingModXML = false;
+        public static bool IsUsingCache
+        {
+            get => _isUsingCache;
+            set
+            {
+                if (!value && value != _isUsingCache)
+                {
+                    if (File.Exists(GagarinEnvironmentInfo.ModListFilePath))
+                        File.Delete(GagarinEnvironmentInfo.ModListFilePath);
+                    if (File.Exists(GagarinEnvironmentInfo.UnifiedXmlFilePath))
+                        File.Delete(GagarinEnvironmentInfo.UnifiedXmlFilePath);
+                    if (Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
+                        Directory.Delete(GagarinEnvironmentInfo.TexturesFolderPath, recursive: true);
+                }
+                _isUsingCache = value;
+            }
+        }
 
-        public static bool IsLoadingPatchXML = false;
+        private static bool _isLoadingModXML = false;
+
+        public static bool IsLoadingModXML
+        {
+            get => _isLoadingModXML;
+            set
+            {
+                if (!value && value != _isLoadingModXML)
+                {
+                    CurrentLoadingMod = null;
+                }
+                _isLoadingModXML = value;
+            }
+        }
+
+        private static bool _isLoadingPatchXML = false;
+
+        public static bool IsLoadingPatchXML
+        {
+            get => _isLoadingPatchXML;
+            set
+            {
+                if (!value && value != _isLoadingPatchXML)
+                {
+                    CurrentLoadingMod = null;
+                }
+                _isLoadingPatchXML = value;
+            }
+        }
 
         public static bool IsRecovering = false;
 
         public static bool LoadingFinished = false;
 
         public static ModContentPack Core;
+
+        public static GagarinSettings Settings;
 
         public static Dictionary<XmlNode, LoadableXmlAsset> DefsXmlAssets = new Dictionary<XmlNode, LoadableXmlAsset>();
 

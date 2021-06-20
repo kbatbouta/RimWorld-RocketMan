@@ -1,12 +1,16 @@
-﻿using System;
+﻿using HarmonyLib;
+using RimWorld.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
+using Verse;
 
-namespace Gagarin
+namespace Gagarin.Core
 {
-    public static class TextureUtility
+    public class DDSLoader
     {
         private const uint DDSD_MIPMAPCOUNT_BIT = 0x00020000;
         private const uint DDPF_ALPHAPIXELS = 0x00000001;
