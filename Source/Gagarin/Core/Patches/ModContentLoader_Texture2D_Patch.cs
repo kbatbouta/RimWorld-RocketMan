@@ -83,7 +83,6 @@ namespace Gagarin
                         data.CopyTo(buffer, 13);
 
                         File.WriteAllBytes(binPath, buffer);
-                        result.Apply(updateMipmaps: true, makeNoLongerReadable: true);
                     }
                     catch (Exception er)
                     {
@@ -105,8 +104,8 @@ namespace Gagarin
                 texture.name = Path.GetFileNameWithoutExtension(file.Name);
                 texture.filterMode = (FilterMode)GagarinPrefs.FilterMode;
                 texture.anisoLevel = 0;
-                if (GagarinPrefs.MipMapBias > float.MinValue / 2f)
-                    texture.mipMapBias = GagarinPrefs.MipMapBias;
+                texture.mipMapBias = GagarinPrefs.MipMapBias < float.MinValue / 2f ? (-0.7f) : GagarinPrefs.MipMapBias;
+                texture.Apply(updateMipmaps: true, makeNoLongerReadable: false);
                 return texture;
             }
 
