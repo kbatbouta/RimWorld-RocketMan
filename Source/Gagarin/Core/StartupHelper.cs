@@ -17,7 +17,14 @@ namespace Gagarin
             Context.Core = LoadedModManager.RunningMods.First(m => m.IsCoreMod);
             Context.IsUsingCache = false;
 
-            Log.Message("GAGARIN: <color=green>Loading cache settings!</color>");
+            if (!Directory.Exists(GagarinEnvironmentInfo.CacheFolderPath))
+            {
+                Directory.CreateDirectory(GagarinEnvironmentInfo.CacheFolderPath);
+            }
+            if (!Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
+            {
+                Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
+            }
 
             Log.Message("GAGARIN: <color=green>StartUpStarted called!</color>");
             if (GagarinEnvironmentInfo.CacheExists)
@@ -35,18 +42,12 @@ namespace Gagarin
                     Context.IsUsingCache = false;
                 }
             }
-            if (!Directory.Exists(GagarinEnvironmentInfo.CacheFolderPath))
-            {
-                Directory.CreateDirectory(GagarinEnvironmentInfo.CacheFolderPath);
-            }
-            if (!Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
-            {
-                Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
-            }
             if (!Context.IsUsingCache)
             {
                 Log.Warning("GAGARIN: <color=green>Cache not found or got purged!</color>");
             }
+            Log.Message("GAGARIN: <color=green>Loading cache settings!</color>");
+
             GagarinSettings.LoadSettings();
             RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
         }

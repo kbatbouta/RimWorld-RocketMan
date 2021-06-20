@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Gagarin.Core;
 using HarmonyLib;
 using RimWorld;
@@ -33,6 +34,14 @@ namespace Gagarin
                 if (TryLoadDDS(file, out result))
                 {
                     return false;
+                }
+                if (!Directory.Exists(GagarinEnvironmentInfo.CacheFolderPath))
+                {
+                    Directory.CreateDirectory(GagarinEnvironmentInfo.CacheFolderPath);
+                }
+                if (!Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
+                {
+                    Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
                 }
                 string binPath = GetBinTexturePath(file);
                 if (File.Exists(binPath) && !fallbackMode)
@@ -134,17 +143,43 @@ namespace Gagarin
                 return true;
             }
 
+            private const string textures = "Textures";
+
+            private static readonly char[] invalids = Path.GetInvalidFileNameChars();
+
             private static string GetBinTexturePath(VirtualFile file)
             {
-                string path = Path.Combine(GagarinEnvironmentInfo.TexturesFolderPath, "Texture_" + file.FullPath
-                    .Replace('/', '_')
-                    .Replace(' ', '_')
-                    .Replace('$', '_')
-                    .Replace('#', '_')
-                    .Replace('\\', '_')
-                    .Replace(':', '_')
-                    .Trim() + ".bin");
-                return path;
+                bool started = false;
+                string original = GenFile.SanitizedFileName("Texture_" + file.FullPath.Trim().Replace('-', '_')) + ".bin";
+                string bin = "";
+                int j;
+                int i;
+                for (i = 0; i < original.Length; i++)
+                {
+                    if (!started)
+                    {
+                        j = 0;
+                        while (j < textures.Length && i < original.Length && original[i] == textures[j])
+                        {
+                            j++;
+                            i++;
+                        }
+                        if (j == textures.Length)
+                        {
+                            started = true;
+                            i--;
+                        }
+                    }
+                    else if (!invalids.Contains(original[i]))
+                    {
+                        bin += original[i];
+                    }
+                }
+                if (!started)
+                {
+                    bin = String.Join("", original.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).Trim();
+                }
+                return Path.Combine(GagarinEnvironmentInfo.TexturesFolderPath, bin);
             }
         }
     }
