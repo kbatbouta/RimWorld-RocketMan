@@ -13,6 +13,7 @@ namespace RocketMan.Optimizations
         private static bool skip;
         private static readonly CachedDict<int, Pair<float, int>> cache = new CachedDict<int, Pair<float, int>>();
 
+        [HarmonyPriority(int.MaxValue)]
         public static bool Prefix(StatPart_ApparelStatOffset __instance, StatRequest req,
             ref float val)
         {
@@ -47,6 +48,7 @@ namespace RocketMan.Optimizations
             return true;
         }
 
+        [HarmonyPriority(int.MinValue)]
         public static void Postfix(StatPart_ApparelStatOffset __instance, StatRequest req,
             ref float val)
         {

@@ -131,6 +131,7 @@ namespace RocketMan.Optimizations
             return statWorker.GetValueUnfinalized(req, applyPostProcess);
         }
 
+        [HarmonyPriority(int.MaxValue)]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             return instructions.MethodReplacer(m_GetValueUnfinalized, m_GetValueUnfinalized_Replacemant);

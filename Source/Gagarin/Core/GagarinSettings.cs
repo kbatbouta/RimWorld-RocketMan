@@ -61,6 +61,14 @@ namespace Gagarin
 
         public static void WriteSettings()
         {
+            if (!Directory.Exists(GagarinEnvironmentInfo.CacheFolderPath))
+            {
+                Directory.CreateDirectory(GagarinEnvironmentInfo.CacheFolderPath);
+            }
+            if (!Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
+            {
+                Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
+            }
             Scribe.saver.InitSaving(GagarinEnvironmentInfo.GagarinSettingsFilePath, "SettingsBlock");
             try
             {

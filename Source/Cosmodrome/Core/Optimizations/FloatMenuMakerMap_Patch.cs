@@ -14,6 +14,7 @@ namespace RocketMan.Optimizations
     {
         public static MethodBase mPotentialWorkThings = AccessTools.Method(typeof(WorkGiver_Scanner), nameof(WorkGiver_Scanner.PotentialWorkThingsGlobal));
 
+        [HarmonyPriority(int.MaxValue)]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             LocalBuilder cachedResult = generator.DeclareLocal(typeof(IEnumerable<Thing>));
