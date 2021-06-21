@@ -80,7 +80,6 @@ namespace Soyuz
             if (!updating)
             {
                 Context.DilationByDef[def] = this;
-                Context.DilationInts[def.index] = DilationInt;
                 Context.DilationFastMovingRace[def.index] = isFastMoving;
             }
         }
@@ -96,17 +95,85 @@ namespace Soyuz
         }
     }
 
+    public class JobSettings : IExposable
+    {
+        private const int SETTINGS_VERSION = 1;
+
+        private int version;
+
+        public JobDef def;
+
+        public bool enabled = true;
+
+        public bool enabledForHumanlikes = false;
+
+        public JobSettings()
+        {
+        }
+
+        public JobSettings(JobDef def)
+        {
+            this.def = def;
+        }
+
+        public void ExposeData()
+        {
+            try
+            {
+                Scribe_Defs.Look(ref def, "job");
+            }
+            finally
+            {
+                Scribe_Values.Look(ref version, "version", -1);
+                Scribe_Values.Look(ref enabled, "enabled", true);
+                Scribe_Values.Look(ref enabledForHumanlikes, "enabledForHumanlikes", true);
+            }
+            if (this.version != SETTINGS_VERSION)
+            {
+                this.Notify_VersionChanged();
+                this.version = SETTINGS_VERSION;
+            }
+        }
+
+        public void Prepare(bool updating = false)
+        {
+            if (!updating)
+            {
+                Context.JobDilationByDef[def] = this;
+            }
+        }
+
+        private void Notify_VersionChanged()
+        {
+            this.enabled = true;
+            if (this.def == JobDefOf.Wait)
+                this.enabledForHumanlikes = true;
+            if (this.def == JobDefOf.Wait_Wander)
+                this.enabledForHumanlikes = true;
+            if (this.def == JobDefOf.GotoWander)
+                this.enabledForHumanlikes = true;
+            if (this.def == JobDefOf.LayDown)
+                this.enabledForHumanlikes = true;
+        }
+    }
+
     public class SoyuzSettings : IExposable
     {
         public List<RaceSettings> AllRaceSettings = new List<RaceSettings>();
 
+        public List<JobSettings> AllJobsSettings = new List<JobSettings>();
+
         public void ExposeData()
         {
             Scribe_Collections.Look(ref AllRaceSettings, "AllRaceSettings_NewTemp", LookMode.Deep);
-
+            Scribe_Collections.Look(ref AllJobsSettings, "AllJobsSettings", LookMode.Deep);
             if (AllRaceSettings == null)
             {
                 AllRaceSettings = new List<RaceSettings>();
+            }
+            if (AllJobsSettings == null)
+            {
+                AllJobsSettings = new List<JobSettings>();
             }
         }
     }

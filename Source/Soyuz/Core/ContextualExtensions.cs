@@ -27,6 +27,8 @@ namespace Soyuz
 
         private static readonly Dictionary<Pawn, PawnPerformanceModel> pawnPerformanceModels =
             new Dictionary<Pawn, PawnPerformanceModel>();
+        private static readonly Dictionary<Pawn, PawnPatherModel> pawnPatherModels =
+            new Dictionary<Pawn, PawnPatherModel>();
         private static readonly Dictionary<Pawn, Dictionary<Type, PawnNeedModel>> pawnNeedModels =
             new Dictionary<Pawn, Dictionary<Type, PawnNeedModel>>();
         private static readonly Dictionary<Pawn, Dictionary<Hediff, PawnHediffModel>> pawnHediffsModels =
@@ -117,6 +119,7 @@ namespace Soyuz
                 || !RocketPrefs.TimeDilation
                 || !pawn.IsValidWildlifeOrWorldPawn())
             {
+                UpdateTimers(pawn);
                 Skip(pawn);
                 return;
             }
@@ -187,6 +190,15 @@ namespace Soyuz
             if (pawnHediffsModels.TryGetValue(pawn, out var model))
                 return model;
             return pawnHediffsModels[pawn] = new Dictionary<Hediff, PawnHediffModel>();
+        }
+
+        public static PawnPatherModel GetPatherModel(this Pawn pawn)
+        {
+            if (pawn == null)
+                return null;
+            if (pawnPatherModels.TryGetValue(pawn, out var model))
+                return model;
+            return pawnPatherModels[pawn] = new PawnPatherModel("Pathing");
         }
 
         public static bool IsCustomTickInterval(this Thing thing, int interval)

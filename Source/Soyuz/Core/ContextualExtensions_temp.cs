@@ -4,6 +4,7 @@ using RimWorld;
 using RimWorld.Planet;
 using RocketMan;
 using Verse;
+using Verse.AI;
 
 namespace Soyuz
 {
@@ -29,6 +30,10 @@ namespace Soyuz
                 return false;
             if (IsCastingVerb(pawn))
                 return false;
+            JobSettings jobSettings = null;
+            JobDef jobDef = pawn.jobs?.curJob?.def;
+            if (jobDef != null && Context.JobDilationByDef.TryGetValue(jobDef, out jobSettings) && !jobSettings.enabled)
+                return false;
             if (pawn.def.race.Humanlike)
             {
                 Faction playerFaction = Faction.OfPlayer;
@@ -38,16 +43,7 @@ namespace Soyuz
                     return false;
                 if (RocketPrefs.TimeDilationVisitors || RocketPrefs.TimeDilationColonists)
                 {
-                    JobDef jobDef = pawn.jobs?.curJob?.def;
-                    if (jobDef == JobDefOf.Wait)
-                        return true;
-                    if (jobDef == JobDefOf.Wait_Wander)
-                        return true;
-                    if (jobDef == JobDefOf.GotoWander)
-                        return true;
-                    if (jobDef == JobDefOf.LayDown)
-                        return true;
-                    if (jobDef == JobDefOf.Follow)
+                    if (jobSettings != null && jobSettings.enabledForHumanlikes)
                         return true;
                 }
                 return false;

@@ -23,6 +23,8 @@ namespace Soyuz.Tabs
 
         private Vector2 scrollPosition = Vector2.zero;
 
+        private Vector2 jobsScrollPosition = Vector2.zero;
+
         private RaceSettings curSettings;
 
         private string searchString = string.Empty;
@@ -34,6 +36,10 @@ namespace Soyuz.Tabs
         private Listing_Collapsible collapsible_debug = new Listing_Collapsible();
 
         private Listing_Collapsible collapsible_selection = new Listing_Collapsible();
+
+        private Listing_Collapsible collapsible_jobs = new Listing_Collapsible();
+
+        private IEnumerable<JobDef> jobs;
 
         public TabContent_DilationSettings()
         {
@@ -51,6 +57,7 @@ namespace Soyuz.Tabs
                 descriptionBoxes.Add(new Pair<Color, string>(Color.magenta,
                     "Soyuz.Colored.IgnoreAllFaction".Translate()));
             }
+            this.jobs = DefDatabase<JobDef>.AllDefs;
         }
 
         public override void OnDeselect()
@@ -63,10 +70,10 @@ namespace Soyuz.Tabs
             base.OnSelect();
         }
 
-        public override void DoContent(Rect rect)
+        public override void DoContent(Rect inRect)
         {
             RocketMan.GUIUtility.StashGUIState();
-            collapsible.Begin(rect, KeyedResources.RocketMan_Settings);
+            collapsible.Begin(inRect, KeyedResources.RocketMan_Settings);
             collapsible.Label(KeyedResources.Soyuz_GeneralTip, invert: true);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_Enable, ref RocketPrefs.TimeDilation);
             collapsible.Line(1);
@@ -79,11 +86,11 @@ namespace Soyuz.Tabs
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeCriticalHediffs, ref RocketPrefs.TimeDilationCriticalHediffs, disabled: !RocketPrefs.TimeDilation);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeColonyAnimals, ref RocketPrefs.TimeDilationColonyAnimals, disabled: !RocketPrefs.TimeDilation);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeDilationVisitors, ref RocketPrefs.TimeDilationVisitors, disabled: !RocketPrefs.TimeDilation);
-            collapsible.End(ref rect);
+            collapsible.End(ref inRect);
             if (RocketDebugPrefs.Debug)
             {
-                rect.yMin -= 1;
-                collapsible_debug.Begin(rect, KeyedResources.RocketMan_Settings_Debugging);
+                inRect.yMin -= 1;
+                collapsible_debug.Begin(inRect, KeyedResources.RocketMan_Settings_Debugging);
                 collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_EnableDataLogging, ref RocketDebugPrefs.LogData, disabled: !RocketPrefs.TimeDilation);
                 collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_Debug150MTPS, ref RocketDebugPrefs.Debug150MTPS, disabled: !RocketPrefs.TimeDilation);
                 collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_FlashPawns, ref RocketDebugPrefs.FlashDilatedPawns, disabled: !RocketPrefs.TimeDilation);
@@ -96,19 +103,19 @@ namespace Soyuz.Tabs
                     collapsible_debug.Label(KeyedResources.Soyuz_EnableTimeColonists_Warning);
                     collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeColonists, ref RocketPrefs.TimeDilationColonists, disabled: !RocketPrefs.TimeDilation);
                 }
-                collapsible_debug.End(ref rect);
+                collapsible_debug.End(ref inRect);
             }
-            rect.yMin += 5;
+            inRect.yMin += 5;
             if (RocketPrefs.TimeDilation)
             {
-                DoExtras(rect);
+                DoExtras(inRect);
             }
             else RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
             {
                 GUIFont.Anchor = TextAnchor.MiddleCenter;
                 GUIFont.Font = GUIFontSize.Medium;
-                Widgets.DrawMenuSection(rect);
-                Widgets.Label(rect, "Soyuz.DilationDisabled".Translate());
+                Widgets.DrawMenuSection(inRect);
+                Widgets.Label(inRect, "Soyuz.DilationDisabled".Translate());
             });
             RocketMan.GUIUtility.RestoreGUIState();
         }
@@ -122,34 +129,58 @@ namespace Soyuz.Tabs
                 scrollPosition = Vector2.zero;
             }
             inRect.yMin += 30;
-            if (curSettings != null)
+            if (RocketPrefs.TimeDilation && RocketEnvironmentInfo.IsDevEnv && searchString != null && searchString.StartsWith("secret"))
             {
-                DoRaceSettings(ref inRect);
-                // ------------------
-                // inRect.yMin += 100;
-            }
-            RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
-            {
-                Rect curRect = inRect.TopPartPixels(60);
-                Widgets.DrawMenuSection(curRect);
-                GUIFont.Font = GUIFontSize.Tiny;
-                RocketMan.GUIUtility.GridView<Pair<Color, string>>(curRect, 2, descriptionBoxes, (rect, pair) =>
+                string jobSearchString = searchString.Length > 6 ? searchString.Substring(6, searchString.Length - 6).Trim().ToLower() : string.Empty;
+                collapsible_jobs.Begin(inRect, "Jobs settings");
+                collapsible_jobs.Label("GO AWAY THIS IS SECRET MOFFA LIL PIECE OF SHT!");
+                foreach (JobDef def in this.jobs)
                 {
-                    RocketMan.GUIUtility.ColorBoxDescription(rect, pair.first, pair.second);
-                }, drawBackground: false);
-            });
-            inRect.yMin += 60;
-            GUIFont.Font = GUIFontSize.Tiny;
-            GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
-            RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
+                    if (!jobSearchString.NullOrEmpty() && !(def.label ?? def.defName).ToLower().Contains(jobSearchString))
+                    {
+                        continue;
+                    }
+                    if (Context.JobDilationByDef.TryGetValue(def, out var settings))
+                    {
+                        collapsible_jobs.Label(def.label ?? def.defName, fontSize: GUIFontSize.Small);
+                        collapsible_jobs.Gap(2);
+                        collapsible_jobs.CheckboxLabeled("Dilate", ref settings.enabled);
+                        collapsible_jobs.CheckboxLabeled("Dilate humanlikes", ref settings.enabledForHumanlikes);
+                        collapsible_jobs.Line(1);
+                    }
+                }
+                collapsible_jobs.End(ref inRect);
+            }
+            else
             {
-                Rect tempRect = inRect.TopPartPixels(25);
-                Widgets.DrawMenuSection(tempRect);
-                tempRect.xMin += 10 + 50;
-                tempRect.xMax -= 25;
-                RocketMan.GUIUtility.GridView<Action<Rect>>(tempRect.TopPartPixels(25), 2,
-                        new List<Action<Rect>>()
-                        {
+                if (curSettings != null)
+                {
+                    DoRaceSettings(ref inRect);
+                    // ------------------
+                    // inRect.yMin += 100;
+                }
+                RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
+                {
+                    Rect curRect = inRect.TopPartPixels(60);
+                    Widgets.DrawMenuSection(curRect);
+                    GUIFont.Font = GUIFontSize.Tiny;
+                    RocketMan.GUIUtility.GridView<Pair<Color, string>>(curRect, 2, descriptionBoxes, (rect, pair) =>
+                    {
+                        RocketMan.GUIUtility.ColorBoxDescription(rect, pair.first, pair.second);
+                    }, drawBackground: false);
+                });
+                inRect.yMin += 60;
+                GUIFont.Font = GUIFontSize.Tiny;
+                GUIFont.CurFontStyle.fontStyle = FontStyle.Normal;
+                RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
+                {
+                    Rect tempRect = inRect.TopPartPixels(25);
+                    Widgets.DrawMenuSection(tempRect);
+                    tempRect.xMin += 10 + 50;
+                    tempRect.xMax -= 25;
+                    RocketMan.GUIUtility.GridView<Action<Rect>>(tempRect.TopPartPixels(25), 2,
+                            new List<Action<Rect>>()
+                            {
                         (curRect) =>
                         {
                             Widgets.Label(curRect, KeyedResources.Soyuz_RaceName);
@@ -158,32 +189,32 @@ namespace Soyuz.Tabs
                         {
                             Widgets.Label(curRect, KeyedResources.Soyuz_PackageId);
                         }
-                        }, (rect, action) => { action.Invoke(rect); }, drawBackground: false);
-            });
-            inRect.yMin += 25;
-            RocketMan.GUIUtility.ScrollView<RaceSettings>(inRect, ref scrollPosition, Context.Settings.AllRaceSettings,
-                heightLambda: (raceSettings) =>
-                {
-                    if (searchString?.Trim().NullOrEmpty() ?? true)
-                        return raceSettings.def != null ? 35 : -0.1f;
-                    return raceSettings.def != null ?
-                    (raceSettings.def.label != null && raceSettings.def.label.ToLower().Contains(searchString) ? 45f : -0.1f)
-                    : -0.1f;
-                },
-                elementLambda: (rect, raceSettings) =>
-                {
-                    if (Widgets.ButtonInvisible(rect))
-                        curSettings = raceSettings;
-                    bool ignored = IgnoreMeDatabase.ShouldIgnore(raceSettings.def);
-                    DoColorBars(ref rect, raceSettings, ignored);
-                    Rect iconRect = new Rect(rect.x, rect.y, rect.height, rect.height);
-                    iconRect = iconRect.ContractedBy(4);
-                    iconRect = iconRect.CenteredOnYIn(rect);
-                    rect.xMin += rect.height + 5;
-                    Widgets.DefIcon(iconRect, raceSettings.def, null, 0.90f);
-                    RocketMan.GUIUtility.GridView(rect, 2,
-                        elements: new List<Action<Rect>>()
-                        {
+                            }, (rect, action) => { action.Invoke(rect); }, drawBackground: false);
+                });
+                inRect.yMin += 25;
+                RocketMan.GUIUtility.ScrollView<RaceSettings>(inRect, ref scrollPosition, Context.Settings.AllRaceSettings,
+                    heightLambda: (raceSettings) =>
+                    {
+                        if (searchString?.Trim().NullOrEmpty() ?? true)
+                            return raceSettings.def != null ? 35 : -0.1f;
+                        return raceSettings.def != null ?
+                        (raceSettings.def.label != null && raceSettings.def.label.ToLower().Contains(searchString) ? 45f : -0.1f)
+                        : -0.1f;
+                    },
+                    elementLambda: (rect, raceSettings) =>
+                    {
+                        if (Widgets.ButtonInvisible(rect))
+                            curSettings = raceSettings;
+                        bool ignored = IgnoreMeDatabase.ShouldIgnore(raceSettings.def);
+                        DoColorBars(ref rect, raceSettings, ignored);
+                        Rect iconRect = new Rect(rect.x, rect.y, rect.height, rect.height);
+                        iconRect = iconRect.ContractedBy(4);
+                        iconRect = iconRect.CenteredOnYIn(rect);
+                        rect.xMin += rect.height + 5;
+                        Widgets.DefIcon(iconRect, raceSettings.def, null, 0.90f);
+                        RocketMan.GUIUtility.GridView(rect, 2,
+                            elements: new List<Action<Rect>>()
+                            {
                             (r) =>
                             {
                                 Widgets.Label(r, raceSettings.def.label?.CapitalizeFirst() ?? raceSettings.def.defName);
@@ -192,10 +223,11 @@ namespace Soyuz.Tabs
                             {
                                  Widgets.Label(r, raceSettings.def.modContentPack?.PackageIdPlayerFacing ?? "Unknown");
                             }
-                        },
-                        cellLambda: (r, f) => f(r), false, false);
-                }
-            );
+                            },
+                            cellLambda: (r, f) => f(r), false, false);
+                    }
+                );
+            }
         }
 
         private void DoRaceSettings(ref Rect inRect)

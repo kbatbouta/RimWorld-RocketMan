@@ -13,8 +13,6 @@ namespace Soyuz.Tabs
     {
         public override Texture2D Icon => TexTab.Graphing;
 
-        private static Vector2 scrollPosition = Vector2.zero;
-
         private Pawn currentPawn;
 
         private Listing_Collapsible.Group_Collapsible group = new Listing_Collapsible.Group_Collapsible();
@@ -70,6 +68,10 @@ namespace Soyuz.Tabs
             if (performanceModel.grapher.Group != group)
                 performanceModel.grapher.Group = group;
             performanceModel.DrawGraph(ref rect);
+            var patherModel = pawn.GetPatherModel();
+            if (patherModel.grapher.Group != group)
+                patherModel.grapher.Group = group;
+            patherModel.DrawGraph(ref rect);
             foreach (var need in needs)
             {
                 if (needsModel.TryGetValue(need.GetType(), out var model))
