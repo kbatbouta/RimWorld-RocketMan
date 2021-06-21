@@ -26,7 +26,7 @@
 	<RocketMan.Tab>Home</RocketMan.Tab>
 	<RocketMan.Close>Close</RocketMan.Close>
 	<RocketMan.Enable>Enable</RocketMan.Enable>
-	<RocketMan.TranslationCaching>Enalbe text size caching</RocketMan.TranslationCaching>
+	<RocketMan.TranslationCaching>Enable text size caching</RocketMan.TranslationCaching>
 	<RocketMan.Experimental>Experimental features</RocketMan.Experimental>
 	<RocketMan.Experimental.Description>Here you can opt in RocketMan Beta features.\nWarning: do not do this if you don't know what you're doing.</RocketMan.Experimental.Description>
 	<RocketMan.Experimental.OptInBeta>Opt in RocketMan beta features</RocketMan.Experimental.OptInBeta>
@@ -106,7 +106,7 @@
 	<Gagarin.ClearCache>Clear cache</Gagarin.ClearCache>
 	<Gagarin.ClearCache.Description>Clearing the cache can help resolve XML caching issues incase of a mod update as well as allowing new textures to be cached.\nIt is recommended to clear it every other day.</Gagarin.ClearCache.Description>
 	<Gagarin.EnableTextureCaching>Enable texture caching</Gagarin.EnableTextureCaching>
-	<Gagarin.EnableTextureCaching.Description>Texture caching will speedup your loading time but is not compatible with Graphic setter mod or High Quality texture mod.</Gagarin.EnableTextureCaching.Description>
+	<Gagarin.EnableTextureCaching.Description>Texture caching will speedup your loading time but is not compatible with Graphics Settings mod or High quality textures mod.</Gagarin.EnableTextureCaching.Description>
 	<Gagarin.AdvancedSettings>Advanced settings</Gagarin.AdvancedSettings>
 	<Gagarin.AdvancedSettings.Description>Please only use these if you know what you are doing!</Gagarin.AdvancedSettings.Description>
 	<Gagarin.FilterMode>Filter mode</Gagarin.FilterMode>
