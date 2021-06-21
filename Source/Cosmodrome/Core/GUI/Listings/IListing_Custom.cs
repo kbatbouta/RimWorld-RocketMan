@@ -28,11 +28,11 @@ namespace RocketMan
 
         protected bool isOverflowing = false;
 
+        protected Rect contentRect;
+
         private Rect inRect;
 
         private bool started = false;
-
-        private Rect contentRect;
 
         public readonly bool ScrollViewOnOverflow;
 
@@ -117,42 +117,38 @@ namespace RocketMan
 
         protected virtual void Label(TaggedString text, string tooltip = null, bool hightlightIfMouseOver = true, GUIFontSize fontSize = GUIFontSize.Tiny, FontStyle fontStyle = FontStyle.Normal)
         {
-            GUIUtility.ExecuteSafeGUIAction(() =>
+            RectSlice slice = Slice(text.GetTextHeight(this.insideWidth));
+            if (hightlightIfMouseOver)
             {
-                RectSlice slice = Slice(text.GetTextHeight(this.insideWidth));
-                if (hightlightIfMouseOver)
-                {
-                    Widgets.DrawHighlightIfMouseover(slice.outside);
-                }
-                GUIFont.Font = fontSize;
-                GUIFont.CurFontStyle.fontStyle = fontStyle;
-                Widgets.Label(slice.inside, text);
-                if (tooltip != null)
-                {
-                    TooltipHandler.TipRegion(slice.outside, tooltip);
-                }
-            });
+                Widgets.DrawHighlightIfMouseover(slice.outside);
+            }
+            GUIFont.Font = fontSize;
+            GUIFont.CurFontStyle.fontStyle = fontStyle;
+            Widgets.Label(slice.inside, text);
+            if (tooltip != null)
+            {
+                TooltipHandler.TipRegion(slice.outside, tooltip);
+            }
         }
 
         protected virtual bool CheckboxLabeled(TaggedString text, ref bool checkOn, string tooltip = null, bool disabled = false, bool hightlightIfMouseOver = true, GUIFontSize fontSize = GUIFontSize.Tiny, FontStyle fontStyle = FontStyle.Normal)
         {
             bool changed = false;
             bool checkOnInt = checkOn;
-            GUIUtility.ExecuteSafeGUIAction(() =>
+
+            GUIFont.Font = fontSize;
+            GUIFont.CurFontStyle.fontStyle = fontStyle;
+            RectSlice slice = Slice(text.GetTextHeight(insideWidth - 23f));
+            if (hightlightIfMouseOver)
             {
-                GUIFont.Font = fontSize;
-                GUIFont.CurFontStyle.fontStyle = fontStyle;
-                RectSlice slice = Slice(text.GetTextHeight(insideWidth - 23f));
-                if (hightlightIfMouseOver)
-                {
-                    Widgets.DrawHighlightIfMouseover(slice.outside);
-                }
-                GUIUtility.CheckBoxLabeled(slice.inside, text, ref checkOnInt, disabled: disabled, iconWidth: 23f, drawHighlightIfMouseover: false);
-                if (tooltip != null)
-                {
-                    TooltipHandler.TipRegion(slice.outside, tooltip);
-                }
-            });
+                Widgets.DrawHighlightIfMouseover(slice.outside);
+            }
+            GUIUtility.CheckBoxLabeled(slice.inside, text, ref checkOnInt, disabled: disabled, iconWidth: 23f, drawHighlightIfMouseover: false);
+            if (tooltip != null)
+            {
+                TooltipHandler.TipRegion(slice.outside, tooltip);
+            }
+
             if (checkOnInt != checkOn)
             {
                 checkOn = checkOnInt;
@@ -204,11 +200,10 @@ namespace RocketMan
         public virtual void End(ref Rect inRect)
         {
             Gap(height: 5);
-            GUIUtility.ExecuteSafeGUIAction(() =>
-            {
-                GUI.color = this.CollapsibleBGBorderColor;
-                Widgets.DrawBox(new Rect(inXMin, inYMin, inXMax - inXMin, curYMin - inYMin));
-            });
+
+            GUI.color = this.CollapsibleBGBorderColor;
+            Widgets.DrawBox(new Rect(inXMin, inYMin, inXMax - inXMin, curYMin - inYMin));
+
             started = true;
             previousHeight = Mathf.Abs(inYMin - curYMin);
             if (isOverflowing)

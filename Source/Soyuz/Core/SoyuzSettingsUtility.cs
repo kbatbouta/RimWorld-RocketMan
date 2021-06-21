@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using RocketMan;
 using Verse;
 
@@ -9,6 +10,8 @@ namespace Soyuz
     public static class SoyuzSettingsUtility
     {
         private static readonly HashSet<ThingDef> processedDefs = new HashSet<ThingDef>();
+
+        private static readonly HashSet<JobDef> processedJobDefs = new HashSet<JobDef>();
 
         [Main.OnScribe]
         public static void OnScribe()
@@ -23,6 +26,12 @@ namespace Soyuz
         [Main.OnSettingsScribedLoaded]
         public static void OnSettingsScribedLoaded()
         {
+            PrepareRaceSettings();
+            PrepareJobSettings();
+        }
+
+        private static void PrepareRaceSettings()
+        {
             Context.Settings.AllRaceSettings = Context.Settings.AllRaceSettings
                 .AsParallel()
                 .Where(s => s.def != null).ToList();
@@ -30,17 +39,14 @@ namespace Soyuz
             {
                 processedDefs.Add(settings.def);
             }
-            //
-            // DefDatabase<ThingDef>.ResolveAllReferences();
             foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs
                 .AsParallel()
                 .Where(d => d.race != null && !processedDefs.Contains(d)))
             {
                 processedDefs.Add(def);
                 bool disabled = def.thingClass != typeof(Pawn);
-                Context.Settings.AllRaceSettings.Add(new RaceSettings()
+                Context.Settings.AllRaceSettings.Add(new RaceSettings(def)
                 {
-                    def = def,
                     enabled = def.race.Animal
                         && !disabled
                         && !def.race.Humanlike
@@ -50,6 +56,43 @@ namespace Soyuz
                 });
             }
             foreach (RaceSettings settings in Context.Settings.AllRaceSettings)
+            {
+                settings.Prepare();
+            }
+        }
+
+        private static void PrepareJobSettings()
+        {
+            Context.Settings.AllJobsSettings = Context.Settings.AllJobsSettings
+                .AsParallel()
+                .Where(s => s.def != null).ToList();
+            foreach (JobSettings settings in Context.Settings.AllJobsSettings)
+            {
+                processedJobDefs.Add(settings.def);
+            }
+            foreach (JobDef def in DefDatabase<JobDef>.AllDefs
+                .AsParallel()
+                .Where(d => !processedJobDefs.Contains(d)))
+            {
+                processedJobDefs.Add(def);
+                bool enabledForHumanlikes = false;
+
+                if (def == JobDefOf.Wait)
+                    enabledForHumanlikes = true;
+                if (def == JobDefOf.Wait_Wander)
+                    enabledForHumanlikes = true;
+                if (def == JobDefOf.GotoWander)
+                    enabledForHumanlikes = true;
+                if (def == JobDefOf.LayDown)
+                    enabledForHumanlikes = true;
+
+                Context.Settings.AllJobsSettings.Add(new JobSettings()
+                {
+                    def = def,
+                    enabledForHumanlikes = enabledForHumanlikes
+                });
+            }
+            foreach (JobSettings settings in Context.Settings.AllJobsSettings)
             {
                 settings.Prepare();
             }

@@ -16,13 +16,13 @@ namespace Soyuz
 
         public static Pawn ProfiledPawn;
 
-        public static readonly int[] DilationInts = new int[ushort.MaxValue];
-
         public static readonly bool[] DilationEnabled = new bool[ushort.MaxValue];
 
         public static readonly bool[] DilationFastMovingRace = new bool[ushort.MaxValue];
 
         public static readonly Dictionary<ThingDef, RaceSettings> DilationByDef = new Dictionary<ThingDef, RaceSettings>();
+
+        public static readonly Dictionary<JobDef, JobSettings> JobDilationByDef = new Dictionary<JobDef, JobSettings>();
 
         public static int DilationRate
         {

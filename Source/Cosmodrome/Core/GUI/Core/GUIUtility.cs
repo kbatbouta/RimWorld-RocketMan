@@ -113,105 +113,91 @@ namespace RocketMan
 
         public static void GridView<T>(Rect rect, int columns, List<T> elements, Action<Rect, T> cellLambda, bool drawBackground = true, bool drawVerticalDivider = false)
         {
-            ExecuteSafeGUIAction(() =>
+            if (drawBackground)
             {
-                if (drawBackground)
+                Widgets.DrawMenuSection(rect);
+            }
+            rect = rect.ContractedBy(1);
+            int rows = (int)Math.Ceiling((decimal)elements.Count / columns);
+            float columnStep = rect.width / columns;
+            float rowStep = rect.height / rows;
+            Rect curRect = new Rect(0, 0, columnStep, rowStep);
+            int k = 0;
+            for (int i = 0; i < columns && k < elements.Count; i++)
+            {
+                curRect.x = i * columnStep + rect.x;
+                for (int j = 0; j < rows && k < elements.Count; j++)
                 {
-                    Widgets.DrawMenuSection(rect);
+                    curRect.y = j * rowStep + rect.y;
+                    cellLambda(curRect, elements[k++]);
                 }
-                rect = rect.ContractedBy(1);
-                int rows = (int)Math.Ceiling((decimal)elements.Count / columns);
-                float columnStep = rect.width / columns;
-                float rowStep = rect.height / rows;
-                Rect curRect = new Rect(0, 0, columnStep, rowStep);
-                int k = 0;
-                for (int i = 0; i < columns && k < elements.Count; i++)
-                {
-                    curRect.x = i * columnStep + rect.x;
-                    for (int j = 0; j < rows && k < elements.Count; j++)
-                    {
-                        curRect.y = j * rowStep + rect.y;
-                        ExecuteSafeGUIAction(() =>
-                        {
-                            GUIFont.Anchor = TextAnchor.MiddleLeft;
-                            GUIFont.Font = GUIFontSize.Tiny;
-                            cellLambda(curRect, elements[k++]);
-                        });
-                    }
-                }
-            });
+            }
         }
 
         public static void Row(Rect rect, List<Action<Rect>> contentLambdas, bool drawDivider = true, bool drawBackground = false)
         {
-            ExecuteSafeGUIAction(() =>
+            if (drawBackground)
             {
-                if (drawBackground)
+                Widgets.DrawMenuSection(rect);
+            }
+            float step = rect.width / contentLambdas.Count;
+            Rect curRect = new Rect(rect.x - 5, rect.y, step - 10, rect.height);
+            for (int i = 0; i < contentLambdas.Count; i++)
+            {
+                Action<Rect> lambda = contentLambdas[i];
+                if (drawDivider && i + 1 < contentLambdas.Count)
                 {
-                    Widgets.DrawMenuSection(rect);
+                    Vector2 start = new Vector2(curRect.xMax + 5, curRect.yMin + 1);
+                    Vector2 end = new Vector2(curRect.xMax + 5, curRect.yMax - 1);
+                    Widgets.DrawLine(start, end, Color.white, 1);
                 }
-                float step = rect.width / contentLambdas.Count;
-                Rect curRect = new Rect(rect.x - 5, rect.y, step - 10, rect.height);
-                for (int i = 0; i < contentLambdas.Count; i++)
+                ExecuteSafeGUIAction(() =>
                 {
-                    Action<Rect> lambda = contentLambdas[i];
-                    if (drawDivider && i + 1 < contentLambdas.Count)
-                    {
-                        Vector2 start = new Vector2(curRect.xMax + 5, curRect.yMin + 1);
-                        Vector2 end = new Vector2(curRect.xMax + 5, curRect.yMax - 1);
-                        Widgets.DrawLine(start, end, Color.white, 1);
-                    }
-                    ExecuteSafeGUIAction(() =>
-                    {
-                        lambda.Invoke(curRect);
-                        curRect.x += step;
-                    });
-                }
-            });
+                    lambda.Invoke(curRect);
+                    curRect.x += step;
+                });
+            }
         }
 
         public static void CheckBoxLabeled(Rect rect, string label, ref bool checkOn, bool disabled = false, bool monotone = false, float iconWidth = 20, GUIFontSize font = GUIFontSize.Tiny, FontStyle fontStyle = FontStyle.Normal, bool placeCheckboxNearText = false, bool drawHighlightIfMouseover = true, Texture2D texChecked = null, Texture2D texUnchecked = null)
         {
             bool checkOnInt = checkOn;
-            ExecuteSafeGUIAction(() =>
+            GUIFont.Font = font;
+            GUIFont.Anchor = TextAnchor.MiddleLeft;
+            GUIFont.CurFontStyle.fontStyle = fontStyle;
+            if (placeCheckboxNearText)
             {
-                GUIFont.Font = font;
-                GUIFont.Anchor = TextAnchor.MiddleLeft;
-                GUIFont.CurFontStyle.fontStyle = fontStyle;
-                if (placeCheckboxNearText)
+                rect.width = Mathf.Min(rect.width, GUIFont.CalcSize(label).x + 24f + 10f);
+            }
+            Widgets.Label(rect, label);
+            if (!disabled && Widgets.ButtonInvisible(rect))
+            {
+                checkOnInt = !checkOnInt;
+                if (checkOnInt)
                 {
-                    rect.width = Mathf.Min(rect.width, GUIFont.CalcSize(label).x + 24f + 10f);
+                    SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
                 }
-                Widgets.Label(rect, label);
-                if (!disabled && Widgets.ButtonInvisible(rect))
+                else
                 {
-                    checkOnInt = !checkOnInt;
-                    if (checkOnInt)
-                    {
-                        SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
-                    }
-                    else
-                    {
-                        SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
-                    }
+                    SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
                 }
-                Rect iconRect = new Rect(0f, 0f, iconWidth, iconWidth);
-                iconRect.center = rect.RightPartPixels(iconWidth).center;
-                Color color = GUI.color;
-                if (disabled || monotone)
-                {
-                    GUI.color = Widgets.InactiveColor;
-                }
-                GUI.DrawTexture(image: (checkOnInt) ? ((texChecked != null) ? texChecked : Widgets.CheckboxOnTex) : ((texUnchecked != null) ? texUnchecked : Widgets.CheckboxOffTex), position: iconRect);
-                if (disabled || monotone)
-                {
-                    GUI.color = color;
-                }
-                if (drawHighlightIfMouseover)
-                {
-                    Widgets.DrawHighlightIfMouseover(rect);
-                }
-            });
+            }
+            Rect iconRect = new Rect(0f, 0f, iconWidth, iconWidth);
+            iconRect.center = rect.RightPartPixels(iconWidth).center;
+            Color color = GUI.color;
+            if (disabled || monotone)
+            {
+                GUI.color = Widgets.InactiveColor;
+            }
+            GUI.DrawTexture(image: (checkOnInt) ? ((texChecked != null) ? texChecked : Widgets.CheckboxOnTex) : ((texUnchecked != null) ? texUnchecked : Widgets.CheckboxOffTex), position: iconRect);
+            if (disabled || monotone)
+            {
+                GUI.color = color;
+            }
+            if (drawHighlightIfMouseover)
+            {
+                Widgets.DrawHighlightIfMouseover(rect);
+            }
             checkOn = checkOnInt;
         }
 

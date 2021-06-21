@@ -1,4 +1,5 @@
-﻿using System.Runtime.Remoting.Messaging;
+﻿using System;
+using System.Runtime.Remoting.Messaging;
 using HarmonyLib;
 using RocketMan;
 using UnityEngine;
@@ -10,53 +11,87 @@ namespace Soyuz.Patches
     public static class Pawn_PathFollower_Patch
     {
         private static float remaining = 0f;
-        private static Pawn curPawn;
+
+        private static float costPaid = 0f;
+
+        private static Pawn pawn;
+
+        private static bool setupNext = false;
+
+        private static void Reset()
+        {
+            pawn = null;
+            costPaid = 0f;
+            setupNext = false;
+            remaining = 0f;
+        }
+
+        [SoyuzPatch(typeof(Pawn_PathFollower), nameof(Pawn_PathFollower.PatherTick))]
+        public class Pawn_PathFollower_PatherTick
+        {
+            public static void Prefix(Pawn_PathFollower __instance)
+            {
+                Reset();
+                if (RocketPrefs.Enabled
+                    && __instance.pawn.IsValidWildlifeOrWorldPawn()
+                    && __instance.pawn.IsSkippingTicks())
+                {
+                    pawn = __instance.pawn;
+                }
+            }
+
+            public static void Postfix(Pawn_PathFollower __instance)
+            {
+                if (setupNext && pawn == __instance.pawn)
+                {
+                    __instance.TryEnterNextPathCell();
+
+                    if (__instance.moving)
+                    {
+                        if (remaining < __instance.nextCellCostTotal / 450 && remaining > 0)
+                        {
+                            remaining = __instance.nextCellCostTotal / 450;
+                        }
+                        __instance.nextCellCostLeft -= remaining;
+                    }
+                }
+                if (__instance.pawn == Context.ProfiledPawn)
+                {
+                    __instance.pawn.GetPatherModel().AddResult(costPaid);
+                }
+            }
+
+            public static Exception Finalizer(Exception __exception)
+            {
+                if (__exception != null)
+                {
+                    Reset();
+                }
+                return __exception;
+            }
+        }
 
         [SoyuzPatch(typeof(Pawn_PathFollower), nameof(Pawn_PathFollower.CostToPayThisTick))]
         public class Pawn_PathFollower_CostToPayThisTick_Patch
         {
             public static void Postfix(Pawn_PathFollower __instance, ref float __result)
             {
-                curPawn = null;
-                remaining = 0f;
-                if (RocketPrefs.Enabled
-                    && __instance.pawn.IsValidWildlifeOrWorldPawn()
-                    && __instance.pawn.IsSkippingTicks())
+                if (__instance.pawn == pawn)
                 {
-                    float curDelta = __instance.pawn.GetDeltaT();
-                    if (curDelta <= 1 || curDelta >= 120)
-                        return;
-                    curPawn = __instance.pawn;
-                    float modified = __result * curDelta;
+                    float dT = __instance.pawn.GetDeltaT();
+                    float modified = __result * dT;
                     float cost = __instance.nextCellCostLeft;
+
                     if (modified > cost)
                     {
                         remaining = modified - cost;
-                        __result = cost;
+                        modified = cost;
+                        setupNext = dT > 1 && remaining > 0;
                     }
-                    else
-                    {
-                        __result = modified;
-                    }
-                }
-            }
-        }
+                    __result = modified;
 
-        [SoyuzPatch(typeof(Pawn_PathFollower), nameof(Pawn_PathFollower.SetupMoveIntoNextCell))]
-        public class Pawn_PathFollower_SetupMoveIntoNextCell_Patch
-        {
-            public static void Postfix(Pawn_PathFollower __instance)
-            {
-                if (RocketPrefs.Enabled)
-                {
-                    Pawn pawn = __instance.pawn;
-                    if (pawn == curPawn)
-                    {
-                        __instance.nextCellCostLeft -= remaining;
-                        __instance.nextCellCostTotal -= remaining;
-                    }
-                    curPawn = null;
                 }
+                costPaid = __result;
             }
         }
     }

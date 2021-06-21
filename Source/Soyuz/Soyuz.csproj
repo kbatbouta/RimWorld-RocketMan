@@ -44,6 +44,7 @@
 	<ItemGroup>
 		<Folder Include="Core\" />
 		<Folder Include="Core\GUI\Tabs\Deprecated\" />
+		<Folder Include="Core\Profiling\Models\" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Cosmodrome\Cosmodrome.csproj" ExcludeAssets="runtime">
@@ -52,6 +53,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Core\GUI\Tabs\Deprecated\" />
+		<None Remove="Core\Profiling\Models\" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="Core\GUI\Tabs\Deprecated\TabContent_Soyuz.cs" />
