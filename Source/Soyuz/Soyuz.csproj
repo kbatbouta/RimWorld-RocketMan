@@ -54,6 +54,7 @@
 	<ItemGroup>
 		<None Remove="Core\GUI\Tabs\Deprecated\" />
 		<None Remove="Core\Profiling\Models\" />
+		<None Remove="Core\SoyuzSettingsUtility.Presets.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="Core\GUI\Tabs\Deprecated\TabContent_Soyuz.cs" />

@@ -43,7 +43,7 @@ namespace Soyuz.Patches
             public static void Prefix(HediffComp_ChanceToRemove __instance)
             {
                 if(true 
-                   && __instance.parent.pawn.IsSkippingTicks()
+                   && __instance.parent.pawn.IsBeingThrottled()
                    && __instance.parent.pawn.IsValidWildlifeOrWorldPawn())
                     __instance.currentInterval -= __instance.parent.pawn.GetDeltaT();
             }   
@@ -55,7 +55,7 @@ namespace Soyuz.Patches
             public static void Prefix(HediffComp_ChangeNeed __instance)
             {
                 if(true 
-                   && __instance.parent.pawn.IsSkippingTicks()
+                   && __instance.parent.pawn.IsBeingThrottled()
                    && __instance.parent.pawn.IsValidWildlifeOrWorldPawn())
                     if (__instance.Need != null)
                         __instance.Need.CurLevelPercentage += __instance.Props.percentPerDay / 60000f * (__instance.parent.pawn.GetDeltaT() - 1);
@@ -68,7 +68,7 @@ namespace Soyuz.Patches
             public static void Prefix(HediffComp_Disappears __instance)
             {
                 if(true 
-                   && __instance.parent.pawn.IsSkippingTicks()
+                   && __instance.parent.pawn.IsBeingThrottled()
                    && __instance.parent.pawn.IsValidWildlifeOrWorldPawn())
                 __instance.ticksToDisappear -= (__instance.parent.pawn.GetDeltaT() - 1);
             }   
@@ -80,7 +80,7 @@ namespace Soyuz.Patches
             public static bool Prefix(HediffComp_Discoverable __instance)
             {
                 if(true 
-                   && __instance.parent.pawn.IsSkippingTicks()
+                   && __instance.parent.pawn.IsBeingThrottled()
                    && __instance.parent.pawn.IsValidWildlifeOrWorldPawn())
                     if ((Find.TickManager.TicksGame + __instance.parent.pawn.thingIDNumber) % 90 == 0)
                         __instance.CheckDiscovered();
@@ -94,7 +94,7 @@ namespace Soyuz.Patches
             public static void Prefix(HediffComp_HealPermanentWounds __instance)
             {
                 if(true 
-                   && __instance.parent.pawn.IsSkippingTicks()
+                   && __instance.parent.pawn.IsBeingThrottled()
                    && __instance.parent.pawn.IsValidWildlifeOrWorldPawn())
                 __instance.ticksToHeal -= (__instance.parent.pawn.GetDeltaT() - 1);
             }   
@@ -106,7 +106,7 @@ namespace Soyuz.Patches
             public static void Prefix(HediffComp_Infecter __instance)
             {
                 if(true 
-                   && __instance.parent.pawn.IsSkippingTicks()
+                   && __instance.parent.pawn.IsBeingThrottled()
                    && __instance.parent.pawn.IsValidWildlifeOrWorldPawn())
                 __instance.ticksUntilInfect -= (__instance.parent.pawn.GetDeltaT() - 1);
             }   
@@ -118,7 +118,7 @@ namespace Soyuz.Patches
             public static void Prefix(HediffComp_SelfHeal __instance)
             { 
                 if(true 
-                && __instance.parent.pawn.IsSkippingTicks()
+                && __instance.parent.pawn.IsBeingThrottled()
                 && __instance.parent.pawn.IsValidWildlifeOrWorldPawn())
                 __instance.ticksSinceHeal += (__instance.parent.pawn.GetDeltaT() - 1);
             }   
@@ -130,7 +130,7 @@ namespace Soyuz.Patches
             public static void Prefix(HediffComp_TendDuration __instance)
             {
                 if(true 
-                   && __instance.parent.pawn.IsSkippingTicks()
+                   && __instance.parent.pawn.IsBeingThrottled()
                    && __instance.parent.pawn.IsValidWildlifeOrWorldPawn()
                    && __instance.TProps.TendIsPermanent == false)
                     __instance.tendTicksLeft -= (__instance.parent.pawn.GetDeltaT() - 1);

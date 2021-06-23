@@ -12,8 +12,8 @@ namespace Soyuz.Patches
         public static void Postfix(Hediff __instance, ref float __result)
         {
             if (true
-                && __instance.pawn.IsValidWildlifeOrWorldPawn() 
-                && __instance.pawn.IsSkippingTicks())
+                && __instance.pawn.IsValidWildlifeOrWorldPawn()
+                && __instance.pawn.IsBeingThrottled())
                 __result *= __instance.pawn.GetDeltaT();
         }
     }
@@ -25,7 +25,7 @@ namespace Soyuz.Patches
             ILGenerator generator)
         {
             var codes = instructions.MethodReplacer(
-                AccessTools.Method(typeof(Gen), nameof(Gen.IsHashIntervalTick), new[] {typeof(Thing), typeof(int)}),
+                AccessTools.Method(typeof(Gen), nameof(Gen.IsHashIntervalTick), new[] { typeof(Thing), typeof(int) }),
                 AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsCustomTickInterval))).ToList();
 
             var l1 = generator.DefineLabel();
@@ -41,7 +41,7 @@ namespace Soyuz.Patches
             yield return new CodeInstruction(OpCodes.Ldfld,
                 AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn)));
             yield return new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsSkippingTicks)));
+                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsBeingThrottled)));
             yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
 
             yield return new CodeInstruction(OpCodes.Ldarg_0);

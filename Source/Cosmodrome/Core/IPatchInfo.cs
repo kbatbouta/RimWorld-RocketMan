@@ -138,9 +138,7 @@ namespace RocketMan
         {
             if (prepare != null && !((bool)prepare.Invoke(null, null)))
             {
-                if (RocketDebugPrefs.Debug)
-                    Log.Message($"{PluginName}: Prepare failed for {attribute.targetType.Name ?? null}:{attribute.targetMethod ?? null}");
-                this.OnPatchingFailed(null);
+                Logger.Debug($"{PluginName}: Prepare failed for {attribute.targetType.Name ?? null}:{attribute.targetMethod ?? null}");
                 return;
             }
             foreach (var target in targets.ToHashSet())

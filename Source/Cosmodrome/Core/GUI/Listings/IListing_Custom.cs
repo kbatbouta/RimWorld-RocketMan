@@ -176,6 +176,24 @@ namespace RocketMan
             }
         }
 
+        protected virtual void DropDownMenu<T>(TaggedString text, T selection, Func<T, string> labelLambda, Action<T> selectedLambda, IEnumerable<T> options, bool disabled = false, GUIFontSize fontSize = GUIFontSize.Tiny, FontStyle fontStyle = FontStyle.Normal)
+        {
+            string selectedText = labelLambda(selection);
+
+            GUIFont.Font = fontSize;
+            GUIFont.CurFontStyle.fontStyle = fontStyle;
+
+            Rect rect = Slice(selectedText.GetTextHeight(insideWidth - 23f)).inside;
+            Rect[] columns = rect.Columns(2, 5);
+
+            Widgets.Label(columns[0], text);
+
+            if (Widgets.ButtonText(columns[1], selectedText, active: !disabled))
+            {
+                GUIUtility.DropDownMenu(labelLambda, selectedLambda, options);
+            }
+        }
+
         protected virtual void Lambda(float height, GUILambda contentLambda, bool useMargins = false, Action fallback = null)
         {
             RectSlice slice = Slice(height);

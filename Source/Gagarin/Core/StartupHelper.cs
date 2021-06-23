@@ -44,6 +44,7 @@ namespace Gagarin
                 Log.Warning("GAGARIN: <color=green>Cache not found or got purged!</color>");
             }
             Log.Message("GAGARIN: <color=green>Loading cache settings!</color>");
+            RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
 
             GagarinSettings.LoadSettings();
             if (DateTime.Now.Subtract(GagarinPrefs.CacheCreationTime).Days >= 3)
@@ -53,7 +54,6 @@ namespace Gagarin
             if (GagarinPrefs.Enabled)
             {
                 GagarinPatcher.PatchAll();
-                RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
             }
             else
             {

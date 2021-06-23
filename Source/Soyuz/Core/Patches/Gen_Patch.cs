@@ -14,7 +14,7 @@ namespace Soyuz
     {
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
-            MethodBase mIsCustomTickIntervalInternel = AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsCustomTickIntervalInternel));
+            MethodBase mIsCustomTickIntervalInternel = AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsCustomTickInterval_newtemp));
             MethodBase mCurrent = AccessTools.PropertyGetter(typeof(ContextualExtensions), nameof(ContextualExtensions.Current));
             if (mIsCustomTickIntervalInternel == null || mCurrent == null)
             {

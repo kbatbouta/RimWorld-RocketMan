@@ -11,6 +11,7 @@ using Verse;
 
 namespace Soyuz
 {
+
     public class RaceSettings : IExposable
     {
         public ThingDef def;
@@ -97,15 +98,15 @@ namespace Soyuz
 
     public class JobSettings : IExposable
     {
-        private const int SETTINGS_VERSION = 1;
+        private const int SETTINGS_VERSION = 2;
 
         private int version;
 
         public JobDef def;
 
-        public bool enabled = true;
+        public JobThrottleMode throttleMode = JobThrottleMode.Full;
 
-        public bool enabledForHumanlikes = false;
+        public JobThrottleFilter throttleFilter = JobThrottleFilter.Animals;
 
         public JobSettings()
         {
@@ -125,14 +126,19 @@ namespace Soyuz
             finally
             {
                 Scribe_Values.Look(ref version, "version", -1);
-                Scribe_Values.Look(ref enabled, "enabled", true);
-                Scribe_Values.Look(ref enabledForHumanlikes, "enabledForHumanlikes", true);
+                Scribe_Values.Look(ref throttleMode, "throttleMode", JobThrottleMode.Full);
+                Scribe_Values.Look(ref throttleFilter, "throttleFilter", JobThrottleFilter.Animals);
             }
             if (this.version != SETTINGS_VERSION)
             {
                 this.Notify_VersionChanged();
-                this.version = SETTINGS_VERSION;
             }
+        }
+
+        public void RestoreDefault()
+        {
+            throttleMode = JobThrottleMode.Full;
+            throttleFilter = JobThrottleFilter.Animals;
         }
 
         public void Prepare(bool updating = false)
@@ -145,26 +151,31 @@ namespace Soyuz
 
         private void Notify_VersionChanged()
         {
-            this.enabled = true;
-            if (this.def == JobDefOf.Wait)
-                this.enabledForHumanlikes = true;
-            if (this.def == JobDefOf.Wait_Wander)
-                this.enabledForHumanlikes = true;
-            if (this.def == JobDefOf.GotoWander)
-                this.enabledForHumanlikes = true;
-            if (this.def == JobDefOf.LayDown)
-                this.enabledForHumanlikes = true;
+            this.RestoreDefault();
+            this.version = SETTINGS_VERSION;
         }
     }
 
     public class SoyuzSettings : IExposable
     {
+        private bool fresh = true;
+
         public List<RaceSettings> AllRaceSettings = new List<RaceSettings>();
 
         public List<JobSettings> AllJobsSettings = new List<JobSettings>();
 
+        public bool Fresh
+        {
+            get => fresh;
+        }
+
         public void ExposeData()
         {
+            if (Scribe.mode == LoadSaveMode.Saving && fresh)
+            {
+                fresh = false;
+            }
+            Scribe_Values.Look(ref fresh, "firstUse", true);
             Scribe_Collections.Look(ref AllRaceSettings, "AllRaceSettings_NewTemp", LookMode.Deep);
             Scribe_Collections.Look(ref AllJobsSettings, "AllJobsSettings", LookMode.Deep);
             if (AllRaceSettings == null)

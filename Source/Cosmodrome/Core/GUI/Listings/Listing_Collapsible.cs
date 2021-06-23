@@ -138,6 +138,16 @@ namespace RocketMan
             return base.CheckboxLabeled(text, ref checkOn, tooltip, disabled, hightlightIfMouseOver, fontSize, fontStyle);
         }
 
+
+        public void DropDownMenu<T>(string text, T selection, Func<T, string> labelLambda, Action<T> selectedLambda, IEnumerable<T> options, bool invert = false, bool disabled = false, GUIFontSize fontSize = GUIFontSize.Tiny, FontStyle fontStyle = FontStyle.Normal)
+        {
+            if (invert == this.expanded)
+            {
+                return;
+            }
+            base.DropDownMenu(text, selection, labelLambda, selectedLambda, options, disabled, fontSize: fontSize, fontStyle: fontStyle);
+        }
+
         public void Columns(float height, IEnumerable<GUILambda> lambdas, float gap = 5, bool invert = false, bool useMargins = false, Action fallback = null)
         {
             if (invert == expanded)

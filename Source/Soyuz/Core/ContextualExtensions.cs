@@ -23,16 +23,6 @@ namespace Soyuz
         private static readonly int[] _transformationCache = new int[TransformationCacheSize];
         private static readonly Dictionary<int, int> timers = new Dictionary<int, int>();
         private static readonly Dictionary<int, int> deltas = new Dictionary<int, int>();
-        private static readonly Dictionary<int, Pair<bool, int>> bleeding = new Dictionary<int, Pair<bool, int>>();
-
-        private static readonly Dictionary<Pawn, PawnPerformanceModel> pawnPerformanceModels =
-            new Dictionary<Pawn, PawnPerformanceModel>();
-        private static readonly Dictionary<Pawn, PawnPatherModel> pawnPatherModels =
-            new Dictionary<Pawn, PawnPatherModel>();
-        private static readonly Dictionary<Pawn, Dictionary<Type, PawnNeedModel>> pawnNeedModels =
-            new Dictionary<Pawn, Dictionary<Type, PawnNeedModel>>();
-        private static readonly Dictionary<Pawn, Dictionary<Hediff, PawnHediffModel>> pawnHediffsModels =
-            new Dictionary<Pawn, Dictionary<Hediff, PawnHediffModel>>();
 
         private static int DilationRate
         {
@@ -76,51 +66,22 @@ namespace Soyuz
             return _transformationCache[interval];
         }
 
-        public static bool OffScreen(this Pawn pawn)
-        {
-            if (pawn == null)
-                return false;
-            if (RocketDebugPrefs.AlwaysDilating)
-                return offScreen = true;
-            if (_pawnScreen == pawn)
-                return offScreen;
-            _pawnScreen = pawn;
-            if (Context.CurViewRect.Contains(pawn.positionInt))
-                return offScreen = false;
-            return offScreen = true;
-        }
-
-        private static bool _isSkipping;
-        private static Pawn _skipingPawn;
-
-        public static bool IsSkippingTicks(this Pawn pawn)
-        {
-            if (!RocketPrefs.TimeDilation)
-                return false;
-            if (_skipingPawn == pawn)
-                return _isSkipping;
-            _skipingPawn = pawn;
-            _isSkipping = pawn?.IsSkippingTicks_newtemp() ?? false;
-            return _isSkipping;
-        }
-
         private static Stopwatch _stopwatch = new Stopwatch();
 
         public static void BeginTick(this Pawn pawn)
         {
-            if (RocketDebugPrefs.LogData && Time.frameCount - RocketStates.LastFrame < 60 && pawn == Context.ProfiledPawn)
-            {
-                _stopwatch.Reset();
-                _stopwatch.Start();
-            }
+            Context.CurRaceSettings = pawn.GetRaceSettings();
+            Context.CurJobSettings = pawn.GetCurJobSettings();
+
+            _stopwatch.Restart();
             _pawnTick = pawn;
+
             if (false
                 || !RocketPrefs.Enabled
                 || !RocketPrefs.TimeDilation
                 || !pawn.IsValidWildlifeOrWorldPawn())
             {
                 UpdateTimers(pawn);
-                Skip(pawn);
                 return;
             }
         }
@@ -128,93 +89,68 @@ namespace Soyuz
         public static void EndTick(this Pawn pawn)
         {
             _pawnTick = null;
-            if (RocketDebugPrefs.LogData && Time.frameCount - RocketStates.LastFrame < 60 && pawn == Context.ProfiledPawn)
+            _stopwatch.Stop();
+
+            try
             {
-                _stopwatch.Stop();
-                var performanceModel = pawn.GetPerformanceModel();
-                performanceModel.AddResult((float)_stopwatch.ElapsedTicks / (float)Stopwatch.Frequency * (float)1000f);
-
-                var needsModel = pawn.GetNeedModels();
-                if (pawn.needs?.needs != null)
-                    foreach (var need in pawn.needs?.needs)
-                    {
-                        var type = need.GetType();
-                        if (needsModel.TryGetValue(type, out var model)) model.AddResult(need.CurLevelPercentage);
-                        else needsModel[type] = new PawnNeedModel(need.def.label);
-                    }
-
-                Dictionary<Hediff, PawnHediffModel> hediffModel = pawn.GetHediffModels();
-                foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+                if (true
+                    && RocketDebugPrefs.LogData
+                    && Time.frameCount - RocketStates.LastFrame < 60
+                    && pawn == Context.ProfiledPawn)
                 {
-                    if (hediffModel.TryGetValue(hediff, out var model)) model.AddResult(hediff.Severity);
-                    else hediffModel[hediff] = new PawnHediffModel(hediff.def.label);
+                    UpdateModels(pawn);
                 }
             }
-            else Reset();
-        }
-
-        public static void Skip(Pawn pawn)
-        {
-            _isValidPawn = false;
+            finally
+            {
+                Reset();
+            }
         }
 
         public static void Reset()
         {
             _pawnScreen = null;
-            _pawnTick = null;
             _validPawn = null;
-        }
+            _pawnTick = null;
 
-        public static PawnPerformanceModel GetPerformanceModel(this Pawn pawn)
-        {
-            if (pawn == null)
-                return null;
-            if (pawnPerformanceModels.TryGetValue(pawn, out var model))
-                return model;
-            return pawnPerformanceModels[pawn] = new PawnPerformanceModel("Performance");
-        }
-
-        public static Dictionary<Type, PawnNeedModel> GetNeedModels(this Pawn pawn)
-        {
-            if (pawn == null)
-                return null;
-            if (pawnNeedModels.TryGetValue(pawn, out var model))
-                return model;
-            return pawnNeedModels[pawn] = new Dictionary<Type, PawnNeedModel>();
-        }
-
-        public static Dictionary<Hediff, PawnHediffModel> GetHediffModels(this Pawn pawn)
-        {
-            if (pawn == null)
-                return null;
-            if (pawnHediffsModels.TryGetValue(pawn, out var model))
-                return model;
-            return pawnHediffsModels[pawn] = new Dictionary<Hediff, PawnHediffModel>();
-        }
-
-        public static PawnPatherModel GetPatherModel(this Pawn pawn)
-        {
-            if (pawn == null)
-                return null;
-            if (pawnPatherModels.TryGetValue(pawn, out var model))
-                return model;
-            return pawnPatherModels[pawn] = new PawnPatherModel("Pathing");
+            Context.CurRaceSettings = null;
+            Context.CurRaceSettings = null;
         }
 
         public static bool IsCustomTickInterval(this Thing thing, int interval)
         {
-            if (Current == thing && Current.IsValidWildlifeOrWorldPawn())
-                return IsCustomTickIntervalInternel(thing, interval);
+            if (Current == thing
+                && Current.IsValidWildlifeOrWorldPawn()
+                && RocketPrefs.Enabled
+                && RocketPrefs.TimeDilation)
+            {
+                return IsCustomTickInterval_newtemp(thing, interval);
+            }
             return (thing.thingIDNumber + GenTicks.TicksGame) % interval == 0;
         }
 
-        public static bool IsCustomTickIntervalInternel(Thing thing, int interval)
+        public static bool IsCustomTickInterval_newtemp(Thing thing, int interval)
         {
             if (WorldPawnsTicker.isActive)
+            {
                 return WorldPawnsTicker.IsCustomWorldTickInterval(thing, interval);
-            else if (Current.IsSkippingTicks())
+            }
+            else if (Current.IsBeingThrottled() && RocketPrefs.Enabled && RocketPrefs.TimeDilation)
+            {
                 return (thing.thingIDNumber + GenTicks.TicksGame) % RoundTransform(interval) == 0;
+            }
             return (thing.thingIDNumber + GenTicks.TicksGame) % interval == 0;
+        }
+
+        public static int GetDeltaT(this Thing thing)
+        {
+            if (!RocketPrefs.Enabled || !RocketPrefs.TimeDilation)
+                return 1;
+            if (thing == Current)
+                return curDelta;
+            if (deltas.TryGetValue(thing?.thingIDNumber ?? -1, out int delta))
+                return delta;
+            throw new Exception($"SOYUZ: Inconsistant timer data for pawn {thing}");
         }
 
         public static void UpdateTimers(this Pawn pawn)
@@ -237,8 +173,7 @@ namespace Soyuz
             if (false
                 || (pawn.thingIDNumber + tick) % 30 == 0
                 || (tick % 250 == 0)
-                || (pawn.jobs?.curJob != null && pawn.jobs?.curJob?.expiryInterval > 0 &&
-                (tick - pawn.jobs.curJob.startTick) % (pawn.jobs.curJob.expiryInterval) == 0))
+                || (pawn.jobs?.curJob != null && pawn.jobs?.curJob?.expiryInterval > 0 && (tick - pawn.jobs.curJob.startTick) % (pawn.jobs.curJob.expiryInterval) == 0))
                 return true;
             if (Context.DilationFastMovingRace[pawn.def.index])
                 return (pawn.thingIDNumber + tick) % 2 == 0;
@@ -251,20 +186,47 @@ namespace Soyuz
             return true;
         }
 
-        public static int GetDeltaT(this Thing thing)
+        public static bool OffScreen(this Pawn pawn)
         {
-            if (thing == Current)
-                return curDelta;
-            if (deltas.TryGetValue(thing?.thingIDNumber ?? -1, out int delta))
-                return delta;
-            throw new Exception($"SOYUZ: Inconsistant timer data for pawn {thing}");
+            if (pawn == null)
+                return false;
+            if (RocketDebugPrefs.AlwaysDilating)
+                return offScreen = true;
+            if (_pawnScreen == pawn)
+                return offScreen;
+            _pawnScreen = pawn;
+            if (Context.CurViewRect.Contains(pawn.positionInt))
+                return offScreen = false;
+            return offScreen = true;
+        }
+
+        private static bool _isBeingThrottled;
+        private static Pawn _throttledPawn;
+
+        public static bool IsBeingThrottled(this Pawn pawn)
+        {
+            if (Current != pawn
+                || pawn == null
+                || !RocketPrefs.TimeDilation
+                || !RocketPrefs.Enabled)
+                return false;
+            if (_throttledPawn != pawn)
+            {
+                _throttledPawn = pawn;
+                _isBeingThrottled = pawn.IsBeingThrottled_newtemp();
+            }
+            return _isBeingThrottled;
         }
 
         private static bool _isValidPawn = false;
         private static Pawn _validPawn = null;
+
         public static bool IsValidWildlifeOrWorldPawn(this Pawn pawn)
         {
-            if (Current != pawn || pawn == null)
+            if (Current != pawn
+                || pawn == null
+                || !RocketPrefs.TimeDilation
+                || !RocketPrefs.Enabled)
                 return false;
             if (_validPawn != pawn)
             {
@@ -274,26 +236,78 @@ namespace Soyuz
             return _isValidPawn;
         }
 
-        public static bool IsBleeding(this Pawn pawn)
+        private static bool IsValidWildlifeOrWorldPawnInternal_newtemp(this Pawn pawn)
         {
-            bool isBleeding = false;
-            if (bleeding.TryGetValue(pawn.thingIDNumber, out var store) &&
-                ((GenTicks.TicksGame - store.second < 900 && !store.first) || (GenTicks.TicksGame - store.second < 2500 && store.first)))
-                isBleeding = store.first;
-            else if (pawn.RaceProps.IsFlesh)
-                bleeding[pawn.thingIDNumber] = new Pair<bool, int>(isBleeding = (pawn.health.hediffSet.CalculateBleedRate() > 0f), GenTicks.TicksGame);
-            return isBleeding;
+            if (!RocketPrefs.Enabled || !RocketPrefs.TimeDilation)
+                return false;
+
+            if (WorldPawnsTicker.isActive)
+            {
+                if (pawn.IsCaravanMember())
+                    return false;
+                if (!RocketPrefs.TimeDilationWorldPawns)
+                    return false;
+
+                return true;
+            }
+            else if (true
+                && !IgnoreMeDatabase.ShouldIgnore(pawn.def)
+                && !IsCastingVerb(pawn)
+                && !(!RocketPrefs.TimeDilationCriticalHediffs && HasHediffPreventingThrottling(pawn))
+                && Context.CurJobSettings != null
+                && Context.CurJobSettings.throttleMode != JobThrottleMode.None)
+            {
+                if (pawn.def.race.Humanlike && Context.CurJobSettings.def != JobDefOf.DoBill)
+                {
+                    return IsValidHuman(pawn);
+                }
+                else if (Context.DilationEnabled[pawn.def.index])
+                {
+                    return IsValidAnimal(pawn);
+                }
+            }
+            return false;
         }
 
-        public static int AsInt(this Pawn pawn)
+        private static bool IsValidHuman(Pawn pawn)
         {
-            int val = 1;
+            if (true
+                && Context.CurJobSettings.throttleFilter != JobThrottleFilter.Humanlikes
+                && Context.CurJobSettings.throttleFilter != JobThrottleFilter.All)
+                return false;
+            Faction playerFaction = Faction.OfPlayer;
+
+            if (!RocketPrefs.TimeDilationColonists && pawn.factionInt == playerFaction)
+                return false;
+            if (!RocketPrefs.TimeDilationColonists && (pawn.guest?.isPrisonerInt ?? false) && pawn.guest?.hostFactionInt == playerFaction)
+                return false;
+            if (Context.CurJobSettings != null && (RocketPrefs.TimeDilationVisitors || RocketPrefs.TimeDilationColonists))
+                return true;
+            return false;
+        }
+
+        private static bool IsValidAnimal(Pawn pawn)
+        {
+            if (Context.CurJobSettings.throttleFilter != JobThrottleFilter.Animals && Context.CurJobSettings.throttleFilter != JobThrottleFilter.All)
+                return false;
+            RaceSettings raceSettings = Context.CurRaceSettings;
+
+            if (pawn.factionInt == Faction.OfPlayer)
+                return !raceSettings.ignorePlayerFaction && RocketPrefs.TimeDilationColonyAnimals;
             if (pawn.factionInt != null)
-            {
-                if (pawn.factionInt != Faction.OfPlayerSilentFail) val = val | 2;
-                else val = val | 4;
-            }
-            return val;
+                return !raceSettings.ignoreFactions && RocketPrefs.TimeDilationVisitors;
+            return RocketPrefs.TimeDilationWildlife;
+        }
+
+        private static bool IsBeingThrottled_newtemp(this Pawn pawn)
+        {
+            if (!pawn.Spawned && WorldPawnsTicker.isActive && pawn.GetCaravan() != null)
+                return true;
+            if (pawn.OffScreen())
+                return true;
+            if (Context.ZoomRange == CameraZoomRange.Far || Context.ZoomRange == CameraZoomRange.Furthest || Context.ZoomRange == CameraZoomRange.Middle)
+                return true;
+            return false;
         }
     }
 }

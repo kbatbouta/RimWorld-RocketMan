@@ -39,6 +39,8 @@ namespace Soyuz.Tabs
 
         private Listing_Collapsible collapsible_jobs = new Listing_Collapsible();
 
+        private JobSettings curJobSettings = null;
+
         private IEnumerable<JobDef> jobs;
 
         public TabContent_DilationSettings()
@@ -132,24 +134,97 @@ namespace Soyuz.Tabs
             if (RocketPrefs.TimeDilation && RocketEnvironmentInfo.IsDevEnv && searchString != null && searchString.StartsWith("secret"))
             {
                 string jobSearchString = searchString.Length > 6 ? searchString.Substring(6, searchString.Length - 6).Trim().ToLower() : string.Empty;
-                collapsible_jobs.Begin(inRect, "Jobs settings");
+                collapsible_jobs.Begin(inRect, "Selection setttings");
                 collapsible_jobs.Label("GO AWAY THIS IS SECRET MOFFA LIL PIECE OF SHT!");
-                foreach (JobDef def in this.jobs)
+                collapsible_jobs.Lambda(20, (rect) =>
                 {
-                    if (!jobSearchString.NullOrEmpty() && !(def.label ?? def.defName).ToLower().Contains(jobSearchString))
+                    if (Widgets.ButtonText(rect, "Auto configure secret stuffs"))
                     {
-                        continue;
+                        SoyuzSettingsUtility.SetRecommendedJobConfig();
                     }
-                    if (Context.JobDilationByDef.TryGetValue(def, out var settings))
-                    {
-                        collapsible_jobs.Label(def.label ?? def.defName, fontSize: GUIFontSize.Small);
-                        collapsible_jobs.Gap(2);
-                        collapsible_jobs.CheckboxLabeled("Dilate", ref settings.enabled);
-                        collapsible_jobs.CheckboxLabeled("Dilate humanlikes", ref settings.enabledForHumanlikes);
-                        collapsible_jobs.Line(1);
-                    }
+                }, useMargins: true);
+                if (curJobSettings != null && curJobSettings.def != null)
+                {
+                    JobSettings curJobSettings = this.curJobSettings;
+                    collapsible_jobs.Line(1);
+                    collapsible_jobs.Label(curJobSettings.def.label ?? curJobSettings.def.defName, fontSize: GUIFontSize.Smaller);
+                    collapsible_jobs.Gap(2);
+                    collapsible_jobs.DropDownMenu("Filter", curJobSettings.throttleFilter,
+                        (a) =>
+                        {
+                            if (a == JobThrottleFilter.All)
+                            {
+                                return "All";
+                            }
+                            if (a == JobThrottleFilter.Animals)
+                            {
+                                return "Animals";
+                            }
+                            return "Humanlikes";
+                        },
+                        (a) =>
+                         {
+                             curJobSettings.throttleFilter = a;
+                         },
+                        new[] {
+                             JobThrottleFilter.All,
+                             JobThrottleFilter.Animals,
+                         });
+                    collapsible_jobs.DropDownMenu("Mode", curJobSettings.throttleMode,
+                        (a) =>
+                        {
+                            if (a == JobThrottleMode.Full)
+                            {
+                                return "Full";
+                            }
+                            if (a == JobThrottleMode.Partial)
+                            {
+                                return "Partial";
+                            }
+                            return "None";
+                        },
+                        (a) =>
+                        {
+                            curJobSettings.throttleMode = a;
+                        },
+                        new[] {
+                            JobThrottleMode.None,
+                            JobThrottleMode.Full,
+                            JobThrottleMode.Partial
+                        });
                 }
                 collapsible_jobs.End(ref inRect);
+                RocketMan.GUIUtility.ScrollView(inRect, ref jobsScrollPosition, this.jobs,
+                    (def) =>
+                    {
+                        if (def == null)
+                        {
+                            return -1;
+                        }
+                        if (!jobSearchString.NullOrEmpty() && !(def.label ?? def.defName).ToLower().Contains(jobSearchString))
+                        {
+                            return -1;
+                        }
+                        return Context.JobDilationByDef.ContainsKey(def) ? 35 : -1;
+                    },
+                    (rect, def) =>
+                    {
+                        GUIFont.Font = GUIFontSize.Tiny;
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
+
+                        var settings = Context.JobDilationByDef[def];
+
+                        if (settings.throttleFilter == JobThrottleFilter.Humanlikes)
+                            Widgets.DrawBoxSolid(rect.LeftPartPixels(3), Color.blue);
+                        if (settings.throttleMode == JobThrottleMode.None)
+                            Widgets.DrawBoxSolid(rect.LeftPartPixels(3), Color.red);
+                        if (Widgets.ButtonInvisible(rect))
+                            curJobSettings = settings;
+
+                        rect.xMin += 5;
+                        Widgets.Label(rect, def.label ?? def.defName);
+                    }
+                );
             }
             else
             {
@@ -224,7 +299,10 @@ namespace Soyuz.Tabs
                                  Widgets.Label(r, raceSettings.def.modContentPack?.PackageIdPlayerFacing ?? "Unknown");
                             }
                             },
-                            cellLambda: (r, f) => f(r), false, false);
+                            cellLambda: (r, f) => f(r),
+                            drawBackground: false,
+                            drawVerticalDivider: false
+                        );
                     }
                 );
             }
@@ -290,6 +368,5 @@ namespace Soyuz.Tabs
 
         [Main.YieldTabContent]
         public static ITabContent YieldTab() => new TabContent_DilationSettings();
-
     }
 }

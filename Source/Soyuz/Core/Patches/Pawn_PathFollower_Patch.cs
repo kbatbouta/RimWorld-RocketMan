@@ -34,7 +34,7 @@ namespace Soyuz.Patches
                 Reset();
                 if (RocketPrefs.Enabled
                     && __instance.pawn.IsValidWildlifeOrWorldPawn()
-                    && __instance.pawn.IsSkippingTicks())
+                    && __instance.pawn.IsBeingThrottled())
                 {
                     pawn = __instance.pawn;
                 }

@@ -16,6 +16,10 @@ namespace Soyuz
 
         public static Pawn ProfiledPawn;
 
+        public static JobSettings CurJobSettings;
+
+        public static RaceSettings CurRaceSettings;
+
         public static readonly bool[] DilationEnabled = new bool[ushort.MaxValue];
 
         public static readonly bool[] DilationFastMovingRace = new bool[ushort.MaxValue];

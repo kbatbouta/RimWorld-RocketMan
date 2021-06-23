@@ -85,6 +85,7 @@ namespace Soyuz.Patches
 
         private static void TickExtras(Pawn pawn)
         {
+            bool jobTrackerTicked = false;
             if (pawn.Spawned)
             {
                 pawn.stances?.StanceTrackerTick();
@@ -93,9 +94,38 @@ namespace Soyuz.Patches
                     pawn.drawer?.DrawTrackerTick();
                     pawn.rotationTracker?.RotationTrackerTick();
                 }
+                if (pawn.jobs?.curJob != null
+                    && Context.CurJobSettings != null
+                    && Context.CurJobSettings.throttleMode == JobThrottleMode.Partial)
+                {
+                    Exception exception = null;
+                    RocketPrefs.TimeDilation = false;
+                    try
+                    {
+                        pawn.jobs.JobTrackerTick();
+                    }
+                    catch (Exception er)
+                    {
+                        exception = er;
+                    }
+                    finally
+                    {
+                        RocketPrefs.TimeDilation = true;
+
+                        jobTrackerTicked = true;
+                    }
+                    if (exception != null)
+                    {
+                        throw exception;
+                    }
+                }
+                if (RocketDebugPrefs.FlashDilatedPawns)
+                {
+                    string flag = jobTrackerTicked ? "O" : "_";
+
+                    pawn.Map.debugDrawer.FlashCell(pawn.positionInt, 0.05f, $"{pawn.OffScreen()}{flag}", 100);
+                }
             }
-            if (RocketDebugPrefs.FlashDilatedPawns && pawn.Spawned)
-                pawn.Map.debugDrawer.FlashCell(pawn.positionInt, 0.05f, $"{pawn.OffScreen()}", 100);
         }
     }
 }

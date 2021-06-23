@@ -29,7 +29,7 @@ namespace Soyuz.Patches
             yield return new CodeInstruction(OpCodes.Ldfld,
                 AccessTools.Field(typeof(Pawn_CallTracker), nameof(Pawn_CallTracker.pawn)));
             yield return new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsSkippingTicks)));
+                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsBeingThrottled)));
             yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
 
             yield return new CodeInstruction(OpCodes.Ldarg_0);

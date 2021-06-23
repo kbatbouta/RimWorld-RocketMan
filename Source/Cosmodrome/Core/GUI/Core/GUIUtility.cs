@@ -134,6 +134,37 @@ namespace RocketMan
             }
         }
 
+        public static void DropDownMenu<T>(Func<T, string> labelLambda, Action<T> selectedLambda, T[] options)
+        {
+            DropDownMenu(labelLambda, selectedLambda, options.AsEnumerable());
+        }
+
+        public static void DropDownMenu<T>(Func<T, string> labelLambda, Action<T> selectedLambda, IEnumerable<T> options)
+        {
+            bool useCustomFonts = GUIFont.UseCustomFonts;
+            GUIFont.UseCustomFonts = false;
+            GameFont font = Text.Font;
+            try
+            {
+                Text.Font = GameFont.Small;
+                FloatMenuUtility.MakeMenu(options,
+                    (option) =>
+                    {
+                        return labelLambda(option);
+                    },
+                    (option) =>
+                    {
+                        return () => selectedLambda(option);
+                    }
+                );
+            }
+            finally
+            {
+                Text.Font = font;
+                GUIFont.UseCustomFonts = useCustomFonts;
+            }
+        }
+
         public static void Row(Rect rect, List<Action<Rect>> contentLambdas, bool drawDivider = true, bool drawBackground = false)
         {
             if (drawBackground)

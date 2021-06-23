@@ -10,7 +10,7 @@ namespace Soyuz.Patches
         {
             var pawn = __instance.pawn;
             if (true
-                && pawn.IsSkippingTicks()
+                && pawn.IsBeingThrottled()
                 && pawn.IsValidWildlifeOrWorldPawn())
             {
                 int deltaT = pawn.GetDeltaT();

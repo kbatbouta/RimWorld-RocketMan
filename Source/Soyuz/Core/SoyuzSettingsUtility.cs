@@ -7,7 +7,7 @@ using Verse;
 
 namespace Soyuz
 {
-    public static class SoyuzSettingsUtility
+    public static partial class SoyuzSettingsUtility
     {
         private static readonly HashSet<ThingDef> processedDefs = new HashSet<ThingDef>();
 
@@ -28,6 +28,11 @@ namespace Soyuz
         {
             PrepareRaceSettings();
             PrepareJobSettings();
+            PreparePresets();
+            if (Context.Settings.Fresh)
+            {
+                SetRecommendedJobConfig();
+            }
         }
 
         private static void PrepareRaceSettings()
@@ -75,22 +80,8 @@ namespace Soyuz
                 .Where(d => !processedJobDefs.Contains(d)))
             {
                 processedJobDefs.Add(def);
-                bool enabledForHumanlikes = false;
 
-                if (def == JobDefOf.Wait)
-                    enabledForHumanlikes = true;
-                if (def == JobDefOf.Wait_Wander)
-                    enabledForHumanlikes = true;
-                if (def == JobDefOf.GotoWander)
-                    enabledForHumanlikes = true;
-                if (def == JobDefOf.LayDown)
-                    enabledForHumanlikes = true;
-
-                Context.Settings.AllJobsSettings.Add(new JobSettings()
-                {
-                    def = def,
-                    enabledForHumanlikes = enabledForHumanlikes
-                });
+                Context.Settings.AllJobsSettings.Add(new JobSettings(def));
             }
             foreach (JobSettings settings in Context.Settings.AllJobsSettings)
             {

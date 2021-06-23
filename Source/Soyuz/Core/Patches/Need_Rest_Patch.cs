@@ -11,7 +11,7 @@ namespace Soyuz.Patches
         {
             if (true
                 && __instance.pawn.IsValidWildlifeOrWorldPawn()
-                && __instance.pawn.IsSkippingTicks())
+                && __instance.pawn.IsBeingThrottled())
                 __instance.lastRestTick = GenTicks.TicksGame + __instance.pawn.GetDeltaT() * 2;
         }
     }
