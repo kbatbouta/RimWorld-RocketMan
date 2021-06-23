@@ -92,6 +92,9 @@ namespace RocketMan.Optimizations
                 .ToHashSet();
         }
 
+        [Main.OnTickLonger]
+        public static void OnTickLonger() => cache.Clear();
+
         public static float UpdateCache(int key, StatWorker statWorker, StatRequest req, bool applyPostProcess,
             int tick, Tuple<float, int, int> store, int signature)
         {
@@ -125,7 +128,10 @@ namespace RocketMan.Optimizations
                     return UpdateCache(key, statWorker, req, applyPostProcess, tick, store, signature);
 
                 if (tick - store.Item2 - 1 > RocketStates.StatExpiry[statWorker.stat.index] || signature != store.Item3)
+                {
+                    cache.Remove(key);
                     return UpdateCache(key, statWorker, req, applyPostProcess, tick, store, signature);
+                }
                 return store.Item1;
             }
             return statWorker.GetValueUnfinalized(req, applyPostProcess);

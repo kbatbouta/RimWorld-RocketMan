@@ -316,12 +316,24 @@ namespace Soyuz.Tabs
                 collapsible_selection.Begin(inRect, KeyedResources.RocketMan_Selection.Formatted(curSettings.def.label?.CapitalizeFirst() ?? curSettings.def.defName), drawIcon: false, drawInfo: false);
                 if (!IgnoreMeDatabase.ShouldIgnore(curSettings.def))
                 {
-                    collapsible_selection.CheckboxLabeled("Soyuz.Current.Enable".Translate(), ref curSettings.enabled);
+                    bool checkOn = Context.DilationEnabled[curSettings.def.index];
+                    if (collapsible_selection.CheckboxLabeled("Soyuz.Current.Enable".Translate(), ref checkOn))
+                    {
+                        Context.DilationEnabled[curSettings.def.index] = checkOn;
+                        curSettings.enabled = checkOn;
+                        curSettings.Prepare(updating: true);
+                    }
                     collapsible_selection.Line(1);
                     collapsible_selection.Label(KeyedResources.Soyuz_Current_Tip);
                     collapsible_selection.Line(1);
-                    collapsible_selection.CheckboxLabeled("Soyuz.Current.IgnoreAllFactions".Translate(), ref curSettings.ignoreFactions, disabled: !curSettings.enabled);
-                    collapsible_selection.CheckboxLabeled("Soyuz.Current.IgnorePlayerFaction".Translate(), ref curSettings.ignorePlayerFaction, disabled: !curSettings.enabled);
+                    if (collapsible_selection.CheckboxLabeled("Soyuz.Current.IgnoreAllFactions".Translate(), ref curSettings.ignoreFactions, disabled: !curSettings.enabled))
+                    {
+                        curSettings.Prepare(updating: true);
+                    }
+                    if (collapsible_selection.CheckboxLabeled("Soyuz.Current.IgnorePlayerFaction".Translate(), ref curSettings.ignorePlayerFaction, disabled: !curSettings.enabled))
+                    {
+                        curSettings.Prepare(updating: true);
+                    }
                 }
                 else if (curSettings.isFastMoving)
                 {

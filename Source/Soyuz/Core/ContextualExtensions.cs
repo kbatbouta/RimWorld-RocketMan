@@ -283,12 +283,15 @@ namespace Soyuz
                 return false;
             if (Context.CurJobSettings != null && (RocketPrefs.TimeDilationVisitors || RocketPrefs.TimeDilationColonists))
                 return true;
+
             return false;
         }
 
         private static bool IsValidAnimal(Pawn pawn)
         {
-            if (Context.CurJobSettings.throttleFilter != JobThrottleFilter.Animals && Context.CurJobSettings.throttleFilter != JobThrottleFilter.All)
+            if (true
+                && Context.CurJobSettings.throttleFilter != JobThrottleFilter.Animals
+                && Context.CurJobSettings.throttleFilter != JobThrottleFilter.All)
                 return false;
             RaceSettings raceSettings = Context.CurRaceSettings;
 
@@ -296,6 +299,7 @@ namespace Soyuz
                 return !raceSettings.ignorePlayerFaction && RocketPrefs.TimeDilationColonyAnimals;
             if (pawn.factionInt != null)
                 return !raceSettings.ignoreFactions && RocketPrefs.TimeDilationVisitors;
+
             return RocketPrefs.TimeDilationWildlife;
         }
 

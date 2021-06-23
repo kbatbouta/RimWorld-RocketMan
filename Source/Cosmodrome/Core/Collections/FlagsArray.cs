@@ -3,32 +3,35 @@ using Verse;
 
 namespace RocketMan
 {
-    public class FlagsArray
+    public class FlagArray
     {
         private readonly int size;
         private readonly int[] memory;
+
+        private const int Bit = 1;
+        private const int ChunkSize = 32;
 
         public int Size
         {
             get => size;
         }
 
-        public FlagsArray(int size)
+        public FlagArray(int size)
         {
-            this.memory = new int[(size / 32) + 16];
+            this.memory = new int[(size / ChunkSize) + ChunkSize];
             this.size = size;
         }
 
         public bool Get(int key)
         {
-            return (memory[key / 32] & (1 << (key % 32))) == (1 << (key % 32));
+            return (memory[key / ChunkSize] & GetOp(key)) != 0;
         }
 
-        public FlagsArray Set(int key, bool value)
+        public FlagArray Set(int key, bool value)
         {
-            int index = key / 32;
-            memory[index] = value ?
-                memory[index] | (1 << (key % 32)) : memory[index] & ((1 << (key % 32)) ^ 0x00);
+            memory[key / ChunkSize] = value ?
+                memory[key / ChunkSize] | GetOp(key) :
+                memory[key / ChunkSize] & ~GetOp(key);
             return this;
         }
 
@@ -36,6 +39,11 @@ namespace RocketMan
         {
             get => Get(key);
             set => Set(key, value);
+        }
+
+        private int GetOp(int key)
+        {
+            return Bit << (key % ChunkSize);
         }
     }
 }

@@ -15,6 +15,8 @@ namespace Soyuz
 
         private static JobDef[] notThrottledJobs = null;
 
+        private static bool initialized = false;
+
         private static void PreparePresets()
         {
             if (fullyThrottledJobs == null)
@@ -35,7 +37,7 @@ namespace Soyuz
                     JobDefOf.Wait_Wander,
                     JobDefOf.GotoWander,
                     JobDefOf.SocialRelax,
-                    JobDefOf.Play_MusicalInstrument,
+                    DefDatabase<JobDef>.defsByName.TryGetValue("GoForWalk", fallback: null)
                 };
             }
             if (partiallyThrottledJobs == null)
@@ -72,12 +74,17 @@ namespace Soyuz
             }
         }
 
-        [Main.OnMapLoaded]
+        [Main.OnWorldLoaded]
         public static void SetRecommendedJobConfig()
         {
+            if (initialized)
+            {
+                PreparePresets();
+                initialized = true;
+            }
             foreach (JobDef def in fullyThrottledJobs)
             {
-                if (Context.JobDilationByDef.TryGetValue(def, out JobSettings settings))
+                if (def != null && Context.JobDilationByDef.TryGetValue(def, out JobSettings settings))
                 {
                     settings.throttleFilter = JobThrottleFilter.All;
                     settings.throttleMode = JobThrottleMode.Full;
@@ -89,7 +96,7 @@ namespace Soyuz
             }
             foreach (JobDef def in partiallyThrottledJobs)
             {
-                if (Context.JobDilationByDef.TryGetValue(def, out JobSettings settings))
+                if (def != null && Context.JobDilationByDef.TryGetValue(def, out JobSettings settings))
                 {
                     settings.throttleFilter = JobThrottleFilter.All;
                     settings.throttleMode = JobThrottleMode.Partial;
@@ -101,7 +108,7 @@ namespace Soyuz
             }
             foreach (JobDef def in notThrottledJobs)
             {
-                if (Context.JobDilationByDef.TryGetValue(def, out JobSettings settings))
+                if (def != null && Context.JobDilationByDef.TryGetValue(def, out JobSettings settings))
                 {
                     settings.throttleFilter = JobThrottleFilter.All;
                     settings.throttleMode = JobThrottleMode.None;

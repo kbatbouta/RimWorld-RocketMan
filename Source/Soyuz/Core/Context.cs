@@ -20,9 +20,9 @@ namespace Soyuz
 
         public static RaceSettings CurRaceSettings;
 
-        public static readonly bool[] DilationEnabled = new bool[ushort.MaxValue];
+        public static readonly FlagArray DilationEnabled = new FlagArray(ushort.MaxValue);
 
-        public static readonly bool[] DilationFastMovingRace = new bool[ushort.MaxValue];
+        public static readonly FlagArray DilationFastMovingRace = new FlagArray(ushort.MaxValue);
 
         public static readonly Dictionary<ThingDef, RaceSettings> DilationByDef = new Dictionary<ThingDef, RaceSettings>();
 

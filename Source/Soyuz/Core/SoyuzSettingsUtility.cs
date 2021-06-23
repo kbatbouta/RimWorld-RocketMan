@@ -28,18 +28,13 @@ namespace Soyuz
         {
             PrepareRaceSettings();
             PrepareJobSettings();
-            PreparePresets();
-            if (Context.Settings.Fresh)
-            {
-                SetRecommendedJobConfig();
-            }
         }
 
         private static void PrepareRaceSettings()
         {
             Context.Settings.AllRaceSettings = Context.Settings.AllRaceSettings
                 .AsParallel()
-                .Where(s => s.def != null).ToList();
+                .Where(s => s?.def != null).ToList();
             foreach (RaceSettings settings in Context.Settings.AllRaceSettings)
             {
                 processedDefs.Add(settings.def);
@@ -70,7 +65,7 @@ namespace Soyuz
         {
             Context.Settings.AllJobsSettings = Context.Settings.AllJobsSettings
                 .AsParallel()
-                .Where(s => s.def != null).ToList();
+                .Where(s => s?.def != null).ToList();
             foreach (JobSettings settings in Context.Settings.AllJobsSettings)
             {
                 processedJobDefs.Add(settings.def);

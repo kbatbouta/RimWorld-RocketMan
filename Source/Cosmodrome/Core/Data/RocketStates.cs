@@ -15,7 +15,7 @@ namespace RocketMan
 
         public static float[] StatExpiry = new float[ushort.MaxValue];
 
-        public static bool[] DilatedDefs = new bool[ushort.MaxValue];
+        public static FlagArray DilatedDefs = new FlagArray(ushort.MaxValue);
 
         public static object LOCKER = new object();
     }

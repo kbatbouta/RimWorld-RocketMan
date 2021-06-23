@@ -33,17 +33,20 @@ namespace RocketMan.Optimizations
 
                 curKey = key;
                 curValue = val;
-                if (cache.TryGetValue(key, out var store, 2500) && store.second == pawn.GetSignature())
+                if (cache.TryGetValue(key, out var store, 2500))
                 {
-                    val += store.first * (__instance.subtract ? -1 : 1);
-                    skip = true;
-                    return false;
+                    if (store.second == pawn.GetSignature())
+                    {
+                        val += store.first * (__instance.subtract ? -1 : 1);
+                        skip = true;
+                        return false;
+                    }
+                    cache.Remove(key);
                 }
 
                 skip = false;
                 return true;
             }
-
             skip = true;
             return true;
         }

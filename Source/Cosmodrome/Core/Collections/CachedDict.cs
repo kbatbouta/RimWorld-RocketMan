@@ -35,25 +35,31 @@ namespace RocketMan
 
         public bool TryGetValue(A key, out B value, int expiry = 0)
         {
-            if (cache.TryGetValue(key, out var store) && store.IsValid(expiry))
+            if (cache.TryGetValue(key, out var store))
             {
-                value = store.value;
-                return true;
+                if (store.IsValid(expiry))
+                {
+                    value = store.value;
+                    return true;
+                }
+                Remove(key);
             }
-
             value = default;
             return false;
         }
 
         public bool TryGetValue(A key, out B value, out bool failed, int expiry = 0)
         {
-            if (cache.TryGetValue(key, out var store) && store.IsValid(expiry))
+            if (cache.TryGetValue(key, out var store))
             {
-                failed = false;
-                value = store.value;
-                return true;
+                if (store.IsValid(expiry))
+                {
+                    failed = false;
+                    value = store.value;
+                    return true;
+                }
+                Remove(key);
             }
-
             failed = true;
             value = default;
             return false;
