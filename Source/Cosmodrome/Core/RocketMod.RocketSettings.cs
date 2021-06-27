@@ -104,6 +104,7 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.Learning, "learning", true);
                 Scribe_Values.Look(ref RocketPrefs.StatGearCachingEnabled, "statGearCachingEnabled", true);
                 Scribe_Values.Look(ref RocketPrefs.ShowWarmUpPopup, "showWarmUpPopup", true);
+                Scribe_Values.Look(ref RocketPrefs.PauseAfterWarmup, "pauseAfterWarmup", false);
                 Scribe_Values.Look(ref RocketPrefs.AlertThrottling, "alertThrottling", true);
                 Scribe_Values.Look(ref RocketPrefs.DisableAllAlert, "disableAllAlert", false);
                 Scribe_Values.Look(ref RocketPrefs.LearningAlertEnabled, "learningAlertEnabled", true);

@@ -256,7 +256,7 @@ namespace RocketMan
         private static TaggedString _RocketMan_TranslationCaching = null;
         /// <summary> Keyed string with key <c>RocketMan.TranslationCaching</c> with inner text set to:
         ///
-        /// <code>Enalbe text size caching</code>
+        /// <code>Enable text size caching</code>
         /// </summary>       
         public static TaggedString RocketMan_TranslationCaching {
             get => _RocketMan_TranslationCaching != null ? 
@@ -341,6 +341,16 @@ namespace RocketMan
         public static TaggedString RocketMan_ProgressBar {
             get => _RocketMan_ProgressBar != null ? 
                    _RocketMan_ProgressBar : _RocketMan_ProgressBar = "RocketMan.ProgressBar".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_ProgressBar_Pause = null;
+        /// <summary> Keyed string with key <c>RocketMan.ProgressBar.Pause</c> with inner text set to:
+        ///
+        /// <code>Pause after warmup</code>
+        /// </summary>       
+        public static TaggedString RocketMan_ProgressBar_Pause {
+            get => _RocketMan_ProgressBar_Pause != null ? 
+                   _RocketMan_ProgressBar_Pause : _RocketMan_ProgressBar_Pause = "RocketMan.ProgressBar.Pause".Translate();
         }             
                            
         private static TaggedString _RocketMan_ProgressBar_Description = null;
@@ -1026,7 +1036,7 @@ namespace RocketMan
         private static TaggedString _Gagarin_EnableTextureCaching_Description = null;
         /// <summary> Keyed string with key <c>Gagarin.EnableTextureCaching.Description</c> with inner text set to:
         ///
-        /// <code>Texture caching will speedup your loading time but is not compatible with Graphic setter mod or High Quality texture mod.</code>
+        /// <code>Texture caching will speedup your loading time but is not compatible with Graphics Settings mod or High quality textures mod.</code>
         /// </summary>       
         public static TaggedString Gagarin_EnableTextureCaching_Description {
             get => _Gagarin_EnableTextureCaching_Description != null ? 

@@ -130,6 +130,7 @@ namespace RocketMan
                 {
                     collapsible_speed.Begin(inRect, "RocketMan.GameSpeed".Translate());
                     collapsible_speed.CheckboxLabeled("RocketMan.DisableForcedSlowdowns".Translate(), ref RocketPrefs.DisableForcedSlowdowns, "RocketMan.DisableForcedSlowdowns.Description".Translate());
+                    collapsible_speed.CheckboxLabeled(KeyedResources.RocketMan_ProgressBar_Pause, ref RocketPrefs.PauseAfterWarmup);
                     collapsible_speed.End(ref inRect);
                     inRect.yMin += 5;
 

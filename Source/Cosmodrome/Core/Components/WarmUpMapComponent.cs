@@ -98,6 +98,8 @@ namespace RocketMan
             {
                 Log.Message("ROCKETMAN: Position verfication started!");
                 PopPawnsPosition();
+                if (RocketPrefs.PauseAfterWarmup && !Find.TickManager.Paused)
+                    Find.TickManager.Pause();
             }
             if (finished)
                 return;

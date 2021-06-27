@@ -76,14 +76,15 @@ namespace RocketMan
         [Main.SettingsField(warmUpValue: false)]
         public static bool EnableGridRefresh = false;
 
-        [Main.SettingsField(warmUpValue: false)]
-        public static bool ShowWarmUpPopup = true;
-
         [Main.SettingsField(warmUpValue: true)]
         public static bool MainButtonToggle = true;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool DisableForcedSlowdowns = false;
+
+        public static bool PauseAfterWarmup = false;
+
+        public static bool ShowWarmUpPopup = true;
 
         public const float LearningRate = 0.0005f;
     }

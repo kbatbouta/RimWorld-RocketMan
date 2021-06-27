@@ -35,6 +35,7 @@
 	<RocketMan.ShowIcon>Show RocketMan button/icon</RocketMan.ShowIcon>
 	<RocketMan.ShowIcon.Description>Due to game limiations some options aren't available from the game menu settings.</RocketMan.ShowIcon.Description>
 	<RocketMan.ProgressBar>Show warmup progress bar on startup</RocketMan.ProgressBar>
+	<RocketMan.ProgressBar.Pause>Pause after warmup</RocketMan.ProgressBar.Pause>
 	<RocketMan.ProgressBar.Description>This will show a warmup progress bar when you load a new map.</RocketMan.ProgressBar.Description>
 	<RocketMan.Junk>Junk</RocketMan.Junk>
 	<RocketMan.CorpseRemoval>Enable automatic corpses removal.</RocketMan.CorpseRemoval>
