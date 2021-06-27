@@ -26,12 +26,16 @@
 	<RocketMan.Tab>Inicio</RocketMan.Tab>
 	<RocketMan.Close>Cerrar</RocketMan.Close>
 	<RocketMan.Enable>Habilitar</RocketMan.Enable>
+	<RocketMan.TranslationCaching>Habilitar el almacenamiento del tamaño del texto</RocketMan.TranslationCaching>
 	<RocketMan.Experimental>Opciones experimentales</RocketMan.Experimental>
+	<RocketMan.Experimental.Description>Aquí puedes elegir las opciones Beta de RocketMan.\nAdvertencia: no lo hagas si no sabes lo que estás haciendo.</RocketMan.Experimental.Description>
+	<RocketMan.Experimental.OptInBeta>Activar las opciones Beta en RocketMan</RocketMan.Experimental.OptInBeta>
 	<RocketMan.EnableGagarin>Activar la reducción del tiempo de carga (Tiempos de carga más cortos)</RocketMan.EnableGagarin>
 	<RocketMan.EnableGagarin.Tip>RocketMan intentará reducir tu tiempo de carga almacenando las operaciones de parche con Xml. Después de seleccionar esta configuración, será necesario reiniciar RocketMan dos veces para poder crear el almacenamiento. Dependiendo del número o el tipo de mods podrás ver reducido el tiempo de carga hasta la mitad. Se recomienda para mods con una gran cantidad de parches Xml como Combat Extended o DocWorld.</RocketMan.EnableGagarin.Tip>
 	<RocketMan.ShowIcon>Mostrar el botón/icono de RocketMan</RocketMan.ShowIcon>
 	<RocketMan.ShowIcon.Description>Debido a las limitaciones del propio juego, algunas opciones no están disponibles desde el menú de configuración general.</RocketMan.ShowIcon.Description>
 	<RocketMan.ProgressBar>Mostrar la barra de arranque al inicio</RocketMan.ProgressBar>
+	<RocketMan.ProgressBar.Pause>Pausar después de entrar en calor</RocketMan.ProgressBar.Pause>
 	<RocketMan.ProgressBar.Description>Aparecerá una barra de arranque cuando cargues un nuevo mapa.</RocketMan.ProgressBar.Description>
 	<RocketMan.Junk>Basura</RocketMan.Junk>
 	<RocketMan.CorpseRemoval>Activar la retirada automática de cadáveres.</RocketMan.CorpseRemoval>
@@ -97,4 +101,15 @@
 	<Proton.TimeSinceLast>Tiempo desde su última actualización</Proton.TimeSinceLast>
 	<!-- Gagarin -->
 	<Gagarin.ParsingReports>RocketMan está comprobando si hay Bases o Defs duplicadas</Gagarin.ParsingReports>
+	<Gagarin.Tab>Optimización del tiempo de carga</Gagarin.Tab>
+	<Gagarin.Expiry>El almacenamiento de Gagarin expirará en: {0} días</Gagarin.Expiry>
+	<Gagarin.Tip>Mientras la optimización de carga esté activada, irá almacenando cada definición XML. Esto te permitirá saltarte el parcheo con XML. Lo puedes deshabilitar en las opciones generales de RocketMan.</Gagarin.Tip>
+	<Gagarin.ClearCache>Borrar almacenamiento</Gagarin.ClearCache>
+	<Gagarin.ClearCache.Description>Borrar el almacenamiento te ayudará a resolver problemas con XML en el caso de la actualización de un mod que necesite almacenar nuevas texturas.\nSe recomienda hacerlo de vez en cuando.</Gagarin.ClearCache.Description>
+	<Gagarin.EnableTextureCaching>Activar el almacenamiento de texturas</Gagarin.EnableTextureCaching>
+	<Gagarin.EnableTextureCaching.Description>El almacenamiento de texturas te permitirá acelerar tu tiempo de carga pero no es compatible con mods como Graphics Settings o High quality textures.</Gagarin.EnableTextureCaching.Description>
+	<Gagarin.AdvancedSettings>Configuraciones avanzadas</Gagarin.AdvancedSettings>
+	<Gagarin.AdvancedSettings.Description>¡Por favor, usa esto solo si sabes lo que estás haciendo!</Gagarin.AdvancedSettings.Description>
+	<Gagarin.FilterMode>Filtros</Gagarin.FilterMode>
+	<Gagarin.MipMapBias>Mip map bias</Gagarin.MipMapBias>
 </LanguageData>
