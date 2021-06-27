@@ -37,6 +37,7 @@
 	<RocketMan.ShowIcon>로켓맨 버튼/아이콘 보이기</RocketMan.ShowIcon>
 	<RocketMan.ShowIcon.Description>게임의 한계로 인해 몇 가지 옵션은 게임 메뉴 설정에서 볼 수 없습니다.</RocketMan.ShowIcon.Description>	
 	<RocketMan.ProgressBar>시작할 때 시동 진행 막대 보여주기</RocketMan.ProgressBar>
+	<RocketMan.ProgressBar.Pause>시동 후 일시정지</RocketMan.ProgressBar.Pause>
 	<RocketMan.ProgressBar.Description>새로운 지도를 불러올 때 시동 진행 상황을 보여줍니다.</RocketMan.ProgressBar.Description>
 	<RocketMan.Junk>폐기물</RocketMan.Junk>
 	<RocketMan.CorpseRemoval>자동으로 시체 제거하기</RocketMan.CorpseRemoval>
