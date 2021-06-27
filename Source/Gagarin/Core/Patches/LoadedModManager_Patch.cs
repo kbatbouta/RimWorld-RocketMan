@@ -70,10 +70,14 @@ namespace Gagarin
             {
                 if (Context.IsUsingCache)
                 {
-                    foreach (ModContentPack mod in Context.RunningMods)
+                    foreach (var mod in Context.RunningMods)
                     {
-                        mod.loadedAnyPatches = false;
-                        mod.patches?.Clear();
+                        if (mod.patches != null)
+                        {
+                            foreach (var patch in mod.patches)
+                                patch.neverSucceeded = false;
+                        }
+                        mod.loadedAnyPatches = true;
                     }
                     return false;
                 }

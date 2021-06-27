@@ -11,7 +11,7 @@ namespace Soyuz.Profiling
     {
         public PawnNeedModel(string name) : base(name)
         {
-            this.grapher.MaxTWithoutAddtion = 250f;
+            this.grapher.TimeWindowSize = 18000;
         }
     }
 }

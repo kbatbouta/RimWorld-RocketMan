@@ -65,6 +65,7 @@ namespace RocketMan
         {
             base.DoSettingsWindowContents(inRect);
             DoSettings(inRect);
+            WriteSettings();
             GUIUtility.ClearGUIState();
         }
 
@@ -73,6 +74,8 @@ namespace RocketMan
         private static readonly Listing_Collapsible collapsible_general = new Listing_Collapsible();
 
         private static readonly Listing_Collapsible collapsible_junk = new Listing_Collapsible(group);
+
+        private static readonly Listing_Collapsible collapsible_speed = new Listing_Collapsible(group);
 
         private static readonly Listing_Collapsible collapsible_other = new Listing_Collapsible(group);
 
@@ -125,9 +128,9 @@ namespace RocketMan
 
                 if (RocketPrefs.Enabled)
                 {
-                    collapsible_junk.Begin(inRect, "RocketMan.GameSpeed".Translate());
-                    collapsible_junk.CheckboxLabeled("RocketMan.DisableForcedSlowdowns".Translate(), ref RocketPrefs.DisableForcedSlowdowns, "RocketMan.DisableForcedSlowdowns.Description".Translate());
-                    collapsible_junk.End(ref inRect);
+                    collapsible_speed.Begin(inRect, "RocketMan.GameSpeed".Translate());
+                    collapsible_speed.CheckboxLabeled("RocketMan.DisableForcedSlowdowns".Translate(), ref RocketPrefs.DisableForcedSlowdowns, "RocketMan.DisableForcedSlowdowns.Description".Translate());
+                    collapsible_speed.End(ref inRect);
                     inRect.yMin += 5;
 
                     collapsible_junk.Begin(inRect, "RocketMan.Junk".Translate());
@@ -156,7 +159,10 @@ namespace RocketMan
                         if (collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_Experimental_OptInBeta, ref devKeyEnabled))
                         {
                             if (!devKeyEnabled && File.Exists(RocketEnvironmentInfo.DevKeyFilePath))
+                            {
                                 File.Delete(RocketEnvironmentInfo.DevKeyFilePath);
+                                RocketPrefs.TimeDilationColonists = false;
+                            }
                             if (devKeyEnabled && !File.Exists(RocketEnvironmentInfo.DevKeyFilePath))
                                 File.WriteAllText(RocketEnvironmentInfo.DevKeyFilePath, "enabled");
                         }

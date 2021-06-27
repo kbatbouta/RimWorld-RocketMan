@@ -35,8 +35,6 @@ namespace Soyuz.Tabs
 
         private readonly Listing_Collapsible collapsible_statistic = new Listing_Collapsible();
 
-        private Grapher grapher;
-
         public override Texture2D Icon => TexTab.World;
 
         public override bool ShouldShow => RocketPrefs.Enabled && RocketDebugPrefs.Debug;
@@ -60,16 +58,12 @@ namespace Soyuz.Tabs
             inRect.yMin += 5;
             if (currentPawn != null && currentPawn.Destroyed)
             {
-                grapher = null;
                 currentPawn = null;
             }
-            if (currentPawn != null && grapher != null)
+            if (currentPawn != null)
             {
-                if (!Find.TickManager.Paused)
-                {
-                    grapher.Add(GenTicks.TicksGame, currentPawn.needs.food.curLevelInt);
-                }
-                grapher.Plot(ref inRect);
+                var model = ContextualExtensions.GetPerformanceModel(currentPawn);
+                model.DrawGraph(ref inRect);
             }
             RocketMan.GUIUtility.ScrollView(inRect, ref scrollPosition, records,
                 heightLambda: (record) =>
@@ -111,7 +105,6 @@ namespace Soyuz.Tabs
                     if (Widgets.ButtonInvisible(elementRect))
                     {
                         currentPawn = record.pawn;
-                        grapher = new Grapher($"Selected: {currentPawn.NameFullColored}");
                     }
                 }
             );

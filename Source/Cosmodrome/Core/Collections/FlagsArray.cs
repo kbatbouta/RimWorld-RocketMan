@@ -5,40 +5,49 @@ namespace RocketMan
 {
     public class FlagArray
     {
-        private readonly int size;
-        private readonly int[] memory;
+        private int[] map;
 
         private const int Bit = 1;
         private const int ChunkSize = 32;
 
-        public int Size
+        public int Length
         {
-            get => size;
+            get => map.Length;
         }
 
         public FlagArray(int size)
         {
-            this.memory = new int[(size / ChunkSize) + ChunkSize];
-            this.size = size;
-        }
-
-        public bool Get(int key)
-        {
-            return (memory[key / ChunkSize] & GetOp(key)) != 0;
-        }
-
-        public FlagArray Set(int key, bool value)
-        {
-            memory[key / ChunkSize] = value ?
-                memory[key / ChunkSize] | GetOp(key) :
-                memory[key / ChunkSize] & ~GetOp(key);
-            return this;
+            this.map = new int[(size / ChunkSize) + ChunkSize];
         }
 
         public bool this[int key]
         {
             get => Get(key);
             set => Set(key, value);
+        }
+
+        public bool Get(int key)
+        {
+            return (map[key / ChunkSize] & GetOp(key)) != 0;
+        }
+
+        public FlagArray Set(int key, bool value)
+        {
+            map[key / ChunkSize] = value ?
+                map[key / ChunkSize] | GetOp(key) :
+                map[key / ChunkSize] & ~GetOp(key);
+            return this;
+        }
+
+        public void Expand(int targetLength)
+        {
+            targetLength = (targetLength / ChunkSize) + ChunkSize;
+            if (targetLength > Length * 0.75f)
+            {
+                int[] expanded = new int[targetLength];
+                Array.Copy(map, 0, expanded, 0, map.Length);
+                this.map = expanded;
+            }
         }
 
         private int GetOp(int key)

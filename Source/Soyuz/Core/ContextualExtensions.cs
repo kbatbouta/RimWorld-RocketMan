@@ -79,7 +79,8 @@ namespace Soyuz
             if (false
                 || !RocketPrefs.Enabled
                 || !RocketPrefs.TimeDilation
-                || !pawn.IsValidWildlifeOrWorldPawn())
+                || !pawn.IsValidWildlifeOrWorldPawn()
+                || !timers.ContainsKey(pawn.thingIDNumber))
             {
                 UpdateTimers(pawn);
                 return;
@@ -150,7 +151,15 @@ namespace Soyuz
                 return curDelta;
             if (deltas.TryGetValue(thing?.thingIDNumber ?? -1, out int delta))
                 return delta;
-            throw new Exception($"SOYUZ: Inconsistant timer data for pawn {thing}");
+            if (thing is Pawn pawn)
+            {
+                Log.Warning($"SOYUZ: Tried to get delta for unregistered pawn {pawn}!");
+
+                timers[pawn.thingIDNumber] = GenTicks.TicksGame;
+                deltas[pawn.thingIDNumber] = 1;
+                return 1;
+            }
+            throw new ArgumentException("Argument should be a Verse.Pawn");
         }
 
         public static void UpdateTimers(this Pawn pawn)
@@ -247,7 +256,6 @@ namespace Soyuz
                     return false;
                 if (!RocketPrefs.TimeDilationWorldPawns)
                     return false;
-
                 return true;
             }
             else if (true

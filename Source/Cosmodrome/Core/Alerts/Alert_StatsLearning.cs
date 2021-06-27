@@ -10,10 +10,12 @@ namespace RocketMan
     {
         private bool active = false;
 
+        private float activeSeconds;
+        private float activeLastTick;
+
         private string explanation = string.Empty;
 
         private readonly Stopwatch updateGUIStopwatch = new Stopwatch();
-        private readonly Stopwatch activityStopwatch = new Stopwatch();
 
         // Start color is Green
         // 0.329, 0.964, 0.015
@@ -31,7 +33,7 @@ namespace RocketMan
 
         private float MinutesActive
         {
-            get => activityStopwatch.IsRunning ? Mathf.RoundToInt((activityStopwatch.ElapsedMilliseconds / 1000) / 60) : 0f;
+            get => activeSeconds / 60f;
         }
 
         private float SecondsSinceGUIUpdate
@@ -72,8 +74,8 @@ namespace RocketMan
             {
                 if (active)
                 {
-                    activityStopwatch.Stop();
-                    updateGUIStopwatch.Stop();
+                    activeSeconds = 0;
+                    activeLastTick = -1;
                     updateGUIStopwatch.Reset();
                     active = false;
                 }
@@ -82,10 +84,13 @@ namespace RocketMan
             if (!active)
             {
                 active = true;
-                activityStopwatch.Restart();
+                activeSeconds = 0;
+                activeLastTick = GenTicks.TicksGame;
                 UpdateGUI();
                 updateGUIStopwatch.Restart();
             }
+            activeSeconds += ((float)GenTicks.TicksGame - activeLastTick) / 60f;
+            activeLastTick = GenTicks.TicksGame;
             if (SecondsSinceGUIUpdate > 21f)
             {
                 UpdateGUI();
@@ -107,7 +112,7 @@ namespace RocketMan
 
         private void UpdateGUI()
         {
-            float progress = ((float)activityStopwatch.ElapsedMilliseconds / 1000f) / (MaxActiveMinutes * 60f);
+            float progress = activeSeconds / (MaxActiveMinutes * 60f);
 
             this.color = new Color(Mathf.Lerp(R0, R1, progress), Mathf.Lerp(G0, G1, progress), Mathf.Lerp(B0, B1, progress), 0.5f);
             this.explanation = KeyedResources.RocketMan_Alert_StatsLearning_Explanation.Formatted(MinutesActive, MaxActiveMinutes);

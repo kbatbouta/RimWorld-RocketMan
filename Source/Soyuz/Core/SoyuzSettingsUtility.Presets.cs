@@ -77,7 +77,7 @@ namespace Soyuz
         [Main.OnWorldLoaded]
         public static void SetRecommendedJobConfig()
         {
-            if (initialized)
+            if (!initialized)
             {
                 PreparePresets();
                 initialized = true;
@@ -91,7 +91,7 @@ namespace Soyuz
                 }
                 else
                 {
-                    Log.Warning($"SOYUZ: Job {def.defName}:{def.label} settings not found while setting presets!");
+                    Log.Warning($"SOYUZ: Job {def?.defName}:{def?.label} settings not found while setting presets!");
                 }
             }
             foreach (JobDef def in partiallyThrottledJobs)
@@ -103,7 +103,7 @@ namespace Soyuz
                 }
                 else
                 {
-                    Log.Warning($"SOYUZ: Job {def.defName}:{def.label} settings not found while setting presets!");
+                    Log.Warning($"SOYUZ: Job {def?.defName}:{def?.label} settings not found while setting presets!");
                 }
             }
             foreach (JobDef def in notThrottledJobs)
@@ -115,12 +115,12 @@ namespace Soyuz
                 }
                 else
                 {
-                    Log.Warning($"SOYUZ: Job {def.defName}:{def.label} settings not found while setting presets!");
+                    Log.Warning($"SOYUZ: Job {def?.defName}:{def?.label} settings not found while setting presets!");
                 }
             }
-            foreach (JobSettings settings in Context.JobDilationByDef
-                .Where(p => !partiallyThrottledJobs.Contains(p.Key) && !fullyThrottledJobs.Contains(p.Key) && !notThrottledJobs.Contains(p.Key))
-                .Select(p => p.Value))
+            foreach (JobSettings settings in DefDatabase<JobDef>.AllDefs
+                .Select(d => Context.JobDilationByDef.TryGetValue(d, fallback: null))
+                .Where(p => p != null && !partiallyThrottledJobs.Contains(p.def) && !fullyThrottledJobs.Contains(p.def) && !notThrottledJobs.Contains(p.def)))
             {
                 settings.throttleFilter = JobThrottleFilter.Animals;
                 settings.throttleMode = JobThrottleMode.Full;

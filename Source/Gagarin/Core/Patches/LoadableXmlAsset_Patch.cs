@@ -31,14 +31,20 @@ namespace Gagarin
                     {
                         if (!Context.AssetsHashes.TryGetValue(id, out UInt64 old) || current != old)
                         {
-                            Context.IsUsingCache = false;
-                            if (GagarinEnvironmentInfo.CacheExists)
+                            try
                             {
-                                string message = Context.IsLoadingPatchXML ? "Patches changed!" : "Asset changed!";
+                                if (GagarinEnvironmentInfo.CacheExists && Context.IsUsingCache)
+                                {
+                                    string message = Context.IsLoadingPatchXML ? "Patches changed!" : "Asset changed!";
 
-                                Log.Warning($"GAGARIN: {message}" +
-                                    $"<color=red>{__instance.name}</color>:<color=red>{Context.CurrentLoadingMod?.PackageId ?? "Unknown"}</color> " +
-                                    $"in {__instance.fullFolderPath}");
+                                    Log.Warning($"GAGARIN: {message}" +
+                                        $"<color=red>{__instance.name}</color>:<color=red>{Context.CurrentLoadingMod?.PackageId ?? "Unknown"}</color> " +
+                                        $"in {__instance.fullFolderPath}");
+                                }
+                            }
+                            finally
+                            {
+                                Context.IsUsingCache = false;
                             }
                         }
                         Context.AssetsHashes[id] = current;

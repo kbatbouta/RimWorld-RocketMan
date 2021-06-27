@@ -13,7 +13,7 @@ namespace Soyuz.Profiling
     {
         public PawnPerformanceModel(string name) : base(name)
         {
-            this.grapher.MaxTWithoutAddtion = 1f;
+            this.grapher.TimeWindowSize = 2;
         }
 
         public override void AddResult(float value)

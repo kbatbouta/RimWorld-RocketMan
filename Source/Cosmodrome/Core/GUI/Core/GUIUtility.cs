@@ -89,6 +89,9 @@ namespace RocketMan
                             Widgets.DrawBoxSolid(currentRect, _altGray);
                         if (drawMouseOverHighlights)
                             Widgets.DrawHighlightIfMouseover(currentRect);
+
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
+                        GUIFont.Font = GUIFontSize.Tiny;
                         elementLambda.Invoke(currentRect, element);
                     }
                     currentRect.y += _heights[j];

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using RimWorld;
 using RocketMan;
@@ -88,6 +89,14 @@ namespace Soyuz.Tabs
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeCriticalHediffs, ref RocketPrefs.TimeDilationCriticalHediffs, disabled: !RocketPrefs.TimeDilation);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeColonyAnimals, ref RocketPrefs.TimeDilationColonyAnimals, disabled: !RocketPrefs.TimeDilation);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeDilationVisitors, ref RocketPrefs.TimeDilationVisitors, disabled: !RocketPrefs.TimeDilation);
+            if (File.Exists(RocketEnvironmentInfo.DevKeyFilePath))
+            {
+                collapsible.Line(1);
+                collapsible.Label(KeyedResources.RocketMan_Experimental);
+                collapsible.Gap(3);
+                collapsible.Label(KeyedResources.Soyuz_EnableTimeColonists_Warning);
+                collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeColonists, ref RocketPrefs.TimeDilationColonists, disabled: !RocketPrefs.TimeDilation);
+            }
             collapsible.End(ref inRect);
             if (RocketDebugPrefs.Debug)
             {
@@ -97,14 +106,6 @@ namespace Soyuz.Tabs
                 collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_Debug150MTPS, ref RocketDebugPrefs.Debug150MTPS, disabled: !RocketPrefs.TimeDilation);
                 collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_FlashPawns, ref RocketDebugPrefs.FlashDilatedPawns, disabled: !RocketPrefs.TimeDilation);
                 collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_AlwaysDilate, ref RocketDebugPrefs.AlwaysDilating, disabled: !RocketPrefs.TimeDilation);
-                if (RocketEnvironmentInfo.IsDevEnv)
-                {
-                    collapsible_debug.Line(1);
-                    collapsible_debug.Label(KeyedResources.RocketMan_Experimental);
-                    collapsible_debug.Gap(3);
-                    collapsible_debug.Label(KeyedResources.Soyuz_EnableTimeColonists_Warning);
-                    collapsible_debug.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeColonists, ref RocketPrefs.TimeDilationColonists, disabled: !RocketPrefs.TimeDilation);
-                }
                 collapsible_debug.End(ref inRect);
             }
             inRect.yMin += 5;

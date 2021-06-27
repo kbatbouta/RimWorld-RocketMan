@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
+using System.Linq;
+using Steamworks;
 using UnityEngine;
 using static RocketMan.Grapher;
 
@@ -8,26 +10,31 @@ namespace RocketMan
 {
     public class GraphPointCollection
     {
-        private readonly GraphPoint[] points = new GraphPoint[Grapher.GraphMaxPointsNum];
+        private float timeWindow = 250;
 
-        private int currentIndex = 0;
+        private readonly List<GraphPoint> points = new List<GraphPoint>();
 
-        private int currentPosition = 0;
-
-        private int currentLength = 0;
-
-        private float maxTWithoutAddtion = 60;
-
-        private float curdeltaY = 0;
-
-        public GraphPoint First
+        public bool Ready
         {
-            get => points[currentPosition];
+            get => Count > 16;
         }
 
-        public IEnumerable<GraphPoint> Points
+        public int Count
         {
-            get => GetPoints();
+            get => points.Count;
+        }
+
+        public float TargetTimeWindowSize
+        {
+            get => timeWindow;
+            set
+            {
+                if (timeWindow != value)
+                {
+                    timeWindow = value;
+                    Rebuild();
+                }
+            }
         }
 
         private float _minY = float.MaxValue;
@@ -44,23 +51,19 @@ namespace RocketMan
             get => _maxY;
         }
 
-        private float _minT = float.MaxValue;
-
         public float MinT
         {
-            get => _minT;
+            get => First.t;
         }
-
-        private float _maxT = float.MinValue;
 
         public float MaxT
         {
-            get => _maxT;
+            get => Last.t;
         }
 
         public float RangeT
         {
-            get => MaxT - MinT;
+            get => Mathf.Min(Last.t - First.t, timeWindow);
         }
 
         public float RangeY
@@ -68,109 +71,147 @@ namespace RocketMan
             get => MaxY - MinY;
         }
 
-        public int Index
+        public GraphPoint First
         {
-            get => currentIndex;
+            get => points.First();
         }
 
-        public int Length
+        public GraphPoint Last
         {
-            get => currentLength;
+            get => points.Last();
         }
 
-        public float MaxTWithoutAddtion
+        public IEnumerable<GraphPoint> Points
         {
-            get => maxTWithoutAddtion;
-            set => maxTWithoutAddtion = value;
+            get => points;
         }
 
         public GraphPointCollection()
         {
-            for (int i = 0; i < points.Length; i++)
-            {
-                points[i] = new GraphPoint(0, 0, new Color(1f, 1f, 1f, 0.1f));
-            }
-            currentLength = 0;
         }
 
-        public void Add(GraphPoint point, bool dirty = true)
+        private int _maxAge = 0;
+        private int _minAge = 0;
+        private int _streak = 0;
+
+        public void Add(GraphPoint point)
         {
-            if (currentLength == 0)
+            if (Count < 16)
             {
-                points[0] = point;
-                currentPosition = 1;
-                currentLength = 1;
-                Dirty();
+                Commit(point);
+                return;
+            }
+            if (points.Count >= 1500)
+            {
+                points.RemoveAt(0);
+            }
+            if (Last.t == point.t)
+            {
+                Commit(point);
+                return;
+            }
+            GraphPoint pNm1 = Last;
+            GraphPoint pNm2 = points[points.Count - 2];
+
+            if (pNm1.t == pNm2.t)
+            {
+                Commit(point);
+                return;
+            }
+            float m1 = (pNm1.y - pNm2.y) / (pNm1.t - pNm2.t);
+            float m0 = (point.y - pNm1.y) / (point.t - pNm1.t);
+
+            if (Mathf.Abs(m1 - m0) < 1e-3)
+            {
+                if (_streak++ > 1 && point.color == pNm1.color)
+                {
+                    points[points.Count - 1] = point;
+                    return;
+                }
+                Commit(point);
+                return;
+            }
+            _streak = 0;
+
+            Commit(point);
+        }
+
+        public void Rebuild()
+        {
+            if (Count < 3) return;
+
+            int position = 0;
+
+            while (position < points.Count - 3 && Last.t - points[position].t > timeWindow)
+                position++;
+
+            if (position > 0 && position < points.Count)
+            {
+                GraphPoint p0 = points[position - 1];
+                GraphPoint p1 = points[position];
+
+                if (p0.t != p1.t)
+                {
+                    float t1 = Last.t - timeWindow;
+                    float m = (p1.y - p0.y) / (p1.t - p0.t);
+
+                    p0.y = m * (t1 - p0.t) + p0.y;
+                    p0.t = t1;
+
+                    points[position - 1] = p0;
+                }
+                position -= 2;
+
+                while (position >= 0)
+                {
+                    points.RemoveAt(position);
+                    position--;
+                }
+            }
+
+            if ((_maxAge > 0 || _minAge > 0))
+            {
+                _maxAge = Math.Max(_maxAge - 1, 0);
+                _minAge = Math.Max(_minAge - 1, 0);
             }
             else
             {
-                GraphPoint lastPoint = points[(currentPosition + Length - 1) % points.Length];
-                float deltaY = (point.y - point.y) / (point.t - lastPoint.t);
-
-                if (Length == points.Length
-                    && lastPoint.t - points[(currentPosition + Length - 2) % points.Length].t < maxTWithoutAddtion
-                    && (Mathf.Abs(deltaY - curdeltaY) < 1e-2 || Mathf.Abs(point.y - lastPoint.y) < 1e-5)
-                    && point.color == lastPoint.color)
-                {
-                    points[(currentPosition + Length - 1) % points.Length] = point;
-
-                    if (_minY > point.y)
-                        _minY = point.y;
-                    if (_maxY < point.y)
-                        _maxY = point.y;
-                    _maxT = point.t;
-                }
-                else
-                {
-                    points[currentPosition] = point;
-                    currentPosition = (currentPosition + 1) % points.Length;
-                    currentLength = Math.Min(currentLength + 1, points.Length);
-                    curdeltaY = deltaY;
-                    if (dirty)
-                    {
-                        Dirty();
-                    }
-                }
+                UpdateCriticalPoints();
             }
         }
 
-        public void Dirty()
+        private void Commit(GraphPoint point)
         {
-            _minT = points[currentPosition].t;
-            _maxT = points[(currentPosition + Length - 1) % points.Length].t;
+            points.Add(point);
 
-            _minY = float.MaxValue;
-            _maxY = float.MinValue;
+            _maxAge = Mathf.Min((int)timeWindow / 2, points.Count);
+            _minAge = Mathf.Min((int)timeWindow / 2, points.Count);
 
-            for (int i = 0; i < Length; i++)
-            {
-                if (points[i].y < _minY)
-                    _minY = points[i].y;
-                if (points[i].y > _maxY)
-                    _maxY = points[i].y;
-            }
+            if (point.y > _maxY)
+                _maxY = point.y;
+            if (point.y < _minY)
+                _minY = point.y;
         }
 
-        private IEnumerable<GraphPoint> GetPoints()
+        private void UpdateCriticalPoints()
         {
-            if (Length == points.Length)
+            GraphPoint last = Last;
+
+            _minY = last.y;
+            _maxY = last.y;
+
+            for (int i = 0; i < Count; i++)
             {
-                for (int i = 0; i < Length; i++)
+                GraphPoint point = points[i];
+                if (_minY > point.y)
                 {
-                    yield return points[(currentPosition + i) % points.Length];
+                    _minAge = Math.Min(i, (int)timeWindow / 2);
+                    _minY = point.y;
                 }
-            }
-            else
-            {
-                float t = points[0].t;
-                for (int i = 0; i < Length; i++)
+                if (_maxY < point.y)
                 {
-                    GraphPoint p = points[i];
-                    if (t < p.t)
-                    {
-                        t = p.t;
-                        yield return p;
-                    }
+                    _maxAge = Math.Min(i, (int)timeWindow / 2);
+                    _maxY = point.y;
                 }
             }
         }

@@ -27,11 +27,7 @@ namespace Soyuz
         {
             foreach (Tuple<float, float, bool> p in queue)
             {
-                grapher.Add(p.Item1, p.Item2, p.Item3 ? Color.cyan : Color.yellow, dirty: false);
-            }
-            if (queue.Count > 0)
-            {
-                grapher.Dirty();
+                grapher.Add(p.Item1, p.Item2, p.Item3 ? Color.cyan : Color.yellow);
             }
             grapher.Plot(ref rect);
             queue.Clear();
