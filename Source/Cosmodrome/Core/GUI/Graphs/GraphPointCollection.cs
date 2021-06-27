@@ -169,7 +169,7 @@ namespace RocketMan
                 }
             }
 
-            if ((_maxAge > 0 || _minAge > 0))
+            if ((_maxAge > 0 && _minAge > 0))
             {
                 _maxAge = Math.Max(_maxAge - 1, 0);
                 _minAge = Math.Max(_minAge - 1, 0);
@@ -183,14 +183,16 @@ namespace RocketMan
         private void Commit(GraphPoint point)
         {
             points.Add(point);
-
-            _maxAge = Mathf.Min((int)timeWindow / 2, points.Count);
-            _minAge = Mathf.Min((int)timeWindow / 2, points.Count);
-
             if (point.y > _maxY)
+            {
+                _maxAge = Mathf.Min(15, points.Count);
                 _maxY = point.y;
+            }
             if (point.y < _minY)
+            {
+                _minAge = Mathf.Min(15, points.Count);
                 _minY = point.y;
+            }
         }
 
         private void UpdateCriticalPoints()
@@ -205,12 +207,12 @@ namespace RocketMan
                 GraphPoint point = points[i];
                 if (_minY > point.y)
                 {
-                    _minAge = Math.Min(i, (int)timeWindow / 2);
+                    _minAge = Math.Min(i, 15);
                     _minY = point.y;
                 }
                 if (_maxY < point.y)
                 {
-                    _maxAge = Math.Min(i, (int)timeWindow / 2);
+                    _maxAge = Math.Min(i, 15);
                     _maxY = point.y;
                 }
             }
