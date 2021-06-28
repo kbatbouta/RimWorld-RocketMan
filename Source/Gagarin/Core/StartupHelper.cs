@@ -15,7 +15,6 @@ namespace Gagarin
         {
             Context.RunningMods = LoadedModManager.RunningMods.ToList();
             Context.Core = LoadedModManager.RunningMods.First(m => m.IsCoreMod);
-            Context.IsUsingCache = false;
 
             if (!Directory.Exists(GagarinEnvironmentInfo.CacheFolderPath))
             {

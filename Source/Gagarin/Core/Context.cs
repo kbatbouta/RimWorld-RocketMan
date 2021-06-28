@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Xml;
+using Microsoft.Build.Utilities;
 using Verse;
 
 namespace Gagarin
@@ -23,6 +26,15 @@ namespace Gagarin
                         File.Delete(GagarinEnvironmentInfo.UnifiedXmlFilePath);
                     if (Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
                         Directory.Delete(GagarinEnvironmentInfo.TexturesFolderPath, recursive: true);
+                    StackTrace trace = new StackTrace(1);
+                    StringBuilder builder = new StringBuilder();
+                    builder.Append("GAGARIN: <color=yello>Cache disabled from</color>");
+                    for (int i = 0; i < trace.FrameCount; i++)
+                    {
+                        builder.AppendInNewLine(trace.GetFrame(i).ToString());
+                    }
+                    Log.Warning(builder.ToString());
+                    RocketMan.Logger.Debug(builder.ToString());
                 }
                 _isUsingCache = value;
             }

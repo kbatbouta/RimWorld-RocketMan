@@ -144,6 +144,8 @@ namespace Gagarin
                     {
                         GagarinPrefs.CacheCreationTime = DateTime.Now;
                         GagarinSettings.WriteSettings();
+
+                        CachedDefHelper.Save();
                     }
                     catch (Exception er)
                     {

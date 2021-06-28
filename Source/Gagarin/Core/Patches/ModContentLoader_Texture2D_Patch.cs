@@ -203,35 +203,15 @@ namespace Gagarin
 
             private static string GetBinTexturePath(VirtualFile file)
             {
-                bool started = false;
+                //bool started = false;
                 string original = GenFile.SanitizedFileName("Texture_" + file.FullPath.Trim().Replace('-', '_')) + ".v2.bin";
                 string bin = "";
-                int j;
-                int i;
-                for (i = 0; i < original.Length; i++)
+                for (int i = 0; i < original.Length; i++)
                 {
-                    if (!started)
-                    {
-                        j = 0;
-                        while (j < textures.Length && i < original.Length && original[i] == textures[j])
-                        {
-                            j++;
-                            i++;
-                        }
-                        if (j == textures.Length)
-                        {
-                            started = true;
-                            i--;
-                        }
-                    }
-                    else if (!invalids.Contains(original[i]))
+                    if (!invalids.Contains(original[i]))
                     {
                         bin += original[i];
                     }
-                }
-                if (!started)
-                {
-                    bin = String.Join("", original.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).Trim();
                 }
                 return Path.Combine(GagarinEnvironmentInfo.TexturesFolderPath, bin);
             }
