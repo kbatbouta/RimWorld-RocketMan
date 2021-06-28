@@ -1,5 +1,6 @@
 Source/.vs/*
 bin/
+RocketMan.zip
 obj/
 Source/.mfractor/
 # Visual Studio left-overs
