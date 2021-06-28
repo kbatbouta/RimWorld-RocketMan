@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Verse;
 
@@ -15,7 +16,7 @@ namespace Soyuz.Patches
             {
                 int deltaT = pawn.GetDeltaT();
                 __instance.ageTicks += deltaT - 1;
-                __instance.GestationProgress += deltaT / (pawn.RaceProps.gestationPeriodDays * 60000f);
+                __instance.GestationProgress += (deltaT - 1) / (pawn.RaceProps.gestationPeriodDays * 60000f);
             }
         }
     }

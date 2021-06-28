@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using Gagarin.Core;
 using HarmonyLib;
 using RimWorld;
@@ -21,7 +22,7 @@ namespace Gagarin
                 return Load(file, ref __result);
             }
 
-            private static bool Load(VirtualFile file, ref Texture2D result, bool fallbackMode = false)
+            private static bool Load(VirtualFile file, ref Texture2D result)
             {
                 if (!GagarinPrefs.TextureCachingEnabled)
                 {
@@ -43,22 +44,42 @@ namespace Gagarin
                 {
                     Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
                 }
+                byte[] originalHash = GetHash(file);
                 string binPath = GetBinTexturePath(file);
-                if (File.Exists(binPath) && !fallbackMode)
+                if (File.Exists(binPath))
                 {
                     try
                     {
                         byte[] buffer = File.ReadAllBytes(binPath);
-                        byte[] data = new byte[buffer.Length - (4 + 4 + 4 + 1)];
-                        Array.Copy(buffer, 13, data, 0, data.Length);
-
+                        byte[] data = new byte[buffer.Length - (4 + 16 + 4 + 4 + 1)];
+                        byte[] cachedHashed = new byte[16];
+                        Array.Copy(buffer, 13 + 16, data, 0, data.Length);
+                        Array.Copy(buffer, 0, cachedHashed, 0, 16);
+                        if (HashChanged(originalHash, cachedHashed))
+                        {
+                            Log.Message($"GAGARIN: Hash changed for file {file.FullPath}");
+                            try
+                            {
+                                if (File.Exists(binPath))
+                                {
+                                    File.Delete(binPath);
+                                }
+                                LoadCache(file, ref result, originalHash, binPath);
+                                return false;
+                            }
+                            catch (Exception er)
+                            {
+                                RocketMan.Logger.Debug($"GAGARIN: Error creating texture cache! skipping this one!", exception: er);
+                                return true;
+                            }
+                        }
                         // This is the header
                         // tex.width, tex.height, tex.format, tex.mipmapCount > 1);       
                         result = new Texture2D(
-                            width: BitConverter.ToInt32(buffer, 0),
-                            height: BitConverter.ToInt32(buffer, 4),
-                            textureFormat: (TextureFormat)BitConverter.ToInt32(buffer, 8),
-                            mipChain: BitConverter.ToBoolean(buffer, 12)
+                            width: BitConverter.ToInt32(buffer, 0 + 16),
+                            height: BitConverter.ToInt32(buffer, 4 + 16),
+                            textureFormat: (TextureFormat)BitConverter.ToInt32(buffer, 8 + 16),
+                            mipChain: BitConverter.ToBoolean(buffer, 12 + 16)
                         );
                         result.LoadRawTextureData(data);
                         result.name = Path.GetFileNameWithoutExtension(file.Name);
@@ -67,35 +88,68 @@ namespace Gagarin
                     }
                     catch (Exception er)
                     {
-                        RocketMan.Logger.Debug($"GAGARIN: Error loading texture! using fallback mode!", exception: er);
                         if (File.Exists(binPath))
                         {
                             File.Delete(binPath);
                         }
-                        return Load(file, ref result, fallbackMode: true);
+                        RocketMan.Logger.Debug($"GAGARIN: Error loading texture! using fallback mode!", exception: er);
+                        return true;
                     }
                 }
                 else
                 {
                     try
                     {
-                        result = LoadTexture(file);
-
-                        // This is the header
-                        // tex.width, tex.height, tex.format, tex.mipmapCount > 1);                    
-                        byte[] data = result.GetRawTextureData();
-                        byte[] buffer = new byte[data.Length + 4 + 4 + 4 + 1];
-                        BitConverter.GetBytes(result.width).CopyTo(buffer, 0);
-                        BitConverter.GetBytes(result.height).CopyTo(buffer, 4);
-                        BitConverter.GetBytes((int)result.format).CopyTo(buffer, 8);
-                        BitConverter.GetBytes(result.mipmapCount > 1).CopyTo(buffer, 12);
-                        data.CopyTo(buffer, 13);
-
-                        File.WriteAllBytes(binPath, buffer);
+                        LoadCache(file, ref result, originalHash, binPath);
                     }
                     catch (Exception er)
                     {
+                        if (File.Exists(binPath))
+                        {
+                            File.Delete(binPath);
+                        }
                         RocketMan.Logger.Debug($"GAGARIN: Error creating texture cache! skipping this one!", exception: er);
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            private static void LoadCache(VirtualFile file, ref Texture2D result, byte[] hash, string cachePath)
+            {
+                result = LoadTexture(file);
+
+                // This is the header
+                // tex.width, tex.height, tex.format, tex.mipmapCount > 1);                    
+                byte[] data = result.GetRawTextureData();
+                byte[] buffer = new byte[data.Length + 4 + 4 + 4 + 1 + 16];
+                BitConverter.GetBytes(result.width).CopyTo(buffer, 0 + 16);
+                BitConverter.GetBytes(result.height).CopyTo(buffer, 4 + 16);
+                BitConverter.GetBytes((int)result.format).CopyTo(buffer, 8 + 16);
+                BitConverter.GetBytes(result.mipmapCount > 1).CopyTo(buffer, 12 + 16);
+                Array.Copy(hash, 0, buffer, 0, 16);
+                Array.Copy(data, 0, buffer, 13 + 16, data.Length);
+                File.WriteAllBytes(cachePath, buffer);
+            }
+
+            private static byte[] GetHash(VirtualFile file)
+            {
+                byte[] hash;
+                using (var stream = new BufferedStream(File.OpenRead(file.FullPath), 1200000))
+                {
+                    // The rest remains the same
+                    MD5 md5 = MD5.Create();
+                    hash = md5.ComputeHash(stream);
+                }
+                return hash;
+            }
+
+            private static bool HashChanged(byte[] hash1, byte[] hash2)
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    if (hash1[i] != hash2[i])
+                    {
                         return true;
                     }
                 }
@@ -150,7 +204,7 @@ namespace Gagarin
             private static string GetBinTexturePath(VirtualFile file)
             {
                 bool started = false;
-                string original = GenFile.SanitizedFileName("Texture_" + file.FullPath.Trim().Replace('-', '_')) + ".bin";
+                string original = GenFile.SanitizedFileName("Texture_" + file.FullPath.Trim().Replace('-', '_')) + ".v2.bin";
                 string bin = "";
                 int j;
                 int i;

@@ -114,6 +114,8 @@ namespace Gagarin
             }
 
             stopwatch.Stop();
+            //
+            //CachedDefHelper.Dump();
             Log.Warning($"GAGARIN: <color=white>Cache created!</color> creating cache took <color=green>{stopwatch.ElapsedMilliseconds / 1000} seconds</color>");
         }
 
@@ -159,6 +161,67 @@ namespace Gagarin
 
             stopwatch.Stop();
             Log.Warning($"GAGARIN: <color=green>Loaded from cache!</color> Loading cache took <color=red>{stopwatch.ElapsedMilliseconds / 1000} seconds</color>");
+        }
+
+        private static void Dump()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            XmlDocument document = new XmlDocument();
+            document.AppendChild(document.CreateElement("Defs"));
+
+            XmlElement root = document.DocumentElement;
+            XmlElement wrapper;
+            XmlElement resolvedNode;
+
+            foreach (DefXmlUnit unit in defs)
+            {
+                XmlElement node = unit.node as XmlElement;
+                if (unit.inheritanceNode == null)
+                {
+                    wrapper = WrapXmlNode(node, unit.asset?.FullFilePath);
+                    root.AppendChild(wrapper);
+                    continue;
+                }
+                if (unit.inheritanceNode.resolvedXmlNode == null)
+                {
+                    Log.Error($"GAGARIN: {unit.def.defName} has <color=yellow>resolvedXmlNode == null!</color>");
+                    continue;
+                }
+
+                resolvedNode = unit.inheritanceNode.resolvedXmlNode as XmlElement;
+                resolvedNode.RemoveAttribute("ParentName");
+
+                if (resolvedNode.Name != node.Name)
+                {
+                    XmlElement temp = document.CreateElement(node.Name);
+                    foreach (XmlNode n in resolvedNode.ChildNodes)
+                    {
+                        if (n.NodeType != XmlNodeType.Element)
+                            continue;
+                        temp.AppendChild(document.ImportNode(n, true));
+                    }
+                    resolvedNode = temp;
+                }
+                else if (node.HasAttribute("Class") && !resolvedNode.HasAttribute("Class"))
+                    resolvedNode.SetAttribute("Class", node.GetAttribute("Class"));
+
+                root.AppendChild(resolvedNode);
+            }
+
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                CheckCharacters = false,
+                Indent = true,
+                NewLineChars = "\n"
+            };
+            using (XmlWriter writer = XmlWriter.Create(GagarinEnvironmentInfo.UnifiedPatchedOriginalXmlPath, settings))
+            {
+                document.Save(writer);
+            }
+
+            stopwatch.Stop();
+            Log.Warning($"GAGARIN: <color=white>Cache created!</color> creating cache took <color=green>{stopwatch.ElapsedMilliseconds / 1000} seconds</color>");
         }
 
         private static XmlElement WrapXmlNode(XmlNode node, string path = null)
