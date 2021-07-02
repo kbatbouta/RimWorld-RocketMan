@@ -13,7 +13,7 @@ namespace Soyuz.Patches
             {
                 return;
             }
-            if (__instance.info.Maker.Thing is Pawn pawn && !pawn.Destroyed && pawn.Spawned)
+            if (__instance.info.Maker.Thing is Pawn pawn && !pawn.Destroyed && pawn.Spawned && pawn.IsBeingThrottled() && pawn.IsValidWildlifeOrWorldPawn())
             {
                 float deltaT = pawn.GetDeltaT();
                 if (deltaT > 1 && deltaT < 22)

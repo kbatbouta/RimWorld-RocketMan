@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using RimWorld.Planet;
 using RocketMan;
@@ -56,6 +57,7 @@ namespace Soyuz
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static RaceSettings GetRaceSettings(this Pawn pawn)
         {
             if (pawn?.def != null && Context.DilationByDef.TryGetValue(pawn.def, out RaceSettings settings))
@@ -73,6 +75,7 @@ namespace Soyuz
             return settings;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static JobSettings GetCurJobSettings(this Pawn pawn)
         {
             Job job = pawn.jobs?.curJob;
@@ -92,6 +95,7 @@ namespace Soyuz
 
         private static CachedDict<Pawn, bool> _hediffCache = new CachedDict<Pawn, bool>();
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool HasHediffPreventingThrottling(Pawn p)
         {
             if (_hediffCache.TryGetValue(p, out bool result, 250))
@@ -113,6 +117,7 @@ namespace Soyuz
             return _hediffCache[p] = false;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsCastingVerb(Pawn p)
         {
             return p.verbTracker?.AllVerbs.Any(v => v.WarmingUp) ?? false;

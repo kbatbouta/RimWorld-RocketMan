@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -10,6 +12,7 @@ namespace RocketMan
 {
     public static partial class GUIUtility
     {
+        [StructLayout(LayoutKind.Auto)]
         private struct GUIState
         {
             public GameFont font;
@@ -27,6 +30,7 @@ namespace RocketMan
 
         private readonly static List<GUIState> stack = new List<GUIState>();
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void StashGUIState()
         {
             stack.Add(new GUIState()
@@ -59,6 +63,7 @@ namespace RocketMan
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void RestoreGUIState()
         {
             GUIState config = stack.Last();
@@ -69,6 +74,7 @@ namespace RocketMan
             GUIFont.RestorStyles();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ClearGUIState()
         {
             if (stack.Count > 0)
@@ -80,6 +86,7 @@ namespace RocketMan
             GUIFont.RestorStyles();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void Restore(GUIState config)
         {
             GUIFont.UseCustomFonts = config.useCustomFonts;

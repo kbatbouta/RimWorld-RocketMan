@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RocketMan
@@ -13,6 +14,7 @@ namespace RocketMan
         private static readonly Thing[] owners = new Thing[CacheSize];
         private static readonly int[] signatures = new int[CacheSize];
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int32 GetSignature(this Thing thing, bool dirty = false)
         {
             Int32 key = thing.thingIDNumber;

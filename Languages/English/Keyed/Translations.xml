@@ -24,6 +24,13 @@
 	<!-- RocketMan RocketMan.TabContent_Settings -->
 	<RocketMan.RocketMan>RocketMan</RocketMan.RocketMan>
 	<RocketMan.Tab>Home</RocketMan.Tab>
+	<RocketMan.GenMapSize>Map generation settings</RocketMan.GenMapSize>
+	<RocketMan.GenMapSize.Text>Set the map size/shape for the next generated map. (after generating said map this option will reset back to default)</RocketMan.GenMapSize.Text>
+	<RocketMan.GenMapSize.Note>Please note that the new map will have a width/height that is dividable by region height (this rounding process is automatic).</RocketMan.GenMapSize.Note>
+	<RocketMan.GenMapSize.Mode.Custom>Custom</RocketMan.GenMapSize.Mode.Custom>
+	<RocketMan.GenMapSize.Mode.Vanilla>Vanilla</RocketMan.GenMapSize.Mode.Vanilla>
+	<RocketMan.GenMapSize.Width>Width</RocketMan.GenMapSize.Width>
+	<RocketMan.GenMapSize.Height>Height</RocketMan.GenMapSize.Height>
 	<RocketMan.Close>Close</RocketMan.Close>
 	<RocketMan.Enable>Enable</RocketMan.Enable>
 	<RocketMan.TranslationCaching>Enable text size caching</RocketMan.TranslationCaching>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using RocketMan;
 using RocketMan.Tabs;
@@ -21,6 +22,7 @@ namespace Proton
 
         public bool Enabled
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => enabledInt && (avgT < Context.Settings.executionTimeLimit || counter < 15 || ignored);
             set
             {
@@ -34,16 +36,19 @@ namespace Proton
 
         public float AverageExecutionTime
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => avgT;
         }
 
         public float TimeSinceLastExecution
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => (float)Math.Round((float)(stopwatch?.ElapsedTicks ?? 0) / Stopwatch.Frequency, 3);
         }
 
         public bool ShouldUpdate
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 if (!enabledInt)

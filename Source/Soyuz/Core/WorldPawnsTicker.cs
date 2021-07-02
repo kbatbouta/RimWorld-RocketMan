@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using RimWorld;
 using RimWorld.Planet;
@@ -34,6 +35,7 @@ namespace Soyuz
 
         public static HashSet<Pawn> PreviousBucket
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => previousBucket;
         }
 
@@ -192,6 +194,7 @@ namespace Soyuz
             result = GetPawns(fallbackMode: true);
         }
 
+
         private static IEnumerable<Pawn> AddExtraPawns(IEnumerable<Pawn> bucket)
         {
             List<Pawn> temp = new List<Pawn>();
@@ -221,6 +224,7 @@ namespace Soyuz
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int GetBucket(Pawn pawn)
         {
             int hash;

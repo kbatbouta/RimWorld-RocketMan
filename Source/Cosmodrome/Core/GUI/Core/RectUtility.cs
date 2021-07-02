@@ -23,6 +23,16 @@ namespace RocketMan
             return rects;
         }
 
+        public static Rect MoveTopLeftCorner(this Rect rect, float dx = 0, float dy = 0)
+        {
+            return new Rect(rect.xMin + dx, rect.yMin + dy, rect.width - dx, rect.height - dy);
+        }
+
+        public static Rect MoveBottomRightCorner(this Rect rect, float dx = 0, float dy = 0)
+        {
+            return new Rect(rect.xMin, rect.yMin, rect.width + dx, rect.height + dy);
+        }
+
         public static Rect[] Rows(this Rect rect, int pieces, float gap = 5f)
         {
             if (pieces <= 1)

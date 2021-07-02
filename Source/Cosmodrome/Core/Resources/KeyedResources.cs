@@ -233,6 +233,76 @@ namespace RocketMan
                    _RocketMan_Tab : _RocketMan_Tab = "RocketMan.Tab".Translate();
         }             
                            
+        private static TaggedString _RocketMan_GenMapSize = null;
+        /// <summary> Keyed string with key <c>RocketMan.GenMapSize</c> with inner text set to:
+        ///
+        /// <code>Map generation settings</code>
+        /// </summary>       
+        public static TaggedString RocketMan_GenMapSize {
+            get => _RocketMan_GenMapSize != null ? 
+                   _RocketMan_GenMapSize : _RocketMan_GenMapSize = "RocketMan.GenMapSize".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_GenMapSize_Text = null;
+        /// <summary> Keyed string with key <c>RocketMan.GenMapSize.Text</c> with inner text set to:
+        ///
+        /// <code>Set the map size/shape for the next generated map. (after generating said map this option will reset back to default)</code>
+        /// </summary>       
+        public static TaggedString RocketMan_GenMapSize_Text {
+            get => _RocketMan_GenMapSize_Text != null ? 
+                   _RocketMan_GenMapSize_Text : _RocketMan_GenMapSize_Text = "RocketMan.GenMapSize.Text".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_GenMapSize_Note = null;
+        /// <summary> Keyed string with key <c>RocketMan.GenMapSize.Note</c> with inner text set to:
+        ///
+        /// <code>Please note that the new map will have a width/height that is dividable by region height (this rounding process is automatic).</code>
+        /// </summary>       
+        public static TaggedString RocketMan_GenMapSize_Note {
+            get => _RocketMan_GenMapSize_Note != null ? 
+                   _RocketMan_GenMapSize_Note : _RocketMan_GenMapSize_Note = "RocketMan.GenMapSize.Note".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_GenMapSize_Mode_Custom = null;
+        /// <summary> Keyed string with key <c>RocketMan.GenMapSize.Mode.Custom</c> with inner text set to:
+        ///
+        /// <code>Custom</code>
+        /// </summary>       
+        public static TaggedString RocketMan_GenMapSize_Mode_Custom {
+            get => _RocketMan_GenMapSize_Mode_Custom != null ? 
+                   _RocketMan_GenMapSize_Mode_Custom : _RocketMan_GenMapSize_Mode_Custom = "RocketMan.GenMapSize.Mode.Custom".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_GenMapSize_Mode_Vanilla = null;
+        /// <summary> Keyed string with key <c>RocketMan.GenMapSize.Mode.Vanilla</c> with inner text set to:
+        ///
+        /// <code>Vanilla</code>
+        /// </summary>       
+        public static TaggedString RocketMan_GenMapSize_Mode_Vanilla {
+            get => _RocketMan_GenMapSize_Mode_Vanilla != null ? 
+                   _RocketMan_GenMapSize_Mode_Vanilla : _RocketMan_GenMapSize_Mode_Vanilla = "RocketMan.GenMapSize.Mode.Vanilla".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_GenMapSize_Width = null;
+        /// <summary> Keyed string with key <c>RocketMan.GenMapSize.Width</c> with inner text set to:
+        ///
+        /// <code>Width</code>
+        /// </summary>       
+        public static TaggedString RocketMan_GenMapSize_Width {
+            get => _RocketMan_GenMapSize_Width != null ? 
+                   _RocketMan_GenMapSize_Width : _RocketMan_GenMapSize_Width = "RocketMan.GenMapSize.Width".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_GenMapSize_Height = null;
+        /// <summary> Keyed string with key <c>RocketMan.GenMapSize.Height</c> with inner text set to:
+        ///
+        /// <code>Height</code>
+        /// </summary>       
+        public static TaggedString RocketMan_GenMapSize_Height {
+            get => _RocketMan_GenMapSize_Height != null ? 
+                   _RocketMan_GenMapSize_Height : _RocketMan_GenMapSize_Height = "RocketMan.GenMapSize.Height".Translate();
+        }             
+                           
         private static TaggedString _RocketMan_Close = null;
         /// <summary> Keyed string with key <c>RocketMan.Close</c> with inner text set to:
         ///

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using RimWorld.Planet;
 using RocketMan;
@@ -26,6 +27,7 @@ namespace Soyuz
 
         private static int DilationRate
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 switch (Context.ZoomRange)
@@ -48,6 +50,7 @@ namespace Soyuz
 
         public static Pawn Current
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => _pawnTick;
         }
 
@@ -162,6 +165,7 @@ namespace Soyuz
             throw new ArgumentException("Argument should be a Verse.Pawn");
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void UpdateTimers(this Pawn pawn)
         {
             int tick = GenTicks.TicksGame;
@@ -195,6 +199,7 @@ namespace Soyuz
             return true;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OffScreen(this Pawn pawn)
         {
             if (pawn == null)
@@ -216,6 +221,7 @@ namespace Soyuz
         {
             if (Current != pawn
                 || pawn == null
+                || !pawn.IsValidWildlifeOrWorldPawn()
                 || !RocketPrefs.TimeDilation
                 || !RocketPrefs.Enabled)
                 return false;
@@ -245,6 +251,7 @@ namespace Soyuz
             return _isValidPawn;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsValidWildlifeOrWorldPawnInternal_newtemp(this Pawn pawn)
         {
             if (!RocketPrefs.Enabled || !RocketPrefs.TimeDilation)
@@ -265,7 +272,7 @@ namespace Soyuz
                 && Context.CurJobSettings != null
                 && Context.CurJobSettings.throttleMode != JobThrottleMode.None)
             {
-                if (pawn.def.race.Humanlike && Context.CurJobSettings.def != JobDefOf.DoBill)
+                if (pawn.def.race.Humanlike && Context.CurJobSettings.def != JobDefOf.DoBill && GenTicks.TicksGame - (pawn.jobs?.curJob?.startTick ?? 0) >= 19)
                 {
                     return IsValidHuman(pawn);
                 }
@@ -277,6 +284,7 @@ namespace Soyuz
             return false;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsValidHuman(Pawn pawn)
         {
             if (true
@@ -295,6 +303,7 @@ namespace Soyuz
             return false;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsValidAnimal(Pawn pawn)
         {
             if (true

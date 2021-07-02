@@ -8,6 +8,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 
 namespace RocketMan
 {
@@ -77,6 +78,8 @@ namespace RocketMan
 
         private static readonly Listing_Collapsible collapsible_speed = new Listing_Collapsible(group);
 
+        private static readonly Listing_Collapsible collapsible_genMap = new Listing_Collapsible(group);
+
         private static readonly Listing_Collapsible collapsible_other = new Listing_Collapsible(group);
 
         private static readonly Listing_Collapsible collapsible_debug = new Listing_Collapsible(group);
@@ -125,6 +128,43 @@ namespace RocketMan
                 collapsible_general.CheckboxLabeled("RocketMan.ProgressBar".Translate(), ref RocketPrefs.ShowWarmUpPopup, "RocketMan.ProgressBar.Description".Translate());
                 collapsible_general.End(ref inRect);
                 inRect.yMin += 5;
+
+                if (Find.World != null)
+                {
+                    WorldInfoComponent infoComponent = Find.World.GetComponent<WorldInfoComponent>();
+                    collapsible_genMap.Begin(inRect, KeyedResources.RocketMan_GenMapSize);
+                    collapsible_genMap.Label(KeyedResources.RocketMan_GenMapSize_Text);
+                    collapsible_genMap.Line(1);
+                    collapsible_genMap.Label(KeyedResources.RocketMan_GenMapSize_Note);
+                    collapsible_genMap.Columns(18, new Action<Rect>[]{
+                        (rect)=>{
+                            GUIFont.Anchor = TextAnchor.MiddleLeft;
+                            float a = infoComponent.InitialMapWidth;
+                            string buffer = $"{a}";
+                            Widgets.Label(rect, KeyedResources.RocketMan_GenMapSize_Width);
+                            Widgets.TextFieldNumeric(rect.RightHalf(), ref a, ref buffer, 0, 1000);
+                            if(infoComponent.InitialMapWidth != a)
+                            {
+                                infoComponent.InitialMapWidth = (int)a;
+                                infoComponent.useCustomMapSizes = true;
+                            }
+                        },
+                        (rect)=>{
+                            GUIFont.Anchor = TextAnchor.MiddleLeft;
+                            float a = infoComponent.InitialMapHeight;
+                            string buffer = $"{a}";
+                            Widgets.Label(rect.MoveTopLeftCorner(25f, 0), KeyedResources.RocketMan_GenMapSize_Height);
+                            Widgets.TextFieldNumeric(rect.RightHalf(), ref a, ref buffer, 0, 1000);
+                            if(infoComponent.InitialMapHeight != a)
+                            {
+                                infoComponent.InitialMapHeight = (int)a;
+                                infoComponent.useCustomMapSizes = true;
+                            }
+                        }
+                    }, useMargins: true);
+                    collapsible_genMap.End(ref inRect);
+                    inRect.yMin += 5;
+                }
 
                 if (RocketPrefs.Enabled)
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RocketMan
@@ -12,6 +13,7 @@ namespace RocketMan
 
         public int Length
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => map.Length;
         }
 
@@ -22,15 +24,19 @@ namespace RocketMan
 
         public bool this[int key]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Get(key);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Set(key, value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Get(int key)
         {
             return (map[key / ChunkSize] & GetOp(key)) != 0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public FlagArray Set(int key, bool value)
         {
             map[key / ChunkSize] = value ?
@@ -50,6 +56,7 @@ namespace RocketMan
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int GetOp(int key)
         {
             return Bit << (key % ChunkSize);

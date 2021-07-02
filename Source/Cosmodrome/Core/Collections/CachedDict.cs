@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Verse;
 
 namespace RocketMan
 {
+    [StructLayout(LayoutKind.Sequential)]
     public struct CachedUnit<T>
     {
         public readonly int tick;
@@ -15,6 +18,7 @@ namespace RocketMan
             this.value = value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsValid(int expiry = 0)
         {
             if (GenTicks.TicksGame - tick <= expiry)
@@ -29,10 +33,13 @@ namespace RocketMan
 
         public B this[A key]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => cache[key].value;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => AddPair(key, value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(A key, out B value, int expiry = 0)
         {
             if (cache.TryGetValue(key, out var store))
@@ -48,6 +55,7 @@ namespace RocketMan
             return false;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(A key, out B value, out bool failed, int expiry = 0)
         {
             if (cache.TryGetValue(key, out var store))

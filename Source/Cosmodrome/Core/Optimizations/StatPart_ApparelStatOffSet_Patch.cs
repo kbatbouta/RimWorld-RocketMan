@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System.Runtime.CompilerServices;
+using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;

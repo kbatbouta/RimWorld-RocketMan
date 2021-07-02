@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using RocketMan;
 using Soyuz.Profiling;
 using Verse;
@@ -30,6 +31,7 @@ namespace Soyuz
 
         public static int DilationRate
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 switch (Context.ZoomRange)

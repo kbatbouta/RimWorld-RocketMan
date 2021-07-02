@@ -41,11 +41,20 @@ namespace RocketMan.Optimizations
                         j++;
                     }
                     if (j >= 10)
-                        throw new Exception($"Patching failed! unable to find the second {mPotentialWorkThings}");
+                    {
+                        Exception er = new Exception();
+                        Logger.Debug($"Patching failed! unable to find the second {mPotentialWorkThings}", er);
+                        throw er;
+                    }
                     continue;
                 }
                 yield return code;
             }
+        }
+
+        public static Exception Cleanup(MethodBase original)
+        {
+            return null;
         }
     }
 }

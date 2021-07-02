@@ -23,110 +23,116 @@ namespace Soyuz.Patches
 
         public static void Prefix(JobDriver __instance)
         {
-            Pawn pawn = __instance.pawn;
-            if ((deltaT = pawn.GetDeltaT()) <= 1)
+            if (__instance.pawn.IsBeingThrottled() && __instance.pawn.IsValidWildlifeOrWorldPawn())
             {
-                return;
-            }
-            if (__instance is JobDriver_CleanFilth clean)
-            {
-                a1 = clean.cleaningWorkDone;
-                a2 = clean.totalCleaningWorkDone;
-            }
-            else if (__instance is JobDriver_DoBill doBill)
-            {
-                a1 = doBill.workLeft;
-                a2 = doBill.ticksSpentDoingRecipeWork;
-            }
-            else if (__instance is JobDriver_PlantSow sow)
-            {
-                a1 = sow.sowWorkDone;
-            }
-            else if (__instance is JobDriver_PlantCut cut)
-            {
-                a1 = cut.workDone;
-            }
-            else if (__instance is JobDriver_PlantHarvest harvest)
-            {
-                a1 = harvest.workDone;
-            }
-            else if (__instance is JobDriver_PlantWork plantWork)
-            {
-                a1 = plantWork.workDone;
-            }
-            else if (__instance is JobDriver_PlantHarvest_Designated harvest_Designated)
-            {
-                a1 = harvest_Designated.workDone;
-            }
-            else if (__instance is JobDriver_PlantCut_Designated cut_Designated)
-            {
-                a1 = cut_Designated.workDone;
-            }
+                Pawn pawn = __instance.pawn;
+                if ((deltaT = pawn.GetDeltaT()) <= 1)
+                {
+                    return;
+                }
+                if (__instance is JobDriver_CleanFilth clean)
+                {
+                    a1 = clean.cleaningWorkDone;
+                    a2 = clean.totalCleaningWorkDone;
+                }
+                else if (__instance is JobDriver_DoBill doBill)
+                {
+                    a1 = doBill.workLeft;
+                    a2 = doBill.ticksSpentDoingRecipeWork;
+                }
+                else if (__instance is JobDriver_PlantSow sow)
+                {
+                    a1 = sow.sowWorkDone;
+                }
+                else if (__instance is JobDriver_PlantCut cut)
+                {
+                    a1 = cut.workDone;
+                }
+                else if (__instance is JobDriver_PlantHarvest harvest)
+                {
+                    a1 = harvest.workDone;
+                }
+                else if (__instance is JobDriver_PlantWork plantWork)
+                {
+                    a1 = plantWork.workDone;
+                }
+                else if (__instance is JobDriver_PlantHarvest_Designated harvest_Designated)
+                {
+                    a1 = harvest_Designated.workDone;
+                }
+                else if (__instance is JobDriver_PlantCut_Designated cut_Designated)
+                {
+                    a1 = cut_Designated.workDone;
+                }
 
-            a3 = __instance.uninstallWorkLeft;
+                a3 = __instance.uninstallWorkLeft;
+            }
         }
 
         public static void Postfix(JobDriver __instance)
         {
-            if (deltaT <= 1)
+            if (__instance.pawn.IsBeingThrottled() && __instance.pawn.IsValidWildlifeOrWorldPawn())
             {
-                return;
+                if (deltaT <= 1)
+                {
+                    return;
+                }
+                if (__instance is JobDriver_CleanFilth clean)
+                {
+                    b1 = clean.cleaningWorkDone;
+                    b2 = clean.totalCleaningWorkDone; ;
+
+                    clean.cleaningWorkDone += (b1 - a1) * (deltaT - 1);
+                    clean.totalCleaningWorkDone += (b2 - a2) * (deltaT - 1);
+                }
+                else if (__instance is JobDriver_DoBill doBill)
+                {
+                    b1 = doBill.workLeft;
+
+                    doBill.workLeft += (b1 - a1) * (deltaT - 1);
+                    doBill.ticksSpentDoingRecipeWork += (deltaT - 1);
+                }
+                else if (__instance is JobDriver_PlantSow sow)
+                {
+                    b1 = sow.sowWorkDone;
+
+                    sow.sowWorkDone += (b1 - a1) * (deltaT - 1);
+                }
+                else if (__instance is JobDriver_PlantCut cut)
+                {
+                    b1 = cut.workDone;
+
+                    cut.workDone += (b1 - a1) * (deltaT - 1);
+                }
+                else if (__instance is JobDriver_PlantHarvest harvest)
+                {
+                    b1 = harvest.workDone;
+
+                    harvest.workDone += (b1 - a1) * (deltaT - 1);
+                }
+                else if (__instance is JobDriver_PlantWork plantWork)
+                {
+                    b1 = plantWork.workDone;
+
+                    plantWork.workDone += (b1 - a1) * (deltaT - 1);
+                }
+                else if (__instance is JobDriver_PlantHarvest_Designated harvest_Designated)
+                {
+                    b1 = harvest_Designated.workDone;
+
+                    harvest_Designated.workDone += (b1 - a1) * (deltaT - 1);
+                }
+                else if (__instance is JobDriver_PlantCut_Designated cut_Designated)
+                {
+                    b1 = cut_Designated.workDone;
+
+                    cut_Designated.workDone += (b1 - a1) * (deltaT - 1);
+                }
+
+                b3 = __instance.uninstallWorkLeft;
+
+                __instance.uninstallWorkLeft += (b1 - a1) * (deltaT - 1);
             }
-            if (__instance is JobDriver_CleanFilth clean)
-            {
-                b1 = clean.cleaningWorkDone;
-                b2 = clean.totalCleaningWorkDone; ;
-
-                clean.cleaningWorkDone += (b1 - a1) * (deltaT - 1);
-                clean.totalCleaningWorkDone += (b2 - a2) * (deltaT - 1);
-            }
-            else if (__instance is JobDriver_DoBill doBill)
-            {
-                b1 = doBill.workLeft;
-
-                doBill.workLeft += (b1 - a1) * (deltaT - 1);
-                doBill.ticksSpentDoingRecipeWork += (deltaT - 1);
-            }
-            else if (__instance is JobDriver_PlantSow sow)
-            {
-                b1 = sow.sowWorkDone;
-
-                sow.sowWorkDone += (b1 - a1) * (deltaT - 1);
-            }
-            else if (__instance is JobDriver_PlantCut cut)
-            {
-                b1 = cut.workDone;
-
-                cut.workDone += (b1 - a1) * (deltaT - 1);
-            }
-            else if (__instance is JobDriver_PlantHarvest harvest)
-            {
-                b1 = harvest.workDone;
-
-                harvest.workDone += (b1 - a1) * (deltaT - 1);
-            }
-            else if (__instance is JobDriver_PlantWork plantWork)
-            {
-                b1 = plantWork.workDone;
-
-                plantWork.workDone += (b1 - a1) * (deltaT - 1);
-            }
-            else if (__instance is JobDriver_PlantHarvest_Designated harvest_Designated)
-            {
-                b1 = harvest_Designated.workDone;
-
-                harvest_Designated.workDone += (b1 - a1) * (deltaT - 1);
-            }
-            else if (__instance is JobDriver_PlantCut_Designated cut_Designated)
-            {
-                b1 = cut_Designated.workDone;
-
-                cut_Designated.workDone += (b1 - a1) * (deltaT - 1);
-            }
-
-            b3 = __instance.uninstallWorkLeft;
-
-            __instance.uninstallWorkLeft += (b1 - a1) * (deltaT - 1);
         }
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,

@@ -33,35 +33,35 @@ namespace Soyuz
                     JobDefOf.HaulToCell,
                     JobDefOf.Goto,
                     JobDefOf.LayDown,
-                    JobDefOf.Follow,
                     JobDefOf.Wait,
                     JobDefOf.Wait_Wander,
                     JobDefOf.GotoWander,
-                    JobDefOf.SocialRelax,
-                    DefDatabase<JobDef>.defsByName.TryGetValue("GoForWalk", fallback: null)
                 };
             }
             if (partiallyThrottledJobs == null)
             {
                 partiallyThrottledJobs = new JobDef[]
                 {
-                    JobDefOf.Sow,
-                    JobDefOf.CutPlant,
-                    JobDefOf.CutPlantDesignated,
-                    JobDefOf.Harvest,
-                    JobDefOf.HarvestDesignated,
-                    JobDefOf.Mine,
-                    JobDefOf.Refuel,
-                    JobDefOf.Follow,
-                    JobDefOf.FollowClose,
-                    JobDefOf.FinishFrame,
-                    JobDefOf.DoBill,
+                    JobDefOf.Wait,
+                    JobDefOf.Wait_Wander,
                 };
             }
             if (notThrottledJobs == null)
             {
                 notThrottledJobs = new JobDef[]
                 {
+                    JobDefOf.Sow,
+                    JobDefOf.CutPlant,
+                    JobDefOf.CutPlantDesignated,
+                    JobDefOf.Harvest,
+                    JobDefOf.HarvestDesignated,
+                    JobDefOf.SocialRelax,
+                    JobDefOf.Mine,
+                    JobDefOf.Follow,
+                    JobDefOf.FollowClose,
+                    JobDefOf.FinishFrame,
+                    JobDefOf.Refuel,
+                    JobDefOf.DoBill,
                     JobDefOf.Ingest,
                     JobDefOf.TakeInventory,
                     JobDefOf.DeliverFood,
@@ -89,44 +89,39 @@ namespace Soyuz
                 initialized = true;
             }
             Assembly vanilla = typeof(Find).Assembly;
+
             foreach (JobDef def in fullyThrottledJobs)
             {
                 if (def != null && Context.JobDilationByDef.TryGetValue(def, out JobSettings settings))
                 {
-                    if (!IsModifiedJob(def))
-                    {
-                        settings.throttleFilter = JobThrottleFilter.All;
-                        settings.throttleMode = JobThrottleMode.Full;
-                    }
-                    else
-                    {
-                        settings.throttleFilter = JobThrottleFilter.Animals;
-                        settings.throttleMode = JobThrottleMode.Full;
+                    //if (!IsModifiedJob(def))
+                    //{
+                    settings.throttleFilter = JobThrottleFilter.All;
+                    settings.throttleMode = JobThrottleMode.Full;
+                    //}
+                    //else
+                    //{
+                    //    settings.throttleFilter = JobThrottleFilter.Animals;
+                    //    settings.throttleMode = JobThrottleMode.Full;
 
-                        Log.Message($"SOYUZ: Blacklisted job {settings.def.defName}");
-                    }
+                    //    Log.Message($"SOYUZ: Blacklisted job {settings.def.defName}");
+                    //}
                 }
                 else
                 {
                     Log.Warning($"SOYUZ: Job {def?.defName}:{def?.label} settings not found while setting presets!");
                 }
             }
+
             foreach (JobDef def in partiallyThrottledJobs)
             {
                 if (def != null && Context.JobDilationByDef.TryGetValue(def, out JobSettings settings))
                 {
-                    if (!IsModifiedJob(def))
-                    {
-                        settings.throttleFilter = JobThrottleFilter.All;
-                        settings.throttleMode = JobThrottleMode.Partial;
-                    }
-                    else
-                    {
-                        settings.throttleFilter = JobThrottleFilter.Animals;
-                        settings.throttleMode = JobThrottleMode.Partial;
-
-                        Log.Message($"SOYUZ: Blacklisted job {settings.def.defName}");
-                    }
+                    //if (!IsModifiedJob(def))
+                    //{
+                    settings.throttleFilter = JobThrottleFilter.All;
+                    settings.throttleMode = JobThrottleMode.Partial;
+                    //}
                 }
             }
             foreach (JobDef def in notThrottledJobs)
@@ -153,26 +148,27 @@ namespace Soyuz
 
         private static string harmonyId = Finder.HarmonyID + ".Soyuz";
 
-        private static bool IsModifiedJob(JobDef def)
-        {
-            if (vanilla == def.driverClass.GetType().Assembly)
-            {
-                foreach (MethodBase method in def.driverClass.GetMethods())
-                {
-                    if (!method.IsValidTarget())
-                        continue;
-                    var info = Harmony.GetPatchInfo(method);
-                    if (info.Postfixes.Any(p => p.owner != harmonyId))
-                        return true;
-                    if (info.Prefixes.Any(p => p.owner != harmonyId))
-                        return true;
-                    if (info.Transpilers.Any(p => p.owner != harmonyId))
-                        return true;
-                    if (info.Finalizers.Any(p => p.owner != harmonyId))
-                        return true;
-                }
-            }
-            return false;
-        }
+        // TODO: redo this
+        // private static bool IsModifiedJob(JobDef def)
+        // {
+        //    if (vanilla == def.driverClass.GetType().Assembly)
+        //    {
+        //        foreach (MethodBase method in def.driverClass.GetMethods())
+        //        {
+        //            if (!method.IsValidTarget())
+        //                continue;
+        //            var info = Harmony.GetPatchInfo(method);
+        //            if (info.Postfixes.Any(p => p.owner != harmonyId))
+        //                return true;
+        //            if (info.Prefixes.Any(p => p.owner != harmonyId))
+        //                return true;
+        //            if (info.Transpilers.Any(p => p.owner != harmonyId))
+        //                return true;
+        //            if (info.Finalizers.Any(p => p.owner != harmonyId))
+        //                return true;
+        //        }
+        //    }
+        //    return false;
+        // }
     }
 }

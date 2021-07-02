@@ -203,7 +203,6 @@ namespace Gagarin
 
             private static string GetBinTexturePath(VirtualFile file)
             {
-                //bool started = false;
                 string original = GenFile.SanitizedFileName("Texture_" + file.FullPath.Trim().Replace('-', '_')) + ".v2.bin";
                 string bin = "";
                 for (int i = 0; i < original.Length; i++)

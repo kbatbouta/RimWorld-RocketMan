@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using RimWorld;
 using Verse;
 
@@ -153,6 +154,18 @@ namespace RocketMan.Gameplay
             private int outOfFrameCounter;
             public Thing thing;
 
+            public int Age
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get => inFrameCounter + outOfFrameCounter;
+            }
+
+            public float ViewedRatio
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get => inFrameCounter / (inFrameCounter + outOfFrameCounter + 1e-5f);
+            }
+
             public CorpseRecord()
             {
             }
@@ -163,9 +176,6 @@ namespace RocketMan.Gameplay
                 inFrameCounter = 0;
                 outOfFrameCounter = 0;
             }
-
-            public int Age => inFrameCounter + outOfFrameCounter;
-            public float ViewedRatio => inFrameCounter / (inFrameCounter + outOfFrameCounter + 1e-5f);
 
             public void ExposeData()
             {

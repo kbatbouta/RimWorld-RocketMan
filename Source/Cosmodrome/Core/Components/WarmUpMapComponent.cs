@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI.Group;
@@ -36,6 +37,7 @@ namespace RocketMan
 
         public float Progress
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => ticksPassed.TicksToSeconds() / WARMUP_TIME;
         }
 

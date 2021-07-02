@@ -12,12 +12,15 @@ namespace RocketMan
 
         public int Length
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => array.Length;
         }
 
         public T this[int index]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => array[TransformIndex(index)];
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (value == null)

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -92,10 +93,17 @@ namespace RocketMan.Optimizations
                 .ToHashSet();
         }
 
+        [HarmonyPriority(int.MaxValue)]
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            return instructions.MethodReplacer(m_GetValueUnfinalized, m_GetValueUnfinalized_Replacemant);
+        }
+
         [Main.OnTickLonger]
         public static void OnTickLonger() => cache.Clear();
 
-        public static float UpdateCache(int key, StatWorker statWorker, StatRequest req, bool applyPostProcess,
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static float UpdateCache(int key, StatWorker statWorker, StatRequest req, bool applyPostProcess,
             int tick, Tuple<float, int, int> store, int signature)
         {
             float value = statWorker.GetValueUnfinalized(req, applyPostProcess);
@@ -112,7 +120,7 @@ namespace RocketMan.Optimizations
             return value;
         }
 
-        public static float Replacemant(StatWorker statWorker, StatRequest req, bool applyPostProcess)
+        private static float Replacemant(StatWorker statWorker, StatRequest req, bool applyPostProcess)
         {
             var tick = GenTicks.TicksGame;
             if (true
@@ -135,12 +143,6 @@ namespace RocketMan.Optimizations
                 return store.Item1;
             }
             return statWorker.GetValueUnfinalized(req, applyPostProcess);
-        }
-
-        [HarmonyPriority(int.MaxValue)]
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            return instructions.MethodReplacer(m_GetValueUnfinalized, m_GetValueUnfinalized_Replacemant);
         }
     }
 }
