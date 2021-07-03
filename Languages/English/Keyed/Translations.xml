@@ -24,7 +24,7 @@
 	<!-- RocketMan RocketMan.TabContent_Settings -->
 	<RocketMan.RocketMan>RocketMan</RocketMan.RocketMan>
 	<RocketMan.Tab>Home</RocketMan.Tab>
-	<RocketMan.GenMapSize>Map generation settings</RocketMan.GenMapSize>
+	<RocketMan.GenMapSize>THIGH-O-TORN 5000</RocketMan.GenMapSize>
 	<RocketMan.GenMapSize.Text>Set the map size/shape for the next generated map. (after generating said map this option will reset back to default)</RocketMan.GenMapSize.Text>
 	<RocketMan.GenMapSize.Note>Please note that the new map will have a width/height that is dividable by region height (this rounding process is automatic).</RocketMan.GenMapSize.Note>
 	<RocketMan.GenMapSize.Mode.Custom>Custom</RocketMan.GenMapSize.Mode.Custom>
