@@ -109,15 +109,18 @@ namespace RocketMan.Optimizations
                     StackTrace trace = new StackTrace();
                     StackFrame frame = trace.GetFrame(2);
                     MethodBase method = frame.GetMethod();
-                    try
+                    if (method.IsValidTarget())
                     {
-                        Finder.Harmony.Patch(method, transpiler: new HarmonyMethod((MethodInfo)mGetValueUnfinalized_Transpiler));
+                        try
+                        {
+                            Finder.Harmony.Patch(method, transpiler: new HarmonyMethod((MethodInfo)mGetValueUnfinalized_Transpiler));
 
-                        Log.Message($"ROCKETMAN: Auto patched {method.GetMethodPath()}!");
-                    }
-                    catch (Exception er)
-                    {
-                        Logger.Debug($"ROCKETMAN: Auto patching failed {method.GetMethodPath()}!", er);
+                            Log.Message($"ROCKETMAN: Auto patched {method.GetMethodSummary()}!");
+                        }
+                        catch (Exception er)
+                        {
+                            Logger.Debug($"ROCKETMAN: Auto patching failed {method.GetMethodSummary()}!", er);
+                        }
                     }
                 }
             }

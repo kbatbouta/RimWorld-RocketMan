@@ -26,13 +26,11 @@ namespace RocketMan
         {
             Finder.StatSettings.AllSettings = Finder.StatSettings.AllSettings
                 .AsParallel()
-                .Where(s => s.statDef != null).ToList(); ;
+                .Where(s => s != null && s.statDef != null).ToList(); ;
             foreach (StatSettings settings in Finder.StatSettings.AllSettings)
             {
                 processedDefs.Add(settings.statDef);
             }
-            //
-            // DefDatabase<StatDef>.ResolveAllReferences();
             foreach (StatDef statDef in DefDatabase<StatDef>.AllDefs.Where(s => !processedDefs.Contains(s)))
             {
                 StatSettings settings = new StatSettings(statDef);

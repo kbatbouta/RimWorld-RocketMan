@@ -10,6 +10,8 @@ namespace RocketMan
 {
     public static class PatchingUtility
     {
+        private static readonly Dictionary<MethodBase, string> summaries = new Dictionary<MethodBase, string>();
+
         public static bool IsValidTarget(this MethodBase method)
         {
             return method != null && !method.IsAbstract && method.DeclaringType == method.ReflectedType && method.HasMethodBody() && method.GetMethodBody()?.GetILAsByteArray()?.Length > 1;
@@ -18,6 +20,11 @@ namespace RocketMan
         public static string GetMethodPath(this MethodBase method)
         {
             return string.Format("{0}.{1}:{2}", method.DeclaringType.Namespace, method.ReflectedType.Name, method.Name);
+        }
+
+        public static string GetMethodSummary(this MethodBase method)
+        {
+            return summaries.TryGetValue(method, out string summary) ? summary : summaries[method] = string.Format("([REFLECTED] {0}.{1}:{2}, [DECLARING] {3}.{4}:{2}, [ISSTATIC] {7}, [ISPUBLIC] {8}, [ISVIRTUAL] {5}, [ABSTRACT] {6})", method.ReflectedType.Namespace, method.ReflectedType.Name, method.ReflectedType.Name, method.Name, method.DeclaringType.Namespace, method.DeclaringType.Name, method.IsVirtual, method.IsAbstract, method.IsStatic, method.IsPublic);
         }
 
         public static IEnumerable<T> GetPatches<T, P>(Assembly assembly) where P : IPatch where T : IPatchInfo<P>

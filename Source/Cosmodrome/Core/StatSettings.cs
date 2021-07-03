@@ -46,11 +46,8 @@ namespace RocketMan
 
         public void Notify_VersionChanged()
         {
-            if (statDef != null)
-            {
-                version = SETTINGS_VERSION;
-                expiryAfter = statDef.label.PredictStatExpiryFromString();
-            }
+            version = SETTINGS_VERSION;
+            expiryAfter = statDef?.label?.PredictStatExpiryFromString() ?? 240;
         }
 
         public void Prepare()

@@ -13,6 +13,8 @@ namespace RocketMan
     {
         public static int PredictStatExpiryFromString(this string name)
         {
+            if (name == null)
+                return 240;
             if (false
                 || name.Contains("Combat")
                 || name.Contains("Melee")
@@ -40,8 +42,7 @@ namespace RocketMan
             {
                 if (pawn != null)
                 {
-                    StatPart_ApparelStatOffSet_Skipper_Patch.Dirty(pawn);
-                    StatWorker_Patch.Dirty(pawn);
+                    pawn.GetSignature(dirty: true);
                 }
             }
             catch (Exception er)
