@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using HarmonyLib;
@@ -11,10 +11,8 @@ namespace Soyuz.Patches
     {
         public static void Postfix(Hediff __instance, ref float __result)
         {
-            if (true
-                && __instance.pawn.IsValidWildlifeOrWorldPawn()
-                && __instance.pawn.IsBeingThrottled())
-                __result *= __instance.pawn.GetDeltaT();
+            if (__instance.pawn.IsBeingThrottled())
+                __result *= __instance.pawn.GetTimeDelta();
         }
     }
 
@@ -34,13 +32,6 @@ namespace Soyuz.Patches
             yield return new CodeInstruction(OpCodes.Ldfld,
                 AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn)));
             yield return new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsValidWildlifeOrWorldPawn)));
-            yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
-
-            yield return new CodeInstruction(OpCodes.Ldarg_0);
-            yield return new CodeInstruction(OpCodes.Ldfld,
-                AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn)));
-            yield return new CodeInstruction(OpCodes.Call,
                 AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsBeingThrottled)));
             yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
 
@@ -53,7 +44,7 @@ namespace Soyuz.Patches
             yield return new CodeInstruction(OpCodes.Ldfld,
                 AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn)));
             yield return new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.GetDeltaT)));
+                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.GetTimeDelta)));
             yield return new CodeInstruction(OpCodes.Ldc_I4, 1);
             yield return new CodeInstruction(OpCodes.Sub);
 

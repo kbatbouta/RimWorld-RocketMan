@@ -10,16 +10,13 @@ namespace Soyuz.Patches
         public static void Prefix(Sustainer __instance)
         {
             if (!(__instance?.info.Maker.HasThing ?? false) || __instance.info.Maintenance != MaintenanceType.PerTick)
-            {
                 return;
-            }
-            if (__instance.info.Maker.Thing is Pawn pawn && !pawn.Destroyed && pawn.Spawned && pawn.IsBeingThrottled() && pawn.IsValidWildlifeOrWorldPawn())
+
+            if (__instance.info.Maker.Thing is Pawn pawn && !pawn.Destroyed && pawn.Spawned && pawn.IsBeingThrottled())
             {
-                float deltaT = pawn.GetDeltaT();
+                float deltaT = pawn.GetTimeDelta();
                 if (deltaT > 1 && deltaT < 22)
-                {
                     __instance.lastMaintainTick = GenTicks.TicksGame;
-                }
             }
         }
     }

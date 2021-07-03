@@ -7,7 +7,7 @@ using RimWorld.Planet;
 using RocketMan;
 using Verse;
 
-namespace Soyuz
+namespace Soyuz.Patches
 {
     [SoyuzPatch(typeof(Caravan_NeedsTracker), nameof(Caravan_NeedsTracker.TrySatisfyJoyNeed))]
     public static class Caravan_NeedsTracker_TrySatisfyJoyNeed_Patch

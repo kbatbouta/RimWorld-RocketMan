@@ -11,9 +11,7 @@ namespace Soyuz.Patches
             public static void Prefix(SkillRecord __instance, ref float xp)
             {
                 if (__instance.pawn.IsBeingThrottled())
-                {
-                    xp = __instance.pawn.GetDeltaT() * xp;
-                }
+                    xp = __instance.pawn.GetTimeDelta() * xp;
             }
         }
     }

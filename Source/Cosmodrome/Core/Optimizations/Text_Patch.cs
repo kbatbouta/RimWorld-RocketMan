@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using HarmonyLib;
 using UnityEngine;
@@ -23,6 +24,7 @@ namespace RocketMan.Optimizations
             private static GUITextState key;
 
             [HarmonyPriority(int.MaxValue)]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static bool Prefix(string text, ref Vector2 __result)
             {
                 if (!RocketPrefs.TranslationCaching || !RocketPrefs.Enabled)
@@ -38,6 +40,7 @@ namespace RocketMan.Optimizations
             }
 
             [HarmonyPriority(int.MinValue)]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Postfix(Vector2 __result)
             {
                 if (shouldCache)
@@ -56,6 +59,7 @@ namespace RocketMan.Optimizations
             private static GUITextState key;
 
             [HarmonyPriority(int.MaxValue)]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static bool Prefix(string text, float width, ref float __result)
             {
                 if (!RocketPrefs.TranslationCaching || !RocketPrefs.Enabled)
@@ -71,6 +75,7 @@ namespace RocketMan.Optimizations
             }
 
             [HarmonyPriority(int.MinValue)]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Postfix(float __result)
             {
                 if (shouldCache)
@@ -90,6 +95,7 @@ namespace RocketMan.Optimizations
             cacheHeight.Clear();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static GUITextState GetGUIState(string text, float width = float.MinValue)
         {
             return new GUITextState(text, Text.fontInt, width, Prefs.UIScale, Text.wordWrapInt);

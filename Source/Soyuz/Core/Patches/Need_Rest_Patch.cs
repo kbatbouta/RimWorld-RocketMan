@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
 using Verse;
 
@@ -9,10 +9,8 @@ namespace Soyuz.Patches
     {
         public static void Postfix(Need_Rest __instance)
         {
-            if (true
-                && __instance.pawn.IsValidWildlifeOrWorldPawn()
-                && __instance.pawn.IsBeingThrottled())
-                __instance.lastRestTick = GenTicks.TicksGame + __instance.pawn.GetDeltaT() * 2;
+            if (__instance.pawn.IsBeingThrottled())
+                __instance.lastRestTick = GenTicks.TicksGame + __instance.pawn.GetTimeDelta() * 2;
         }
     }
 }

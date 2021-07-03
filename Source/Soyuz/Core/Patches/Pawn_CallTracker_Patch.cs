@@ -14,16 +14,9 @@ namespace Soyuz.Patches
             ILGenerator generator)
         {
             var codes = instructions.MethodReplacer(
-                AccessTools.Method(typeof(Gen), nameof(Gen.IsHashIntervalTick), new[] {typeof(Thing), typeof(int)}),
+                AccessTools.Method(typeof(Gen), nameof(Gen.IsHashIntervalTick), new[] { typeof(Thing), typeof(int) }),
                 AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsCustomTickInterval))).ToList();
             var l1 = generator.DefineLabel();
-
-            yield return new CodeInstruction(OpCodes.Ldarg_0);
-            yield return new CodeInstruction(OpCodes.Ldfld,
-                AccessTools.Field(typeof(Pawn_CallTracker), nameof(Pawn_CallTracker.pawn)));
-            yield return new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsValidWildlifeOrWorldPawn)));
-            yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
 
             yield return new CodeInstruction(OpCodes.Ldarg_0);
             yield return new CodeInstruction(OpCodes.Ldfld,
@@ -41,7 +34,7 @@ namespace Soyuz.Patches
             yield return new CodeInstruction(OpCodes.Ldfld,
                 AccessTools.Field(typeof(Pawn_CallTracker), nameof(Pawn_CallTracker.pawn)));
             yield return new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.GetDeltaT)));
+                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.GetTimeDelta)));
             yield return new CodeInstruction(OpCodes.Ldc_I4, 1);
             yield return new CodeInstruction(OpCodes.Sub);
 

@@ -120,7 +120,16 @@ namespace Soyuz
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsCastingVerb(Pawn p)
         {
-            return p.verbTracker?.AllVerbs.Any(v => v.WarmingUp) ?? false;
+            List<Verb> verbs = p.verbTracker?.AllVerbs;
+            if (verbs != null)
+            {
+                foreach (Verb v in verbs)
+                {
+                    if (v.WarmingUp)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public static PawnPerformanceModel GetPerformanceModel(this Pawn pawn)

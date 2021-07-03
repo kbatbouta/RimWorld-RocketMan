@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using Verse;
 
 namespace Soyuz.Patches
@@ -8,10 +8,8 @@ namespace Soyuz.Patches
     {
         public static void Postfix(ImmunityRecord __instance, ref float __result, Pawn pawn)
         {
-            if (true 
-                && pawn.IsValidWildlifeOrWorldPawn() 
-                && pawn.IsBeingThrottled())
-                __result *= pawn.GetDeltaT();
+            if (pawn.IsBeingThrottled())
+                __result *= pawn.GetTimeDelta();
         }
     }
 }

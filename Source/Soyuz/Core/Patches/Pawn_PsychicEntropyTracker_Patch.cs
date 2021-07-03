@@ -5,7 +5,7 @@ using HarmonyLib;
 using RimWorld;
 using Verse;
 
-namespace Soyuz
+namespace Soyuz.Patches
 {
     [SoyuzPatch(typeof(Pawn_PsychicEntropyTracker), nameof(Pawn_PsychicEntropyTracker.PsychicEntropyTrackerTick))]
     public class Pawn_PsychicEntropyTracker_PsychicEntropyTrackerTick_Patch

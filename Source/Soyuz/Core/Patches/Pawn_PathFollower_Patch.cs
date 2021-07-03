@@ -31,10 +31,9 @@ namespace Soyuz.Patches
         {
             public static void Prefix(Pawn_PathFollower __instance)
             {
-                Reset();
-                if (RocketPrefs.Enabled
-                    && __instance.pawn.IsValidWildlifeOrWorldPawn()
-                    && __instance.pawn.IsBeingThrottled())
+                Pawn_PathFollower_Patch.Reset();
+
+                if (__instance.pawn.IsBeingThrottled())
                 {
                     pawn = __instance.pawn;
                 }
@@ -65,7 +64,7 @@ namespace Soyuz.Patches
             {
                 if (__exception != null)
                 {
-                    Reset();
+                    Pawn_PathFollower_Patch.Reset();
                 }
                 return __exception;
             }
@@ -78,7 +77,7 @@ namespace Soyuz.Patches
             {
                 if (__instance.pawn == pawn)
                 {
-                    float dT = __instance.pawn.GetDeltaT();
+                    float dT = __instance.pawn.GetTimeDelta();
                     float modified = __result * dT;
                     float cost = __instance.nextCellCostLeft;
 

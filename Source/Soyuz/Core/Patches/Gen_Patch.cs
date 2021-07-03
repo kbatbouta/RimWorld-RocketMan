@@ -7,7 +7,7 @@ using HarmonyLib;
 using RocketMan;
 using Verse;
 
-namespace Soyuz
+namespace Soyuz.Patches
 {
     [SoyuzPatch(typeof(Gen), nameof(Gen.IsHashIntervalTick), parameters: new[] { typeof(Thing), typeof(int) })]
     public static class Gen_IsHashIntervalTick_Patch

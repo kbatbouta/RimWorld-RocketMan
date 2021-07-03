@@ -10,7 +10,7 @@ using RocketMan;
 using Verse;
 using Verse.Sound;
 
-namespace Soyuz
+namespace Soyuz.Patches
 {
     // [SoyuzPatch(typeof(Fire), nameof(Fire.Tick))]
     // public static class Fire_Tick_Patch

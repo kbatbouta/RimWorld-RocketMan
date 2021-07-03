@@ -15,15 +15,12 @@ namespace Soyuz
     public static partial class ContextualExtensions
     {
         private static Pawn _pawnTick;
-        private static Pawn _pawnScreen;
-        private static bool offScreen;
-        private static int curDelta;
+        private static bool _finilizePhase = false;
 
         private const int TransformationCacheSize = 2500;
 
         private static readonly int[] _transformationCache = new int[TransformationCacheSize];
         private static readonly Dictionary<int, int> timers = new Dictionary<int, int>();
-        private static readonly Dictionary<int, int> deltas = new Dictionary<int, int>();
 
         private static int DilationRate
         {
@@ -62,6 +59,7 @@ namespace Soyuz
                 _transformationCache[i] = (int)Mathf.Max(Mathf.RoundToInt(i / 30) * 30, 30);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int RoundTransform(int interval)
         {
             if (interval >= TransformationCacheSize)
@@ -77,16 +75,28 @@ namespace Soyuz
             Context.CurJobSettings = pawn.GetCurJobSettings();
 
             _stopwatch.Restart();
+
+            _finilizePhase = false;
             _pawnTick = pawn;
 
-            if (false
-                || !RocketPrefs.Enabled
-                || !RocketPrefs.TimeDilation
-                || !pawn.IsValidWildlifeOrWorldPawn()
-                || !timers.ContainsKey(pawn.thingIDNumber))
+            if (!RocketPrefs.Enabled || !RocketPrefs.TimeDilation || Context.CurJobSettings == null || Context.CurJobSettings.throttleMode == JobThrottleMode.None)
             {
-                UpdateTimers(pawn);
-                return;
+                _throttledPawn = pawn;
+                _isBeingThrottled = false;
+            }
+
+            if (!pawn.IsBeingThrottled())
+            {
+                if (pawn.GetTimeDelta() > 1 && Context.CurJobSettings != null)
+                {
+                    _throttledPawn = pawn;
+                    _isBeingThrottled = true;
+                    _finilizePhase = true;
+                }
+                else
+                {
+                    pawn.UpdateTimers();
+                }
             }
         }
 
@@ -113,222 +123,149 @@ namespace Soyuz
 
         public static void Reset()
         {
+            _finilizePhase = false;
             _pawnScreen = null;
-            _validPawn = null;
             _pawnTick = null;
 
-            Context.CurRaceSettings = null;
+            Context.CurJobSettings = null;
             Context.CurRaceSettings = null;
         }
 
         public static bool IsCustomTickInterval(this Thing thing, int interval)
         {
-            if (Current == thing
-                && Current.IsValidWildlifeOrWorldPawn()
-                && RocketPrefs.Enabled
-                && RocketPrefs.TimeDilation)
-            {
+            if (Current == thing && Current.IsBeingThrottled())
                 return IsCustomTickInterval_newtemp(thing, interval);
-            }
+
             return (thing.thingIDNumber + GenTicks.TicksGame) % interval == 0;
         }
 
         public static bool IsCustomTickInterval_newtemp(Thing thing, int interval)
         {
-            if (WorldPawnsTicker.isActive)
+            if (Current.IsBeingThrottled())
             {
-                return WorldPawnsTicker.IsCustomWorldTickInterval(thing, interval);
-            }
-            else if (Current.IsBeingThrottled() && RocketPrefs.Enabled && RocketPrefs.TimeDilation)
-            {
+                if (WorldPawnsTicker.isActive)
+                    return WorldPawnsTicker.IsCustomWorldTickInterval(thing, interval);
                 return (thing.thingIDNumber + GenTicks.TicksGame) % RoundTransform(interval) == 0;
             }
+
             return (thing.thingIDNumber + GenTicks.TicksGame) % interval == 0;
         }
 
-        public static int GetDeltaT(this Thing thing)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetTimeDelta(this Thing thing)
         {
-            if (!RocketPrefs.Enabled || !RocketPrefs.TimeDilation)
-                return 1;
-            if (thing == Current)
-                return curDelta;
-            if (deltas.TryGetValue(thing?.thingIDNumber ?? -1, out int delta))
-                return delta;
-            if (thing is Pawn pawn)
-            {
-                Log.Warning($"SOYUZ: Tried to get delta for unregistered pawn {pawn}!");
-
-                timers[pawn.thingIDNumber] = GenTicks.TicksGame;
-                deltas[pawn.thingIDNumber] = 1;
-                return 1;
-            }
-            throw new ArgumentException("Argument should be a Verse.Pawn");
+            int tick = GenTicks.TicksGame;
+            if (timers.TryGetValue(thing?.thingIDNumber ?? -1, out int t0))
+                return Mathf.Clamp(tick - t0, 1, 60);
+            return 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void UpdateTimers(this Pawn pawn)
         {
-            int tick = GenTicks.TicksGame;
-            curDelta = 1;
-            if (timers.TryGetValue(pawn.thingIDNumber, out var val))
-                curDelta = tick - val;
-            deltas[pawn.thingIDNumber] = curDelta;
             timers[pawn.thingIDNumber] = GenTicks.TicksGame;
         }
 
         public static bool ShouldTick(this Pawn pawn)
         {
-            if (!RocketPrefs.TimeDilation || !RocketPrefs.Enabled)
-                return true;
-            if (WorldPawnsTicker.isActive && RocketPrefs.TimeDilationWorldPawns)
-                return true;
+            if (_finilizePhase && pawn == Current)
+                return !(_finilizePhase = false);
+
             int tick = GenTicks.TicksGame;
             if (false
                 || (pawn.thingIDNumber + tick) % 30 == 0
                 || (tick % 250 == 0)
-                || (pawn.jobs?.curJob != null && pawn.jobs?.curJob?.expiryInterval > 0 && (tick - pawn.jobs.curJob.startTick) % (pawn.jobs.curJob.expiryInterval) == 0))
+                || (pawn.jobs?.curJob?.expiryInterval > 0 && (tick - pawn.jobs.curJob.startTick) % (pawn.jobs.curJob.expiryInterval) == 0))
                 return true;
+
             if (Context.DilationFastMovingRace[pawn.def.index])
                 return (pawn.thingIDNumber + tick) % 2 == 0;
-            if (pawn.OffScreen() == true)
-                return (pawn.thingIDNumber + tick) % DilationRate == 0;
-            if (Context.ZoomRange == CameraZoomRange.Far || Context.ZoomRange == CameraZoomRange.Furthest)
-                return (pawn.thingIDNumber + tick) % 3 == 0;
-            if (Context.ZoomRange == CameraZoomRange.Middle)
-                return (pawn.thingIDNumber + tick) % 4 == 0;
-            return true;
+
+            return !pawn.OffScreen() ? ((pawn.thingIDNumber + tick) % 3 == 0) : ((pawn.thingIDNumber + tick) % DilationRate == 0);
         }
+
+        private static Pawn _pawnScreen;
+        private static bool _offScreen;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OffScreen(this Pawn pawn)
         {
-            if (pawn == null)
-                return false;
-            if (RocketDebugPrefs.AlwaysDilating)
-                return offScreen = true;
             if (_pawnScreen == pawn)
-                return offScreen;
+                return _offScreen;
+
+            if (pawn == null || pawn != Current)
+                return false;
+
             _pawnScreen = pawn;
-            if (Context.CurViewRect.Contains(pawn.positionInt))
-                return offScreen = false;
-            return offScreen = true;
+            _offScreen = !Context.CurViewRect.Contains(pawn.positionInt) || RocketDebugPrefs.AlwaysDilating;
+
+            return _offScreen;
         }
 
         private static bool _isBeingThrottled;
         private static Pawn _throttledPawn;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsBeingThrottled(this Pawn pawn)
         {
-            if (Current != pawn
-                || pawn == null
-                || !pawn.IsValidWildlifeOrWorldPawn()
-                || !RocketPrefs.TimeDilation
-                || !RocketPrefs.Enabled)
+            if (_throttledPawn == pawn)
+                return _isBeingThrottled;
+
+            if (pawn == null || pawn != Current)
                 return false;
-            if (_throttledPawn != pawn)
-            {
-                _throttledPawn = pawn;
-                _isBeingThrottled = pawn.IsBeingThrottled_newtemp();
-            }
+
+            _throttledPawn = pawn;
+            _isBeingThrottled = IsValidThrottleablePawn(pawn);
+
             return _isBeingThrottled;
         }
 
-        private static bool _isValidPawn = false;
-        private static Pawn _validPawn = null;
-
-        public static bool IsValidWildlifeOrWorldPawn(this Pawn pawn)
+        private static bool IsValidThrottleablePawn(Pawn pawn)
         {
-            if (Current != pawn
-                || pawn == null
-                || !RocketPrefs.TimeDilation
-                || !RocketPrefs.Enabled)
-                return false;
-            if (_validPawn != pawn)
-            {
-                _validPawn = pawn;
-                _isValidPawn = IsValidWildlifeOrWorldPawnInternal_newtemp(pawn);
-            }
-            return _isValidPawn;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsValidWildlifeOrWorldPawnInternal_newtemp(this Pawn pawn)
-        {
-            if (!RocketPrefs.Enabled || !RocketPrefs.TimeDilation)
+            if ((Context.ZoomRange == CameraZoomRange.Close || Context.ZoomRange == CameraZoomRange.Close) && !pawn.OffScreen())
                 return false;
 
-            if (WorldPawnsTicker.isActive)
+            if (WorldPawnsTicker.isActive && RocketPrefs.TimeDilationWorldPawns)
+                return !pawn.IsCaravanMember();
+
+            if (!(!RocketPrefs.TimeDilationCriticalHediffs && HasHediffPreventingThrottling(pawn)) && !IgnoreMeDatabase.ShouldIgnore(pawn.def))
             {
-                if (pawn.IsCaravanMember())
-                    return false;
-                if (!RocketPrefs.TimeDilationWorldPawns)
-                    return false;
-                return true;
-            }
-            else if (true
-                && !IgnoreMeDatabase.ShouldIgnore(pawn.def)
-                && !IsCastingVerb(pawn)
-                && !(!RocketPrefs.TimeDilationCriticalHediffs && HasHediffPreventingThrottling(pawn))
-                && Context.CurJobSettings != null
-                && Context.CurJobSettings.throttleMode != JobThrottleMode.None)
-            {
-                if (pawn.def.race.Humanlike && Context.CurJobSettings.def != JobDefOf.DoBill && GenTicks.TicksGame - (pawn.jobs?.curJob?.startTick ?? 0) >= 19)
-                {
-                    return IsValidHuman(pawn);
-                }
-                else if (Context.DilationEnabled[pawn.def.index])
-                {
-                    return IsValidAnimal(pawn);
-                }
+                if (pawn.def.race.Humanlike)
+                    return (RocketPrefs.TimeDilationColonists || RocketPrefs.TimeDilationVisitors) && IsValidHuman(pawn);
+                if (pawn.def.race.Animal)
+                    return Context.DilationEnabled[pawn.def.index] && IsValidAnimal(pawn);
             }
             return false;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsValidHuman(Pawn pawn)
         {
-            if (true
-                && Context.CurJobSettings.throttleFilter != JobThrottleFilter.Humanlikes
-                && Context.CurJobSettings.throttleFilter != JobThrottleFilter.All)
+            if (Context.CurJobSettings.throttleFilter == JobThrottleFilter.Animals || Context.CurJobSettings.def == JobDefOf.DoBill)
+                return false;
+            if (GenTicks.TicksGame - (pawn.jobs?.curJob?.startTick ?? 0) <= 30)
                 return false;
             Faction playerFaction = Faction.OfPlayer;
 
             if (!RocketPrefs.TimeDilationColonists && pawn.factionInt == playerFaction)
                 return false;
-            if (!RocketPrefs.TimeDilationColonists && (pawn.guest?.isPrisonerInt ?? false) && pawn.guest?.hostFactionInt == playerFaction)
+            if (!RocketPrefs.TimeDilationVisitors && pawn.factionInt != playerFaction)
                 return false;
-            if (Context.CurJobSettings != null && (RocketPrefs.TimeDilationVisitors || RocketPrefs.TimeDilationColonists))
-                return true;
 
-            return false;
+            return !IsCastingVerb(pawn);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsValidAnimal(Pawn pawn)
         {
-            if (true
-                && Context.CurJobSettings.throttleFilter != JobThrottleFilter.Animals
-                && Context.CurJobSettings.throttleFilter != JobThrottleFilter.All)
+            if (Context.CurJobSettings.throttleFilter == JobThrottleFilter.Humanlikes)
                 return false;
             RaceSettings raceSettings = Context.CurRaceSettings;
 
             if (pawn.factionInt == Faction.OfPlayer)
-                return !raceSettings.ignorePlayerFaction && RocketPrefs.TimeDilationColonyAnimals;
+                return !raceSettings.ignorePlayerFaction && RocketPrefs.TimeDilationColonyAnimals && !IsCastingVerb(pawn);
             if (pawn.factionInt != null)
-                return !raceSettings.ignoreFactions && RocketPrefs.TimeDilationVisitors;
+                return !raceSettings.ignoreFactions && RocketPrefs.TimeDilationVisitors && !IsCastingVerb(pawn);
 
-            return RocketPrefs.TimeDilationWildlife;
-        }
-
-        private static bool IsBeingThrottled_newtemp(this Pawn pawn)
-        {
-            if (!pawn.Spawned && WorldPawnsTicker.isActive && pawn.GetCaravan() != null)
-                return true;
-            if (pawn.OffScreen())
-                return true;
-            if (Context.ZoomRange == CameraZoomRange.Far || Context.ZoomRange == CameraZoomRange.Furthest || Context.ZoomRange == CameraZoomRange.Middle)
-                return true;
-            return false;
+            return RocketPrefs.TimeDilationWildlife && !IsCastingVerb(pawn);
         }
     }
 }

@@ -20,16 +20,9 @@ namespace Soyuz.Patches
             yield return new CodeInstruction(OpCodes.Ldfld,
                 AccessTools.Field(typeof(Pawn_AgeTracker), nameof(Pawn_AgeTracker.pawn)));
             yield return new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsValidWildlifeOrWorldPawn)));
-            yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
-
-            yield return new CodeInstruction(OpCodes.Ldarg_0);
-            yield return new CodeInstruction(OpCodes.Ldfld,
-                AccessTools.Field(typeof(Pawn_AgeTracker), nameof(Pawn_AgeTracker.pawn)));
-            yield return new CodeInstruction(OpCodes.Call,
                 AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsBeingThrottled)));
             yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
-            
+
             yield return new CodeInstruction(OpCodes.Ldarg_0);
             yield return new CodeInstruction(OpCodes.Ldarg_0);
             yield return new CodeInstruction(OpCodes.Ldfld,
@@ -39,14 +32,14 @@ namespace Soyuz.Patches
             yield return new CodeInstruction(OpCodes.Ldfld,
                 AccessTools.Field(typeof(Pawn_AgeTracker), nameof(Pawn_AgeTracker.pawn)));
             yield return new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.GetDeltaT)));
+                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.GetTimeDelta)));
             yield return new CodeInstruction(OpCodes.Ldc_I4, 1);
             yield return new CodeInstruction(OpCodes.Sub);
             yield return new CodeInstruction(OpCodes.Conv_I8);
 
             yield return new CodeInstruction(OpCodes.Add);
             yield return new CodeInstruction(OpCodes.Conv_I8);
-            
+
             yield return new CodeInstruction(OpCodes.Stfld,
                 AccessTools.Field(typeof(Pawn_AgeTracker), nameof(Pawn_AgeTracker.ageBiologicalTicksInt)));
 

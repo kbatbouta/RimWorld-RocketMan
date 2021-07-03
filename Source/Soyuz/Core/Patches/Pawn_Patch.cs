@@ -36,28 +36,25 @@ namespace Soyuz.Patches
                         finished = true;
                         yield return codes[i];
                         yield return new CodeInstruction(OpCodes.Dup);
-                        yield return new CodeInstruction(OpCodes.Brtrue_S, l2);
+                        yield return new CodeInstruction(OpCodes.Brtrue_S, l1);
 
                         yield return new CodeInstruction(OpCodes.Ldarg_0);
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsValidWildlifeOrWorldPawn)));
-                        yield return new CodeInstruction(OpCodes.Brfalse_S, l2);
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsBeingThrottled)));
+                        yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
 
                         yield return new CodeInstruction(OpCodes.Ldarg_0);
                         yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.ShouldTick)));
-
+                        yield return new CodeInstruction(OpCodes.Dup);
+                        yield return new CodeInstruction(OpCodes.Stloc_S, localSkipper.LocalIndex);
                         yield return new CodeInstruction(OpCodes.Brtrue_S, l1);
                         {
-                            yield return new CodeInstruction(OpCodes.Pop);
-
                             yield return new CodeInstruction(OpCodes.Ldarg_0);
                             yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Pawn_Tick_Patch), nameof(Pawn_Tick_Patch.TickExtras)));
 
-                            yield return new CodeInstruction(OpCodes.Ldc_I4_1); // push suspended = true to the stack
-                            yield return new CodeInstruction(OpCodes.Br_S, l2); // go to if(suspended)
+                            yield return new CodeInstruction(OpCodes.Pop); // remove "false" from the top of the stack
+                            yield return new CodeInstruction(OpCodes.Ldc_I4_1); // push "true" to the stack                            
                         }
-                        yield return new CodeInstruction(OpCodes.Ldarg_0) { labels = new List<Label>() { l1 } };
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.UpdateTimers)));
-                        codes[i + 1].labels.Add(l2);
+                        codes[i + 1].labels.Add(l1); // bool suspended = [patch] || base.Suspended;
                         continue;
                     }
                 }
@@ -65,17 +62,23 @@ namespace Soyuz.Patches
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_0) { labels = codes[i].labels };
                     yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.EndTick)));
-                    codes[i].labels = new List<Label>();
+
+                    yield return new CodeInstruction(OpCodes.Ldloc_S, localSkipper.LocalIndex);
+                    yield return new CodeInstruction(OpCodes.Brfalse_S, l2);
+                    yield return new CodeInstruction(OpCodes.Ldarg_0);
+                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.UpdateTimers)));
+
+                    codes[i].labels = new List<Label>() { l2 };
                 }
                 yield return codes[i];
             }
-
         }
 
-        private static Exception Finalizer(Exception __exception)
+        private static Exception Finalizer(Pawn __instance, Exception __exception)
         {
             if (__exception != null)
             {
+                __instance?.UpdateTimers();
                 ContextualExtensions.Reset();
 
                 Logger.Debug("SOYUZ:[NOTSOYUZ] Soyuz caught an error while a pawn is ticking. Soyuz probably didn't cause it since this is just used to catch the exception and reset the state. Unless Soyuz is in the StackTrace it's not it.", exception: __exception);
@@ -94,9 +97,7 @@ namespace Soyuz.Patches
                     pawn.drawer?.DrawTrackerTick();
                     pawn.rotationTracker?.RotationTrackerTick();
                 }
-                if (pawn.jobs?.curJob != null
-                    && Context.CurJobSettings != null
-                    && Context.CurJobSettings.throttleMode == JobThrottleMode.Partial)
+                if (Context.CurJobSettings.throttleMode == JobThrottleMode.Partial)
                 {
                     Exception exception = null;
                     RocketPrefs.TimeDilation = false;
@@ -122,7 +123,6 @@ namespace Soyuz.Patches
                 if (RocketDebugPrefs.FlashDilatedPawns)
                 {
                     string flag = jobTrackerTicked ? "O" : "_";
-
                     pawn.Map.debugDrawer.FlashCell(pawn.positionInt, 0.05f, $"{pawn.OffScreen()}{flag}", 100);
                 }
             }

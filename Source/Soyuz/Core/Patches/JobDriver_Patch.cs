@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using HarmonyLib;
@@ -23,10 +23,10 @@ namespace Soyuz.Patches
 
         public static void Prefix(JobDriver __instance)
         {
-            if (__instance.pawn.IsBeingThrottled() && __instance.pawn.IsValidWildlifeOrWorldPawn())
+            if (__instance.pawn.IsBeingThrottled())
             {
                 Pawn pawn = __instance.pawn;
-                if ((deltaT = pawn.GetDeltaT()) <= 1)
+                if ((deltaT = pawn.GetTimeDelta()) <= 1)
                 {
                     return;
                 }
@@ -71,7 +71,7 @@ namespace Soyuz.Patches
 
         public static void Postfix(JobDriver __instance)
         {
-            if (__instance.pawn.IsBeingThrottled() && __instance.pawn.IsValidWildlifeOrWorldPawn())
+            if (__instance.pawn.IsBeingThrottled() && __instance.pawn.IsBeingThrottled())
             {
                 if (deltaT <= 1)
                 {
@@ -147,14 +147,6 @@ namespace Soyuz.Patches
             yield return new CodeInstruction(OpCodes.Ldfld,
                 AccessTools.Field(typeof(JobDriver), nameof(JobDriver.pawn)));
             yield return new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsValidWildlifeOrWorldPawn)));
-            yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
-
-
-            yield return new CodeInstruction(OpCodes.Ldarg_0);
-            yield return new CodeInstruction(OpCodes.Ldfld,
-                AccessTools.Field(typeof(JobDriver), nameof(JobDriver.pawn)));
-            yield return new CodeInstruction(OpCodes.Call,
                 AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.IsBeingThrottled)));
             yield return new CodeInstruction(OpCodes.Brfalse_S, l1);
 
@@ -167,7 +159,7 @@ namespace Soyuz.Patches
             yield return new CodeInstruction(OpCodes.Ldfld,
                 AccessTools.Field(typeof(JobDriver), nameof(JobDriver.pawn)));
             yield return new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.GetDeltaT)));
+                AccessTools.Method(typeof(ContextualExtensions), nameof(ContextualExtensions.GetTimeDelta)));
             yield return new CodeInstruction(OpCodes.Ldc_I4, 1);
             yield return new CodeInstruction(OpCodes.Sub);
 

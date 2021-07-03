@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Verse;
 
@@ -10,11 +10,9 @@ namespace Soyuz.Patches
         public static void Prefix(Hediff_Pregnant __instance)
         {
             var pawn = __instance.pawn;
-            if (true
-                && pawn.IsBeingThrottled()
-                && pawn.IsValidWildlifeOrWorldPawn())
+            if (pawn.IsBeingThrottled())
             {
-                int deltaT = pawn.GetDeltaT();
+                int deltaT = pawn.GetTimeDelta();
                 __instance.ageTicks += deltaT - 1;
                 __instance.GestationProgress += (deltaT - 1) / (pawn.RaceProps.gestationPeriodDays * 60000f);
             }
