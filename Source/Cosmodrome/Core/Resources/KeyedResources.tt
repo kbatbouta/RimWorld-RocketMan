@@ -11,7 +11,7 @@
 <#@ output extension=".cs" #>
 <#  
     // Constants  
-    string englishLanguagePath = "Languages/English/Keyed/Translations.xml";
+    string englishLanguagePath = "1.3/Languages/English/Keyed/Translations.xml";
     // ->                                    <-
     // Gives you the location of MySolution.sln
     string solutionPath = Host.ResolveAssemblyReference("$(SolutionDir)"); 

@@ -6,7 +6,7 @@
 		<TargetFramework>net472</TargetFramework>
 		<LangVersion>8.0</LangVersion>
 		<PlatformTarget>x64</PlatformTarget>
-		<OutputPath>..\..\..\1.2\Plugins</OutputPath>
+		<OutputPath>..\..\..\1.3\Plugins</OutputPath>
 		<Optimize>true</Optimize>
 		<DebugType>pdbonly</DebugType>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -15,7 +15,7 @@
 		<Configurations>Release;Debug</Configurations>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<OutputPath>..\..\1.2\Plugins\Experimental</OutputPath>
+		<OutputPath>..\..\1.3\Plugins\Experimental</OutputPath>
 		<DefineConstants>TRACE;NDEBUG</DefineConstants>
 		<WarningLevel>4</WarningLevel>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -23,7 +23,7 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DebugType>full</DebugType>
-		<OutputPath>..\..\1.2\Plugins\Experimental</OutputPath>
+		<OutputPath>..\..\1.3\Plugins\Experimental</OutputPath>
 		<DefineConstants>TRACE;DEBUG;NETFRAMEWORK;NET472;</DefineConstants>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<NoStdLib>true</NoStdLib>

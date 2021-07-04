@@ -6,7 +6,7 @@
 		<TargetFramework>net472</TargetFramework>
 		<LangVersion>8.0</LangVersion>
 		<PlatformTarget>x64</PlatformTarget>
-		<OutputPath>..\..\1.2\Assemblies</OutputPath>
+		<OutputPath>..\..\1.3\Assemblies</OutputPath>
 		<Optimize>true</Optimize>
 		<DebugType>pdbonly</DebugType>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -17,14 +17,14 @@
 		<Configurations>Release;Debug</Configurations>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<OutputPath>..\..\1.2\Assemblies</OutputPath>
-		<OutputPath>..\..\1.2\Assemblies</OutputPath>
+		<OutputPath>..\..\1.3\Assemblies</OutputPath>
+		<OutputPath>..\..\1.3\Assemblies</OutputPath>
 		<DefineConstants>TRACE;NDEBUG</DefineConstants>
 		<WarningLevel>4</WarningLevel>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<OutputPath>..\..\1.2\Assemblies</OutputPath>
+		<OutputPath>..\..\1.3\Assemblies</OutputPath>
 		<DefineConstants>TRACE;DEBUG;NETFRAMEWORK;NET472;</DefineConstants>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
@@ -51,7 +51,7 @@
 		<Folder Include="Core\GUI\Graphs\" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="..\..\1.2\**\*.xml" CopyToOutputDirectory="Never">
+		<None Include="..\..\1.3\**\*.xml" CopyToOutputDirectory="Never">
 			<Link>Assets\%(RecursiveDir)/%(FileName)%(Extension)</Link>
 		</None>
 		<None Include="..\..\About\*.xml" CopyToOutputDirectory="Never">
@@ -104,16 +104,16 @@
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="..\..\1.2\Defs\MainButton.xml">
+		<None Update="..\..\1.3\Defs\MainButton.xml">
 			<Link>Assets\Defs\\MainButton.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Extras\RocketRules_Notify.xml">
+		<None Update="..\..\1.3\Extras\RocketRules_Notify.xml">
 			<Link>Assets\Extras\\RocketRules_Notify.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Extras\RocketRules_Packages.xml">
+		<None Update="..\..\1.3\Extras\RocketRules_Packages.xml">
 			<Link>Assets\Extras\\RocketRules_Packages.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Extras\RocketRules_Incompatibilities.xml">
+		<None Update="..\..\1.3\Extras\RocketRules_Incompatibilities.xml">
 			<Link>Assets\Extras\\RocketRules_Incompatibilities.xml</Link>
 		</None>
 		<None Update="Properties\AssemblyInfo.tt">
@@ -128,16 +128,16 @@
 			<Generator>TextTemplatingFileGenerator</Generator>
 			<LastGenOutput>KeyedResources.cs</LastGenOutput>
 		</None>
-		<None Update="..\..\1.2\Defs\KeyBinding.xml">
+		<None Update="..\..\1.3\Defs\KeyBinding.xml">
 			<Link>Assets\Defs\\KeyBinding.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Assemblies\BCnEncoder.NET.ImageSharp.xml">
+		<None Update="..\..\1.3\Assemblies\BCnEncoder.NET.ImageSharp.xml">
 			<Link>Assets\Assemblies\\BCnEncoder.NET.ImageSharp.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Plugins\Experimental\BCnEncoder.NET.ImageSharp.xml">
+		<None Update="..\..\1.3\Plugins\Experimental\BCnEncoder.NET.ImageSharp.xml">
 			<Link>Assets\Plugins\Experimental\\BCnEncoder.NET.ImageSharp.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Patches\MothballFix.xml">
+		<None Update="..\..\1.3\Patches\MothballFix.xml">
 		  <Link>Assets\Patches\\MothballFix.xml</Link>
 		</None>
 	</ItemGroup>

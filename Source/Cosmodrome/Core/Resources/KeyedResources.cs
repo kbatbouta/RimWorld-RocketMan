@@ -6,7 +6,7 @@ namespace RocketMan
     // Auto generated file!
     // -------------------------------------------------
     // This file is auto generated! Mod path is:
-    // /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/Languages/English/Keyed/Translations.xml
+    // /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RocketMan/1.3/Languages/English/Keyed/Translations.xml
     // -------------------------------------------------
     /// <summary> 
     /// <para>Keyed string database. This Class is generated automatically by a T4 template <c>Source/Resources/KeyedResources.tt</c></para> 
@@ -236,7 +236,7 @@ namespace RocketMan
         private static TaggedString _RocketMan_GenMapSize = null;
         /// <summary> Keyed string with key <c>RocketMan.GenMapSize</c> with inner text set to:
         ///
-        /// <code>Map generation settings</code>
+        /// <code>THIGH-O-TORN 5000</code>
         /// </summary>       
         public static TaggedString RocketMan_GenMapSize {
             get => _RocketMan_GenMapSize != null ? 
