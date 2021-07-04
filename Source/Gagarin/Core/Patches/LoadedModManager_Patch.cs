@@ -36,7 +36,10 @@ namespace Gagarin
             {
                 try
                 {
-                    Context.XmlAssets = new Dictionary<string, LoadableXmlAsset>(__result.Select(a => new KeyValuePair<string, LoadableXmlAsset>(a.FullFilePath, a)));
+                    Context.XmlAssets = new Dictionary<string, LoadableXmlAsset>();
+                    foreach (KeyValuePair<string, LoadableXmlAsset> pair in __result.Select(a => new KeyValuePair<string, LoadableXmlAsset>(a.FullFilePath, a)))
+                        Context.XmlAssets.Add(pair.Key, pair.Value);
+
                     if (!Context.IsUsingCache)
                     {
                         AssetHashingUtility.Dump(Context.AssetsHashes, GagarinEnvironmentInfo.HashFilePath);

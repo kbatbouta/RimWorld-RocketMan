@@ -29,7 +29,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2905" GeneratePathProperty="true" />
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3050-beta" GeneratePathProperty="true" />
 		<PackageReference Include="Lib.Harmony" Version="2.0.4" ExcludeAssets="runtime" />
 		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
 		<PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="8.0.0" ExcludeAssets="runtime" />
@@ -138,7 +138,37 @@
 			<Link>Assets\Plugins\Experimental\\BCnEncoder.NET.ImageSharp.xml</Link>
 		</None>
 		<None Update="..\..\1.3\Patches\MothballFix.xml">
-		  <Link>Assets\Patches\\MothballFix.xml</Link>
+			<Link>Assets\Patches\\MothballFix.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\Korean\Keyed\Translations.xml">
+		  <Link>Assets\Languages\Korean\Keyed\\Translations.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\ChineseSimplified\Keyed\Translations.xml">
+		  <Link>Assets\Languages\ChineseSimplified\Keyed\\Translations.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\ChineseSimplified\DefInjected\KeyBindingCategoryDef\KeyBinding.xml">
+		  <Link>Assets\Languages\ChineseSimplified\DefInjected\KeyBindingCategoryDef\\KeyBinding.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\ChineseSimplified\DefInjected\MainButtonDef\MainButton.xml">
+		  <Link>Assets\Languages\ChineseSimplified\DefInjected\MainButtonDef\\MainButton.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\ChineseSimplified\DefInjected\KeyBindingDef\KeyBinding.xml">
+		  <Link>Assets\Languages\ChineseSimplified\DefInjected\KeyBindingDef\\KeyBinding.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\ChineseSimplified\DefInjected\KeyBindingDef\KeyBindings_Add_MainTab.xml">
+		  <Link>Assets\Languages\ChineseSimplified\DefInjected\KeyBindingDef\\KeyBindings_Add_MainTab.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\Russian\Keyed\Translations.xml">
+		  <Link>Assets\Languages\Russian\Keyed\\Translations.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\English\Keyed\Translations.xml">
+		  <Link>Assets\Languages\English\Keyed\\Translations.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\Portuguese\Keyed\Translations.xml">
+		  <Link>Assets\Languages\Portuguese\Keyed\\Translations.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\Spanish\Keyed\Translations.xml">
+		  <Link>Assets\Languages\Spanish\Keyed\\Translations.xml</Link>
 		</None>
 	</ItemGroup>
 	<ItemGroup>

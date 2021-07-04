@@ -19,8 +19,8 @@ namespace RocketMan.Patches
                     nameof(Pawn_ApparelTracker.Notify_ApparelRemoved));
                 yield return AccessTools.Method(typeof(Pawn_ApparelTracker),
                     nameof(Pawn_ApparelTracker.Notify_LostBodyPart));
-                yield return AccessTools.Method(typeof(Pawn_ApparelTracker),
-                    nameof(Pawn_ApparelTracker.ApparelChanged));
+                //yield return AccessTools.Method(typeof(Pawn_ApparelTracker),
+                //    nameof(Pawn_ApparelTracker.));
                 yield return AccessTools.Method(typeof(Pawn_ApparelTracker), nameof(Pawn_ApparelTracker.Wear));
                 yield return AccessTools.Method(typeof(Pawn_ApparelTracker), nameof(Pawn_ApparelTracker.Remove));
             }
