@@ -12,11 +12,11 @@ namespace RocketMan
 
         private const string LogFolderName = "Logs";
 
-        private const string DependenciesSubPath = "1.2/Plugins/Dependencies";
+        private const string DependenciesSubPath = "1.3/Plugins/Dependencies";
 
-        private const string PluginFolderSubPath = "1.2/Plugins/Stable";
+        private const string PluginFolderSubPath = "1.3/Plugins/Stable";
 
-        private const string ExperimentalPluginFolderSubPath = "1.2/Plugins/Experimental";
+        private const string ExperimentalPluginFolderSubPath = "1.3/Plugins/Experimental";
 
         public static bool IsDevEnv
         {

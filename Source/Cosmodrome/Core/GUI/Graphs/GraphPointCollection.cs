@@ -107,9 +107,21 @@ namespace RocketMan
             }
             if (Last.t == point.t)
             {
-                Commit(point);
+                point.y += Last.y;
+                if (point.y > _maxY)
+                {
+                    _maxAge = Mathf.Min(15, points.Count);
+                    _maxY = point.y;
+                }
+                if (point.y < _minY)
+                {
+                    _minAge = Mathf.Min(15, points.Count);
+                    _minY = point.y;
+                }
+                points[points.Count - 1] = point;
                 return;
             }
+
             GraphPoint pNm1 = Last;
             GraphPoint pNm2 = points[points.Count - 2];
 

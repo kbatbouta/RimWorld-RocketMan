@@ -6,7 +6,7 @@
 		<TargetFramework>net472</TargetFramework>
 		<LangVersion>8.0</LangVersion>
 		<PlatformTarget>x64</PlatformTarget>
-		<OutputPath>..\..\1.2\Assemblies</OutputPath>
+		<OutputPath>..\..\1.3\Assemblies</OutputPath>
 		<Optimize>true</Optimize>
 		<DebugType>pdbonly</DebugType>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -17,20 +17,20 @@
 		<Configurations>Release;Debug</Configurations>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<OutputPath>..\..\1.2\Assemblies</OutputPath>
-		<OutputPath>..\..\1.2\Assemblies</OutputPath>
+		<OutputPath>..\..\1.3\Assemblies</OutputPath>
+		<OutputPath>..\..\1.3\Assemblies</OutputPath>
 		<DefineConstants>TRACE;NDEBUG</DefineConstants>
 		<WarningLevel>4</WarningLevel>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<OutputPath>..\..\1.2\Assemblies</OutputPath>
+		<OutputPath>..\..\1.3\Assemblies</OutputPath>
 		<DefineConstants>TRACE;DEBUG;NETFRAMEWORK;NET472;</DefineConstants>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2905" GeneratePathProperty="true" />
-		<PackageReference Include="Lib.Harmony" Version="2.0.4" ExcludeAssets="runtime" />
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3052-beta" GeneratePathProperty="true" />
+		<PackageReference Include="Lib.Harmony" Version="2.1" ExcludeAssets="runtime" />
 		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
 		<PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="8.0.0" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.NETCore.Platforms" Version="5.0.2" />
@@ -51,7 +51,7 @@
 		<Folder Include="Core\GUI\Graphs\" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="..\..\1.2\**\*.xml" CopyToOutputDirectory="Never">
+		<None Include="..\..\1.3\**\*.xml" CopyToOutputDirectory="Never">
 			<Link>Assets\%(RecursiveDir)/%(FileName)%(Extension)</Link>
 		</None>
 		<None Include="..\..\About\*.xml" CopyToOutputDirectory="Never">
@@ -62,6 +62,7 @@
 		</None>
 		<None Include="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
 		<None Include="Core\Optimizations\Deprecated\GlowGrid_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Optimizations\Deprecated\StatWorker_Patch.text.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Core\Modules\" />
@@ -89,6 +90,7 @@
 		<Compile Remove="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
 		<Compile Remove="Core\Optimizations\Deprecated\GlowGrid_Patch.cs" />
 		<Compile Remove="Core\GUI\Listings\Listing_Collapsible_temp.cs" />
+		<Compile Remove="Core\Optimizations\Deprecated\StatWorker_Patch.text.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\AssemblyInfo.cs">
@@ -102,16 +104,16 @@
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="..\..\1.2\Defs\MainButton.xml">
+		<None Update="..\..\1.3\Defs\MainButton.xml">
 			<Link>Assets\Defs\\MainButton.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Extras\RocketRules_Notify.xml">
+		<None Update="..\..\1.3\Extras\RocketRules_Notify.xml">
 			<Link>Assets\Extras\\RocketRules_Notify.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Extras\RocketRules_Packages.xml">
+		<None Update="..\..\1.3\Extras\RocketRules_Packages.xml">
 			<Link>Assets\Extras\\RocketRules_Packages.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Extras\RocketRules_Incompatibilities.xml">
+		<None Update="..\..\1.3\Extras\RocketRules_Incompatibilities.xml">
 			<Link>Assets\Extras\\RocketRules_Incompatibilities.xml</Link>
 		</None>
 		<None Update="Properties\AssemblyInfo.tt">
@@ -126,17 +128,47 @@
 			<Generator>TextTemplatingFileGenerator</Generator>
 			<LastGenOutput>KeyedResources.cs</LastGenOutput>
 		</None>
-		<None Update="..\..\1.2\Defs\KeyBinding.xml">
+		<None Update="..\..\1.3\Defs\KeyBinding.xml">
 			<Link>Assets\Defs\\KeyBinding.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Assemblies\BCnEncoder.NET.ImageSharp.xml">
+		<None Update="..\..\1.3\Assemblies\BCnEncoder.NET.ImageSharp.xml">
 			<Link>Assets\Assemblies\\BCnEncoder.NET.ImageSharp.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Plugins\Experimental\BCnEncoder.NET.ImageSharp.xml">
+		<None Update="..\..\1.3\Plugins\Experimental\BCnEncoder.NET.ImageSharp.xml">
 			<Link>Assets\Plugins\Experimental\\BCnEncoder.NET.ImageSharp.xml</Link>
 		</None>
-		<None Update="..\..\1.2\Patches\MothballFix.xml">
-		  <Link>Assets\Patches\\MothballFix.xml</Link>
+		<None Update="..\..\1.3\Patches\MothballFix.xml">
+			<Link>Assets\Patches\\MothballFix.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\Korean\Keyed\Translations.xml">
+			<Link>Assets\Languages\Korean\Keyed\\Translations.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\ChineseSimplified\Keyed\Translations.xml">
+			<Link>Assets\Languages\ChineseSimplified\Keyed\\Translations.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\ChineseSimplified\DefInjected\KeyBindingCategoryDef\KeyBinding.xml">
+			<Link>Assets\Languages\ChineseSimplified\DefInjected\KeyBindingCategoryDef\\KeyBinding.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\ChineseSimplified\DefInjected\MainButtonDef\MainButton.xml">
+			<Link>Assets\Languages\ChineseSimplified\DefInjected\MainButtonDef\\MainButton.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\ChineseSimplified\DefInjected\KeyBindingDef\KeyBinding.xml">
+			<Link>Assets\Languages\ChineseSimplified\DefInjected\KeyBindingDef\\KeyBinding.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\ChineseSimplified\DefInjected\KeyBindingDef\KeyBindings_Add_MainTab.xml">
+			<Link>Assets\Languages\ChineseSimplified\DefInjected\KeyBindingDef\\KeyBindings_Add_MainTab.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\Russian\Keyed\Translations.xml">
+			<Link>Assets\Languages\Russian\Keyed\\Translations.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\English\Keyed\Translations.xml">
+			<Link>Assets\Languages\English\Keyed\\Translations.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\Portuguese\Keyed\Translations.xml">
+			<Link>Assets\Languages\Portuguese\Keyed\\Translations.xml</Link>
+		</None>
+		<None Update="..\..\1.3\Languages\Spanish\Keyed\Translations.xml">
+			<Link>Assets\Languages\Spanish\Keyed\\Translations.xml</Link>
 		</None>
 	</ItemGroup>
 	<ItemGroup>

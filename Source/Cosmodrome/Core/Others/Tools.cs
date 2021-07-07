@@ -11,8 +11,10 @@ namespace RocketMan
 {
     public static class Tools
     {
-        public static byte PredictStatExpiryFromString(this string name)
+        public static int PredictStatExpiryFromString(this string name)
         {
+            if (name == null)
+                return 240;
             if (false
                 || name.Contains("Combat")
                 || name.Contains("Melee")
@@ -30,8 +32,8 @@ namespace RocketMan
                 || name.Contains("Comfort")
                 || name.Contains("Max")
                 || name.Contains("Min"))
-                return 128;
-            return 32;
+                return 480;
+            return 960;
         }
 
         public static void Notify_Dirty(this Pawn pawn)
@@ -40,8 +42,7 @@ namespace RocketMan
             {
                 if (pawn != null)
                 {
-                    StatPart_ApparelStatOffSet_Skipper_Patch.Dirty(pawn);
-                    StatWorker_GetValueUnfinalized_Hijacked_Patch.Dirty(pawn);
+                    pawn.GetSignature(dirty: true);
                 }
             }
             catch (Exception er)

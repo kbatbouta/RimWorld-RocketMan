@@ -11,6 +11,10 @@ namespace RocketMan
 
         public float expiryAfter;
 
+        const int SETTINGS_VERSION = 1;
+
+        private int version = -1;
+
         public StatSettings()
         {
         }
@@ -34,7 +38,16 @@ namespace RocketMan
             finally
             {
                 Scribe_Values.Look(ref expiryAfter, "expiryAfter");
+                Scribe_Values.Look(ref version, "version", -1);
+                if (version != SETTINGS_VERSION)
+                    Notify_VersionChanged();
             }
+        }
+
+        public void Notify_VersionChanged()
+        {
+            version = SETTINGS_VERSION;
+            expiryAfter = statDef?.label?.PredictStatExpiryFromString() ?? 240;
         }
 
         public void Prepare()
