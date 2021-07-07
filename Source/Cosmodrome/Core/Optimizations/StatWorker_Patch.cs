@@ -14,7 +14,7 @@ using Verse;
 
 namespace RocketMan.Optimizations
 {
-
+    [RocketPatch(typeof(StatWorker), nameof(StatWorker.GetValue), parameters = new[] { typeof(StatRequest), typeof(bool) })]
     public static class StatWorker_Patch
     {
         [StructLayout(LayoutKind.Sequential, Size = 12)]
@@ -42,92 +42,127 @@ namespace RocketMan.Optimizations
 
         private static MethodBase mGetValueUnfinalized_Replacemant = AccessTools.Method(typeof(StatWorker_Patch), nameof(StatWorker_Patch.Replacemant));
 
-        private static MethodBase mGetValueUnfinalized_Transpiler = AccessTools.Method(typeof(StatWorker_Patch), nameof(StatWorker_Patch.Hijack));
+        private static MethodBase mGetValueUnfinalized_Transpiler = AccessTools.Method(typeof(StatWorker_Patch), nameof(StatWorker_Patch.Transpiler));
 
         private static FieldInfo fHijackedCaller = AccessTools.Field(typeof(StatWorker_Patch), nameof(hijackedCaller));
 
-        public static void Dirty(Pawn pawn)
-        {
-            int signature = pawn.GetSignature(dirty: true);
-
-            if (RocketDebugPrefs.Debug && RocketDebugPrefs.StatLogging && Prefs.LogVerbose)
-                Log.Message(string.Format("ROCKETMAN: changed signature for pawn {0} to {1}", pawn, signature));
-        }
-
-        [Main.OnTickLonger]
-        public static void OnTickLonger()
-        {
-            if (Rand.Chance(0.25f))
-                cache.Clear();
-        }
-
-        [RocketPatch]
+        // [RocketPatch]
         private static class AutoPatcher_GetValueUnfinalized_Patch
         {
             public static HashSet<MethodBase> callingMethods = new HashSet<MethodBase>();
 
-            public static MethodBase mInterrupt =
-                AccessTools.Method(typeof(AutoPatcher_GetValueUnfinalized_Patch), "Interrupt");
+            public static MethodBase mInterrupt = AccessTools.Method(typeof(AutoPatcher_GetValueUnfinalized_Patch), "Interrupt");
 
-            public static IEnumerable<MethodBase> TargetMethods()
-            {
-                foreach (var m in typeof(StatWorker)
-                        .AllLeafSubclasses()
-                        .Where(t => !t.IsAbstract)
-                        .Select(t => AccessTools.Method(t, "GetValueUnfinalized", parameters: new[] { typeof(StatRequest), typeof(bool) }))
-                        .Where(m => m != null && m.IsValidTarget())
-                        .ToHashSet())
-                    yield return m;
-                MethodBase baseMethod = AccessTools.Method(typeof(StatWorker), nameof(StatWorker.GetValueUnfinalized));
-                if (baseMethod != null && baseMethod.IsValidTarget())
-                    yield return baseMethod;
-            }
+            //public static IEnumerable<MethodBase> TargetMethods()
+            //{
+            //    foreach (var m in typeof(StatWorker)
+            //            .AllLeafSubclasses()
+            //            .Where(t => !t.IsAbstract)
+            //            .Select(t => AccessTools.Method(t, "GetValueUnfinalized", parameters: new[] { typeof(StatRequest), typeof(bool) }))
+            //            .Where(m => m != null && m.IsValidTarget())
+            //            .ToHashSet())
+            //        yield return m;
+            //    MethodBase baseMethod = AccessTools.Method(typeof(StatWorker), nameof(StatWorker.GetValueUnfinalized));
+            //    if (baseMethod != null && baseMethod.IsValidTarget())
+            //        yield return baseMethod;
+            //}
 
-            public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
-            {
-                List<CodeInstruction> codes = instructions.ToList();
-                Label l1 = generator.DefineLabel();
+            //public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+            //{
+            //    List<CodeInstruction> codes = instructions.ToList();
+            //    Label l1 = generator.DefineLabel();
 
-                yield return new CodeInstruction(OpCodes.Ldsfld, fHijackedCaller);
-                yield return new CodeInstruction(OpCodes.Brtrue_S, l1);
-                yield return new CodeInstruction(OpCodes.Ldarg_0);
-                yield return new CodeInstruction(OpCodes.Call, mInterrupt);
+            //    yield return new CodeInstruction(OpCodes.Ldsfld, fHijackedCaller);
+            //    yield return new CodeInstruction(OpCodes.Brtrue_S, l1);
+            //    yield return new CodeInstruction(OpCodes.Ldarg_0);
+            //    yield return new CodeInstruction(OpCodes.Call, mInterrupt);
 
-                if (codes[0].labels == null)
-                    codes[0].labels = new List<Label>();
-                codes[0].labels.Add(l1);
-                foreach (var code in codes)
-                    yield return code;
-            }
+            //    if (codes[0].labels == null)
+            //        codes[0].labels = new List<Label>();
+            //    codes[0].labels.Add(l1);
+            //    foreach (var code in codes)
+            //        yield return code;
+            //}
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void Interrupt(StatWorker statWorker)
-            {
-                int tick = GenTicks.TicksGame;
-                if (RocketPrefs.Enabled && Current.Game != null && tick >= 600 && !IgnoreMeDatabase.ShouldIgnore(statWorker.stat))
-                {
-                    StackTrace trace = new StackTrace();
-                    StackFrame frame = trace.GetFrame(2);
-                    MethodBase method = frame.GetMethod();
-                    if (method.IsValidTarget())
-                    {
-                        try
-                        {
-                            Finder.Harmony.Patch(method, transpiler: new HarmonyMethod((MethodInfo)mGetValueUnfinalized_Transpiler));
+            //[MethodImpl(MethodImplOptions.NoInlining)]
+            //public static void Interrupt(StatWorker statWorker)
+            //{
+            //    int tick = GenTicks.TicksGame;
 
-                            Log.Message($"ROCKETMAN: Auto patched {method.GetMethodSummary()}!");
-                        }
-                        catch (Exception er)
-                        {
-                            Logger.Debug($"ROCKETMAN: Auto patching failed {method.GetMethodSummary()}!", er);
-                        }
-                    }
-                }
-            }
+            //    if (RocketPrefs.Enabled && Current.Game != null && tick >= 600 && !IgnoreMeDatabase.ShouldIgnore(statWorker.stat))
+            //    {
+            //        StackTrace trace = new StackTrace(true);
+            //        StackFrame frame = trace.GetFrame(2);
+
+            //        MethodBase method = Harmony.GetMethodFromStackframe(frame);
+            //        if (method != null && method is MethodInfo replacement)
+            //            method = Harmony.GetOriginalMethod((MethodInfo)method) ?? method;
+            //        bool patched = false;
+            //        try
+            //        {
+            //            if (method != null)
+            //            {
+            //                Finder.Harmony.Patch(method, transpiler: new HarmonyMethod((MethodInfo)mGetValueUnfinalized_Transpiler));
+            //                patched = true;
+            //            }
+            //        }
+            //        catch
+            //        {
+            //        }
+            //        if (!patched)
+            //        {
+            //            foreach (MethodBase other in Harmony.GetAllPatchedMethods().Where(m => m.IsValidTarget()))
+            //                Finder.Harmony.Patch(method, transpiler: new HarmonyMethod((MethodInfo)mGetValueUnfinalized_Transpiler));
+            //        }
+            //    }
+            //}
         }
 
-        private static IEnumerable<CodeInstruction> Hijack(IEnumerable<CodeInstruction> instructions)
+        //[RocketPatch(typeof(AutoPatcher_Test), nameof(AutoPatcher_Test.OnTickLong))]
+        //public static class AutoPatcher_Test
+        //{
+        //    private static float i = 0;
+
+        //    public static Pawn GetRandomPawn()
+        //    {
+        //        return Find.CurrentMap == null ? null : Find.CurrentMap.mapPawns?.AllPawns?.RandomElement() ?? null;
+        //    }
+
+        //    [MethodImpl(MethodImplOptions.NoInlining)]
+        //    public static void Postfix()
+        //    {
+        //        Log.Message($"{i}");
+        //    }
+
+        //    [Main.OnTickLong]
+        //    public static void Ticker()
+        //    {
+        //        OnTickLong();
+        //    }
+
+        //    [MethodImpl(MethodImplOptions.NoInlining)]
+        //    public static void OnTickLong()
+        //    {
+        //        Pawn p = GetRandomPawn();
+        //        if (p != null)
+        //        {
+        //            i = StatDefOf.MoveSpeed.workerInt.GetValueUnfinalized(StatRequest.For(p));
+        //        }
+        //    }
+        //}
+
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
         {
+            var codes = instructions.ToList();
+            for (int i = 0; i < codes.Count; i++)
+            {
+                var code = codes[i];
+                if (code.OperandIs(mGetValueUnfinalized))
+                {
+                    Log.Message($"ROCKETMAN: Hijacking {original.GetMethodSummary()}");
+                    break;
+                }
+            }
             return instructions.MethodReplacer(mGetValueUnfinalized, mGetValueUnfinalized_Replacemant);
         }
 

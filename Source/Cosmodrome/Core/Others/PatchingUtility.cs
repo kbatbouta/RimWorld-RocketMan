@@ -24,7 +24,7 @@ namespace RocketMan
 
         public static string GetMethodSummary(this MethodBase method)
         {
-            return summaries.TryGetValue(method, out string summary) ? summary : summaries[method] = string.Format("([REFLECTED] {0}.{1}:{2}, [DECLARING] {3}.{4}:{2}, [ISSTATIC] {7}, [ISPUBLIC] {8}, [ISVIRTUAL] {5}, [ABSTRACT] {6})", method.ReflectedType.Namespace, method.ReflectedType.Name, method.ReflectedType.Name, method.Name, method.DeclaringType.Namespace, method.DeclaringType.Name, method.IsVirtual, method.IsAbstract, method.IsStatic, method.IsPublic);
+            return method != null ? (summaries.TryGetValue(method, out string summary) ? summary : summaries[method] = string.Format("([REFLECTED] {0}.{1}:{3}, [DECLARING] {0}.{2}:{3}, [ISSTATIC] {7}, [ISPUBLIC] {8}, [ISVIRTUAL] {5}, [ABSTRACT] {6})", method.ReflectedType.Namespace, method.ReflectedType.Name, method.ReflectedType.Name, method.Name, method.DeclaringType.Namespace, method.DeclaringType.Name, method.IsVirtual, method.IsAbstract, method.IsStatic, method.IsPublic)) : null;
         }
 
         public static IEnumerable<T> GetPatches<T, P>(Assembly assembly) where P : IPatch where T : IPatchInfo<P>

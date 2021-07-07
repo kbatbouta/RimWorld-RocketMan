@@ -10,8 +10,11 @@ namespace RocketMan.Optimizations
     public static class StatPart_ApparelStatOffSet_Skipper_Patch
     {
         private static float curValue;
+
         private static int curKey = -1;
+
         private static bool skip;
+
         private static readonly CachedDict<int, Pair<float, int>> cache = new CachedDict<int, Pair<float, int>>();
 
         [HarmonyPriority(int.MaxValue)]
