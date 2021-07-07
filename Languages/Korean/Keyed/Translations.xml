@@ -26,6 +26,13 @@
 	<!-- RocketMan RocketMan.TabContent_Settings -->
 	<RocketMan.RocketMan>로켓맨</RocketMan.RocketMan>
 	<RocketMan.Tab>홈</RocketMan.Tab>
+	<RocketMan.GenMapSize>지도 생성 설정</RocketMan.GenMapSize>
+	<RocketMan.GenMapSize.Text>다음에 생성할 지도의 크기와 형태 설정(지도를 생성한 후 이 옵션은 기본값으로 재설정됩니다)</RocketMan.GenMapSize.Text>
+	<RocketMan.GenMapSize.Note>새로운 지도는 region height으로 나누어 떨어지는 가로/세로 크기로 생성됩니다(자동적으로 반올림됩니다).</RocketMan.GenMapSize.Note>
+	<RocketMan.GenMapSize.Mode.Custom>사용자 설정</RocketMan.GenMapSize.Mode.Custom>
+	<RocketMan.GenMapSize.Mode.Vanilla>바닐라</RocketMan.GenMapSize.Mode.Vanilla>
+	<RocketMan.GenMapSize.Width>가로</RocketMan.GenMapSize.Width>
+	<RocketMan.GenMapSize.Height>세로</RocketMan.GenMapSize.Height>
 	<RocketMan.Close>닫기</RocketMan.Close>
 	<RocketMan.Enable>활성화</RocketMan.Enable>
 	<RocketMan.TranslationCaching>글씨 크기 캐싱</RocketMan.TranslationCaching>
