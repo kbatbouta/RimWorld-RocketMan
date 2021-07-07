@@ -26,14 +26,25 @@
 	<!-- RocketMan RocketMan.TabContent_Settings -->
 	<RocketMan.RocketMan>로켓맨</RocketMan.RocketMan>
 	<RocketMan.Tab>홈</RocketMan.Tab>
+	<RocketMan.GenMapSize>지도 생성 설정</RocketMan.GenMapSize>
+	<RocketMan.GenMapSize.Text>다음에 생성할 지도의 크기와 형태 설정(지도를 생성한 후 이 옵션은 기본값으로 재설정됩니다)</RocketMan.GenMapSize.Text>
+	<RocketMan.GenMapSize.Note>새로운 지도는 region height으로 나누어 떨어지는 가로/세로 크기로 생성됩니다(자동적으로 반올림됩니다).</RocketMan.GenMapSize.Note>
+	<RocketMan.GenMapSize.Mode.Custom>사용자 설정</RocketMan.GenMapSize.Mode.Custom>
+	<RocketMan.GenMapSize.Mode.Vanilla>바닐라</RocketMan.GenMapSize.Mode.Vanilla>
+	<RocketMan.GenMapSize.Width>가로</RocketMan.GenMapSize.Width>
+	<RocketMan.GenMapSize.Height>세로</RocketMan.GenMapSize.Height>
 	<RocketMan.Close>닫기</RocketMan.Close>
 	<RocketMan.Enable>활성화</RocketMan.Enable>
+	<RocketMan.TranslationCaching>글씨 크기 캐싱</RocketMan.TranslationCaching>
 	<RocketMan.Experimental>실험적 기능</RocketMan.Experimental>
+	<RocketMan.Experimental.Description>로켓맨의 베타 기능을 선택할 수 있습니다.\n경고: 무엇을 하고 있는지 모르겠다면 선택하지 마십시오.</RocketMan.Experimental.Description>
+	<RocketMan.Experimental.OptInBeta>로켓맨 베타 기능 선택</RocketMan.Experimental.OptInBeta>
 	<RocketMan.EnableGagarin>로딩 시간 줄이기</RocketMan.EnableGagarin>
 	<RocketMan.EnableGagarin.Tip>로켓맨은 xml 패치 연산을 캐싱해서 로딩 시간을 줄이려고 시도할 것입니다. 이 설정을 활성화한 후 로켓맨이 캐시를 생성하려면 게임을 두 번 재시작해야 합니다. 모드를 얼마나 많이 사용하는지, 그리고 어떤 모드를 사용하는지에 따라 2배 정도까지 로딩이 빨라집니다. Combat Extended나 Doc universal과 같이 xml 패치가 많은 모드들에 대해 사용하기를 권장합니다.</RocketMan.EnableGagarin.Tip>
 	<RocketMan.ShowIcon>로켓맨 버튼/아이콘 보이기</RocketMan.ShowIcon>
 	<RocketMan.ShowIcon.Description>게임의 한계로 인해 몇 가지 옵션은 게임 메뉴 설정에서 볼 수 없습니다.</RocketMan.ShowIcon.Description>	
 	<RocketMan.ProgressBar>시작할 때 시동 진행 막대 보여주기</RocketMan.ProgressBar>
+	<RocketMan.ProgressBar.Pause>시동 후 일시정지</RocketMan.ProgressBar.Pause>
 	<RocketMan.ProgressBar.Description>새로운 지도를 불러올 때 시동 진행 상황을 보여줍니다.</RocketMan.ProgressBar.Description>
 	<RocketMan.Junk>폐기물</RocketMan.Junk>
 	<RocketMan.CorpseRemoval>자동으로 시체 제거하기</RocketMan.CorpseRemoval>
@@ -102,4 +113,15 @@
 
 	<!-- Gagarin -->
 	<Gagarin.ParsingReports>로켓맨이 중복되는 Base나 Def를 검사하고 있습니다.</Gagarin.ParsingReports>
+	<Gagarin.Tab>로딩 시간 최적화</Gagarin.Tab>
+	<Gagarin.Expiry>가가린 캐시는 {0}일 후에 만료됩니다.</Gagarin.Expiry>
+	<Gagarin.Tip>로딩 시간 최적화가 활성화되어 있는 동안 모든 XML Def를 캐싱할 것입니다. 이렇게 하면 XML 패치를 건너뛸 수 있습니다. 로켓맨 메인 메뉴에서 비활성화할 수 있습니다.</Gagarin.Tip>
+	<Gagarin.ClearCache>캐시 제거</Gagarin.ClearCache>
+	<Gagarin.ClearCache.Description>캐시를 제거하면 모드 업데이트와 관련된 XML 캐시 관련 문제를 해결할 수 있고, 새로운 텍스쳐를 캐싱할 수 있습니다.\n이틀마다 캐시를 제거하기를 권장합니다.</Gagarin.ClearCache.Description>
+	<Gagarin.EnableTextureCaching>텍스쳐 캐싱하기</Gagarin.EnableTextureCaching>
+	<Gagarin.EnableTextureCaching.Description>텍스쳐 캐싱은 로딩 시간을 줄이지만, Graphics Settings나 High quality textures 모드와 호환되지 않습니다.</Gagarin.EnableTextureCaching.Description>
+	<Gagarin.AdvancedSettings>고급 설정</Gagarin.AdvancedSettings>
+	<Gagarin.AdvancedSettings.Description>무엇을 하고 있는지 이해하고 있을 때만 사용하세요!</Gagarin.AdvancedSettings.Description>
+	<Gagarin.FilterMode>텍스쳐 필터링</Gagarin.FilterMode>
+	<Gagarin.MipMapBias>밉맵 편향</Gagarin.MipMapBias>
 </LanguageData>
