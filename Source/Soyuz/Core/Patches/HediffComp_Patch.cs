@@ -1,7 +1,9 @@
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+using UnityEngine;
 using Verse;
 
 namespace Soyuz.Patches
@@ -70,14 +72,10 @@ namespace Soyuz.Patches
         [SoyuzPatch(typeof(HediffComp_Discoverable), nameof(HediffComp_Discoverable.CompPostTick))]
         public static class HediffComp_Discoverable_Patch
         {
-            public static bool Prefix(HediffComp_Discoverable __instance)
+            public static void Prefix(HediffComp_Discoverable __instance)
             {
-                if (__instance.parent.pawn.IsBeingThrottled())
-                {
-                    if (__instance.parent.pawn.IsHashIntervalTick(90))
-                        __instance.CheckDiscovered();
-                }
-                return false;
+                if (__instance.parent.pawn.IsBeingThrottled() && GenTicks.TicksGame % 250 == 0)
+                    __instance.CheckDiscovered();
             }
         }
 
@@ -104,10 +102,17 @@ namespace Soyuz.Patches
         [SoyuzPatch(typeof(HediffComp_SelfHeal), nameof(HediffComp_SelfHeal.CompPostTick))]
         public static class HediffComp_SelfHeal_Patch
         {
-            public static void Prefix(HediffComp_SelfHeal __instance)
+            public static void Prefix(HediffComp_SelfHeal __instance, ref float severityAdjustment)
             {
                 if (__instance.parent.pawn.IsBeingThrottled())
-                    __instance.ticksSinceHeal += (__instance.parent.pawn.GetTimeDelta() - 1);
+                {
+                    int dT = __instance.parent.pawn.GetTimeDelta() - 1;
+                    int dT_hediff = __instance.Props.healIntervalTicksStanding;
+
+                    __instance.ticksSinceHeal += dT;
+                    if (__instance.ticksSinceHeal > dT_hediff && dT_hediff != 0)
+                        severityAdjustment -= __instance.Props.healAmount * Mathf.Max((float)__instance.ticksSinceHeal / dT_hediff - 1f, 0f);
+                }
             }
         }
 
@@ -118,6 +123,16 @@ namespace Soyuz.Patches
             {
                 if (__instance.parent.pawn.IsBeingThrottled() && __instance.TProps.TendIsPermanent == false)
                     __instance.tendTicksLeft -= (__instance.parent.pawn.GetTimeDelta() - 1);
+            }
+        }
+
+        [SoyuzPatch(typeof(HediffComp_KillAfterDays), nameof(HediffComp_KillAfterDays.CompPostTick))]
+        public static class HediffComp_HediffComp_KillAfterDays_Patch
+        {
+            public static void Prefix(HediffComp_KillAfterDays __instance)
+            {
+                if (__instance.parent.pawn.IsBeingThrottled())
+                    __instance.ticksLeft -= (__instance.parent.pawn.GetTimeDelta() - 1);
             }
         }
     }

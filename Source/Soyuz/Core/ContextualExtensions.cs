@@ -147,7 +147,6 @@ namespace Soyuz
                     return WorldPawnsTicker.IsCustomWorldTickInterval(thing, interval);
                 return (thing.thingIDNumber + GenTicks.TicksGame) % RoundTransform(interval) == 0;
             }
-
             return (thing.thingIDNumber + GenTicks.TicksGame) % interval == 0;
         }
 
@@ -175,6 +174,7 @@ namespace Soyuz
             if (false
                 || (pawn.thingIDNumber + tick) % 30 == 0
                 || (tick % 250 == 0)
+                || (tick % 103 == 0)
                 || (pawn.jobs?.curJob?.expiryInterval > 0 && (tick - pawn.jobs.curJob.startTick) % (pawn.jobs.curJob.expiryInterval) == 0))
                 return true;
 
