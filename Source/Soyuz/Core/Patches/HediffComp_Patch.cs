@@ -94,8 +94,12 @@ namespace Soyuz.Patches
         {
             public static void Prefix(HediffComp_Infecter __instance)
             {
-                if (__instance.parent.pawn.IsBeingThrottled())
+                if (__instance.parent.pawn.IsBeingThrottled() && __instance.ticksUntilInfect > 0)
+                {
                     __instance.ticksUntilInfect -= (__instance.parent.pawn.GetTimeDelta() - 1);
+                    if (__instance.ticksUntilInfect <= 0)
+                        __instance.ticksUntilInfect = 1;
+                }
             }
         }
 
