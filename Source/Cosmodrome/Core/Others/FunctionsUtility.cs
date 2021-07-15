@@ -18,7 +18,8 @@ namespace RocketMan
             }
             catch (ReflectionTypeLoadException e)
             {
-                if (RocketDebugPrefs.Debug) Log.Warning($"<color=blue>[ROCKETMAN]</color>:[{a.FullName}] Gettypes fallback mod activated!");
+                if (RocketDebugPrefs.Debug)
+                    Log.Warning($"<color=blue>[ROCKETMAN]</color>:[{a.FullName}] Gettypes fallback mod activated!");
                 types = new List<Type>();
                 foreach (Type type in e.Types)
                 {
@@ -47,6 +48,34 @@ namespace RocketMan
                 Logger.Debug(string.Format("ROCKETMAN: Found action with attribute {0}, {1}:{2}", typeof(T).Name,
                      method.DeclaringType.Name, method.Name));
                 yield return () => { method.Invoke(null, null); };
+            }
+        }
+
+        public static IEnumerable<Action<P>> GetActions<T, P>() where T : Attribute
+        {
+            foreach (var method in RocketAssembliesInfo.Assemblies
+                .SelectMany(a => AccessTools.GetTypesFromAssembly(a))
+                .SelectMany(t => AccessTools.GetDeclaredMethods(t))
+                .Where(m => m.HasAttribute<T>())
+                .ToArray())
+            {
+                Logger.Debug(string.Format("ROCKETMAN: Found action with attribute {0}, {1}:{2}", typeof(T).Name,
+                     method.DeclaringType.Name, method.Name));
+                yield return (param) => { method.Invoke(null, new object[] { param }); };
+            }
+        }
+
+        public static IEnumerable<Action<P, K>> GetActions<T, P, K>() where T : Attribute
+        {
+            foreach (var method in RocketAssembliesInfo.Assemblies
+                .SelectMany(a => AccessTools.GetTypesFromAssembly(a))
+                .SelectMany(t => AccessTools.GetDeclaredMethods(t))
+                .Where(m => m.HasAttribute<T>())
+                .ToArray())
+            {
+                Logger.Debug(string.Format("ROCKETMAN: Found action with attribute {0}, {1}:{2}", typeof(T).Name,
+                     method.DeclaringType.Name, method.Name));
+                yield return (param1, param2) => { method.Invoke(null, new object[] { param1, param2 }); };
             }
         }
 

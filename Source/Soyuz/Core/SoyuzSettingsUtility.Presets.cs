@@ -29,13 +29,11 @@ namespace Soyuz
             {
                 fullyThrottledJobs = new JobDef[]
                 {
-                    JobDefOf.Clean,
                     JobDefOf.HaulToCell,
                     JobDefOf.Goto,
                     JobDefOf.LayDown,
-                    JobDefOf.Wait,
-                    JobDefOf.Wait_Wander,
                     JobDefOf.GotoWander,
+                    JobDefOf.Wait_Wander,
                 };
             }
             if (partiallyThrottledJobs == null)
@@ -43,29 +41,29 @@ namespace Soyuz
                 partiallyThrottledJobs = new JobDef[]
                 {
                     JobDefOf.Wait,
-                    JobDefOf.Wait_Wander,
+                    JobDefOf.Sow,
+                    JobDefOf.Clean,
+                    JobDefOf.CutPlant,
+                    JobDefOf.CutPlantDesignated,
+                    JobDefOf.Harvest,
+                    JobDefOf.HarvestDesignated,
+                    JobDefOf.Follow,
+                    JobDefOf.FollowClose,
                 };
             }
             if (notThrottledJobs == null)
             {
                 notThrottledJobs = new JobDef[]
                 {
-                    JobDefOf.Sow,
-                    JobDefOf.CutPlant,
-                    JobDefOf.CutPlantDesignated,
-                    JobDefOf.Harvest,
-                    JobDefOf.HarvestDesignated,
-                    JobDefOf.SocialRelax,
+                    JobDefOf.DeliverFood,
+                    JobDefOf.FeedPatient,
                     JobDefOf.Mine,
-                    JobDefOf.Follow,
-                    JobDefOf.FollowClose,
+                    JobDefOf.SocialRelax,
                     JobDefOf.FinishFrame,
                     JobDefOf.Refuel,
                     JobDefOf.DoBill,
                     JobDefOf.Ingest,
                     JobDefOf.TakeInventory,
-                    JobDefOf.DeliverFood,
-                    JobDefOf.FeedPatient,
                     JobDefOf.Capture,
                     JobDefOf.Repair,
                     JobDefOf.AttackMelee,

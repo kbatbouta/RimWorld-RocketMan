@@ -28,7 +28,7 @@
 		<NoStdLib>true</NoStdLib>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3055-beta" GeneratePathProperty="true" />
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3060-beta" GeneratePathProperty="true" />
 		<PackageReference Include="Lib.Harmony" Version="2.1.0" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.NETCore.Platforms" Version="5.0.2" />
 		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.2">
@@ -36,7 +36,6 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
-		<PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="8.0.0" ExcludeAssets="runtime" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Core\" />
@@ -48,23 +47,23 @@
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <None Remove="Core\Deprecated\" />
+		<None Remove="Core\Deprecated\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Compile Remove="Core\Deprecated\GlowFlooder_Patch.cs" />
-	  <Compile Remove="Core\Deprecated\GlowGrid_Patch.cs" />
-	  <Compile Remove="Core\Deprecated\LitCell.cs" />
-	  <Compile Remove="Core\Deprecated\LitGlowerCacher.cs" />
-	  <Compile Remove="Core\Deprecated\LitGlowerInfo.cs" />
-	  <Compile Remove="Core\Deprecated\MapGlowerUtility.cs" />
+		<Compile Remove="Core\Deprecated\GlowFlooder_Patch.cs" />
+		<Compile Remove="Core\Deprecated\GlowGrid_Patch.cs" />
+		<Compile Remove="Core\Deprecated\LitCell.cs" />
+		<Compile Remove="Core\Deprecated\LitGlowerCacher.cs" />
+		<Compile Remove="Core\Deprecated\LitGlowerInfo.cs" />
+		<Compile Remove="Core\Deprecated\MapGlowerUtility.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Include="Core\Deprecated\GlowFlooder_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-	  <None Include="Core\Deprecated\GlowGrid_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-	  <None Include="Core\Deprecated\LitCell.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-	  <None Include="Core\Deprecated\LitGlowerCacher.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-	  <None Include="Core\Deprecated\LitGlowerInfo.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-	  <None Include="Core\Deprecated\MapGlowerUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\GlowFlooder_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\GlowGrid_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\LitCell.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\LitGlowerCacher.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\LitGlowerInfo.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\MapGlowerUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
 	</ItemGroup>
 	<Target Name="Publicise" BeforeTargets="UpdateReferences" Condition="!Exists('$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp_publicised.dll')">
 		<!-- Set our variables -->

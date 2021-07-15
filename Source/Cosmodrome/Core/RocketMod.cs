@@ -22,6 +22,11 @@ namespace RocketMan
 
         public RocketMod(ModContentPack content) : base(content)
         {
+            LongEventHandler.QueueLongEvent(() =>
+            {
+                Main.DefsLoaded();
+            }, "RocketMan.RocketMan", doAsynchronously: false, exceptionHandler: null, showExtraUIInfo: true);
+
             Finder.Mod = Instance = this;
             Finder.ModContentPack = content;
             if (!Directory.Exists(RocketEnvironmentInfo.CustomConfigFolderPath))
@@ -30,6 +35,9 @@ namespace RocketMan
                 Log.Message($"ROCKETMAN: Created RocketMan config folder at <color=orange>{RocketEnvironmentInfo.CustomConfigFolderPath}</color>");
             }
             Logger.Initialize();
+            // Patch all core functions
+            RocketStartupPatcher.PatchAll();
+            // Program start here
             Finder.PluginsLoader = new RocketPluginsLoader();
             try
             {

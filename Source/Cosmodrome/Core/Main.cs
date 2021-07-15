@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
-using HugsLib;
 using Microsoft.Build.Utilities;
 using RimWorld;
 using RocketMan.Tabs;
@@ -13,10 +12,9 @@ using Verse;
 
 namespace RocketMan
 {
-    [StaticConstructorOnStartup]
-    public class Main : ModBase
+    public static partial class Main
     {
-        private int debugging = 0;
+        private static int debugging = 0;
 
         private const int TickRareMultiplier = 3;
         private const int TickLongerMultiplier = 4;
@@ -34,6 +32,7 @@ namespace RocketMan
         public static List<Action> onStaticConstructors;
         public static List<Action> onInitialization;
         public static List<Action> onScribe;
+        public static List<Action<Map>> onMapDiscarded;
         public static List<Action> onSettingsScribedLoaded;
 
         public static List<Func<ITabContent>> yieldTabContent;
@@ -55,6 +54,7 @@ namespace RocketMan
             onDebugginEnabled = FunctionsUtility.GetActions<OnDebugginEnabled>().ToList();
             onDebugginDisabled = FunctionsUtility.GetActions<OnDebugginDisabled>().ToList();
             yieldTabContent = FunctionsUtility.GetFunctions<YieldTabContent, ITabContent>().ToList();
+            onMapDiscarded = FunctionsUtility.GetActions<OnMapDiscarded, Map>().ToList();
             onScribe = FunctionsUtility.GetActions<Main.OnScribe>().ToList();
             onSettingsScribedLoaded = FunctionsUtility.GetActions<Main.OnSettingsScribedLoaded>().ToList();
             onStaticConstructors = FunctionsUtility.GetActions<Main.OnStaticConstructor>().ToList();
@@ -70,9 +70,7 @@ namespace RocketMan
             // this is used to stylize the log output of rocketman.
             EditWindow_Log_DoMessagesListing_Patch.PatchEditWindow_Log();
             // ----------------------
-            // Offical start of the code.            
-            onStaticConstructors = FunctionsUtility.GetActions<OnStaticConstructor>().ToList();
-            for (var i = 0; i < onStaticConstructors.Count; i++) onStaticConstructors[i].Invoke();
+            // Offical start of the code.                        
             // ----------------------
             // TODO implement compatiblity xml support
             // foreach (var mod in ModsConfig.ActiveModsInLoadOrder)
@@ -81,25 +79,33 @@ namespace RocketMan
             // }
         }
 
-        public override void MapLoaded(Map map)
+        public static void OnStaticConstructorOnStartup()
         {
-            base.MapLoaded(map);
+            onStaticConstructors = FunctionsUtility.GetActions<OnStaticConstructor>().ToList();
+            for (var i = 0; i < onStaticConstructors.Count; i++) onStaticConstructors[i].Invoke();
+        }
+
+        public static void MapLoaded(Map map)
+        {
             for (var i = 0; i < onMapLoaded.Count; i++) onMapLoaded[i].Invoke();
         }
 
-        public override void WorldLoaded()
+        public static void MapComponentsInitializing(Map map)
         {
-            base.WorldLoaded();
-            for (var i = 0; i < onWorldLoaded.Count; i++) onWorldLoaded[i].Invoke();
-        }
-
-        public override void MapComponentsInitializing(Map map)
-        {
-            base.MapComponentsInitializing(map);
             for (var i = 0; i < onMapComponentsInitializing.Count; i++) onMapComponentsInitializing[i].Invoke();
         }
 
-        public override void DefsLoaded()
+        public static void WorldLoaded()
+        {
+            for (var i = 0; i < onWorldLoaded.Count; i++) onWorldLoaded[i].Invoke();
+        }
+
+        public static void MapDiscarded(Map map)
+        {
+            for (var i = 0; i < onWorldLoaded.Count; i++) onMapDiscarded[i].Invoke(map);
+        }
+
+        public static void DefsLoaded()
         {
             // --------------
             // Used to tell other parts that defs are ready
@@ -111,8 +117,6 @@ namespace RocketMan
             Log.Message("ROCKETMAN: Defs loaded!");
             // Execute the flaged methods
             for (var i = 0; i < onDefsLoaded.Count; i++) onDefsLoaded[i].Invoke();
-            // Call base
-            base.DefsLoaded();
             // --------------
             // start loading xml data
             XMLParser.ParseXML();
@@ -131,30 +135,28 @@ namespace RocketMan
             RocketMod.Instance.WriteSettings();
         }
 
-        private BucketActionTicker[] _tickers;
+        private static BucketActionTicker[] _tickers;
 
-        public override void Tick(int currentTick)
+        public static void Tick()
         {
+            int currentTick = GenTicks.TicksGame;
             // --------------
             // Check if debugging changed
-            this.CheckDebugging();
-            // --------------
-            // Start ticking
-            base.Tick(currentTick);
+            CheckDebugging();
             // Tick OnTick
             for (int i = 0; i < onTick.Count; i++) onTick[i].Invoke();
             // --------------
             // Initialize buckets
-            if (this._tickers == null) PrepareTickingBuckets();
+            if (_tickers == null) PrepareTickingBuckets();
             // If this fails we are doomed!
             // --------------
             // Tick buckets
-            for (int i = 0; i < this._tickers.Length; i++) _tickers[i].Tick(currentTick);
+            for (int i = 0; i < _tickers.Length; i++) _tickers[i].Tick(currentTick);
         }
 
-        private void PrepareTickingBuckets()
+        private static void PrepareTickingBuckets()
         {
-            this._tickers = new BucketActionTicker[]
+            _tickers = new BucketActionTicker[]
             {
                 new BucketActionTicker(
                     onTickRare, GenTicks.TickRareInterval),
@@ -165,10 +167,10 @@ namespace RocketMan
                 new BucketActionTicker(
                     onTickLonger, GenTicks.TickLongInterval * Main.TickLongerMultiplier),
             };
-            this._tickers = _tickers.Where(t => !t.Empty).ToArray();
+            _tickers = _tickers.Where(t => !t.Empty).ToArray();
         }
 
-        private void CheckDebugging()
+        private static void CheckDebugging()
         {
             bool changed = false;
             switch (debugging)
@@ -266,6 +268,14 @@ namespace RocketMan
         /// </summary>
         [AttributeUsage(AttributeTargets.Method)]
         public class OnMapLoaded : Attribute
+        {
+        }
+
+        /// <summary>
+        /// The flaged function will be called after a map is removed
+        /// </summary>
+        [AttributeUsage(AttributeTargets.Method)]
+        public class OnMapDiscarded : Attribute
         {
         }
 
@@ -433,6 +443,15 @@ namespace RocketMan
                     RocketMan.Logger.Debug($"Bucket[{j++}].Count = {bucket.Count}");
                 }
             }
+        }
+    }
+
+    [StaticConstructorOnStartup]
+    internal static class Main_StaticConstructor
+    {
+        static Main_StaticConstructor()
+        {
+            Main.OnStaticConstructorOnStartup();
         }
     }
 }
