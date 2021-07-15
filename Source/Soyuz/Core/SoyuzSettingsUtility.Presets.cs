@@ -41,12 +41,6 @@ namespace Soyuz
                 partiallyThrottledJobs = new JobDef[]
                 {
                     JobDefOf.Wait,
-                    JobDefOf.Sow,
-                    JobDefOf.Clean,
-                    JobDefOf.CutPlant,
-                    JobDefOf.CutPlantDesignated,
-                    JobDefOf.Harvest,
-                    JobDefOf.HarvestDesignated,
                     JobDefOf.Follow,
                     JobDefOf.FollowClose,
                 };
@@ -55,6 +49,12 @@ namespace Soyuz
             {
                 notThrottledJobs = new JobDef[]
                 {
+                    JobDefOf.Sow,
+                    JobDefOf.Clean,
+                    JobDefOf.CutPlant,
+                    JobDefOf.CutPlantDesignated,
+                    JobDefOf.Harvest,
+                    JobDefOf.HarvestDesignated,
                     JobDefOf.DeliverFood,
                     JobDefOf.FeedPatient,
                     JobDefOf.Mine,

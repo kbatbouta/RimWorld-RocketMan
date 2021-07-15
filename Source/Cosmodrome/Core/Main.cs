@@ -102,7 +102,7 @@ namespace RocketMan
 
         public static void MapDiscarded(Map map)
         {
-            for (var i = 0; i < onWorldLoaded.Count; i++) onMapDiscarded[i].Invoke(map);
+            for (var i = 0; i < onMapDiscarded.Count; i++) onMapDiscarded[i].Invoke(map);
         }
 
         public static void DefsLoaded()
