@@ -5,6 +5,8 @@ namespace RocketMan
     {
         public static int LastFrame;
 
+        public static ContextFlag Context = ContextFlag.Unknown;
+
         public static int TicksSinceStarted = 0;
 
         public static bool DefsLoaded = false;

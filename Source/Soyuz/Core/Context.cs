@@ -17,6 +17,8 @@ namespace Soyuz
 
         public static Pawn ProfiledPawn;
 
+        public static bool PartiallyDilatedContext = false;
+
         public static JobSettings CurJobSettings;
 
         public static RaceSettings CurRaceSettings;

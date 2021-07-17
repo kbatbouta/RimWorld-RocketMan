@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Verse;
 
@@ -41,6 +42,17 @@ namespace RocketMan.Patches
                 }
                 yield return code;
             }
+        }
+    }
+
+    [RocketPatch(typeof(TickManager), nameof(TickManager.DoSingleTick))]
+    public static class TickManager_DoSingleTick_Context_Patch
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [HarmonyPriority(Priority.First)]
+        public static void Prefix()
+        {
+            RocketStates.Context = ContextFlag.Ticking;
         }
     }
 

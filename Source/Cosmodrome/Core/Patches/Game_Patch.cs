@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Verse;
 
@@ -21,6 +22,17 @@ namespace RocketMan.Patches
         public static void Postfix(Map map)
         {
             Main.MapDiscarded(map);
+        }
+    }
+
+    [RocketStartupPatch(typeof(Game), nameof(Game.UpdatePlay))]
+    public static class Game_UpdatePlay_Patch
+    {
+        [HarmonyPriority(Priority.First)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Postfix()
+        {
+            RocketStates.Context = ContextFlag.Updating;
         }
     }
 }

@@ -97,10 +97,11 @@ namespace Soyuz.Patches
                     pawn.drawer?.DrawTrackerTick();
                     pawn.rotationTracker?.RotationTrackerTick();
                 }
-                if (Context.CurJobSettings.throttleMode == JobThrottleMode.Partial)
+                if (Context.CurJobSettings.throttleMode == JobThrottleMode.Partial && pawn.pather != null && !pawn.pather.MovingNow)
                 {
                     Exception exception = null;
-                    RocketPrefs.TimeDilation = false;
+
+                    Context.PartiallyDilatedContext = true;
                     try
                     {
                         pawn.jobs.JobTrackerTick();
@@ -111,7 +112,7 @@ namespace Soyuz.Patches
                     }
                     finally
                     {
-                        RocketPrefs.TimeDilation = true;
+                        Context.PartiallyDilatedContext = false;
 
                         jobTrackerTicked = true;
                     }
@@ -121,10 +122,7 @@ namespace Soyuz.Patches
                     }
                 }
                 if (RocketDebugPrefs.FlashDilatedPawns)
-                {
-                    string flag = jobTrackerTicked ? "O" : "_";
-                    pawn.Map.debugDrawer.FlashCell(pawn.positionInt, 0.05f, $"{pawn.OffScreen()}{flag}", 100);
-                }
+                    pawn.Map.debugDrawer.FlashCell(pawn.positionInt, !jobTrackerTicked ? 0.05f : 0.5f, $"{pawn.OffScreen()}{(jobTrackerTicked ? "P" : "F")}", 100);
             }
         }
     }

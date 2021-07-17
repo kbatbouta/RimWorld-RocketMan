@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using RimWorld;
 using RocketMan.Optimizations;
@@ -51,6 +52,7 @@ namespace RocketMan
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetKey(StatWorker statWorker, StatRequest req, bool applyPostProcess)
         {
             unchecked
@@ -68,6 +70,19 @@ namespace RocketMan
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetKey(RoomStatDef stat, Room room)
+        {
+            int hash;
+            unchecked
+            {
+                hash = stat.GetHashCode();
+                hash = HashUtility.HashOne(hash, room.GetHashCode());
+            }
+            return hash;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetKey(TraverseParms traverseParms, LocalTargetInfo dest)
         {
             int hash;
@@ -80,6 +95,7 @@ namespace RocketMan
             return hash;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetKey(ThoughtDef def, Pawn pawn)
         {
             var hash = 0;
@@ -92,6 +108,7 @@ namespace RocketMan
             return hash;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetKey(StatRequest req)
         {
             unchecked
@@ -108,6 +125,7 @@ namespace RocketMan
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Dictionary<A, B> DeepCopy<A, B>(this Dictionary<A, B> dict)
         {
             var other = new Dictionary<A, B>();

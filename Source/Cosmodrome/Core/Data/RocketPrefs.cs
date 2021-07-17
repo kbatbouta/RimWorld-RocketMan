@@ -59,13 +59,13 @@ namespace RocketMan
         public static bool TimeDilationColonyAnimals = true;
 
         [Main.SettingsField(warmUpValue: false)]
-        public static bool TranslationCaching = true;
+        public static bool TranslationCaching = false;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool ThoughtsCaching = true;
 
         [Main.SettingsField(warmUpValue: false)]
-        public static bool StatGearCachingEnabled = false;
+        public static bool StatGearCachingEnabled = true;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool CorpsesRemovalEnabled = true;

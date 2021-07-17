@@ -29,43 +29,61 @@ namespace Soyuz
             {
                 fullyThrottledJobs = new JobDef[]
                 {
-                    JobDefOf.HaulToCell,
                     JobDefOf.Goto,
                     JobDefOf.LayDown,
                     JobDefOf.GotoWander,
                     JobDefOf.Wait_Wander,
+                    JobDefOf.Flick,
                 };
             }
             if (partiallyThrottledJobs == null)
             {
                 partiallyThrottledJobs = new JobDef[]
                 {
+                    JobDefOf.Clean,
+                    JobDefOf.ClearSnow,
+                    JobDefOf.Research,
                     JobDefOf.Wait,
                     JobDefOf.Follow,
                     JobDefOf.FollowClose,
+                    JobDefOf.Sow,
+                    JobDefOf.CutPlant,
+                    JobDefOf.CutPlantDesignated,
+                    JobDefOf.HaulToCell,
+                    JobDefOf.HaulToContainer,
+                    JobDefOf.Harvest,
+                    JobDefOf.HarvestDesignated,
+                    JobDefOf.Mine,
+                    JobDefOf.DoBill,
+                    JobDefOf.Ingest,
+                    JobDefOf.Repair,
+                    JobDefOf.BuildRoof,
+                    JobDefOf.Meditate,
+                    JobDefOf.Maintain,
+                    JobDefOf.FinishFrame,
+                    JobDefOf.HaulToTransporter,
+                    JobDefOf.PlantSeed,
+                    JobDefOf.RearmTurret,
+                    JobDefOf.RemoveFloor,
+                    JobDefOf.RemoveRoof,
+                    JobDefOf.Deconstruct,
+                    JobDefOf.SmoothWall,
+                    JobDefOf.SmoothFloor,
+                    JobDefOf.Uninstall,
+                    JobDefOf.OperateDeepDrill,
+                    JobDefOf.Repair,
                 };
             }
             if (notThrottledJobs == null)
             {
                 notThrottledJobs = new JobDef[]
                 {
-                    JobDefOf.Sow,
-                    JobDefOf.Clean,
-                    JobDefOf.CutPlant,
-                    JobDefOf.CutPlantDesignated,
-                    JobDefOf.Harvest,
-                    JobDefOf.HarvestDesignated,
                     JobDefOf.DeliverFood,
                     JobDefOf.FeedPatient,
-                    JobDefOf.Mine,
                     JobDefOf.SocialRelax,
-                    JobDefOf.FinishFrame,
                     JobDefOf.Refuel,
-                    JobDefOf.DoBill,
-                    JobDefOf.Ingest,
                     JobDefOf.TakeInventory,
                     JobDefOf.Capture,
-                    JobDefOf.Repair,
                     JobDefOf.AttackMelee,
                     JobDefOf.AttackStatic,
                     JobDefOf.CastAbilityOnThing,
