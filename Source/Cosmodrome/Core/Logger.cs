@@ -73,19 +73,26 @@ namespace RocketMan
 
         private static void AddStackTrace(StringBuilder stringBuilder, StackTrace trace)
         {
-            StackFrame[] frames = trace.GetFrames();
-            for (int i = 0; i < frames.Length; i += 2)
+            try
             {
-                stringBuilder.Append("\n");
-                for (int j = i; j < frames.Length && j < i + 2; j++)
+                StackFrame[] frames = trace.GetFrames();
+                for (int i = 0; i < frames.Length; i += 2)
                 {
-                    StackFrame frame = frames[j];
-                    MethodBase method = frame.GetMethod();
-                    string part = string.Format("{0}.{1}({2})", method.ReflectedType.FullName, method.Name, string.Join(",", method.GetParameters().Select(o => string.Format("{0} {1}", o.ParameterType, o.Name)).ToArray()));
-                    stringBuilder.Append($"\tAt {part}[{frame.GetFileLineNumber()}]");
+                    stringBuilder.Append("\n");
+                    for (int j = i; j < frames.Length && j < i + 2; j++)
+                    {
+                        StackFrame frame = frames[j];
+                        MethodBase method = frame.GetMethod();
+                        string part = string.Format("{0}.{1}({2})", method.ReflectedType.FullName, method.Name, string.Join(",", method.GetParameters().Select(o => string.Format("{0} {1}", o.ParameterType, o.Name)).ToArray()));
+                        stringBuilder.Append($"\tAt {part}[{frame.GetFileLineNumber()}]");
+                    }
                 }
+                stringBuilder.Append("\tStackTrace ended\n");
             }
-            stringBuilder.Append("\tStackTrace ended\n");
+            catch
+            {
+                stringBuilder.Append("\tStackTrace failed!\n");
+            }
         }
     }
 }
