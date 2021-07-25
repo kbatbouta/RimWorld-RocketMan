@@ -19,11 +19,11 @@ namespace Soyuz
 
         private static bool initialized = false;
 
-        private static Assembly vanilla;
+        // private static Assembly vanilla;
 
         private static void PreparePresets()
         {
-            vanilla = typeof(Find).Assembly;
+            // vanilla = typeof(Find).Assembly;
 
             if (fullyThrottledJobs == null)
             {
@@ -33,13 +33,16 @@ namespace Soyuz
                     JobDefOf.LayDown,
                     JobDefOf.GotoWander,
                     JobDefOf.Wait_Wander,
-                    JobDefOf.Flick,
+                    JobDefOf.Repair,
+                    JobDefOf.RemoveFloor,
+                    JobDefOf.RemoveRoof,
                 };
             }
             if (partiallyThrottledJobs == null)
             {
                 partiallyThrottledJobs = new JobDef[]
                 {
+                    JobDefOf.Flick,
                     JobDefOf.Clean,
                     JobDefOf.ClearSnow,
                     JobDefOf.Research,
@@ -64,14 +67,12 @@ namespace Soyuz
                     JobDefOf.HaulToTransporter,
                     JobDefOf.PlantSeed,
                     JobDefOf.RearmTurret,
-                    JobDefOf.RemoveFloor,
-                    JobDefOf.RemoveRoof,
                     JobDefOf.Deconstruct,
                     JobDefOf.SmoothWall,
                     JobDefOf.SmoothFloor,
                     JobDefOf.Uninstall,
                     JobDefOf.OperateDeepDrill,
-                    JobDefOf.Repair,
+                    JobDefOf.Refuel,
                 };
             }
             if (notThrottledJobs == null)
@@ -81,7 +82,6 @@ namespace Soyuz
                     JobDefOf.DeliverFood,
                     JobDefOf.FeedPatient,
                     JobDefOf.SocialRelax,
-                    JobDefOf.Refuel,
                     JobDefOf.TakeInventory,
                     JobDefOf.Capture,
                     JobDefOf.AttackMelee,
@@ -162,8 +162,7 @@ namespace Soyuz
             Log.Message("SOYUZ: Preset loaded!");
         }
 
-        private static string harmonyId = Finder.HarmonyID + ".Soyuz";
-
+        // private static string harmonyId = Finder.HarmonyID + ".Soyuz";
         // TODO: redo this
         // private static bool IsModifiedJob(JobDef def)
         // {
