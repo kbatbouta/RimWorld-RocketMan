@@ -109,7 +109,10 @@ namespace Soyuz
             try
             {
                 if (true
+                    && Prefs.DevMode
+                    && RocketDebugPrefs.Debug
                     && RocketDebugPrefs.LogData
+                    && RocketEnvironmentInfo.IsDevEnv
                     && Time.frameCount - RocketStates.LastFrame < 60
                     && pawn == Context.ProfiledPawn)
                 {

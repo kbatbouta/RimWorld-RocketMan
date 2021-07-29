@@ -11,10 +11,19 @@ namespace RocketMan
 {
     public static partial class GUIUtility
     {
+        private const int MAX_CACHE_SIZE = 10000;
+
         private readonly static Dictionary<GUITextState, float> textHeightCache = new Dictionary<GUITextState, float>(512);
+
+        [Main.OnTickLonger]
+        private static void Cleanup()
+        {
+            if (textHeightCache.Count > MAX_CACHE_SIZE) textHeightCache.Clear();
+        }
 
         public static string Fit(this string text, Rect rect)
         {
+            Cleanup();
             float height = GetTextHeight(text, rect.width);
             if (height <= rect.height)
             {
@@ -40,6 +49,7 @@ namespace RocketMan
 
         public static float CalcTextHeight(string text, float width)
         {
+            Cleanup();
             GUITextState key = GetGUIState(text, width);
             if (textHeightCache.TryGetValue(key, out float height))
             {

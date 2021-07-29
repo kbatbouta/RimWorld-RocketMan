@@ -58,7 +58,8 @@ namespace RocketMan
                     Log.Warning($"ROCKETMAN: RocketRule <color=red><Event method=\"{node.GetAttribute("method")}\"></color> is not implemented!");
                     return;
                 }
-                NotificationsManager.Register(packageId, type, method);
+                //
+                // NotificationsManager.Register(packageId, type, method);
                 return;
             }
             else if (node.Name == "Incompatibility")

@@ -13,14 +13,14 @@ namespace Soyuz
 {
     public static partial class ContextualExtensions
     {
-        private static readonly Dictionary<Pawn, PawnPerformanceModel> pawnPerformanceModels =
-           new Dictionary<Pawn, PawnPerformanceModel>();
-        private static readonly Dictionary<Pawn, PawnPatherModel> pawnPatherModels =
-            new Dictionary<Pawn, PawnPatherModel>();
-        private static readonly Dictionary<Pawn, Dictionary<Type, PawnNeedModel>> pawnNeedModels =
-            new Dictionary<Pawn, Dictionary<Type, PawnNeedModel>>();
-        private static readonly Dictionary<Pawn, Dictionary<Hediff, PawnHediffModel>> pawnHediffsModels =
-            new Dictionary<Pawn, Dictionary<Hediff, PawnHediffModel>>();
+        private static readonly Dictionary<int, PawnPerformanceModel> pawnPerformanceModels =
+           new Dictionary<int, PawnPerformanceModel>();
+        private static readonly Dictionary<int, PawnPatherModel> pawnPatherModels =
+            new Dictionary<int, PawnPatherModel>();
+        private static readonly Dictionary<int, Dictionary<Type, PawnNeedModel>> pawnNeedModels =
+            new Dictionary<int, Dictionary<Type, PawnNeedModel>>();
+        private static readonly Dictionary<int, Dictionary<Hediff, PawnHediffModel>> pawnHediffsModels =
+            new Dictionary<int, Dictionary<Hediff, PawnHediffModel>>();
 
         public static void UpdateModels(Pawn pawn)
         {
@@ -136,36 +136,36 @@ namespace Soyuz
         {
             if (pawn == null)
                 return null;
-            if (pawnPerformanceModels.TryGetValue(pawn, out var model))
+            if (pawnPerformanceModels.TryGetValue(pawn.thingIDNumber, out var model))
                 return model;
-            return pawnPerformanceModels[pawn] = new PawnPerformanceModel("Performance");
+            return pawnPerformanceModels[pawn.thingIDNumber] = new PawnPerformanceModel("Performance");
         }
 
         public static Dictionary<Type, PawnNeedModel> GetNeedModels(this Pawn pawn)
         {
             if (pawn == null)
                 return null;
-            if (pawnNeedModels.TryGetValue(pawn, out var model))
+            if (pawnNeedModels.TryGetValue(pawn.thingIDNumber, out var model))
                 return model;
-            return pawnNeedModels[pawn] = new Dictionary<Type, PawnNeedModel>();
+            return pawnNeedModels[pawn.thingIDNumber] = new Dictionary<Type, PawnNeedModel>();
         }
 
         public static Dictionary<Hediff, PawnHediffModel> GetHediffModels(this Pawn pawn)
         {
             if (pawn == null)
                 return null;
-            if (pawnHediffsModels.TryGetValue(pawn, out var model))
+            if (pawnHediffsModels.TryGetValue(pawn.thingIDNumber, out var model))
                 return model;
-            return pawnHediffsModels[pawn] = new Dictionary<Hediff, PawnHediffModel>();
+            return pawnHediffsModels[pawn.thingIDNumber] = new Dictionary<Hediff, PawnHediffModel>();
         }
 
         public static PawnPatherModel GetPatherModel(this Pawn pawn)
         {
             if (pawn == null)
                 return null;
-            if (pawnPatherModels.TryGetValue(pawn, out var model))
+            if (pawnPatherModels.TryGetValue(pawn.thingIDNumber, out var model))
                 return model;
-            return pawnPatherModels[pawn] = new PawnPatherModel("Pathing");
+            return pawnPatherModels[pawn.thingIDNumber] = new PawnPatherModel("Pathing");
         }
     }
 }

@@ -29,6 +29,8 @@ namespace RocketMan
 
     public class CachedDict<A, B>
     {
+        private const int MAX_CACHE_SIZE = 10000;
+
         private readonly Dictionary<A, CachedUnit<B>> cache = new Dictionary<A, CachedUnit<B>>();
 
         public B this[A key]
@@ -42,6 +44,7 @@ namespace RocketMan
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(A key, out B value, int expiry = 0)
         {
+            CleanUp();
             if (cache.TryGetValue(key, out var store))
             {
                 if (store.IsValid(expiry))
@@ -58,6 +61,7 @@ namespace RocketMan
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(A key, out B value, out bool failed, int expiry = 0)
         {
+            CleanUp();
             if (cache.TryGetValue(key, out var store))
             {
                 if (store.IsValid(expiry))
@@ -81,6 +85,11 @@ namespace RocketMan
         public void Remove(A key)
         {
             cache.Remove(key);
+        }
+
+        private void CleanUp()
+        {
+            if (MAX_CACHE_SIZE < cache.Count) cache.Clear();
         }
     }
 }

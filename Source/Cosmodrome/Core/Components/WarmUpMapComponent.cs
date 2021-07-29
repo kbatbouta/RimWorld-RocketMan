@@ -238,7 +238,7 @@ namespace RocketMan
             }
         }
 
-        private readonly Dictionary<Pawn, IntVec3> positionStash = new Dictionary<Pawn, IntVec3>();
+        private readonly Dictionary<int, IntVec3> positionStash = new Dictionary<int, IntVec3>();
 
         private void PopPawnsPosition()
         {
@@ -251,7 +251,7 @@ namespace RocketMan
                    || pawn.InContainerEnclosed
                    || pawn.Destroyed)
                     continue;
-                if (positionStash.TryGetValue(pawn, out IntVec3 stashedPosition)
+                if (positionStash.TryGetValue(pawn.thingIDNumber, out IntVec3 stashedPosition)
                     && (pawn.positionInt.DistanceTo(pawn.positionInt) >= 7.5f || (pawn.positionInt.InBounds(map) && !pawn.positionInt.Standable(map))))
                 {
                     pawn.jobs?.StopAll(true, true);
@@ -274,7 +274,7 @@ namespace RocketMan
                     || pawn.InContainerEnclosed
                     || pawn.Destroyed)
                     continue;
-                positionStash[pawn] = pawn.positionInt;
+                positionStash[pawn.thingIDNumber] = pawn.positionInt;
             }
         }
 

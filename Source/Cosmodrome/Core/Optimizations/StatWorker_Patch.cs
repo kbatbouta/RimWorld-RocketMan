@@ -36,6 +36,8 @@ namespace RocketMan.Optimizations
 
         private static bool hijackedCaller = false;
 
+        private const int MAX_CACHE_SIZE = 10000;
+
         private static Dictionary<int, CachedUnit> cache = new Dictionary<int, CachedUnit>();
 
         private static MethodBase mGetValueUnfinalized = AccessTools.Method(typeof(StatWorker), "GetValueUnfinalized", new[] { typeof(StatRequest), typeof(bool) });
@@ -192,6 +194,7 @@ namespace RocketMan.Optimizations
         private static float UpdateCache(int key, StatWorker statWorker, StatRequest req, bool applyPostProcess,
             int tick, bool storeExists = true)
         {
+            Cleanup();
             Exception error = null;
             float value = -1;
             try
@@ -224,6 +227,11 @@ namespace RocketMan.Optimizations
             }
             cache[key] = new CachedUnit(value, req.thingInt?.GetSignature() ?? -1);
             return value;
+        }
+
+        private static void Cleanup()
+        {
+            if (MAX_CACHE_SIZE < cache.Count) cache.Clear();
         }
     }
 }

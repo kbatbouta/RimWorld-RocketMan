@@ -12,9 +12,18 @@ namespace RocketMan.Optimizations
 {
     public static class Text_Patch
     {
+        private const int MAX_CACHE_SIZE = 10000;
+
         private static Dictionary<GUITextState, Vector2> cacheSize = new Dictionary<GUITextState, Vector2>();
 
         private static Dictionary<GUITextState, float> cacheHeight = new Dictionary<GUITextState, float>();
+
+        [Main.OnTickLonger]
+        private static void Cleanup()
+        {
+            if (cacheSize.Count > MAX_CACHE_SIZE) cacheHeight.Clear();
+            if (cacheHeight.Count > MAX_CACHE_SIZE) cacheHeight.Clear();
+        }
 
         [RocketPatch(typeof(Text), nameof(Text.CalcSize))]
         public static class CalcSize_Patch

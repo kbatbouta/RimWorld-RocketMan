@@ -11,10 +11,13 @@ namespace RocketMan
         private const char _A = 'A';
         private const char _Z = 'Z';
 
+        private const int MAX_CACHE_SIZE = 10000;
+
         private static readonly Dictionary<string, string> splitingCache = new Dictionary<string, string>();
 
         public static string SplitStringByCapitalLetters(this string inputString)
         {
+            if (MAX_CACHE_SIZE < splitingCache.Count) splitingCache.Clear();
             if (splitingCache.TryGetValue(inputString, out string outputString))
             {
                 return outputString;
