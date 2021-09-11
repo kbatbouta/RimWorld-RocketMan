@@ -6,7 +6,6 @@ using System.Security.Policy;
 using HarmonyLib;
 using UnityEngine;
 using Verse;
-using GUITextState = System.Tuple<string, Verse.GameFont, float, float, bool>;
 
 namespace RocketMan.Optimizations
 {
@@ -14,9 +13,11 @@ namespace RocketMan.Optimizations
     {
         private const int MAX_CACHE_SIZE = 10000;
 
-        private static Dictionary<GUITextState, Vector2> cacheSize = new Dictionary<GUITextState, Vector2>();
+        private static readonly IEqualityComparer<GUITextState> textStateEqualityComparer = new GUITextStateEqualityComparer();
 
-        private static Dictionary<GUITextState, float> cacheHeight = new Dictionary<GUITextState, float>();
+        private static Dictionary<GUITextState, Vector2> cacheSize = new Dictionary<GUITextState, Vector2>(textStateEqualityComparer);
+
+        private static Dictionary<GUITextState, float> cacheHeight = new Dictionary<GUITextState, float>(textStateEqualityComparer);
 
         [Main.OnTickLonger]
         private static void Cleanup()
@@ -40,7 +41,7 @@ namespace RocketMan.Optimizations
                 {
                     return !(shouldCache = false);
                 }
-                CalcSize_Patch.key = GetGUIState(text);
+                CalcSize_Patch.key = new GUITextState(text);
                 if (cacheSize.TryGetValue(key, out __result))
                 {
                     return shouldCache = false;
@@ -75,7 +76,7 @@ namespace RocketMan.Optimizations
                 {
                     return !(shouldCache = false);
                 }
-                CalcHeight_Patch.key = GetGUIState(text, width: width);
+                CalcHeight_Patch.key = new GUITextState(text, width: width);
                 if (cacheHeight.TryGetValue(key, out __result))
                 {
                     return shouldCache = false;
@@ -104,10 +105,40 @@ namespace RocketMan.Optimizations
             cacheHeight.Clear();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static GUITextState GetGUIState(string text, float width = float.MinValue)
+        private readonly struct GUITextState
         {
-            return new GUITextState(text, Text.fontInt, width, Prefs.UIScale, Text.wordWrapInt);
+            internal readonly string text;
+            internal readonly GameFont font;
+            internal readonly float width;
+            internal readonly float uiScale;
+            internal readonly bool wordWrap;
+
+            internal GUITextState(string text, float width = float.MinValue)
+            {
+                this.text = text;
+                this.width = width;
+                this.font = Text.fontInt;
+                this.uiScale = Prefs.UIScale;
+                this.wordWrap = Text.wordWrapInt;
+            }
+        }
+
+        private class GUITextStateEqualityComparer : IEqualityComparer<GUITextState>
+        {
+            public bool Equals(GUITextState x, GUITextState y)
+            {
+                if (x.text != y.text || x.width != y.width || x.font != y.font)
+                {
+                    return false;
+                }
+
+                return x.uiScale == y.uiScale && x.wordWrap == y.wordWrap;
+            }
+
+            public int GetHashCode(GUITextState obj)
+            {
+                return obj.text.GetHashCode() ^ obj.width.GetHashCode() ^ obj.font.GetHashCode() ^ obj.uiScale.GetHashCode() ^ obj.wordWrap.GetHashCode();
+            }
         }
     }
 }
