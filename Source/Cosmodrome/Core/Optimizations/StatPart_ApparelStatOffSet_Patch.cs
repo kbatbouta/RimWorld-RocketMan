@@ -24,7 +24,8 @@ namespace RocketMan.Optimizations
                 && req.HasThing
                 && req.thingInt is Pawn pawn
                 && RocketStates.Context == ContextFlag.Ticking
-                && !IgnoreMeDatabase.ShouldIgnore(__instance.apparelStat))
+                && !IgnoreMeDatabase.ShouldIgnore(__instance.apparelStat)
+                && Finder.SessionTicks >= 600)
             {
                 var stat = __instance.apparelStat ?? __instance.parentStat;
                 int key;
@@ -58,8 +59,11 @@ namespace RocketMan.Optimizations
         public static void Postfix(StatPart_ApparelStatOffset __instance, StatRequest req,
             ref float val)
         {
-            if (!skip && RocketPrefs.Enabled && RocketPrefs.StatGearCachingEnabled)
+            if (!skip)
+            {
                 cache[curKey] = new Pair<float, int>(Mathf.Abs(val - curValue), (req.thingInt as Pawn).GetSignature());
+                skip = true;
+            }
         }
 
         public static void Dirty(Pawn pawn)

@@ -172,9 +172,11 @@ namespace RocketMan.Optimizations
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static float Replacemant(StatWorker statWorker, StatRequest req, bool applyPostProcess)
         {
-            int tick = GenTicks.TicksGame;
-            if (RocketPrefs.Enabled && Current.Game != null && tick >= 600 && !IgnoreMeDatabase.ShouldIgnore(statWorker.stat))
+            if (RocketPrefs.Enabled && Current.Game != null && Finder.SessionTicks >= 600
+                && !IgnoreMeDatabase.ShouldIgnore(statWorker.stat)
+                && RocketStates.Context == ContextFlag.Ticking)
             {
+                int tick = GenTicks.TicksGame;
                 int key = Tools.GetKey(statWorker, req, applyPostProcess);
                 int signature = req.thingInt?.GetSignature() ?? -1;
 
@@ -211,12 +213,12 @@ namespace RocketMan.Optimizations
                 hijackedCaller = false;
                 if (error != null)
                 {
-                    Logger.Debug("ROCKETMAN:[NOTROCKETMAN] RocketMan caught an error in StatWorker.GetValueUnfinalized. " +
-                                 "RocketMan doesn't modify the inners of this method.", exception: error);
+                    Logger.Debug($"ROCKETMAN:[NOTROCKETMAN] RocketMan caught an error in StatWorker.GetValueUnfinalized. " +
+                                 $"RocketMan doesn't modify the inners of this method. {statWorker.stat} {statWorker.stat?.defName ?? "null stat for worker"}", exception: error);
                     throw error;
                 }
             }
-            if (RocketPrefs.Learning && storeExists)
+            if (storeExists && RocketPrefs.Learning)
             {
                 float t = RocketStates.StatExpiry[statWorker.stat.index];
                 float T = tick - store.tick;

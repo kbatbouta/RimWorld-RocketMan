@@ -62,9 +62,8 @@ namespace RocketMan.Gameplay
             foreach (var record in removalList)
             {
                 records.Remove(record);
-                if (record.thing is Corpse) corpses.Remove(record.thing);
+                if (record.thing is Corpse corpse) corpses.Remove(corpse);
             }
-
             removalList.Clear();
             stopwatch.Restart();
             while (destroyList.Count > 0 && stopwatch.ElapsedMilliseconds <= 10)
@@ -73,7 +72,7 @@ namespace RocketMan.Gameplay
                 {
                     var record = destroyList.Pop();
                     if (RocketDebugPrefs.Debug) Log.Message($"ROCKETMAN: removed thing {record.thing} with total removed {removedThingsCount + 1}");
-                    if (!record.thing.Destroyed) record.thing.Destroy();
+                    if (!(record.thing?.Destroyed ?? true)) record.thing?.Destroy();
                 }
                 catch (Exception er)
                 {

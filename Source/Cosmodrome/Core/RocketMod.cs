@@ -198,12 +198,12 @@ namespace RocketMan
                     if (Prefs.DevMode || RocketEnvironmentInfo.IsDevEnv)
                     {
                         collapsible_experimental.Begin(inRect, KeyedResources.RocketMan_Experimental);
-                        if (RocketEnvironmentInfo.IsDevEnv)
-                        {
-                            collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_TranslationCaching, ref RocketPrefs.TranslationCaching);
-                            collapsible_experimental.Line(1);
-                        }
-                        collapsible_experimental.Label(KeyedResources.RocketMan_Experimental_Description);
+                        // if (RocketEnvironmentInfo.IsDevEnv)
+                        // {
+                        //    collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_TranslationCaching, ref RocketPrefs.TranslationCaching);
+                        //    collapsible_experimental.Line(1);
+                        // }
+                        // collapsible_experimental.Label(KeyedResources.RocketMan_Experimental_Description);
                         bool devKeyEnabled = File.Exists(RocketEnvironmentInfo.DevKeyFilePath);
                         if (collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_Experimental_OptInBeta, ref devKeyEnabled))
                         {
