@@ -36,11 +36,11 @@ namespace Soyuz
                     case CameraZoomRange.Close:
                         return 3;
                     case CameraZoomRange.Middle:
-                        return (int) (30f * Context.Settings.dilationFactorOnscreen);
+                        return (int) (25 * Context.Settings.dilationFactorOnscreen);
                     case CameraZoomRange.Far:
-                        return (int) (35f * Context.Settings.dilationFactorOnscreen);
+                        return (int) (30 * Context.Settings.dilationFactorOnscreen);
                     case CameraZoomRange.Furthest:
-                        return (int) (40f * Context.Settings.dilationFactorOnscreen);
+                        return (int) (35 * Context.Settings.dilationFactorOnscreen);
                 }                
             }
         }
