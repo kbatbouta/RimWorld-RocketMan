@@ -21,27 +21,36 @@ namespace Soyuz
 
         private static readonly int[] _transformationCache = new int[TransformationCacheSize];
         private static readonly Dictionary<int, int> timers = new Dictionary<int, int>();
-
-        private static int DilationRate
+       
+        private static int DilationRateOnScreen
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
-            {
+            {                
                 switch (Context.ZoomRange)
                 {
                     default:
                         return 1;
                     case CameraZoomRange.Closest:
-                        return 15;
+                        return 2;
                     case CameraZoomRange.Close:
-                        return 15;
+                        return 3;
                     case CameraZoomRange.Middle:
-                        return 19;
+                        return (int) (30f * Context.Settings.dilationFactorOnscreen);
                     case CameraZoomRange.Far:
-                        return 20;
+                        return (int) (35f * Context.Settings.dilationFactorOnscreen);
                     case CameraZoomRange.Furthest:
-                        return 21;
-                }
+                        return (int) (40f * Context.Settings.dilationFactorOnscreen);
+                }                
+            }
+        }
+
+        private static int DilationRateOffScreen
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return (int) (45 * Context.Settings.dilationFactorOffscreen);
             }
         }
 
@@ -185,7 +194,7 @@ namespace Soyuz
             if (Context.DilationFastMovingRace[pawn.def.index])
                 return (pawn.thingIDNumber + tick) % 2 == 0;
 
-            return !pawn.OffScreen() ? ((pawn.thingIDNumber + tick) % 3 == 0) : ((pawn.thingIDNumber + tick) % DilationRate == 0);
+            return !pawn.OffScreen() ? ((pawn.thingIDNumber + tick) % DilationRateOnScreen == 0) : ((pawn.thingIDNumber + tick) % DilationRateOffScreen == 0);
         }
 
         private static Pawn _pawnScreen;

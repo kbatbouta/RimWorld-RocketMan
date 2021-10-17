@@ -22,6 +22,10 @@ namespace Soyuz.Tabs
 
         public static readonly Color disabledColor = new Color(0.972f, 0.070f, 0.137f, 0.2f);
 
+        private string buffer1;
+
+        private string buffer2;
+
         private Vector2 scrollPosition = Vector2.zero;
 
         private Vector2 jobsScrollPosition = Vector2.zero;
@@ -81,6 +85,49 @@ namespace Soyuz.Tabs
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_Enable, ref RocketPrefs.TimeDilation);
             collapsible.Line(1);
             collapsible.Label(KeyedResources.Soyuz_GeneralTip);
+            collapsible.Line(1);
+            collapsible.Label(KeyedResources.Soyuz_DilationFactor);
+            collapsible.Lambda(50, (rect) =>
+            {                
+                RocketMan.GUIUtility.Row(rect.TopHalf(), new List<Action<Rect>>()
+                {
+                    (tempRect) =>
+                    {
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
+                        GUIFont.Font = GUIFontSize.Tiny;
+                        Widgets.Label(tempRect, KeyedResources.Soyuz_DilationFactor_OffScreen);
+                    },
+                    (tempRect) =>
+                    {
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
+                        GUIFont.Font = GUIFontSize.Tiny;
+                        Widgets.Label(tempRect, KeyedResources.Soyuz_DilationFactor_OnScreen);
+                    },
+                }, drawDivider: false);
+                RocketMan.GUIUtility.Row(rect.BottomHalf(), new List<Action<Rect>>()
+                {
+                     (tempRect) =>
+                    {
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
+                        GUIFont.Font = GUIFontSize.Tiny;
+                        if (buffer1 == null)
+                        {
+                            buffer1 = $"{Context.Settings.dilationFactorOffscreen}";
+                        }
+                        Widgets.TextFieldNumeric(tempRect, ref Context.Settings.dilationFactorOffscreen, ref buffer1, 0.2f, 1.2f);
+                    },
+                    (tempRect) =>
+                    {
+                        GUIFont.Anchor = TextAnchor.MiddleLeft;
+                        GUIFont.Font = GUIFontSize.Tiny;
+                        if (buffer2 == null)
+                        {
+                            buffer2 = $"{Context.Settings.dilationFactorOnscreen}";
+                        }
+                        Widgets.TextFieldNumeric(tempRect, ref Context.Settings.dilationFactorOnscreen, ref buffer2, 0.2f, 0.8f);
+                    },
+                }, drawDivider: false);
+            }, useMargins: true);
             collapsible.Line(1);
             collapsible.CheckboxLabeled(KeyedResources.Soyuz_EnableTimeWildlife, ref RocketPrefs.TimeDilationWildlife, disabled: !RocketPrefs.TimeDilation);
             // TODO redo this

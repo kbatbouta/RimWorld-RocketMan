@@ -164,6 +164,10 @@ namespace Soyuz
 
         public List<JobSettings> AllJobsSettings = new List<JobSettings>();
 
+        public float dilationFactorOffscreen = 0.8f;
+
+        public float dilationFactorOnscreen = 0.2f;
+
         public bool Fresh
         {
             get => fresh;
@@ -183,9 +187,15 @@ namespace Soyuz
                 AllRaceSettings = new List<RaceSettings>();
             }
             if (AllJobsSettings == null)
-            {
+            { 
                 AllJobsSettings = new List<JobSettings>();
             }
+            Scribe_Values.Look(ref dilationFactorOffscreen, "dilationFactorOffscreen", 0.6f);
+            if (dilationFactorOffscreen < 0.6f)
+                dilationFactorOffscreen = 0.6f;
+            Scribe_Values.Look(ref dilationFactorOnscreen, "dilationFactorOnscreen", 0.2f);
+            if (dilationFactorOnscreen < 0.2f)
+                dilationFactorOnscreen = 0.2f;
         }
     }
 }

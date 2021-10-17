@@ -80,7 +80,7 @@ namespace RocketMan
         public static bool MainButtonToggle = true;
 
         [Main.SettingsField(warmUpValue: false)]
-        public static bool DisableForcedSlowdowns = false;
+        public static bool DisableForcedSlowdowns = false;               
 
         public static bool PauseAfterWarmup = false;
 

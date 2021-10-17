@@ -81,7 +81,7 @@ namespace Soyuz.Patches
                 __instance?.UpdateTimers();
                 ContextualExtensions.Reset();
 
-                Logger.Debug("SOYUZ:[NOTSOYUZ] Soyuz caught an error while a pawn is ticking. Soyuz probably didn't cause it since this is just used to catch the exception and reset the state. Unless Soyuz is in the StackTrace it's not it.", exception: __exception);
+                Logger.Debug("SOYUZ:[README] !!IMPORTANT!! There is a large chance this error is not related to RocketMan at all. RocketMan has patch on pawns that enables throttling, it will cause it to appear in the stacktrace and in visual exceptions, but in 99.9% of the time it's not RocketMan causing this issue but something down the line. RocketMan patches Pawn.Tick function just to add the throttling ability, the new code doesn't have any known issues and the issue is most likely futher down the line ", exception: __exception);
             }
             return __exception;
         }
