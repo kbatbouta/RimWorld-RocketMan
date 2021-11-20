@@ -17,13 +17,11 @@ namespace Proton
         }
 
         public static Dictionary<string, AlertSettings> TypeIdToSettings = new Dictionary<string, AlertSettings>();
-
         public static Dictionary<Alert, AlertSettings> AlertToSettings = new Dictionary<Alert, AlertSettings>();
 
         public static AlertsReadout ReadoutInstance;
 
         public static AlertSettings[] AlertSettingsByIndex;
-
         public static Alert[] Alerts;
     }
 }

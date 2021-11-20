@@ -166,50 +166,16 @@ namespace Proton
                         if (selection_collapsible.CheckboxLabeled("Proton.Enabled".Translate() + "</color>", ref curSettings.enabledInt))
                         {
                             curSettings.UpdateAlert(true);
+                            RocketMod.Instance.WriteSettings();
                         }
                         if (selection_collapsible.CheckboxLabeled("Proton.IgnoreThis".Translate(), ref curSettings.ignored))
                         {
                             curSettings.UpdateAlert(true);
+                            RocketMod.Instance.WriteSettings();
                         }
                         selection_collapsible.End(ref inRect);
                     });
-                    inRect.y += 5;
-                    //RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
-                    //{
-                    //    Text.Anchor = TextAnchor.MiddleLeft;
-                    //    Rect curRect = inRect.TopPartPixels(80);
-                    //    Widgets.DrawMenuSection(curRect);
-                    //    curRect.xMax -= 2;
-                    //    Rect closeRect = curRect.TopPartPixels(20).RightPartPixels(20);
-                    //    closeRect.x -= 3;
-                    //    closeRect.y += 3;
-                    //    if (Widgets.ButtonImage(closeRect, TexButton.CloseXSmall, true))
-                    //    {
-                    //        curAlert = null;
-                    //        curSettings = null;
-                    //        return;
-                    //    }
-                    //    curRect.xMin += 5;
-                    //    RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>
-                    //    {
-                    //        GUIFont.Font = GameFont.Small;
-                    //        //
-                    //        // Text.CurFontStyle.fontStyle = FontStyle.Bold;
-                    //        Widgets.Label(curRect.TopPartPixels(30), $"Selection: {curAlert.GetName()}");
-                    //    });
-                    //    curRect.yMin += 33;
-                    //    bool enabled = curSettings.enabledInt;
-                    //    string color = enabled ? "white" : "red";
-                    //    RocketMan.GUIUtility.CheckBoxLabeled(curRect.TopPartPixels(20), $"<color={color}>" + "Proton.Enabled".Translate() + "</color>", ref enabled);
-                    //    if (enabled != curSettings.enabledInt && enabled)
-                    //    {
-                    //        curSettings.UpdateAlert(true);
-                    //    }
-                    //    curSettings.Enabled = enabled;
-                    //    curRect.yMin += 20;
-                    //    RocketMan.GUIUtility.CheckBoxLabeled(curRect.TopPartPixels(20), "Proton.IgnoreThis".Translate(), ref curSettings.ignored);
-                    //    inRect.yMin += 85;
-                    //});
+                    inRect.y += 5;                  
                 }
             });
             RocketMan.GUIUtility.ExecuteSafeGUIAction(() =>

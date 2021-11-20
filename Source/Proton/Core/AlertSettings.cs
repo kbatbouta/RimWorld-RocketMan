@@ -12,13 +12,14 @@ namespace Proton
 {
     public class AlertSettings : IExposable
     {
+        private int counter;
+        private float avgT;
+        private Stopwatch stopwatch = new Stopwatch();
+
         public string typeId;
-
         public Alert alert;
-
         public bool enabledInt = true;
-
-        public bool ignored = false;
+        public bool ignored;        
 
         public bool Enabled
         {
@@ -68,17 +69,7 @@ namespace Proton
                     return true;
                 return 10f * avgT <= elapsedSeconds / 4.0f;
             }
-        }
-
-        private int counter = 0;
-
-        private float avgT = 0f;
-
-        private Stopwatch stopwatch = new Stopwatch();
-
-        private int lastVersion;
-
-        private const int SettingsVersion = 1;
+        }        
 
         public AlertSettings()
         {
@@ -87,7 +78,7 @@ namespace Proton
         public AlertSettings(string typeId)
         {
             this.typeId = typeId;
-            this.Verify();
+            this.Setup();
         }
 
         public void UpdatePerformanceMetrics(float t)
@@ -108,17 +99,11 @@ namespace Proton
         }
 
         public void ExposeData()
-        {
+        {         
             Scribe_Values.Look(ref ignored, "ignore", false);
             Scribe_Values.Look(ref typeId, "typeId");
             Scribe_Values.Look(ref enabledInt, "enabled2", true);
-            Scribe_Values.Look(ref avgT, "avgT", 0.05f);
-            Scribe_Values.Look(ref lastVersion, "lastVersion_NewTemp", defaultValue: -1);
-            if (lastVersion != SettingsVersion)
-            {
-                this.lastVersion = SettingsVersion;
-                this.Verify();
-            }
+            Scribe_Values.Look(ref avgT, "avgT", 0.05f);                        
         }
 
         public void UpdateAlert(bool removeReadout = true)
@@ -145,7 +130,7 @@ namespace Proton
             }
         }
 
-        private void Verify()
+        private void Setup()
         {
             string temp = typeId.ToLower();
             if (temp.Contains("lowfood"))

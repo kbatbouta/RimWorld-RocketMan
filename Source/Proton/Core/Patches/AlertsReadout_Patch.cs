@@ -26,27 +26,27 @@ namespace Proton
 
         public static void Postfix(AlertsReadout __instance)
         {
-            Context.Alerts = __instance.AllAlerts.ToArray();
-            Context.AlertSettingsByIndex = new AlertSettings[Context.Alerts.Length];
+            bool shouldSave = false;
             int index = 0;
+            Context.Alerts = __instance.AllAlerts.ToArray();
+            Context.AlertSettingsByIndex = new AlertSettings[Context.Alerts.Length];            
             Context.ReadoutInstance = __instance;
             foreach (Alert alert in Context.Alerts)
             {
                 string id = alert.GetType().FullName;
-                if (Context.TypeIdToSettings.TryGetValue(alert.GetType().FullName, out AlertSettings settings))
-                {
-                    Context.AlertSettingsByIndex[index] = settings;
-                }
-                else
+                if (!Context.TypeIdToSettings.TryGetValue(id, out AlertSettings settings))
                 {
                     settings = new AlertSettings(id);
                     Context.TypeIdToSettings[id] = settings;
-                    Context.AlertSettingsByIndex[index] = settings;
+                    shouldSave = true;
                 }
+                Context.AlertSettingsByIndex[index] = settings;
                 Context.AlertToSettings[alert] = settings;
                 settings.alert = alert;
                 index++;
             }
+            if (shouldSave)            
+                RocketMod.Instance.WriteSettings();            
         }
     }
 
