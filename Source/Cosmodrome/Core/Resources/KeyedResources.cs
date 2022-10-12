@@ -6,7 +6,7 @@ namespace RocketMan
     // Auto generated file!
     // -------------------------------------------------
     // This file is auto generated! Mod path is:
-    // /Users/karimbatbouta/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/RimWorld-RocketMan/1.3/Languages/English/Keyed/Translations.xml
+    // solutionPath/..\..\..\/1.4/Languages/English/Keyed/Translations.xml
     // -------------------------------------------------
     /// <summary> 
     /// <para>Keyed string database. This Class is generated automatically by a T4 template <c>Source/Resources/KeyedResources.tt</c></para> 
@@ -596,7 +596,7 @@ namespace RocketMan
         private static TaggedString _Soyuz_DilationFactor = null;
         /// <summary> Keyed string with key <c>Soyuz.DilationFactor</c> with inner text set to:
         ///
-        /// <code>Dilation Factors are numbers from 0.1 to 1.0. The lower the number used, dilation will be done at a lower rate. Higher number results in performance increase but introduce the chance of animation issues. Recommended value is 0.8 for offscreen and 0.2 for on screen.</code>
+        /// <code>Dilation Factors are numbers from 0.1 to 1.0. The lower the number used, dilation will be done at a lower rate. Higher number results in performance increase but introduce the chance of animation issues. Recommended value is 0.6 for offscreen and 0.2 for on screen.</code>
         /// </summary>       
         public static TaggedString Soyuz_DilationFactor {
             get => _Soyuz_DilationFactor != null ? 

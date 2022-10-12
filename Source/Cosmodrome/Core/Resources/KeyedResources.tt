@@ -1,6 +1,6 @@
 ﻿<#@ template language="C#" #>
-<#@ assembly name="System.Core" #>
-<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ assembly name="System.Xml.dll" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Xml" #>
@@ -11,13 +11,12 @@
 <#@ output extension=".cs" #>
 <#  
     // Constants  
-    string englishLanguagePath = "1.3/Languages/English/Keyed/Translations.xml";
+    string englishLanguagePath = "1.4/Languages/English/Keyed/Translations.xml";
     // ->                                    <-
     // Gives you the location of MySolution.sln
     string solutionPath = Host.ResolveAssemblyReference("$(SolutionDir)"); 
-    // Gives you the mod path
-    
-    string modPath = System.IO.Directory.GetParent(solutionPath).ToString();         
+    // Gives you the mod path    
+    string modPath = Path.Combine("solutionPath", "..\\..\\..\\");         
     XmlDocument doc = new XmlDocument();
     doc.Load(Path.Combine(modPath, englishLanguagePath));
 #>

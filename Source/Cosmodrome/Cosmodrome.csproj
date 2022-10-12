@@ -10,7 +10,7 @@
 		<Optimize>true</Optimize>
 		<DebugType>pdbonly</DebugType>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<!--<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>-->
+		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<ReleaseVersion>0.6.3.2190</ReleaseVersion>
@@ -31,13 +31,14 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3389" GeneratePathProperty="true" />
-		<PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime" />
+		<PackageReference Include="Mono.TextTransform" Version="1.0.0" GeneratePathProperty="true" ExcludeAssets="runtime" />
+		<PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime" />		
 		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
 		<PackageReference Include="Microsoft.NETCore.Platforms" Version="5.0.3" />
 		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.2">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
+		</PackageReference>				
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Core\" />
@@ -90,6 +91,9 @@
 		<None Remove="System.Core" />
 		<None Remove="System.Xml" />
 		<None Remove="System.Xml.Linq" />
+		<None Remove="Microsoft.VisualStudio.TextTemplating.15.0" />
+		<None Remove="Mono.TextTemplating" />
+		<None Remove="Mono.TextTransform" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
@@ -114,11 +118,7 @@
 		</None>
 		<None Update="..\..\1.4\Extras\RocketRules_Incompatibilities.xml">
 			<Link>Assets\Extras\\RocketRules_Incompatibilities.xml</Link>
-		</None>
-		<None Update="Resources\KeyedResources.tt">
-			<Generator>TextTemplatingFileGenerator</Generator>
-			<LastGenOutput>KeyedResources.cs</LastGenOutput>
-		</None>
+		</None>		
 		<None Update="..\..\1.4\Defs\KeyBinding.xml">
 			<Link>Assets\Defs\\KeyBinding.xml</Link>
 		</None>
@@ -165,13 +165,23 @@
 			<Link>Assets\Languages\Italian\Keyed\\Translations.xml</Link>
 		</None>
 	</ItemGroup>
+	<!-- Work around to generate T4 files on Mac -->
+	<Target Name="Generate Files" BeforeTargets="BeforeBuild">
+		<PropertyGroup>
+			<TextTransform>$(PkgMono_TextTransform)\tools\TextTransform.exe</TextTransform>
+			<KeyedResources>Core\Resources\KeyedResources</KeyedResources>
+			<AssemblyInfo>Properties\AssemblyInfo</AssemblyInfo>
+		</PropertyGroup>
+		<Exec WorkingDirectory="$(ProjectDir)" Command="$(TextTransform) --out=$(AssemblyInfo).cs $(AssemblyInfo).tt" />		
+		<Exec WorkingDirectory="$(ProjectDir)" Command="$(TextTransform) --out=$(KeyedResources).cs $(KeyedResources).tt" />
+	</Target>
 	<ItemGroup>
 		<Reference Include="BCnEncoderNet45">
 			<HintPath>..\BCnEncoder\BCnEncoderNet45.dll</HintPath>
-		</Reference>
-	</ItemGroup>
+		</Reference>		
+	</ItemGroup>	
 	<PropertyGroup>
-		<TransformOnBuild>true</TransformOnBuild>
+		<TransformOnBuild>false</TransformOnBuild>
 	</PropertyGroup>
 	<!-- Just for now -->
 	<Target Name="UpdateOutdatedKrafs" BeforeTargets="Publicise">
