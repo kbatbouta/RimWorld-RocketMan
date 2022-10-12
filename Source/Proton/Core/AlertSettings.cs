@@ -19,7 +19,7 @@ namespace Proton
         public string typeId;
         public Alert alert;
         public bool enabledInt = true;
-        public bool ignored;        
+        public bool ignored;
 
         public bool Enabled
         {
@@ -69,7 +69,7 @@ namespace Proton
                     return true;
                 return 10f * avgT <= elapsedSeconds / 4.0f;
             }
-        }        
+        }
 
         public AlertSettings()
         {
@@ -99,11 +99,11 @@ namespace Proton
         }
 
         public void ExposeData()
-        {         
+        {
             Scribe_Values.Look(ref ignored, "ignore", false);
             Scribe_Values.Look(ref typeId, "typeId");
             Scribe_Values.Look(ref enabledInt, "enabled2", true);
-            Scribe_Values.Look(ref avgT, "avgT", 0.05f);                        
+            Scribe_Values.Look(ref avgT, "avgT", 0.05f);
         }
 
         public void UpdateAlert(bool removeReadout = true)

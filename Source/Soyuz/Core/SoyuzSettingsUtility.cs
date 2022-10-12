@@ -78,6 +78,9 @@ namespace Soyuz
 
                 Context.Settings.AllJobsSettings.Add(new JobSettings(def));
             }
+            Context.Settings.AllJobsSettings = Context.Settings.AllJobsSettings
+                .AsParallel()
+                .Where(s => s?.def != null).ToList();
             foreach (JobSettings settings in Context.Settings.AllJobsSettings)
             {
                 settings.Prepare();

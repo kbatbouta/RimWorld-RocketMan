@@ -10,3 +10,4 @@ Source/.mfractor/
 *.cache
 *.pdb
 *.vs
+.DS_Store

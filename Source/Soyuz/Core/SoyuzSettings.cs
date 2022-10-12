@@ -143,7 +143,7 @@ namespace Soyuz
 
         public void Prepare(bool updating = false)
         {
-            if (!updating)
+            if (!updating && def != null)
             {
                 Context.JobDilationByDef[def] = this;
             }
@@ -189,7 +189,7 @@ namespace Soyuz
             if (AllJobsSettings == null)
             { 
                 AllJobsSettings = new List<JobSettings>();
-            }
+            }            
             Scribe_Values.Look(ref dilationFactorOffscreen, "dilationFactorOffscreen", 0.6f);
             if (dilationFactorOffscreen < 0.6f)
                 dilationFactorOffscreen = 0.6f;

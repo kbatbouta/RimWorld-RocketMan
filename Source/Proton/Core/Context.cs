@@ -8,7 +8,6 @@ namespace Proton
     public static class Context
     {
         public static ProtonSettings settingsInt;
-
         public static ProtonSettings Settings
         {
             get => settingsInt != null ? settingsInt : settingsInt = new ProtonSettings();

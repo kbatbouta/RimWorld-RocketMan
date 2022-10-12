@@ -92,11 +92,11 @@ namespace Soyuz.Patches
             if (pawn.Spawned)
             {
                 pawn.stances?.StanceTrackerTick();
-                if (!pawn.OffScreen())
-                {
-                    pawn.drawer?.DrawTrackerTick();
-                    pawn.rotationTracker?.RotationTrackerTick();
-                }
+                //if (!pawn.OffScreen())
+                //{
+                //    pawn.drawer?.DrawTrackerTick();
+                //    pawn.rotationTracker?.RotationTrackerTick();
+                //}
                 if (Context.CurJobSettings.throttleMode == JobThrottleMode.Partial && pawn.pather != null && !pawn.pather.MovingNow)
                 {
                     Exception exception = null;
