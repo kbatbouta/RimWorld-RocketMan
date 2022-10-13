@@ -123,8 +123,7 @@ namespace RocketMan
             // --------------
             // load xml data and parse it
             IgnoreMeDatabase.ParsePrepare();
-            IncompatibilityHelper.Prepare();
-            NotificationsManager.HookAll();
+            IncompatibilityHelper.Prepare();            
             // --------------
             // start patching
             RocketPatcher.PatchAll();

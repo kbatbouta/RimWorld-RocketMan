@@ -41,27 +41,7 @@ namespace RocketMan
                     IgnoreMeDatabase.AddPackageId(node.GetAttribute("packageId"));
                     return;
                 }
-            }
-            else if (node.Name == "Notify")
-            {
-                if (!node.HasAttribute("type"))
-                    return;
-                if (!node.HasAttribute("packageId"))
-                    return;
-                if (!node.HasAttribute("method"))
-                    return;
-                string type = node.GetAttribute("type");
-                string packageId = node.GetAttribute("type");
-                MethodBase method = AccessTools.Method(node.GetAttribute("method"));
-                if (method == null)
-                {
-                    Log.Warning($"ROCKETMAN: RocketRule <color=red><Event method=\"{node.GetAttribute("method")}\"></color> is not implemented!");
-                    return;
-                }
-                //
-                // NotificationsManager.Register(packageId, type, method);
-                return;
-            }
+            }            
             else if (node.Name == "Incompatibility")
             {
                 if (!node.HasAttribute("packageId"))

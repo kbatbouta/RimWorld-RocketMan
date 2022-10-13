@@ -81,7 +81,7 @@ namespace Soyuz.Patches
                 __instance?.UpdateTimers();
                 ContextualExtensions.Reset();
 
-                Logger.Debug("SOYUZ:[README] !!IMPORTANT!! There is a large chance this error is not related to RocketMan at all. RocketMan has patch on pawns that enables throttling, it will cause it to appear in the stacktrace and in visual exceptions, but in 99.9% of the time it's not RocketMan causing this issue but something down the line. RocketMan patches Pawn.Tick function just to add the throttling ability, the new code doesn't have any known issues and the issue is most likely futher down the line ", exception: __exception);
+                Logger.Debug("Soyuz caught this error. Please don't report this to the RocketMan team unless you're certain RocketMan caused this error.", exception: __exception);
             }
             return __exception;
         }
@@ -92,11 +92,7 @@ namespace Soyuz.Patches
             if (pawn.Spawned)
             {
                 pawn.stances?.StanceTrackerTick();
-                //if (!pawn.OffScreen())
-                //{
-                //    pawn.drawer?.DrawTrackerTick();
-                //    pawn.rotationTracker?.RotationTrackerTick();
-                //}
+                
                 if (Context.CurJobSettings.throttleMode == JobThrottleMode.Partial && pawn.pather != null && !pawn.pather.MovingNow)
                 {
                     Exception exception = null;

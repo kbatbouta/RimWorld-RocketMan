@@ -37,13 +37,13 @@ namespace RocketMan
             return 960;
         }
 
-        public static void Notify_Dirty(this Pawn pawn)
+        public static void Notify_Dirty(this Thing thing)
         {
             try
             {
-                if (pawn != null)
+                if (thing != null)
                 {
-                    pawn.GetSignature(dirty: true);
+                    thing.GetSignature(dirty: true);
                 }
             }
             catch (Exception er)
