@@ -1063,6 +1063,56 @@ namespace RocketMan
                    _Proton_TimeSinceLast : _Proton_TimeSinceLast = "Proton.TimeSinceLast".Translate();
         }             
                            
+        private static TaggedString _Proton_GlowGrid = null;
+        /// <summary> Keyed string with key <c>Proton.GlowGrid</c> with inner text set to:
+        ///
+        /// <code>GlowGrid Optimization</code>
+        /// </summary>       
+        public static TaggedString Proton_GlowGrid {
+            get => _Proton_GlowGrid != null ? 
+                   _Proton_GlowGrid : _Proton_GlowGrid = "Proton.GlowGrid".Translate();
+        }             
+                           
+        private static TaggedString _Proton_GlowGrid_Enable = null;
+        /// <summary> Keyed string with key <c>Proton.GlowGrid.Enable</c> with inner text set to:
+        ///
+        /// <code>GlowGrid Optimization</code>
+        /// </summary>       
+        public static TaggedString Proton_GlowGrid_Enable {
+            get => _Proton_GlowGrid_Enable != null ? 
+                   _Proton_GlowGrid_Enable : _Proton_GlowGrid_Enable = "Proton.GlowGrid.Enable".Translate();
+        }             
+                           
+        private static TaggedString _Proton_GlowGrid_Description = null;
+        /// <summary> Keyed string with key <c>Proton.GlowGrid.Description</c> with inner text set to:
+        ///
+        /// <code>In the event of map lighting change this optimization will ensure that only a small part of the GlowGrid is updated.</code>
+        /// </summary>       
+        public static TaggedString Proton_GlowGrid_Description {
+            get => _Proton_GlowGrid_Description != null ? 
+                   _Proton_GlowGrid_Description : _Proton_GlowGrid_Description = "Proton.GlowGrid.Description".Translate();
+        }             
+                           
+        private static TaggedString _Proton_GlowGrid_Limiter = null;
+        /// <summary> Keyed string with key <c>Proton.GlowGrid.Limiter</c> with inner text set to:
+        ///
+        /// <code>Increase the number of Glowers required</code>
+        /// </summary>       
+        public static TaggedString Proton_GlowGrid_Limiter {
+            get => _Proton_GlowGrid_Limiter != null ? 
+                   _Proton_GlowGrid_Limiter : _Proton_GlowGrid_Limiter = "Proton.GlowGrid.Limiter".Translate();
+        }             
+                           
+        private static TaggedString _Proton_GlowGrid_Limiter_Tip = null;
+        /// <summary> Keyed string with key <c>Proton.GlowGrid.Limiter.Tip</c> with inner text set to:
+        ///
+        /// <code>Increase the number of Glowers required for the optimization. This will make Proton default to vanilla code in case of very few Glowers. This will provide a more consistent boost.</code>
+        /// </summary>       
+        public static TaggedString Proton_GlowGrid_Limiter_Tip {
+            get => _Proton_GlowGrid_Limiter_Tip != null ? 
+                   _Proton_GlowGrid_Limiter_Tip : _Proton_GlowGrid_Limiter_Tip = "Proton.GlowGrid.Limiter.Tip".Translate();
+        }             
+                           
         private static TaggedString _Gagarin_ParsingReports = null;
         /// <summary> Keyed string with key <c>Gagarin.ParsingReports</c> with inner text set to:
         ///

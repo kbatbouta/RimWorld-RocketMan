@@ -90,6 +90,8 @@ namespace RocketMan
 
         private static readonly Listing_Collapsible collapsible_other = new Listing_Collapsible(group);
 
+        private static readonly Listing_Collapsible collapsible_GlowGrid = new Listing_Collapsible(group);
+
         private static readonly Listing_Collapsible collapsible_debug = new Listing_Collapsible(group);
 
         private static readonly Listing_Collapsible collapsible_experimental = new Listing_Collapsible(group);
@@ -111,8 +113,11 @@ namespace RocketMan
                 collapsible_debug.Group = group;
                 group.Register(collapsible_debug);
 
+                collapsible_GlowGrid.Group = group;
+                group.Register(collapsible_GlowGrid);
+
                 collapsible_experimental.Group = group;
-                group.Register(collapsible_experimental);
+                group.Register(collapsible_experimental);                
             }
             GUIUtility.ExecuteSafeGUIAction(() =>
             {
@@ -188,12 +193,25 @@ namespace RocketMan
                     inRect.yMin += 5;
 
                     collapsible_other.Begin(inRect, "RocketMan.StatCacheSettings".Translate());
+                    
 
                     collapsible_other.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
                     collapsible_other.CheckboxLabeled("RocketMan.AdaptiveAlert.Label".Translate(), ref RocketPrefs.LearningAlertEnabled, "RocketMan.AdaptiveAlert.Description".Translate());
                     collapsible_other.CheckboxLabeled("RocketMan.EnableGearStatCaching".Translate(), ref RocketPrefs.StatGearCachingEnabled);
                     collapsible_other.End(ref inRect);
                     inRect.yMin += 5;
+
+                    collapsible_GlowGrid.Begin(inRect, KeyedResources.Proton_GlowGrid);
+                    collapsible_GlowGrid.Label(KeyedResources.Proton_GlowGrid_Description);
+                    collapsible_GlowGrid.Line(1);
+                    collapsible_GlowGrid.CheckboxLabeled(KeyedResources.Proton_GlowGrid_Enable, ref RocketPrefs.GlowGridOptimization);
+                    if (RocketPrefs.GlowGridOptimization)
+                    {
+                        collapsible_GlowGrid.Gap(1);
+                        collapsible_GlowGrid.Label(KeyedResources.Proton_GlowGrid_Limiter_Tip);
+                        collapsible_GlowGrid.CheckboxLabeled(KeyedResources.Proton_GlowGrid_Limiter, ref RocketPrefs.GlowGridOptimizationLimiter);
+                    }
+                    collapsible_GlowGrid.End(ref inRect);
 
                     if (Prefs.DevMode || RocketEnvironmentInfo.IsDevEnv)
                     {

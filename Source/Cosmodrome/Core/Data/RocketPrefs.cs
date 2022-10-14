@@ -17,7 +17,7 @@ namespace RocketMan
         }
 
         [Main.SettingsField(warmUpValue: false)]
-        public static bool Enabled = true;
+        public static bool Enabled = true;        
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool Learning = true;
@@ -72,6 +72,12 @@ namespace RocketMan
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool RefreshGrid = false;
+
+        [Main.SettingsField(warmUpValue: true)]
+        public static bool GlowGridOptimization = true;
+
+        [Main.SettingsField(warmUpValue: true)]
+        public static bool GlowGridOptimizationLimiter = true;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool EnableGridRefresh = false;

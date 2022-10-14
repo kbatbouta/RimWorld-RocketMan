@@ -17,6 +17,6 @@ namespace RocketMan
 
         public static bool LogData = false;
 
-        public static bool Debug150MTPS = false;
+        public static bool Debug150MTPS = false;        
     }
 }

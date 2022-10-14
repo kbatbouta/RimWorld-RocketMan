@@ -109,6 +109,11 @@
 	<Proton.AlertName>Alert name</Proton.AlertName>
 	<Proton.Avg>Average execution time</Proton.Avg>
 	<Proton.TimeSinceLast>Time since last update</Proton.TimeSinceLast>
+	<Proton.GlowGrid>GlowGrid Optimization</Proton.GlowGrid>
+	<Proton.GlowGrid.Enable>GlowGrid Optimization</Proton.GlowGrid.Enable>
+	<Proton.GlowGrid.Description>In the event of map lighting change this optimization will ensure that only a small part of the GlowGrid is updated.</Proton.GlowGrid.Description>
+	<Proton.GlowGrid.Limiter>Increase the number of Glowers required</Proton.GlowGrid.Limiter>
+	<Proton.GlowGrid.Limiter.Tip>Increase the number of Glowers required for the optimization. This will make Proton default to vanilla code in case of very few Glowers. This will provide a more consistent boost.</Proton.GlowGrid.Limiter.Tip>
 	<!-- Gagarin -->
 	<Gagarin.ParsingReports>RocketMan is checking for any duplicated Bases or Defs</Gagarin.ParsingReports>
 	<Gagarin.Tab>Load time optimization</Gagarin.Tab>
