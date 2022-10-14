@@ -48,7 +48,7 @@ namespace Proton
                 {
                     dirtyGlowers.Add(pair.Value);
                 }
-            }            
+            }
             GlowGrid grid = GlowGrid;
             CellIndices cellIndices = grid.map.cellIndices;            
             foreach (Bounds bounds in dirtyBounds)
@@ -63,9 +63,7 @@ namespace Proton
                 {
                     for (int z = zMin; z <= zMax; z++)
                     {
-                        int index = cellIndices.CellToIndex(x, z);
-                        //grid.glowGrid[index] = new ColorInt(0, 0, 0, 0);
-                        //grid.glowGridNoCavePlants[index] = new ColorInt(0, 0, 0, 0);
+                        int index = cellIndices.CellToIndex(x, z);                        
                         tempGrid1[index] = new ColorInt(0, 0, 0, 0);
                         tempGrid2[index] = new ColorInt(0, 0, 0, 0);
                     }
@@ -80,34 +78,6 @@ namespace Proton
                     map.glowFlooder.AddFloodGlowFor(info.glower, tempGrid2);
                 }
             }
-            //foreach (Bounds bounds in dirtyBounds)
-            //{
-            //    Vector3 center = bounds.center;
-            //    Vector3 size = bounds.size;
-            //    int xMin = Math.Max(Mathf.FloorToInt(center.x - size.x / 2), 0);
-            //    int xMax = Math.Min(Mathf.CeilToInt(center.x + size.x / 2), cellIndices.mapSizeX - 1);
-            //    int zMin = Math.Max(Mathf.FloorToInt(center.z - size.z / 2), 0);
-            //    int zMax = Math.Min(Mathf.CeilToInt(center.z + size.z / 2), cellIndices.mapSizeZ - 1);
-            //    for (int x = xMin; x <= xMax; x++)
-            //    {
-            //        for (int z = zMin; z <= zMax; z++)
-            //        {
-            //            int index = cellIndices.CellToIndex(x, z);
-            //            grid.glowGrid[index] = tempGrid1[index];
-            //            if (RocketDebugPrefs.Debug)
-            //            {
-            //                map.debugDrawer.FlashCell(new IntVec3(x, 0, z), 0.5f, "a", 120);
-            //            }
-            //        }
-            //    }
-            //}
-            //foreach (GlowerInfo info in dirtyGlowers)
-            //{
-            //    if (info.glower.parent.def.category != ThingCategory.Plant || !info.glower.parent.def.plant.cavePlant)
-            //    {
-            //        map.glowFlooder.AddFloodGlowFor(info.glower, tempGrid2);
-            //    }
-            //}
             foreach (Bounds bounds in dirtyBounds)
             {
                 Vector3 center = bounds.center;

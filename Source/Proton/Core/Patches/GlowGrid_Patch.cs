@@ -75,7 +75,7 @@ namespace Proton
 
             public static bool Prefix(GlowGrid __instance)
             {
-                if (!RocketPrefs.GlowGridOptimization || !RocketPrefs.Enabled)
+                if (!RocketPrefs.GlowGridOptimization || !RocketPrefs.Enabled || Current.ProgramState != ProgramState.Playing)
                 {
                     GetHelper(__instance.map).Reset();
                     return true;
@@ -89,7 +89,7 @@ namespace Proton
                 //        return true;
                 //    }
                 //}
-                if (__instance.glowGridDirty && Current.ProgramState == ProgramState.Playing)
+                if (__instance.glowGridDirty)
                 {
                     stopwatch.Restart();
                     skipMarking = true;
