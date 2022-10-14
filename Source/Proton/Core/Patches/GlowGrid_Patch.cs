@@ -66,7 +66,7 @@ namespace Proton
             }
         }
 
-        [ProtonPatch(typeof(GlowGrid), nameof(GlowGrid.RecalculateAllGlow))]
+        [ProtonPatch(typeof(GlowGrid), nameof(GlowGrid.RecalculateAllGlow))]        
         class GlowGrid_RecalculateAllGlow_Patch
         {
             static Stopwatch stopwatch = new Stopwatch();
@@ -80,20 +80,32 @@ namespace Proton
                     GetHelper(__instance.map).Reset();
                     return true;
                 }
-                //if (RocketPrefs.GlowGridOptimizationLimiter && !RocketDebugPrefs.Debug)
-                //{
-                //    int glowerNum = GetHelper(__instance.map).litGlowers.Count;
-                //    if (glowerNum < 5)
-                //    {
-                //        GetHelper(__instance.map).Reset();
-                //        return true;
-                //    }
-                //}
+                GlowGridHelper helper = GetHelper(__instance.map);
+
+                if (helper.litGlowers.Count != __instance.litGlowers.Count)
+                {
+                    Log.Warning($"PROTON: GlowGridHelper is out of sync proton:{helper.litGlowers.Count} vs vanilla:{__instance.litGlowers.Count}. resyncing");
+                    foreach (CompGlower glower in __instance.litGlowers)
+                    {
+                        if (!helper.litGlowers.TryGetValue(glower, out GlowerInfo info))
+                        {
+                            helper.Register(glower);
+                            Log.Warning($"PROTON: GlowGridHelper syncing now. <color=red>register</color>:{glower.parent.Position}");
+                        }
+                        else if (!glower.ShouldBeLitNow)
+                        {
+                            helper.DeRegister(glower);
+                            Log.Warning($"PROTON: GlowGridHelper syncing now. <color=red>deregister</color>:{glower.parent.Position}");
+                        }
+                    }
+                    helper.Reset();
+                    return true;
+                }
                 if (__instance.glowGridDirty)
                 {
                     stopwatch.Restart();
                     skipMarking = true;
-                    GetHelper(__instance.map).Recalculate();
+                    helper.Recalculate();
                     skipMarking = false;
                     stopwatch.Stop();
                     t1 = stopwatch.ElapsedTicks / (float) Stopwatch.Frequency * 1000f;

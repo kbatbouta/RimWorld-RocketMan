@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using RocketMan;
 using UnityEngine;
 using Verse;
@@ -108,8 +109,7 @@ namespace Proton
             if (!litGlowers.TryGetValue(glower, out GlowerInfo info))
             {
                 litGlowers[glower] = info = new GlowerInfo(glower, glower.parent.Position);                
-            }
-            // dirtyBounds.Add(info.Bounds);
+            }            
             PushMergeBounds(info.Bounds);            
         }
 
@@ -122,13 +122,12 @@ namespace Proton
             else
             {
                 litGlowers.Remove(glower);
-            }
-            // dirtyBounds.Add(info.Bounds);
+            }            
             PushMergeBounds(info.Bounds);            
         }        
 
         public void MarkPositionDirty(IntVec3 pos)
-        {            
+        {
             float maxRadius = 0;
             Vector3 maxSize = Vector3.one * 2;
             foreach (var pair in litGlowers)
@@ -170,7 +169,7 @@ namespace Proton
                 {
                     dirtyBounds.Remove(temp);
                     Vector3 min = new Vector3(Mathf.Min(bounds.min.x, temp.min.x), 0, Mathf.Min(bounds.min.z, temp.min.z));
-                    Vector3 max = new Vector3(Mathf.Min(bounds.max.x, temp.max.x), 0, Mathf.Min(bounds.max.z, temp.max.z));
+                    Vector3 max = new Vector3(Mathf.Max(bounds.max.x, temp.max.x), 0, Mathf.Max(bounds.max.z, temp.max.z));
                     bounds.SetMinMax(min, max);
                 }
             }
