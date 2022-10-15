@@ -50,6 +50,10 @@
 		<Folder Include="Core\GUI\Core\" />
 		<Folder Include="Core\GUI\Core\Patches\" />
 		<Folder Include="Core\GUI\Graphs\" />
+		<Folder Include="Core\Patches\Deprecated\" />
+		<Folder Include="Core\Deprecated\" />
+		<Folder Include="Core\GUI\Tabs\Deprecated\" />
+		<Folder Include="Core\Alerts\Deprecated\" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\..\1.4\**\*.xml" CopyToOutputDirectory="Never">
@@ -63,7 +67,14 @@
 		</None>
 		<None Include="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
 		<None Include="Core\Optimizations\Deprecated\GlowGrid_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-		<None Include="Core\Optimizations\Deprecated\StatWorker_Patch.text.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Optimizations\Deprecated\StatPart_ApparelStatOffSet_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Optimizations\Deprecated\StatWorker_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Patches\Deprecated\Pawn_Notify_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Patches\Deprecated\TickManager_Patch.cs" />
+		<None Include="Core\Optimizations\Deprecated\PlayLog_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Deprecated\StatSettingsUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\GUI\Tabs\Deprecated\TabContent_Stats.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Alerts\Deprecated\Alert_StatsLearning.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Core\Modules\" />
@@ -94,12 +105,23 @@
 		<None Remove="Microsoft.VisualStudio.TextTemplating.15.0" />
 		<None Remove="Mono.TextTemplating" />
 		<None Remove="Mono.TextTransform" />
+		<None Remove="Core\Patches\Deprecated\" />
+		<None Remove="Core\Deprecated\" />
+		<None Remove="Core\GUI\Tabs\Deprecated\" />
+		<None Remove="Core\Alerts\Deprecated\" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
 		<Compile Remove="Core\Optimizations\Deprecated\GlowGrid_Patch.cs" />
 		<Compile Remove="Core\GUI\Listings\Listing_Collapsible_temp.cs" />
-		<Compile Remove="Core\Optimizations\Deprecated\StatWorker_Patch.text.cs" />
+		<Compile Remove="Core\Optimizations\Deprecated\StatPart_ApparelStatOffSet_Patch.cs" />
+		<Compile Remove="Core\Optimizations\Deprecated\StatWorker_Patch.cs" />
+		<Compile Remove="Core\Patches\Deprecated\Pawn_Notify_Patch.cs" />
+		<Compile Remove="Core\Patches\Deprecated\TickManager_Patch.cs" />
+		<Compile Remove="Core\Optimizations\Deprecated\PlayLog_Patch.cs" />
+		<Compile Remove="Core\Deprecated\StatSettingsUtility.cs" />
+		<Compile Remove="Core\GUI\Tabs\Deprecated\TabContent_Stats.cs" />
+		<Compile Remove="Core\Alerts\Deprecated\Alert_StatsLearning.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Resources\KeyedResources.cs">
