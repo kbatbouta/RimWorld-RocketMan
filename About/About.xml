@@ -63,11 +63,10 @@
 		<li>rwmt.Multiplayer</li>
 		<li>majorhoff.rimthreaded</li>
 	</incompatibleWith>
-	<descriptionsByVersion>
-		<v1.2>
+	<description>				
 RocketMan:
 
-WARNING: WHEN USING RimWorld VERSION 1.2 HUGSLIB IS REQUIRED FOR THIS MOD TO WORK.
+NOTE: HugsLib is no longer required for RimWorld 1.4, 1.3.
 
 RocketMan is mod that is designed to improve RimWorld Performance.
 
@@ -97,44 +96,6 @@ Wiri for his awesome contribution.
 Bad Vlad (ModderK) for their awesome feedback.
 Brrainz for Harmony and ZombieLand which inspired my time dilation solution.
 
-You can always ask questions on the Dubwise discord server: https://discord.gg/mKVDMqq4
-        </v1.2>
-		<v1.3>
-RocketMan:
-
-NOTE: HugsLib is no longer required for RimWorld 1.3.
-
-RocketMan is mod that is designed to improve RimWorld Performance.
-
-Important note: RocketMan should be the last mod in your mod list.
-
-1- RocketMan doesn't support RimThreaded and never will.
-2- Bug reports with no logs will not get a response.
-
-Github Link: https://github.com/kbatbouta/RocketMan
-
-RocketMan is OpenSource and for anyone to use, modify, update.
-
-Credits: 
-
-The main developer: Karim (aka Krkr)
-The Thumbnail: Trisscar.
-The original concept of Stat caching: Notooshabby.
-
-DISCLAIMER: I’m not responsible in any way for damage done by RocketMan to your saves. RocketMan has been tested for over 9 months. Any damage done to your save is probably your own fault since RocketMan has been tested for so long. 
-
-Special Thanks goes to:
-
-Madman666 the entire Dubwise server for the help and testing they provided!
-Trisscar for their awesome thumbnail.
-Dubwise for hosting me on their discord server.
-Wiri for his awesome contribution.
-Bad Vlad (ModderK) for their awesome feedback.
-Brrainz for Harmony and ZombieLand which inspired my time dilation solution.
-
-You can always ask questions on the Dubwise discord server: https://discord.gg/mKVDMqq4
-        </v1.3>
-		<v1.4>
-		</v1.4>
-	</descriptionsByVersion>
+You can always ask questions on the Dubwise discord server: https://discord.gg/mKVDMqq4        
+	</description>
 </ModMetaData>
