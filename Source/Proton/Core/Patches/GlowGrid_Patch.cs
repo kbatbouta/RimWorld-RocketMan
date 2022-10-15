@@ -37,6 +37,11 @@ namespace Proton
             {
                 skipMarking = false;
             }
+
+            public static void Finalizer()
+            {
+                skipMarking = false;
+            }
         }
 
         [ProtonPatch(typeof(GlowGrid), nameof(GlowGrid.DeRegisterGlower))]
@@ -49,6 +54,11 @@ namespace Proton
             }
 
             public static void Postfix()
+            {
+                skipMarking = false;
+            }
+
+            public static void Finalizer()
             {
                 skipMarking = false;
             }
@@ -75,13 +85,16 @@ namespace Proton
 
             public static bool Prefix(GlowGrid __instance)
             {
-                if (!RocketPrefs.GlowGridOptimization || !RocketPrefs.Enabled || Current.ProgramState != ProgramState.Playing)
+                if(Current.ProgramState != ProgramState.Playing)
+                {
+                    return true;
+                }
+                if (!RocketPrefs.GlowGridOptimization || !RocketPrefs.Enabled || __instance.initialGlowerLocs != null)
                 {
                     GetHelper(__instance.map).Reset();
                     return true;
-                }
-                GlowGridHelper helper = GetHelper(__instance.map);
-
+                }   
+                GlowGridHelper helper = GetHelper(__instance.map);                
                 if (helper.litGlowers.Count != __instance.litGlowers.Count)
                 {
                     Log.Warning($"PROTON: GlowGridHelper is out of sync proton:{helper.litGlowers.Count} vs vanilla:{__instance.litGlowers.Count}. resyncing");

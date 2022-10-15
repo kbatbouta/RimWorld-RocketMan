@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Messaging;
 using RocketMan;
 using UnityEngine;
 using Verse;
+using Verse.Noise;
 using static RimWorld.FleshTypeDef;
 
 namespace Proton
@@ -27,7 +28,7 @@ namespace Proton
         public GlowGridHelper(Map map) 
         {
             this.map = map;
-        }
+        }        
 
         public void Recalculate()
         {            
@@ -40,10 +41,9 @@ namespace Proton
                     tempGrid1[i] = new ColorInt(0, 0, 0, 0);
                     tempGrid2[i] = new ColorInt(0, 0, 0, 0);
                 }
-            }            
-            dirtyGlowers.Clear();
+            }      
             foreach (var pair in litGlowers)
-            {
+            {                
                 Bounds bounds = pair.Value.Bounds;
                 if (dirtyBounds.Any(b => b.Intersects(bounds)))
                 {
@@ -109,8 +109,9 @@ namespace Proton
             if (!litGlowers.TryGetValue(glower, out GlowerInfo info))
             {
                 litGlowers[glower] = info = new GlowerInfo(glower, glower.parent.Position);                
-            }            
-            PushMergeBounds(info.Bounds);            
+            }
+            PushMergeBounds(info.Bounds);
+            dirtyGlowers.Add(info);
         }
 
         public void DeRegister(CompGlower glower)
@@ -122,14 +123,16 @@ namespace Proton
             else
             {
                 litGlowers.Remove(glower);
+                dirtyGlowers.Remove(info);
             }            
             PushMergeBounds(info.Bounds);            
         }        
 
         public void MarkPositionDirty(IntVec3 pos)
-        {
+        {            
             float maxRadius = 0;
             Vector3 maxSize = Vector3.one * 2;
+            pos.y = 0;
             foreach (var pair in litGlowers)
             {
                 GlowerInfo info = pair.Value;
@@ -139,7 +142,7 @@ namespace Proton
                     maxSize = info.Bounds.size;
                 }
             }
-            Bounds bounds = new Bounds(pos.ToVector3(), maxSize);
+            Bounds bounds = new Bounds(pos.ToVector3().Yto0(), maxSize);
             PushMergeBounds(bounds);
         }
 
@@ -147,7 +150,7 @@ namespace Proton
         {
             dirtyGlowers.Clear();
             dirtyBounds.Clear();
-        }
+        }        
 
         private void PushMergeBounds(Bounds bounds)
         {
@@ -168,8 +171,8 @@ namespace Proton
                 if (foundIntersection)
                 {
                     dirtyBounds.Remove(temp);
-                    Vector3 min = new Vector3(Mathf.Min(bounds.min.x, temp.min.x), 0, Mathf.Min(bounds.min.z, temp.min.z));
-                    Vector3 max = new Vector3(Mathf.Max(bounds.max.x, temp.max.x), 0, Mathf.Max(bounds.max.z, temp.max.z));
+                    Vector3 min = new Vector3(Mathf.Min(bounds.min.x, temp.min.x), -0.5f, Mathf.Min(bounds.min.z, temp.min.z));
+                    Vector3 max = new Vector3(Mathf.Max(bounds.max.x, temp.max.x), 0.5f, Mathf.Max(bounds.max.z, temp.max.z));
                     bounds.SetMinMax(min, max);
                 }
             }
@@ -190,12 +193,17 @@ namespace Proton
             public IntVec3 Position
             {
                 get => bounds.center.ToIntVec3();
-            }
+            }            
 
             public GlowerInfo(CompGlower glower, IntVec3 pos)
             {
                 this.glower = glower;
-                this.bounds = new Bounds(pos.ToVector3(), Vector3.one * (glower.Props.glowRadius * 2 + 2));
+                this.bounds = new Bounds(pos.ToVector3().Yto0(), Vector3.one * (glower.Props.glowRadius * 2 + 2));
+            }
+
+            public void Update()
+            {
+                this.bounds = new Bounds(glower.parent.Position.ToVector3().Yto0(), Vector3.one * (glower.Props.glowRadius * 2 + 2));
             }
 
             public bool Intersects(GlowerInfo other)
