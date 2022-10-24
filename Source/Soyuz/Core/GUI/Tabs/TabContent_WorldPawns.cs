@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld.Planet;
 //using Mono.Security.X509.Extensions;
 using RocketMan;
 using RocketMan.Tabs;
@@ -56,6 +57,8 @@ namespace Soyuz.Tabs
             collapsible_statistic.Label($"<color=yellow>Suspended</color> world pawns count: <color=orange>{Find.WorldPawns.pawnsMothballed.Count}</color>");
             collapsible_statistic.End(ref inRect);
             inRect.yMin += 5;
+            bool prev = WorldPawnsTicker.isActive;
+            WorldPawnsTicker.isActive = true;
             if (currentPawn != null && currentPawn.Destroyed)
             {
                 currentPawn = null;
@@ -89,6 +92,7 @@ namespace Soyuz.Tabs
                             sidebarColor = Color.yellow;
                             break;
                     }
+                    // return RocketPrefs.TimeDilationWorldPawns && !pawn.IsCaravanMember() && pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer && !HasHediffPreventingThrottling(pawn);
                     Widgets.DrawBoxSolid(elementRect.LeftPartPixels(3), sidebarColor);
                     elementRect.xMin += 5;
                     RocketMan.GUIUtility.Row(elementRect, new List<Action<Rect>>()
@@ -100,14 +104,47 @@ namespace Soyuz.Tabs
                         (rect) =>
                         {
                             Widgets.Label(rect, state);
+                        },
+                        (rect) =>
+                        {                            
+                            if(record.state == WorldPawnState.Alive)
+                            {
+                                Widgets.Label(rect, record.pawn.IsCaravanMember() ? "Caravaning" : " ");
+                            }                            
+                        },
+                        (rect) =>
+                        {
+                            if(record.state == WorldPawnState.Alive)
+                            {
+                                Widgets.Label(rect, record.pawn.IsColonist ? "<color=green>Colonist</color>" : "");
+                            }                           
+                        },
+                        (rect) =>
+                        {
+                            if (record.state == WorldPawnState.Alive)
+                            {
+                                HediffDef hediff = Find.WorldPawns.DefPreventingMothball(record.pawn);
+                                if(hediff != null)
+                                {
+                                    Widgets.Label(rect, $"nm={hediff.label},ia={hediff.IsAddiction},cls={hediff.hediffClass}");
+                                }
+                            }
+                        },
+                        (rect) =>
+                        {
+                            if(record.state == WorldPawnState.Alive)
+                            {
+                                Widgets.Label(rect, (record.pawn.Faction?.name ?? "") + "/"+ record.pawn.HostFaction?.name ?? "");
+                            }
                         }
                     }, drawDivider: false);
                     if (Widgets.ButtonInvisible(elementRect))
                     {
                         currentPawn = record.pawn;
-                    }
+                    } 
                 }
             );
+            WorldPawnsTicker.isActive = prev;
         }
 
         public override void OnDeselect()
@@ -134,6 +171,7 @@ namespace Soyuz.Tabs
             records.AddRange(
                 Find.WorldPawns.pawnsMothballed.Select(p => new WorldPawnRecord() { pawn = p, state = WorldPawnState.Mothballed })
                 );
+            records.RemoveAll(r => r.pawn == null || r.pawn.Destroyed);
         }
 
         [Main.YieldTabContent]

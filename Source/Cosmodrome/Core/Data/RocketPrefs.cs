@@ -23,6 +23,9 @@ namespace RocketMan
         public static bool Learning = true;
 
         [Main.SettingsField(warmUpValue: false)]
+        public static bool FixBeauty = false;
+
+        [Main.SettingsField(warmUpValue: false)]
         public static bool LearningAlertEnabled = true;
 
         [Main.SettingsField(warmUpValue: false)]
@@ -38,7 +41,7 @@ namespace RocketMan
         public static bool TimeDilationCriticalHediffs = false;
 
         [Main.SettingsField(warmUpValue: false)]
-        public static bool TimeDilationWorldPawns = true;
+        public static bool TimeDilationWorldPawns = false;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool TimeDilationVisitors = false;
@@ -56,7 +59,7 @@ namespace RocketMan
         public static bool TimeDilationColonists = false;
 
         [Main.SettingsField(warmUpValue: false)]
-        public static bool TimeDilationColonyAnimals = true;
+        public static bool TimeDilationColonyAnimals = false;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool TranslationCaching = false;
@@ -68,7 +71,7 @@ namespace RocketMan
         public static bool StatGearCachingEnabled = true;
 
         [Main.SettingsField(warmUpValue: false)]
-        public static bool CorpsesRemovalEnabled = true;
+        public static bool CorpsesRemovalEnabled = false;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool RefreshGrid = false;

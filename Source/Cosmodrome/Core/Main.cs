@@ -65,6 +65,7 @@ namespace RocketMan
         static Main()
         {
             Log.Message($"<color=orange>ROCKETMAN:</color> Version { RocketAssembliesInfo.Version }");
+            Log.Message($"R is 2.3={GenRadial.NumCellsInRadius(2.3f)}, 8.9={GenRadial.NumCellsInRadius(8.9f)} 4.5={GenRadial.NumCellsInRadius(4.5f)}");
             // ----------------------
             // TODO more stylizations.
             // this is used to stylize the log output of rocketman.

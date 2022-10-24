@@ -1,4 +1,4 @@
-﻿<#@ template language="C#" #>
+<#@ template language="C#" #>
 <#@ assembly name="System.Core.dll" #>
 <#@ assembly name="System.Xml.dll" #>
 <#@ import namespace="System.IO" #>
@@ -9,16 +9,10 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ template debug="true" hostspecific="true" language="C#" #>
 <#@ output extension=".cs" #>
-<#  
-    // Constants  
-    string englishLanguagePath = "1.4/Languages/English/Keyed/Translations.xml";
-    // ->                                    <-
-    // Gives you the location of MySolution.sln
-    string solutionPath = Host.ResolveAssemblyReference("$(SolutionDir)"); 
-    // Gives you the mod path    
-    string modPath = Path.Combine("solutionPath", "..\\..\\..\\");         
+<#      
+    string docPath = "$(SolutionDir)/../../../1.4/Languages/English/Keyed/Translations.xml";
     XmlDocument doc = new XmlDocument();
-    doc.Load(Path.Combine(modPath, englishLanguagePath));
+    doc.Load(docPath);
 #>
 using Verse;
 
@@ -28,7 +22,7 @@ namespace RocketMan
     // Auto generated file!
     // -------------------------------------------------
     // This file is auto generated! Mod path is:
-    // <#= Path.Combine(modPath, englishLanguagePath) #>
+    // <#= docPath #>
     // -------------------------------------------------
     /// <summary> 
     /// <para>Keyed string database. This Class is generated automatically by a T4 template <c>Source/Resources/KeyedResources.tt</c></para> 

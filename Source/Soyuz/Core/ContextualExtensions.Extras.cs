@@ -96,25 +96,30 @@ namespace Soyuz
         private static CachedDict<Pawn, bool> _hediffCache = new CachedDict<Pawn, bool>();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool HasHediffPreventingThrottling(Pawn p)
-        {
+        public static bool HasHediffPreventingThrottling(this Pawn p)
+        {            
             if (_hediffCache.TryGetValue(p, out bool result, 250))
             {
                 return result;
             }
+            return _hediffCache[p] = (p.TryGetHediffPreventingThrottling() != null);
+        }
+
+        public static Hediff TryGetHediffPreventingThrottling(this Pawn p)
+        {
             List<Hediff> hediffs = p.health?.hediffSet?.hediffs;
             if (hediffs == null)
             {
-                return _hediffCache[p] = false;
+                return null;
             }
             for (int i = 0; i < hediffs.Count; i++)
             {
                 if (!hediffs[i].def.AlwaysAllowMothball && !hediffs[i].IsPermanent())
                 {
-                    return _hediffCache[p] = true;
+                    return hediffs[i];
                 }
             }
-            return _hediffCache[p] = false;
+            return null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

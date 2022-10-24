@@ -75,6 +75,8 @@
 		<None Include="Core\Deprecated\StatSettingsUtility.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
 		<None Include="Core\GUI\Tabs\Deprecated\TabContent_Stats.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
 		<None Include="Core\Alerts\Deprecated\Alert_StatsLearning.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Optimizations\Deprecated\WorldReachability_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Optimizations\ListerHaulables_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Core\Modules\" />
@@ -122,6 +124,8 @@
 		<Compile Remove="Core\Deprecated\StatSettingsUtility.cs" />
 		<Compile Remove="Core\GUI\Tabs\Deprecated\TabContent_Stats.cs" />
 		<Compile Remove="Core\Alerts\Deprecated\Alert_StatsLearning.cs" />
+		<Compile Remove="Core\Optimizations\Deprecated\WorldReachability_Patch.cs" />
+		<Compile Remove="Core\Optimizations\ListerHaulables_Patch.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Resources\KeyedResources.cs">

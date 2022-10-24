@@ -157,7 +157,9 @@ namespace Soyuz
             if (Current.IsBeingThrottled())
             {
                 if (WorldPawnsTicker.isActive)
-                    return WorldPawnsTicker.IsCustomWorldTickInterval(thing, interval);
+                    return (thing.thingIDNumber + GenTicks.TicksGame) % interval == 0;
+                //if (WorldPawnsTicker.isActive)
+                //    return WorldPawnsTicker.IsCustomWorldTickInterval(thing, interval);
                 return (thing.thingIDNumber + GenTicks.TicksGame) % RoundTransform(interval) == 0;
             }
             return (thing.thingIDNumber + GenTicks.TicksGame) % interval == 0;
@@ -221,7 +223,7 @@ namespace Soyuz
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsBeingThrottled(this Pawn pawn)
         {
-            if (!Context.PartiallyDilatedContext)
+            if (!Context.PartiallyDilatedContext && !WorldPawnsTicker.isActive)
             {
                 if (_throttledPawn == pawn)
                     return _isBeingThrottled;
@@ -237,18 +239,21 @@ namespace Soyuz
             return false;
         }
 
-        private static bool IsValidThrottleablePawn(Pawn pawn)
+        public static bool IsValidThrottleablePawn(this Pawn pawn)
         {
-            if ((Context.ZoomRange == CameraZoomRange.Close || Context.ZoomRange == CameraZoomRange.Close) && !pawn.OffScreen())
+            if (WorldPawnsTicker.isActive)
                 return false;
-
-            if (WorldPawnsTicker.isActive && RocketPrefs.TimeDilationWorldPawns)
-                return !pawn.IsCaravanMember();
+            //if (WorldPawnsTicker.isActive)
+            // return RocketPrefs.TimeDilationWorldPawns && !pawn.IsCaravanMember() && pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer && !HasHediffPreventingThrottling(pawn);
+            if ((Context.ZoomRange == CameraZoomRange.Close || Context.ZoomRange == CameraZoomRange.Close) && !pawn.OffScreen())
+                return false;            
 
             if (!(!RocketPrefs.TimeDilationCriticalHediffs && HasHediffPreventingThrottling(pawn)) && !IgnoreMeDatabase.ShouldIgnore(pawn.def))
             {
                 if (pawn.def.race.Humanlike)
-                    return (RocketPrefs.TimeDilationColonists || RocketPrefs.TimeDilationVisitors) && IsValidHuman(pawn);
+                    return false;
+                // if (pawn.def.race.Humanlike)
+                // return (RocketPrefs.TimeDilationColonists || RocketPrefs.TimeDilationVisitors) && IsValidHuman(pawn);
                 if (pawn.def.race.Animal)
                     return Context.DilationEnabled[pawn.def.index] && IsValidAnimal(pawn);
             }

@@ -187,10 +187,13 @@ namespace RocketMan
                     //collapsible_speed.End(ref inRect);
                     //inRect.yMin += 5;
 
-                    collapsible_junk.Begin(inRect, "RocketMan.Junk".Translate());
-                    collapsible_junk.CheckboxLabeled("RocketMan.CorpseRemoval".Translate(), ref RocketPrefs.CorpsesRemovalEnabled, "RocketMan.CorpseRemoval.Description".Translate());
-                    collapsible_junk.End(ref inRect);
-                    inRect.yMin += 5;
+                    if (RocketEnvironmentInfo.IsDevEnv)
+                    {
+                        collapsible_junk.Begin(inRect, "RocketMan.Junk".Translate());
+                        collapsible_junk.CheckboxLabeled("RocketMan.CorpseRemoval".Translate(), ref RocketPrefs.CorpsesRemovalEnabled, "RocketMan.CorpseRemoval.Description".Translate());
+                        collapsible_junk.End(ref inRect);
+                        inRect.yMin += 5;
+                    }
 
                     //collapsible_other.Begin(inRect, "RocketMan.StatCacheSettings".Translate());
                     //collapsible_other.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
@@ -214,7 +217,7 @@ namespace RocketMan
 
                     if (Prefs.DevMode || RocketEnvironmentInfo.IsDevEnv)
                     {
-                        collapsible_experimental.Begin(inRect, KeyedResources.RocketMan_Experimental);
+                        collapsible_experimental.Begin(inRect, KeyedResources.RocketMan_Experimental);                        
                         // if (RocketEnvironmentInfo.IsDevEnv)
                         // {
                         //    collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_TranslationCaching, ref RocketPrefs.TranslationCaching);
@@ -232,6 +235,8 @@ namespace RocketMan
                             if (devKeyEnabled && !File.Exists(RocketEnvironmentInfo.DevKeyFilePath))
                                 File.WriteAllText(RocketEnvironmentInfo.DevKeyFilePath, "enabled");
                         }
+                        collapsible_experimental.Line(1);
+                        collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_FixBeauty, ref RocketPrefs.FixBeauty, KeyedResources.RocketMan_FixBeauty_Tip);
                         collapsible_experimental.End(ref inRect);
                         inRect.yMin += 5;
                     }

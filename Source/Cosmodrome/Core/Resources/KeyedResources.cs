@@ -6,7 +6,7 @@ namespace RocketMan
     // Auto generated file!
     // -------------------------------------------------
     // This file is auto generated! Mod path is:
-    // solutionPath/..\..\..\/1.4/Languages/English/Keyed/Translations.xml
+    // $(SolutionDir)/../../../1.4/Languages/English/Keyed/Translations.xml
     // -------------------------------------------------
     /// <summary> 
     /// <para>Keyed string database. This Class is generated automatically by a T4 template <c>Source/Resources/KeyedResources.tt</c></para> 
@@ -231,6 +231,26 @@ namespace RocketMan
         public static TaggedString RocketMan_Tab {
             get => _RocketMan_Tab != null ? 
                    _RocketMan_Tab : _RocketMan_Tab = "RocketMan.Tab".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_FixBeauty = null;
+        /// <summary> Keyed string with key <c>RocketMan.FixBeauty</c> with inner text set to:
+        ///
+        /// <code>Dynamic beauty scan radius</code>
+        /// </summary>       
+        public static TaggedString RocketMan_FixBeauty {
+            get => _RocketMan_FixBeauty != null ? 
+                   _RocketMan_FixBeauty : _RocketMan_FixBeauty = "RocketMan.FixBeauty".Translate();
+        }             
+                           
+        private static TaggedString _RocketMan_FixBeauty_Tip = null;
+        /// <summary> Keyed string with key <c>RocketMan.FixBeauty.Tip</c> with inner text set to:
+        ///
+        /// <code>Beauty scan radius will change depending on what the pawn is doing. Use at your own risk.</code>
+        /// </summary>       
+        public static TaggedString RocketMan_FixBeauty_Tip {
+            get => _RocketMan_FixBeauty_Tip != null ? 
+                   _RocketMan_FixBeauty_Tip : _RocketMan_FixBeauty_Tip = "RocketMan.FixBeauty.Tip".Translate();
         }             
                            
         private static TaggedString _RocketMan_GenMapSize = null;
