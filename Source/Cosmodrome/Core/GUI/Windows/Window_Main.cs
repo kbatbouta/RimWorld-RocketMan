@@ -41,7 +41,7 @@ namespace RocketMan
             for (var i = 0; i < Main.yieldTabContent.Count; i++)
             {
                 ITabContent tab = Main.yieldTabContent[i].Invoke();
-                Log.Message($"ROCKETMAN: Found a new tab {tab.Label}");
+                RocketMan.Logger.Message($"ROCKETMAN: Found a new tab {tab.Label}");
                 tabs.AddTab(tab);
             }
             Finder.RocketManWindow = this;

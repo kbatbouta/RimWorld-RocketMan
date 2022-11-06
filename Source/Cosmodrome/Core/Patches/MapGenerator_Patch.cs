@@ -27,7 +27,7 @@ namespace RocketMan
                             mapSize.z = (int)vector.z;
 
                             comp.useCustomMapSizes = false;
-                            Log.Message($"ROCKETMAN: Applied custom map size for new settelment/map");
+                            RocketMan.Logger.Message($"ROCKETMAN: Applied custom map size for new settelment/map");
                         }
                     }
                 }

@@ -57,7 +57,7 @@ namespace Gagarin
                         Array.Copy(buffer, 0, cachedHashed, 0, 16);
                         if (HashChanged(originalHash, cachedHashed))
                         {
-                            Log.Message($"GAGARIN: Hash changed for file {file.FullPath}");
+                            RocketMan.Logger.Message($"GAGARIN: Hash changed for file {file.FullPath}");
                             try
                             {
                                 if (File.Exists(binPath))

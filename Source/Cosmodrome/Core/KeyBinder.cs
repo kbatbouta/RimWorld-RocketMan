@@ -38,7 +38,7 @@ namespace RocketMan
 
                 Finder.Harmony.Patch(mtarget, postfix: new HarmonyMethod(mOnGUI as MethodInfo));
 
-                Log.Message("ROCKETMAN: Patched KeyBinder!");
+                RocketMan.Logger.Message("ROCKETMAN: Patched KeyBinder!");
 
                 success = true;
             }

@@ -133,7 +133,7 @@ namespace RocketMan.Optimizations
         //    [MethodImpl(MethodImplOptions.NoInlining)]
         //    public static void Postfix()
         //    {
-        //        Log.Message($"{i}");
+        //        RocketMan.Logger.Message($"{i}");
         //    }
 
         //    [Main.OnTickLong]
@@ -161,7 +161,7 @@ namespace RocketMan.Optimizations
                 var code = codes[i];
                 if (code.OperandIs(mGetValueUnfinalized))
                 {
-                    Log.Message($"ROCKETMAN: Hijacking {original.GetMethodSummary()}");
+                    RocketMan.Logger.Message($"ROCKETMAN: Hijacking {original.GetMethodSummary()}");
                     break;
                 }
             }

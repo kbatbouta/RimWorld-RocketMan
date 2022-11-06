@@ -59,7 +59,7 @@ namespace Gagarin
             if (!Directory.Exists(cachePath))
             {
                 Directory.CreateDirectory(cachePath);
-                Log.Message($"GAGARIN: Created cache folder at {cachedUnifiedXmlPath}");
+                RocketMan.Logger.Message($"GAGARIN: Created cache folder at {cachedUnifiedXmlPath}");
             }
             if (!File.Exists(cachedUnifiedXmlPath))
             {
@@ -129,7 +129,7 @@ namespace Gagarin
             public static void Postfix(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
             {
                 stopwatch.Stop();
-                Log.Message($"GAGARIN: <color=green>LoadedModManager.ApplyPatches</color> took " +
+                RocketMan.Logger.Message($"GAGARIN: <color=green>LoadedModManager.ApplyPatches</color> took " +
                     $"<color=orange>{Math.Round((float)stopwatch.ElapsedTicks / Stopwatch.Frequency, 2)} seconds</color>");
                 stopwatch.Restart();
                 if (!cacheExists)
@@ -137,7 +137,7 @@ namespace Gagarin
                     try
                     {
                         LoadableXmlAssetUtility.Dump(assetlookup, xmlDoc, cachedUnifiedXmlPath);
-                        Log.Message($"GAGARIN: Created patched cache at {cachedUnifiedXmlPath}");
+                        RocketMan.Logger.Message($"GAGARIN: Created patched cache at {cachedUnifiedXmlPath}");
                     }
                     catch (Exception er)
                     {
@@ -152,7 +152,7 @@ namespace Gagarin
                         LoadableXmlAssetUtility.Load(loadablelookup, assetlookup, xmlDoc, cachedUnifiedXmlPath);
                         TKeySystem.Clear();
                         TKeySystem.Parse(xmlDoc);
-                        Log.Message($"GAGARIN: Loaded xml assests from cache");
+                        RocketMan.Logger.Message($"GAGARIN: Loaded xml assests from cache");
                         cacheUsed = true;
                         foreach (ModContentPack runningMod in LoadedModManager.runningMods)
                         {
@@ -166,7 +166,7 @@ namespace Gagarin
                         cacheUsed = false;
                     }
                 }
-                Log.Message($"GAGARIN: cache operations took " +
+                RocketMan.Logger.Message($"GAGARIN: cache operations took " +
                     $"<color=orange>{Math.Round((float)stopwatch.ElapsedTicks / Stopwatch.Frequency, 2)} seconds</color>");
                 stopwatch.Stop();
             }
@@ -192,7 +192,7 @@ namespace Gagarin
                     return;
                 initialized = true;
                 stopwatch.Stop();
-                Log.Message($"GAGARIN: Loading took <color=red>more</color> than " +
+                RocketMan.Logger.Message($"GAGARIN: Loading took <color=red>more</color> than " +
                      $"<color=orange>{Math.Round((float)stopwatch.ElapsedTicks / Stopwatch.Frequency, 2)} seconds</color>");
             }
         }

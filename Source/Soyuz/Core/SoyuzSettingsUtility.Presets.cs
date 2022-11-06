@@ -120,7 +120,7 @@ namespace Soyuz
                     //    settings.throttleFilter = JobThrottleFilter.Animals;
                     //    settings.throttleMode = JobThrottleMode.Full;
 
-                    //    Log.Message($"SOYUZ: Blacklisted job {settings.def.defName}");
+                    //    RocketMan.Logger.Message($"SOYUZ: Blacklisted job {settings.def.defName}");
                     //}
                 }
                 else
@@ -159,7 +159,7 @@ namespace Soyuz
                 settings.throttleFilter = JobThrottleFilter.Animals;
                 settings.throttleMode = JobThrottleMode.Full;
             }
-            Log.Message("SOYUZ: Preset loaded!");
+            RocketMan.Logger.Message("SOYUZ: Preset loaded!");
         }
 
         // private static string harmonyId = Finder.HarmonyID + ".Soyuz";

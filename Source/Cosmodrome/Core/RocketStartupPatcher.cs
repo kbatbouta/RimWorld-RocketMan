@@ -39,7 +39,7 @@ namespace RocketMan
         {
             foreach (var patch in patches)
                 patch.Patch(Finder.Harmony);
-            if (RocketDebugPrefs.Debug) Log.Message($"ROCKETMAN: Patching finished");
+            if (RocketDebugPrefs.Debug) RocketMan.Logger.Message($"ROCKETMAN: Patching finished");
         }
 
         static RocketStartupPatcher()
@@ -51,7 +51,7 @@ namespace RocketMan
             {
                 RocketStartupPatchInfo patch = new RocketStartupPatchInfo(type);
                 patchList.Add(patch);
-                if (RocketDebugPrefs.Debug) Log.Message($"ROCKETMAN: Found patch in {type} and is {(patch.IsValid ? "valid" : "invalid") }");
+                if (RocketDebugPrefs.Debug) RocketMan.Logger.Message($"ROCKETMAN: Found patch in {type} and is {(patch.IsValid ? "valid" : "invalid") }");
             }
             patches = patchList.Where(p => p.IsValid).ToArray();
         }

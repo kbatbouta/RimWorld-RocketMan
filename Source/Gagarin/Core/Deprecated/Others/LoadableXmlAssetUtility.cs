@@ -112,7 +112,7 @@ namespace Gagarin
         public static LoadableXmlAsset FindLoadable(string name, string packageId, string filePath, bool isCore)
         {
             //
-            // Log.Message($"GAGARIN: Fallback for finding loadable: {name}${filePath}");
+            // RocketMan.Logger.Message($"GAGARIN: Fallback for finding loadable: {name}${filePath}");
             List<LoadableXmlAsset> assets = Context.assetPackageIdlookup[packageId];
             foreach (LoadableXmlAsset loadable in assets)
             {

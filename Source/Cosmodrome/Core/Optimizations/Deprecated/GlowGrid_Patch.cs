@@ -145,7 +145,7 @@ namespace RocketMan.Optimizations
     //                TryRegisterMap(map);
 
     //                GlowerPorperties prop;
-    //                if (RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: Removed {0}", oldGlow));
+    //                if (RocketDebugPrefs.Debug) RocketMan.Logger.Message(string.Format("ROCKETMAN: Removed {0}", oldGlow));
     //                if (!props.ContainsKey(oldGlow))
     //                {
     //                    if (RocketDebugPrefs.Debug && !removedProps[map.Index].Any(p => p.glower == oldGlow)) Log.Warning(string.Format("ROCKETMAN: Found an unregisterd {0}:{1}", oldGlow, oldGlow.parent));
@@ -153,7 +153,7 @@ namespace RocketMan.Optimizations
     //                }
     //                prop = props[oldGlow];
 
-    //                if (RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: Queued {0} for removal", oldGlow.parent));
+    //                if (RocketDebugPrefs.Debug) RocketMan.Logger.Message(string.Format("ROCKETMAN: Queued {0} for removal", oldGlow.parent));
     //                removedProps[map.Index].Add(prop);
     //            }
 
@@ -194,7 +194,7 @@ namespace RocketMan.Optimizations
     //                var map = __instance.map;
     //                var mapIndex = map.Index;
 
-    //                if (RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: Recalculationg for removed with {0} queued for removal", removedProps[mapIndex].Count));
+    //                if (RocketDebugPrefs.Debug) RocketMan.Logger.Message(string.Format("ROCKETMAN: Recalculationg for removed with {0} queued for removal", removedProps[mapIndex].Count));
     //                foreach (var prop in removedProps[mapIndex])
     //                {
     //                    tEmptyGrid.CopyTo(tBufferedGrid, 0);
@@ -202,7 +202,7 @@ namespace RocketMan.Optimizations
     //                    props.Remove(prop.glower);
     //                }
 
-    //                if (RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: Recalculationg for changes with {0} queued for changes", changedProps[mapIndex].Count));
+    //                if (RocketDebugPrefs.Debug) RocketMan.Logger.Message(string.Format("ROCKETMAN: Recalculationg for changes with {0} queued for changes", changedProps[mapIndex].Count));
     //                if (changedProps[mapIndex].Count != 0)
     //                {
     //                    tEmptyGrid.CopyTo(tBufferedGrid, 0);
@@ -404,7 +404,7 @@ namespace RocketMan.Optimizations
     //                            return;
     //                        }
     //#if DEBUG
-    //                        if (RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: Map glow grid dirty at {0}", loc));
+    //                        if (RocketDebugPrefs.Debug) RocketMan.Logger.Message(string.Format("ROCKETMAN: Map glow grid dirty at {0}", loc));
     //#endif
     //                        var changedPos = loc.ToVector3();
     //                        foreach (var glower in __instance.litGlowers)
@@ -414,7 +414,7 @@ namespace RocketMan.Optimizations
     //                            {
     //                                changedProps[mapIndex].Add(prop);
     //#if DEBUG
-    //                                if (RocketDebugPrefs.Debug) Log.Message(string.Format("ROCKETMAN: Changed and glow grid dirty at {0} for {1}", loc, glower.parent));
+    //                                if (RocketDebugPrefs.Debug) RocketMan.Logger.Message(string.Format("ROCKETMAN: Changed and glow grid dirty at {0} for {1}", loc, glower.parent));
     //#endif
     //                            }
     //                        }
@@ -604,7 +604,7 @@ namespace RocketMan.Optimizations
 
     //                GlowerPorperties prop;
     //                if (RocketDebugPrefs.Debug && RocketDebugPrefs.DrawGlowerUpdates)
-    //                    Log.Message(string.Format("ROCKETMAN: Removed {0}", oldGlow));
+    //                    RocketMan.Logger.Message(string.Format("ROCKETMAN: Removed {0}", oldGlow));
     //                if (!props.ContainsKey(oldGlow))
     //                {
     //                    if (RocketDebugPrefs.Debug && !removedProps[map.Index].Any(p => p.glower == oldGlow))
@@ -615,7 +615,7 @@ namespace RocketMan.Optimizations
     //                prop = props[oldGlow];
 
     //                if (RocketDebugPrefs.Debug)
-    //                    Log.Message(string.Format("ROCKETMAN: Queued {0} for removal", oldGlow.parent));
+    //                    RocketMan.Logger.Message(string.Format("ROCKETMAN: Queued {0} for removal", oldGlow.parent));
     //                removedProps[map.Index].Add(prop);
     //            }
 
@@ -655,17 +655,17 @@ namespace RocketMan.Optimizations
     //                var mapIndex = map.Index;
 
     //                if (RocketDebugPrefs.Debug && RocketDebugPrefs.DrawGlowerUpdates)
-    //                    Log.Message(string.Format("ROCKETMAN: Recalculationg for removed with {0} queued for removal", removedProps[mapIndex].Count));
+    //                    RocketMan.Logger.Message(string.Format("ROCKETMAN: Recalculationg for removed with {0} queued for removal", removedProps[mapIndex].Count));
     //                removedProps[mapIndex] = removedProps[mapIndex].Where(p => !p.glower.ShouldBeLitNow).ToHashSet();
     //                foreach (var prop in removedProps[mapIndex])
     //                {
     //                    EmptyGrid.CopyTo(BufferedGrid, 0);
     //                    RemoveGlower(__instance, prop);
-    //                    Log.Message($"removed {prop.glower.parent}");
+    //                    RocketMan.Logger.Message($"removed {prop.glower.parent}");
     //                    props.Remove(prop.glower);
     //                }
     //                if (RocketDebugPrefs.Debug)
-    //                    Log.Message(string.Format("ROCKETMAN: Recalculationg for changes with {0} queued for changes", changedProps[mapIndex].Count));
+    //                    RocketMan.Logger.Message(string.Format("ROCKETMAN: Recalculationg for changes with {0} queued for changes", changedProps[mapIndex].Count));
     //                if (changedProps[mapIndex].Count != 0)
     //                {
     //                    EmptyGrid.CopyTo(BufferedGrid, 0);
@@ -683,7 +683,7 @@ namespace RocketMan.Optimizations
     //                flooder.AddFloodGlowFor(prop.glower, grid);
     //                if (RocketDebugPrefs.Debug)
     //                {
-    //                    Log.Message("ROCKETMAN: FloodGlow called");
+    //                    RocketMan.Logger.Message("ROCKETMAN: FloodGlow called");
     //                }
     //            }
 
@@ -692,7 +692,7 @@ namespace RocketMan.Optimizations
     //                GlowerPorperties.GetGlowerPorperties(glower);
     //                if (RocketDebugPrefs.Debug)
     //                {
-    //                    Log.Message("ROCKETMAN: AddFloodGlowFor called");
+    //                    RocketMan.Logger.Message("ROCKETMAN: AddFloodGlowFor called");
     //                }
     //                if (RocketPrefs.RefreshGrid)
     //                {
@@ -812,7 +812,7 @@ namespace RocketMan.Optimizations
     //                    }
     //                    if (RocketDebugPrefs.Debug)
     //                    {
-    //                        Log.Message($"ROCKETMAN: finalized new glower {glower?.parent}:{prop?.drawen}");
+    //                        RocketMan.Logger.Message($"ROCKETMAN: finalized new glower {glower?.parent}:{prop?.drawen}");
     //                    }
     //                }
     //            }
@@ -886,7 +886,7 @@ namespace RocketMan.Optimizations
     //                    if (Registering || Calculating || Deregistering) return;
 
     //                    if (RocketDebugPrefs.Debug && RocketDebugPrefs.DrawGlowerUpdates)
-    //                        Log.Message(string.Format("ROCKETMAN: Map glow grid dirty at {0}", loc));
+    //                        RocketMan.Logger.Message(string.Format("ROCKETMAN: Map glow grid dirty at {0}", loc));
 
     //                    var changedPos = loc.ToVector3();
     //                    foreach (var glower in __instance.litGlowers)
@@ -896,7 +896,7 @@ namespace RocketMan.Optimizations
     //                        {
     //                            changedProps[mapIndex].Add(prop);
     //                            if (RocketDebugPrefs.Debug && RocketDebugPrefs.DrawGlowerUpdates)
-    //                                Log.Message(string.Format("ROCKETMAN: Changed glow grid dirty at {0} for {1}", loc, glower.parent));
+    //                                RocketMan.Logger.Message(string.Format("ROCKETMAN: Changed glow grid dirty at {0} for {1}", loc, glower.parent));
     //                        }
     //                    }
 

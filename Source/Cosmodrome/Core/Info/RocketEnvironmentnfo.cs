@@ -25,7 +25,7 @@ namespace RocketMan
                 //if (!isDevEnvInitialized)
                 //{
                 //    string path = Path.GetFullPath(Path.Combine(GenFilePaths.ConfigFolderPath, "rocketeer.0102.txt"));
-                //    Log.Message($"ROCKETMAN: config path {path}");
+                //    RocketMan.Logger.Message($"ROCKETMAN: config path {path}");
                 //    isDevEnvInitialized = true;
                 //    isDevEnv = File.Exists(path);
                 //    if (isDevEnv)

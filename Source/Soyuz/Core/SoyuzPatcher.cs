@@ -40,8 +40,7 @@ namespace Soyuz
         public static void PatchAll()
         {
             foreach (var patch in patches)
-                patch.Patch(harmony);
-            Log.Message($"SOYUZ: Patching finished");
+                patch.Patch(harmony);            
             RocketEnvironmentInfo.SoyuzLoaded = true;
         }
 
@@ -55,7 +54,7 @@ namespace Soyuz
             {
                 SoyuzPatchInfo patch = new SoyuzPatchInfo(type);
                 patchList.Add(patch);
-                if (RocketDebugPrefs.Debug) Log.Message($"SOYUZ: found patch in {type} and is {(patch.IsValid ? "valid" : "invalid") }");
+                if (RocketDebugPrefs.Debug) RocketMan.Logger.Message($"SOYUZ: found patch in {type} and is {(patch.IsValid ? "valid" : "invalid") }");
             }
             patches = patchList.Where(p => p.IsValid).ToArray();
         }

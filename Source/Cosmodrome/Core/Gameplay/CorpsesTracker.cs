@@ -71,7 +71,7 @@ namespace RocketMan.Gameplay
                 try
                 {
                     var record = destroyList.Pop();
-                    if (RocketDebugPrefs.Debug) Log.Message($"ROCKETMAN: removed thing {record.thing} with total removed {removedThingsCount + 1}");
+                    if (RocketDebugPrefs.Debug) RocketMan.Logger.Message($"ROCKETMAN: removed thing {record.thing} with total removed {removedThingsCount + 1}");
                     if (!(record.thing?.Destroyed ?? true)) record.thing?.Destroy();
                 }
                 catch (Exception er)

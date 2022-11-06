@@ -29,7 +29,7 @@ namespace RocketMan
 
             if (RocketEnvironmentInfo.IsDevEnv)
             {
-                Log.Message($"ROCKETMAN: Dev enviroment detected! Loading experimental plugins!");
+                RocketMan.Logger.Message($"ROCKETMAN: Dev enviroment detected! Loading experimental plugins!");
 
                 assemblies.AddRange(
                     LoadDirectory(RocketEnvironmentInfo.ExperimentalPluginsFolderPath).ToList()

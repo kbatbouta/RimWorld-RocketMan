@@ -133,7 +133,7 @@ namespace Proton
                 {
                     stopwatch.Stop();
                     t2 = stopwatch.ElapsedTicks / (float)Stopwatch.Frequency * 1000f;
-                    Log.Message($"PROTON: GlowGrid vanilla took <color=orange>{Math.Round(t2,2)} MS</color> vs <color=orange>{Math.Round(t1, 2)} MS</color>. " +
+                    RocketMan.Logger.Message($"PROTON: GlowGrid vanilla took <color=orange>{Math.Round(t2,2)} MS</color> vs <color=orange>{Math.Round(t1, 2)} MS</color>. " +
                         $"Total improvement <color=orange>{Math.Round(t2 - t1, 2)} MS</color> or <color=orange>+{Math.Round(t2 / Mathf.Max(t1, 1e-4f), 2) * 100 - 100} %</color>");
                 }
             }

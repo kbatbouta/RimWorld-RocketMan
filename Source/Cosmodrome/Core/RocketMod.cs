@@ -32,7 +32,7 @@ namespace RocketMan
             if (!Directory.Exists(RocketEnvironmentInfo.CustomConfigFolderPath))
             {
                 Directory.CreateDirectory(RocketEnvironmentInfo.CustomConfigFolderPath);
-                Log.Message($"ROCKETMAN: Created RocketMan config folder at <color=orange>{RocketEnvironmentInfo.CustomConfigFolderPath}</color>");
+                RocketMan.Logger.Message($"ROCKETMAN: Created RocketMan config folder at <color=orange>{RocketEnvironmentInfo.CustomConfigFolderPath}</color>");
             }
             Logger.Initialize();
             // Patch all core functions
@@ -45,8 +45,8 @@ namespace RocketMan
                 {
                     RocketAssembliesInfo.Assemblies.Add(assembly);
                     if (!content.assemblies.loadedAssemblies.Any(a => a.GetName().Name == assembly.GetName().Name))
-                        content.assemblies.loadedAssemblies.Add(assembly);
-                    Log.Message($"<color=orange>ROCKETMAN</color>: Loaded <color=red>{assembly.FullName}</color>");
+                        content.assemblies.loadedAssemblies.Add(assembly);                    
+                    RocketMan.Logger.Message($"<color=orange>ROCKETMAN</color>: Loaded <color=red>{assembly.FullName}</color>");                   
                 }
             }
             catch (Exception er)
@@ -62,6 +62,10 @@ namespace RocketMan
                 Main.ReloadActions();
                 foreach (var action in Main.onInitialization)
                     action.Invoke();
+            }
+            if (Prefs.DevMode)
+            {
+                Log.Message($"ROCKETMAN:No more RocketMan <color=gray>\"Log spam\"</color>...\nI hope you're fucking satisfied.");
             }
         }
 
@@ -135,7 +139,7 @@ namespace RocketMan
                     {
                         mainButton_WindowDef.buttonVisible = RocketPrefs.MainButtonToggle;
                         string state = RocketPrefs.MainButtonToggle ? "shown" : "hidden";
-                        Log.Message($"ROCKETMAN: <color=red>MainButton</color> is now {state}!");
+                        RocketMan.Logger.Message($"ROCKETMAN: <color=red>MainButton</color> is now {state}!");
                     }
                 }
                 collapsible_general.CheckboxLabeled("RocketMan.ProgressBar".Translate(), ref RocketPrefs.ShowWarmUpPopup, "RocketMan.ProgressBar.Description".Translate());

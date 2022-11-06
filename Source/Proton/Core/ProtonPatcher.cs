@@ -40,8 +40,7 @@ namespace Proton
         public static void PatchAll()
         {
             foreach (var patch in patches)
-                patch.Patch(harmony);
-            Log.Message($"PROTON: Patching finished");
+                patch.Patch(harmony);            
             RocketEnvironmentInfo.ProtonLoaded = true;
         }
 
@@ -55,7 +54,7 @@ namespace Proton
             {
                 ProtonPatchInfo patch = new ProtonPatchInfo(type);
                 patchList.Add(patch);
-                if (RocketDebugPrefs.Debug) Log.Message($"PROTON: found patch in {type} and is {(patch.IsValid ? "valid" : "invalid") }");
+                if (RocketDebugPrefs.Debug) RocketMan.Logger.Message($"PROTON: found patch in {type} and is {(patch.IsValid ? "valid" : "invalid") }");
             }
             patches = patchList.Where(p => p.IsValid).ToArray();
         }

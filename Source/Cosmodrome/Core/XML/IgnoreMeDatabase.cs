@@ -38,7 +38,7 @@ namespace RocketMan
         {
             packageIds.Add(packageId.ToLower());
 
-            Log.Message($"ROCKETRULES: IgnoreMeRule for { packageId }");
+            RocketMan.Logger.Message($"ROCKETRULES: IgnoreMeRule for { packageId }");
         }
 
         public static string Report(Def def)
@@ -75,7 +75,7 @@ namespace RocketMan
             }
             finally
             {
-                Log.Message(report);
+                RocketMan.Logger.Message(report);
             }
         }
 

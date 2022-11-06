@@ -62,8 +62,7 @@ namespace Soyuz
 
         [Main.OnInitialization]
         public static void Initialize()
-        {
-            Log.Message("SOYUZ: Created _transformationCache");
+        {            
             for (int i = 0; i < _transformationCache.Length; i++)
                 _transformationCache[i] = (int)Mathf.Max(Mathf.RoundToInt(i / 30) * 30, 30);
         }

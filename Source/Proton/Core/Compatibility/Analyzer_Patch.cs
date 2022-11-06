@@ -35,8 +35,7 @@ namespace Proton
         }
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            Log.Warning($"PROTON: Analyzer patched!");
+        {            
             yield return new CodeInstruction(OpCodes.Ldc_I4_1);
             yield return new CodeInstruction(OpCodes.Ret);
         }

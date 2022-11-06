@@ -37,7 +37,7 @@ namespace Gagarin
 
         public static void ParseCreateReports(XmlDocument document, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
         {
-            Log.Message("GAGARIN:[DUPLICATE]: Started!");
+            RocketMan.Logger.Message("GAGARIN:[DUPLICATE]: Started!");
             if (Context.IsRecovering)
             {
                 return;
@@ -64,7 +64,7 @@ namespace Gagarin
                 PrepareReportFolder();
             }
             stopwatch.Stop();
-            Log.Message($"GAGARIN:[DUPLICATE] Creating duplication reports took {stopwatch.ElapsedMilliseconds} MS");
+            RocketMan.Logger.Message($"GAGARIN:[DUPLICATE] Creating duplication reports took {stopwatch.ElapsedMilliseconds} MS");
             if (failed)
             {
                 return;
@@ -118,9 +118,9 @@ namespace Gagarin
                 {
                     builder.AppendInNewLine($"\t{j++}. PackageId={record.mod?.PackageId}\t| ModName={record.mod?.Name}\t| XmlFilePath={record.xmlFilePath}");
                 }
-                Log.Message(builder.ToString());
+                RocketMan.Logger.Message(builder.ToString());
             }
-            Log.Message($"GAGARIN:[DUPLICATE] Finished creating reports at <color=red>{GagarinEnvironmentInfo.ReportsFolderPath}</color>");
+            RocketMan.Logger.Message($"GAGARIN:[DUPLICATE] Finished creating reports at <color=red>{GagarinEnvironmentInfo.ReportsFolderPath}</color>");
             nameToReport.Clear();
         }
 
@@ -140,7 +140,7 @@ namespace Gagarin
             }
             finally
             {
-                Log.Message("GAGARIN: Lock removed!");
+                RocketMan.Logger.Message("GAGARIN: Lock removed!");
             }
         }
 

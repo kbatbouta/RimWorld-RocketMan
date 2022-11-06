@@ -36,7 +36,7 @@ namespace Proton
                 __instance.map?.GetGlowerCacher()?.Register(newGlow);
 
                 if (RocketDebugPrefs.DrawGlowerUpdates)
-                    Log.Message($"PROTON: Registering glower {newGlow.parent}");
+                    RocketMan.Logger.Message($"PROTON: Registering glower {newGlow.parent}");
             }
         }
 
@@ -48,7 +48,7 @@ namespace Proton
                 __instance.map?.GetGlowerCacher()?.DeRegister(oldGlow);
 
                 if (RocketDebugPrefs.DrawGlowerUpdates)
-                    Log.Message($"PROTON: DeRegistering glower {oldGlow.parent}");
+                    RocketMan.Logger.Message($"PROTON: DeRegistering glower {oldGlow.parent}");
             }
         }
 

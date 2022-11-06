@@ -36,7 +36,7 @@ namespace RocketMan
                 T patchInfo = (T)Activator.CreateInstance(typeof(T), type);
                 if (!patchInfo.IsValid)
                 {
-                    Log.Message($"{type} is not a valid patch!");
+                    RocketMan.Logger.Message($"{type} is not a valid patch!");
                     continue;
                 }
                 yield return patchInfo;

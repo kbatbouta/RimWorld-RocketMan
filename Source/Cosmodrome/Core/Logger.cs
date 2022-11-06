@@ -27,7 +27,19 @@ namespace RocketMan
             }
             foreach (string filePath in Directory.GetFiles(logsFolder))
             {
-                File.Delete(filePath);
+                System.IO.File.Delete(filePath);
+            }
+        }
+
+        public static void Message(string message, string file = null)
+        {
+            if (RocketDebugPrefs.Debug || Prefs.LogVerbose)
+            {
+                Log.Message(message);
+            }
+            lock (_lock)
+            {
+                Handle(message, null, file ?? "Rocket.log");
             }
         }
 

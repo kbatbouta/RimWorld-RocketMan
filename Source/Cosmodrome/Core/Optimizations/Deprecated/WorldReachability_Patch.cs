@@ -152,7 +152,7 @@ namespace RocketMan.Optimizations
                     if (message.ToLower().Contains("error"))
                         Log.Error(message);
                     else
-                        if (RocketDebugPrefs.Debug) Log.Message(message);
+                        if (RocketDebugPrefs.Debug) RocketMan.Logger.Message(message);
                 }
             }
 
@@ -190,7 +190,7 @@ namespace RocketMan.Optimizations
                     if (world != Find.World)
                     {
                         if (RocketDebugPrefs.Debug)
-                            Log.Message("ROCKETMAN: Creating world map cache");
+                            RocketMan.Logger.Message("ROCKETMAN: Creating world map cache");
                         Initialize();
                     }
 
@@ -204,13 +204,13 @@ namespace RocketMan.Optimizations
                     if (tilesToIsland[startTile] == 0 || tilesToIsland[destTile] == 0 ||
                         tilesToIsland[startTile] != tilesToIsland[destTile])
                     {
-                        if (RocketDebugPrefs.Debug) Log.Message("ROCKETMAN: Not Allowed");
+                        if (RocketDebugPrefs.Debug) RocketMan.Logger.Message("ROCKETMAN: Not Allowed");
                         __result = false;
                     }
 
                     if (tilesToIsland[startTile] == tilesToIsland[destTile])
                     {
-                        if (RocketDebugPrefs.Debug) Log.Message("ROCKETMAN: Allowed");
+                        if (RocketDebugPrefs.Debug) RocketMan.Logger.Message("ROCKETMAN: Allowed");
                         __result = true;
                     }
 

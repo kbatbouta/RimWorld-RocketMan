@@ -64,8 +64,8 @@ namespace RocketMan
 
         static Main()
         {
-            Log.Message($"<color=orange>ROCKETMAN:</color> Version { RocketAssembliesInfo.Version }");
-            Log.Message($"R is 2.3={GenRadial.NumCellsInRadius(2.3f)}, 8.9={GenRadial.NumCellsInRadius(8.9f)} 4.5={GenRadial.NumCellsInRadius(4.5f)}");
+            RocketMan.Logger.Message($"<color=orange>ROCKETMAN:</color> Version { RocketAssembliesInfo.Version }");
+            RocketMan.Logger.Message($"R is 2.3={GenRadial.NumCellsInRadius(2.3f)}, 8.9={GenRadial.NumCellsInRadius(8.9f)} 4.5={GenRadial.NumCellsInRadius(4.5f)}");
             // ----------------------
             // TODO more stylizations.
             // this is used to stylize the log output of rocketman.
@@ -76,7 +76,7 @@ namespace RocketMan
             // TODO implement compatiblity xml support
             // foreach (var mod in ModsConfig.ActiveModsInLoadOrder)
             // {
-            //     Log.Message($"{mod.PackageId}, {mod.Name}, {mod.PackageIdPlayerFacing}");
+            //     RocketMan.Logger.Message($"{mod.PackageId}, {mod.Name}, {mod.PackageIdPlayerFacing}");
             // }
         }
 
@@ -111,11 +111,11 @@ namespace RocketMan
             // --------------
             // Used to tell other parts that defs are ready
             RocketStates.DefsLoaded = true;
-            // Loading Settings
-            Log.Message($"ROCKETMAN: RocketMan settings are stored in <color=red>{RocketEnvironmentInfo.RocketSettingsFilePath}</color>");
+            // Loading Settings            
+            RocketMan.Logger.Message($"ROCKETMAN: RocketMan settings are stored in <color=red>{RocketEnvironmentInfo.RocketSettingsFilePath}</color>");            
             RocketMod.Instance.LoadSettings();
             // Reload action            
-            Log.Message("ROCKETMAN: Defs loaded!");
+            RocketMan.Logger.Message("ROCKETMAN: Defs loaded!");
             // Execute the flaged methods
             for (var i = 0; i < onDefsLoaded.Count; i++) onDefsLoaded[i].Invoke();
             // --------------

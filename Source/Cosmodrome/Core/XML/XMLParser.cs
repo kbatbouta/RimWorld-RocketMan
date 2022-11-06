@@ -14,7 +14,7 @@ namespace RocketMan
 
         public static void ParseXML()
         {
-            Log.Message("ROCKETMAN: XMLParser started");
+            RocketMan.Logger.Message("ROCKETMAN: XMLParser started");
             foreach (ModContentPack mod in LoadedModManager.RunningModsListForReading)
             {
                 LoadableXmlAsset[] assets = DirectXmlLoader.XmlAssetsInModFolder(mod, rocketRulesFolder);
