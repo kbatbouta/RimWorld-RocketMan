@@ -199,12 +199,14 @@ namespace RocketMan
                         inRect.yMin += 5;
                     }
 
-                    //collapsible_other.Begin(inRect, "RocketMan.StatCacheSettings".Translate());
-                    //collapsible_other.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
-                    //collapsible_other.CheckboxLabeled("RocketMan.AdaptiveAlert.Label".Translate(), ref RocketPrefs.LearningAlertEnabled, "RocketMan.AdaptiveAlert.Description".Translate());
-                    //collapsible_other.CheckboxLabeled("RocketMan.EnableGearStatCaching".Translate(), ref RocketPrefs.StatGearCachingEnabled);
-                    //collapsible_other.End(ref inRect);
-                    //inRect.yMin += 5;
+                    collapsible_other.Begin(inRect, "RocketMan.StatCacheSettings".Translate());
+                    
+
+                    collapsible_other.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
+                    collapsible_other.CheckboxLabeled("RocketMan.AdaptiveAlert.Label".Translate(), ref RocketPrefs.LearningAlertEnabled, "RocketMan.AdaptiveAlert.Description".Translate());
+                    collapsible_other.CheckboxLabeled("RocketMan.EnableGearStatCaching".Translate(), ref RocketPrefs.StatGearCachingEnabled);
+                    collapsible_other.End(ref inRect);
+                    inRect.yMin += 5;
 
                     collapsible_GlowGrid.Begin(inRect, KeyedResources.Proton_GlowGrid);
                     collapsible_GlowGrid.Label(KeyedResources.Proton_GlowGrid_Description);
@@ -254,7 +256,7 @@ namespace RocketMan
                     if (RocketDebugPrefs.Debug)
                     {
                         collapsible_debug.Line(1);
-                        //collapsible_debug.CheckboxLabeled("Enable Stat Logging (Will kill performance)", ref RocketDebugPrefs.StatLogging);
+                        collapsible_debug.CheckboxLabeled("Enable Stat Logging (Will kill performance)", ref RocketDebugPrefs.StatLogging);
                         collapsible_debug.CheckboxLabeled("Enable GlowGrid flashing", ref RocketDebugPrefs.DrawGlowerUpdates);
                         collapsible_debug.CheckboxLabeled("Enable GlowGrid refresh", ref RocketPrefs.EnableGridRefresh);
                         collapsible_debug.Gap();

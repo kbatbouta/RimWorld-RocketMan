@@ -6,7 +6,7 @@ using Verse;
 
 namespace RocketMan.Optimizations
 {
-     [RocketPatch(typeof(StatPart_ApparelStatOffset), nameof(StatPart_ApparelStatOffset.TransformValue))]
+    [RocketPatch(typeof(StatPart_ApparelStatOffset), nameof(StatPart_ApparelStatOffset.TransformValue))]
     public static class StatPart_ApparelStatOffSet_Skipper_Patch
     {
         private static float curValue;

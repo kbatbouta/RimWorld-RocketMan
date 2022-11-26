@@ -34,8 +34,7 @@ namespace RocketMan
             tabs = new TabHolder(new List<ITabContent>()
             {
                 new TabContent_Settings(){ Selected = true },
-                // RIP stat caching
-                // new TabContent_Stats(){ Selected = false },
+                new TabContent_Stats(){ Selected = false },
             }, useSidebar: true);
             Main.yieldTabContent = FunctionsUtility.GetFunctions<YieldTabContent, ITabContent>().ToList();
             for (var i = 0; i < Main.yieldTabContent.Count; i++)
