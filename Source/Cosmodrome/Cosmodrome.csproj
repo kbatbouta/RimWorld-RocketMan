@@ -192,15 +192,7 @@
 		</None>
 	</ItemGroup>
 	<!-- Work around to generate T4 files on Mac -->
-	<Target Name="Generate Files" BeforeTargets="BeforeBuild">
-		<PropertyGroup>
-			<TextTransform>$(PkgMono_TextTransform)\tools\TextTransform.exe</TextTransform>
-			<KeyedResources>Core\Resources\KeyedResources</KeyedResources>
-			<AssemblyInfo>Properties\AssemblyInfo</AssemblyInfo>
-		</PropertyGroup>
-		<Exec WorkingDirectory="$(ProjectDir)" Command="$(TextTransform) --out=$(AssemblyInfo).cs $(AssemblyInfo).tt" />		
-		<Exec WorkingDirectory="$(ProjectDir)" Command="$(TextTransform) --out=$(KeyedResources).cs $(KeyedResources).tt" />
-	</Target>
+	
 	<ItemGroup>
 		<Reference Include="BCnEncoderNet45">
 			<HintPath>..\BCnEncoder\BCnEncoderNet45.dll</HintPath>

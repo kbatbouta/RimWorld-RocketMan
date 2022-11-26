@@ -32,7 +32,7 @@ namespace RocketMan
             if (!Directory.Exists(RocketEnvironmentInfo.CustomConfigFolderPath))
             {
                 Directory.CreateDirectory(RocketEnvironmentInfo.CustomConfigFolderPath);
-                RocketMan.Logger.Message($"ROCKETMAN: Created RocketMan config folder at <color=orange>{RocketEnvironmentInfo.CustomConfigFolderPath}</color>");
+                //RocketMan.Logger.Message($"ROCKETMAN: Created RocketMan config folder at <color=orange>{RocketEnvironmentInfo.CustomConfigFolderPath}</color>");
             }
             Logger.Initialize();
             // Patch all core functions

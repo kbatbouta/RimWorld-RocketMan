@@ -73,14 +73,17 @@ namespace RocketMan
 
         private static void Flush(StringBuilder stringBuilder, string file)
         {
-            string fullPath = Path.Combine(logsFolder, file);
-            stringBuilder.Append('\n');
-            if (!File.Exists(fullPath))
+            if (logsFolder != null && file != null)
             {
-                File.WriteAllText(fullPath, "[LOGGER STARTED]\n");
+                string fullPath = Path.Combine(logsFolder, file);
+                stringBuilder.Append('\n');
+                if (!File.Exists(fullPath))
+                {
+                    File.WriteAllText(fullPath, "[LOGGER STARTED]\n");
+                }
+                File.AppendAllText(fullPath, stringBuilder.ToString());
+                stringBuilder.Clear();
             }
-            File.AppendAllText(fullPath, stringBuilder.ToString());
-            stringBuilder.Clear();
         }
 
         private static void AddStackTrace(StringBuilder stringBuilder, StackTrace trace)
