@@ -63,6 +63,7 @@
 		</None>
 		<None Include="Core\Optimizations\Deprecated\GlowGrid_newtemp_Patch.cs" />
 		<None Include="Core\Optimizations\Deprecated\GlowGrid_Patch.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+		<None Include="Core\Optimizations\Deprecated\StatWorker_Patch.text.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Core\Modules\" />

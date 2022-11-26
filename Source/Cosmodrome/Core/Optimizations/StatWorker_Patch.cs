@@ -172,7 +172,9 @@ namespace RocketMan.Optimizations
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static float Replacemant(StatWorker statWorker, StatRequest req, bool applyPostProcess)
         {
-            if (RocketPrefs.Enabled && Current.Game != null && Finder.SessionTicks >= 600
+            if (RocketPrefs.Enabled
+                && (!statWorker.stat.cacheable || !statWorker.stat.immutable)
+                && Current.Game != null && Finder.SessionTicks >= 600
                 && !IgnoreMeDatabase.ShouldIgnore(statWorker.stat)
                 && RocketStates.Context == ContextFlag.Ticking)
             {
@@ -181,8 +183,9 @@ namespace RocketMan.Optimizations
                 int signature = req.thingInt?.GetSignature() ?? -1;
 
                 if (!cache.TryGetValue(key, out store))
+                {
                     return UpdateCache(key, statWorker, req, applyPostProcess, tick, storeExists: false);
-
+                }
                 if (tick - store.tick - 1 > RocketStates.StatExpiry[statWorker.stat.index] || signature != store.signature)
                 {
                     cache.Remove(key);
