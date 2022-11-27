@@ -113,7 +113,7 @@ namespace Gagarin
 
                 _modListChangedInt = true;
                 _modListChanged = RunningModsSetUtility.Changed(
-                    Context.RunningMods.Select(m => m.PackageId).ToHashSet(), ModListFilePath);
+                    Context.RunningMods.Select(m => m.PackageId).ToList(), ModListFilePath);
                 return _modListChanged;
             }
         }

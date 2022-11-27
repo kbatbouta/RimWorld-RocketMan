@@ -9,9 +9,9 @@ namespace Gagarin
 {
     public static class RunningModsSetUtility
     {
-        public static HashSet<string> Load(string path)
+        public static List<string> Load(string path)
         {
-            HashSet<string> result = new HashSet<string>();
+            List<string> result = new List<string>();
             XmlDocument document = new XmlDocument();
             try
             {
@@ -40,7 +40,7 @@ namespace Gagarin
             return result;
         }
 
-        public static void Dump(IEnumerable<ModContentPack> mods, string path)
+        public static void Dump(List<ModContentPack> mods, string path)
         {
             if (File.Exists(path))
                 File.Delete(path);
@@ -66,14 +66,19 @@ namespace Gagarin
             }
         }
 
-        public static bool Changed(HashSet<string> current, string path)
+        public static bool Changed(List<string> current, string path)
         {
             if (!File.Exists(path))
                 return true;
-            HashSet<string> old = Load(path);
+            List<string> old = Load(path);           
             if (current.Count != old.Count)
                 return true;
-            return current.Intersect(current).Count() != current.Count;
+            for(int i = 0;i < current.Count; i++)
+            {
+                if (current[i] != old[i])
+                    return true;
+            }
+            return false;
         }
     }
 }
