@@ -84,7 +84,11 @@ namespace Gagarin
 
         public static List<ModContentPack> RunningMods = new List<ModContentPack>();
 
+        public static HashSet<string> Assets = new HashSet<string>();
+
         public static Dictionary<string, UInt64> AssetsHashes = new Dictionary<string, UInt64>();
+
+        public static Dictionary<string, UInt64> AssetsHashesInt = new Dictionary<string, UInt64>();
 
         public static ModContentPack CurrentLoadingMod;
     }

@@ -25,11 +25,12 @@ namespace Gagarin
                 try
                 {
                     UInt64 current = CalculateHash(contents);
+                    UInt64 currentInt = CalculateHashInt(contents);
                     string id = __instance.GetLoadableId();
 
                     lock (Context.AssetsHashes)
                     {
-                        if (!Context.AssetsHashes.TryGetValue(id, out UInt64 old) || current != old)
+                        if (!Context.AssetsHashes.TryGetValue(id, out UInt64 old) || !Context.AssetsHashesInt.TryGetValue(id, out ulong oldInt) || current != old || oldInt != currentInt)
                         {
                             try
                             {
@@ -45,9 +46,11 @@ namespace Gagarin
                             finally
                             {
                                 Context.IsUsingCache = false;
-                            }
+                            }                            
                         }
+                        Context.Assets.Add(id);
                         Context.AssetsHashes[id] = current;
+                        Context.AssetsHashesInt[id] = (ulong)currentInt;
                     }
                 }
                 catch (Exception er)
@@ -68,6 +71,21 @@ namespace Gagarin
                     hashedValue += text[i];
                     hashedValue *= 3074457345618258799ul;
                 }
+            }
+            return hashedValue;
+        }
+
+        private static UInt64 CalculateHashInt(string read, bool lowTolerance = true)
+        {
+            UInt64 hashedValue = 0;
+            int i = 0;
+            ulong multiplier = 1193;
+            while (i < read.Length)
+            {
+                hashedValue += read[i] * multiplier;
+                multiplier *= 37;
+                if (lowTolerance) i += 2;
+                else i++;
             }
             return hashedValue;
         }

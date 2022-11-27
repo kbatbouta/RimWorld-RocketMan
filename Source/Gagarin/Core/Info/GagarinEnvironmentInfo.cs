@@ -24,6 +24,8 @@ namespace Gagarin
 
         private const string HashFileName = "AssetsHash.xml";
 
+        private const string HashIntFileName = "AssetsHashInt.xml";
+
         private const string GagarinSettingsFileName = "GagarinSettings.xml";
 
 
@@ -85,10 +87,17 @@ namespace Gagarin
             get => _hashFilePath ?? (_hashFilePath = Path.Combine(CacheFolderPath, HashFileName));
         }
 
+        private static string _hashFilePathInt;
+
+        public static string HashFilePathInt
+        {
+            get => _hashFilePathInt ?? (_hashFilePathInt = Path.Combine(CacheFolderPath, HashIntFileName));
+        }
+
 
         public static bool CacheExists
         {
-            get => File.Exists(UnifiedXmlFilePath) && File.Exists(HashFilePath) && Directory.Exists(CacheFolderPath);
+            get => File.Exists(UnifiedXmlFilePath) && File.Exists(HashFilePath) && File.Exists(HashFilePathInt) && Directory.Exists(CacheFolderPath);
         }
 
         private static bool _modListChangedInt;

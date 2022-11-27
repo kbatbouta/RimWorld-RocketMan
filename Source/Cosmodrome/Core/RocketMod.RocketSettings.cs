@@ -107,11 +107,10 @@ namespace RocketMan
                     upgrade = true;
                     version = RocketAssembliesInfo.Version;
                 }
-
                 Scribe_Values.Look(ref RocketDebugPrefs.Debug, "debug", false);
                 Scribe_Values.Look(ref RocketPrefs.Enabled, "enabled", true);
                 Scribe_Values.Look(ref RocketPrefs.Learning, "learning", true);
-                Scribe_Values.Look(ref RocketPrefs.FixBeauty, "FixBeauty", false);
+                Scribe_Values.Look(ref RocketPrefs.FixBeauty, "FixBeauty", true);
                 Scribe_Values.Look(ref RocketPrefs.StatGearCachingEnabled, "statGearCachingEnabled", true);
                 Scribe_Values.Look(ref RocketPrefs.ShowWarmUpPopup, "showWarmUpPopup", true);
                 Scribe_Values.Look(ref RocketPrefs.PauseAfterWarmup, "pauseAfterWarmup", false);
@@ -120,9 +119,12 @@ namespace RocketMan
                 Scribe_Values.Look(ref RocketPrefs.LearningAlertEnabled, "learningAlertEnabled", true);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilation, "timeDilation", true);
                 Scribe_Values.Look(ref RocketPrefs.TimeDilationWildlife, "TimeDilationWildlife", true);
-                                
+                if (upgrade)
+                {
+                    RocketPrefs.FixBeauty = true;
+                }
                 if (!upgrade)
-                {                    
+                {                                       
                     Scribe_Values.Look(ref RocketPrefs.TimeDilationColonists, "TimeDilationColonists", false);
                     Scribe_Values.Look(ref RocketPrefs.TimeDilationFire, "TimeDilationFire", false);
                     Scribe_Values.Look(ref RocketPrefs.TimeDilationCaravans, "timeDilationCaravan", false);

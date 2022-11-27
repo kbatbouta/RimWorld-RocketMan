@@ -22,7 +22,11 @@ namespace Gagarin
 
                     if (File.Exists(GagarinEnvironmentInfo.HashFilePath))
                     {
-                        Context.AssetsHashes = AssetHashingUtility.Load(GagarinEnvironmentInfo.HashFilePath);
+                        Context.AssetsHashes = AssetHashingUtility.Load(GagarinEnvironmentInfo.HashFilePath);                        
+                    }
+                    if (File.Exists(GagarinEnvironmentInfo.HashFilePathInt))
+                    {
+                        Context.AssetsHashesInt = AssetHashingUtility.Load(GagarinEnvironmentInfo.HashFilePathInt);
                     }
                 }
                 catch (Exception er)
@@ -40,10 +44,17 @@ namespace Gagarin
                     foreach (KeyValuePair<string, LoadableXmlAsset> pair in __result.Select(a => new KeyValuePair<string, LoadableXmlAsset>(a.FullFilePath, a)))
                         Context.XmlAssets.Add(pair.Key, pair.Value);
 
+                    if (Context.IsUsingCache && Context.Assets.Count != Context.AssetsHashes.Count)
+                    {
+                        Context.IsUsingCache = false;
+                        Context.AssetsHashes.RemoveAll(a => !Context.Assets.Contains(a.Key));
+                        Context.AssetsHashesInt.RemoveAll(a => !Context.Assets.Contains(a.Key));
+                        Log.Warning("GAGARIN: Total number of files changed. Reseting cache");
+                    }
                     if (!Context.IsUsingCache)
                     {
                         AssetHashingUtility.Dump(Context.AssetsHashes, GagarinEnvironmentInfo.HashFilePath);
-
+                        AssetHashingUtility.Dump(Context.AssetsHashesInt, GagarinEnvironmentInfo.HashFilePathInt);
                         if (File.Exists(GagarinEnvironmentInfo.UnifiedXmlFilePath))
                             File.Delete(GagarinEnvironmentInfo.UnifiedXmlFilePath);
                     }

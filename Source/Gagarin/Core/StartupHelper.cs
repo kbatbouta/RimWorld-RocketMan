@@ -24,7 +24,7 @@ namespace Gagarin
             {
                 Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
             }
-            RocketMan.Logger.Message("GAGARIN: <color=green>StartUpStarted called!</color>");
+            Log.Message("GAGARIN: <color=green>StartUpStarted called!</color>");
             if (GagarinEnvironmentInfo.CacheExists)
             {
                 Log.Warning("GAGARIN: <color=green>Cache found</color>");
@@ -56,7 +56,7 @@ namespace Gagarin
             }
             else
             {
-                RocketMan.Logger.Message("GAGARIN: <color=red>Gagarin is disabled!</color>");
+                Log.Message("GAGARIN: <color=red>Gagarin is disabled!</color>");
             }
         }
 
@@ -72,9 +72,11 @@ namespace Gagarin
         [Main.OnStaticConstructor]
         public static void StartUpFinished()
         {
-            RocketMan.Logger.Message("GAGARIN: <color=green>StartUpFinished called!</color>");
+            Log.Message("GAGARIN: <color=green>StartUpFinished called!</color>");
 
+            Context.Assets.Clear();
             Context.AssetsHashes.Clear();
+            Context.AssetsHashesInt.Clear();
             Context.DefsXmlAssets.Clear();
             Context.XmlAssets.Clear();
             Context.CurrentLoadingMod = null;

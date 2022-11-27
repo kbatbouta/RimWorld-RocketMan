@@ -93,20 +93,23 @@ namespace Gagarin
                         ClearCache();
                         GagarinSettings.WriteSettings();
                     }
-                }, useMargins: true);
-                collapsible.Line(1);
-                collapsible.Label(KeyedResources.Gagarin_EnableTextureCaching_Description);
-                if (collapsible.CheckboxLabeled(KeyedResources.Gagarin_EnableTextureCaching, ref GagarinPrefs.TextureCachingEnabled))
+                }, useMargins: true);                
+                if (RocketEnvironmentInfo.IsDevEnv)
                 {
-                    ClearCache();
-                    GagarinSettings.WriteSettings();
-                }
-                collapsible.Line(1);
-                collapsible.Label(KeyedResources.Gagarin_AdvancedSettings, fontSize: GUIFontSize.Smaller);
-                collapsible.Gap(3);
-                collapsible.Label(KeyedResources.Gagarin_AdvancedSettings_Description);
-                collapsible.Line(1);
-                collapsible.Columns(20, columnsFilter, useMargins: true);
+                    collapsible.Line(1);
+                    collapsible.Label(KeyedResources.Gagarin_EnableTextureCaching_Description);
+                    if (collapsible.CheckboxLabeled(KeyedResources.Gagarin_EnableTextureCaching, ref GagarinPrefs.TextureCachingEnabled))
+                    {
+                        ClearCache();
+                        GagarinSettings.WriteSettings();
+                    }
+                    collapsible.Line(1);
+                    collapsible.Label(KeyedResources.Gagarin_AdvancedSettings, fontSize: GUIFontSize.Smaller);
+                    collapsible.Gap(3);
+                    collapsible.Label(KeyedResources.Gagarin_AdvancedSettings_Description);
+                    collapsible.Line(1);
+                    collapsible.Columns(20, columnsFilter, useMargins: true);
+                }                
             }
             collapsible.End(ref rect);
         }

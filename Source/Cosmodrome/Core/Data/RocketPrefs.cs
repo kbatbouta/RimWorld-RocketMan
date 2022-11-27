@@ -23,7 +23,7 @@ namespace RocketMan
         public static bool Learning = true;
 
         [Main.SettingsField(warmUpValue: false)]
-        public static bool FixBeauty = false;
+        public static bool FixBeauty = true;
 
         [Main.SettingsField(warmUpValue: false)]
         public static bool LearningAlertEnabled = true;

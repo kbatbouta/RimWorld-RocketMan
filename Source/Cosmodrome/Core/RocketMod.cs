@@ -203,8 +203,10 @@ namespace RocketMan
                     
 
                     collapsible_other.CheckboxLabeled("RocketMan.Adaptive".Translate(), ref RocketPrefs.Learning, "RocketMan.Adaptive.Description".Translate());
-                    collapsible_other.CheckboxLabeled("RocketMan.AdaptiveAlert.Label".Translate(), ref RocketPrefs.LearningAlertEnabled, "RocketMan.AdaptiveAlert.Description".Translate());
+                    collapsible_other.CheckboxLabeled("RocketMan.AdaptiveAlert.Label".Translate(), ref RocketPrefs.LearningAlertEnabled, "RocketMan.AdaptiveAlert.Description".Translate());                    
                     collapsible_other.CheckboxLabeled("RocketMan.EnableGearStatCaching".Translate(), ref RocketPrefs.StatGearCachingEnabled);
+                    collapsible_other.Line(1);
+                    collapsible_other.CheckboxLabeled(KeyedResources.RocketMan_FixBeauty, ref RocketPrefs.FixBeauty, KeyedResources.RocketMan_FixBeauty_Tip);
                     collapsible_other.End(ref inRect);
                     inRect.yMin += 5;
 
@@ -241,8 +243,8 @@ namespace RocketMan
                             if (devKeyEnabled && !File.Exists(RocketEnvironmentInfo.DevKeyFilePath))
                                 File.WriteAllText(RocketEnvironmentInfo.DevKeyFilePath, "enabled");
                         }
-                        collapsible_experimental.Line(1);
-                        collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_FixBeauty, ref RocketPrefs.FixBeauty, KeyedResources.RocketMan_FixBeauty_Tip);
+                        //collapsible_experimental.Line(1);
+                        //collapsible_experimental.CheckboxLabeled(KeyedResources.RocketMan_FixBeauty, ref RocketPrefs.FixBeauty, KeyedResources.RocketMan_FixBeauty_Tip);
                         collapsible_experimental.End(ref inRect);
                         inRect.yMin += 5;
                     }

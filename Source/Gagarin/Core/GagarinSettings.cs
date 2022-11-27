@@ -18,7 +18,7 @@ namespace Gagarin
 
         public void ExposeData()
         {
-            Scribe_Values.Look(ref GagarinPrefs.Enabled, "Enabled", false);
+            Scribe_Values.Look(ref GagarinPrefs.Enabled, "Enabled2", true);
             Scribe_Values.Look(ref GagarinPrefs.TextureCachingEnabled, "TextureCachingEnabled", false);
             Scribe_Values.Look(ref GagarinPrefs.FilterMode, "FilterMode", (int)UnityEngine.FilterMode.Trilinear);
             Scribe_Values.Look(ref GagarinPrefs.MipMapBias, "MipMapBias", float.MinValue);
