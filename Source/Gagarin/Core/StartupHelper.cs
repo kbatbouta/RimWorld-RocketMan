@@ -46,9 +46,11 @@ namespace Gagarin
             RunningModsSetUtility.Dump(Context.RunningMods, GagarinEnvironmentInfo.ModListFilePath);
 
             GagarinSettings.LoadSettings();
-            if (DateTime.Now.Subtract(GagarinPrefs.CacheCreationTime).Days >= 3)
+            if (GagarinPrefs.CacheCreationTime == null || DateTime.Now.Subtract(GagarinPrefs.CacheCreationTime).Days >= 2)
             {
+                GagarinPrefs.CacheCreationTime = default(DateTime);
                 Context.IsUsingCache = false;
+                GagarinSettings.WriteSettings();
             }
             if (GagarinPrefs.Enabled)
             {

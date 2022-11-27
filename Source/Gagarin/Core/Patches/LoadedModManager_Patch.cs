@@ -50,7 +50,7 @@ namespace Gagarin
                         Context.AssetsHashes.RemoveAll(a => !Context.Assets.Contains(a.Key));
                         Context.AssetsHashesInt.RemoveAll(a => !Context.Assets.Contains(a.Key));
                         Log.Warning("GAGARIN: Total number of files changed. Reseting cache");
-                    }
+                    }                    
                     if (!Context.IsUsingCache)
                     {
                         AssetHashingUtility.Dump(Context.AssetsHashes, GagarinEnvironmentInfo.HashFilePath);

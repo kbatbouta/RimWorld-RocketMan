@@ -3,7 +3,7 @@ namespace Gagarin
 {
     public static class GagarinPrefs
     {
-        public static bool Enabled = false;
+        public static bool Enabled = true;
 
         public static int FilterMode = (int)UnityEngine.FilterMode.Trilinear;
 

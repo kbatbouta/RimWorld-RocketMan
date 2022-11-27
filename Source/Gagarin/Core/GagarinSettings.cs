@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using RimWorld;
 using RocketMan;
 using Verse;
 
@@ -12,12 +13,30 @@ namespace Gagarin
 
         private string creationDateInt = null;
 
+        private string gameBuild;
+
         public GagarinSettings()
         {
         }
 
         public void ExposeData()
         {
+            Log.Message($"b.{VersionControl.CurrentBuild}:{VersionControl.CurrentBuildDate}:{VersionControl.CurrentVersionStringWithRev}");
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                gameBuild = $"{VersionControl.CurrentBuild}:{VersionControl.CurrentBuildDate}:{VersionControl.CurrentVersionStringWithRev}";
+            }
+            Scribe_Values.Look(ref gameBuild, "gameBuild", null);            
+            if (Scribe.mode != LoadSaveMode.Saving)
+            {
+                string curGameBuild = $"{VersionControl.CurrentBuild}:{VersionControl.CurrentBuildDate}:{VersionControl.CurrentVersionStringWithRev}";
+                if (gameBuild == null || curGameBuild != gameBuild)
+                {
+                    Log.Warning($"GAGARIN: Game build changed {gameBuild} vs {curGameBuild} clearing cache");
+                    Context.IsUsingCache = false;
+                    gameBuild = curGameBuild;
+                }
+            }
             Scribe_Values.Look(ref GagarinPrefs.Enabled, "Enabled2", true);
             Scribe_Values.Look(ref GagarinPrefs.TextureCachingEnabled, "TextureCachingEnabled", false);
             Scribe_Values.Look(ref GagarinPrefs.FilterMode, "FilterMode", (int)UnityEngine.FilterMode.Trilinear);
@@ -27,15 +46,12 @@ namespace Gagarin
             {
                 this.creationDateInt = GagarinPrefs.CacheCreationTime.ToString(FMT);
             }
-            Scribe_Values.Look(ref this.creationDateInt, "creationTime", DateTime.Now.ToString(FMT));
-
-            if (Scribe.mode != LoadSaveMode.Saving)
+            Scribe_Values.Look(ref this.creationDateInt, "creationTime", DateTime.Now.ToString(FMT));            
+            if (Scribe.mode != LoadSaveMode.Saving && this.creationDateInt != null)
             {
-                this.creationDateInt = creationDateInt ?? DateTime.Now.ToString(FMT);
-
                 GagarinPrefs.CacheCreationTime = DateTime.ParseExact(this.creationDateInt, FMT, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
             }
-        }
+        }        
 
         public static void LoadSettings()
         {
@@ -72,10 +88,11 @@ namespace Gagarin
             {
                 Context.Settings = new GagarinSettings();
             }
-            if (!settingsFound)
-            {
-                WriteSettings();
-            }
+            WriteSettings();
+            //if (!settingsFound)
+            //{
+            //    WriteSettings();
+            //}
         }
 
         public static void WriteSettings()
@@ -87,6 +104,10 @@ namespace Gagarin
             if (!Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
             {
                 Directory.CreateDirectory(GagarinEnvironmentInfo.TexturesFolderPath);
+            }
+            if (File.Exists(GagarinEnvironmentInfo.GagarinSettingsFilePath))
+            {
+                File.Delete(GagarinEnvironmentInfo.GagarinSettingsFilePath);
             }
             Scribe.saver.InitSaving(GagarinEnvironmentInfo.GagarinSettingsFilePath, "SettingsBlock");
             try

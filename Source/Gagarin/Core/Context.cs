@@ -74,7 +74,7 @@ namespace Gagarin
 
         public static bool LoadingFinished = false;
 
-        public static ModContentPack Core;
+        public static ModContentPack Core;        
 
         public static GagarinSettings Settings;
 
