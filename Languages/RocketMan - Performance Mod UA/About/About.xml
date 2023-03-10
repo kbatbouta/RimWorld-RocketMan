@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+
+	<name>RocketMan UA Language</name>
+	<author>AntiJaoi</author>
+    <supportedVersions>
+        <li>1.4</li>
+    </supportedVersions>
+	<packageId>AntiJaoi.UaRocketMan</packageId>
+	<description>
+
+Переклад на україньську RocketMan! Так як сама модифікація RocketMan вимагае щоб програму було завантажено в самому низу вашого списку модів. рекомендую просто копіювати в бібліотеку з модом переклад до поки я не переборю свою лінь і не напишу засновнику мода)
+
+
+	</description>
+
+</ModMetaData>
