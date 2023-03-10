@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+	<!-- General -->
+	<RocketMan.Settings>Налаштування</RocketMan.Settings>
+	<RocketMan.Settings.Debugging>Налаштування відлагодження </RocketMan.Settings.Debugging>
+	<RocketMan.Collapsible.Expand>[Розгорнути]</RocketMan.Collapsible.Expand>
+	<RocketMan.Collapsible.Hide>[Сховати]</RocketMan.Collapsible.Hide>
+	<RocketMan.Selection>Вибір: {0}</RocketMan.Selection>
+	<!-- RocketMan -->
+	<RocketMan.Settings.PleaseUnpause>Будь ласка, розпаузьте гру ... RocketMan нагрівається!</RocketMan.Settings.PleaseUnpause>
+	<RocketMan.Settings.PleaseWait>Зачекайте, будь ласка ... RocketMan нагрівається!</RocketMan.Settings.PleaseWait>
+	<RocketMan.IncompatibilityWindow.Title>Ви використовуєте несумісні моди</RocketMan.IncompatibilityWindow.Title>
+	<RocketMan.IncompatibilityWindow.Description>Ви використовуєте несумісні моди з RocketMan. Цей тип несумісності знищить ваше збереження! Ви можете вимкнути RocketMan або продовжувати на свій власний ризик. \nПоточні несумісні моди:\n</RocketMan.IncompatibilityWindow.Description>
+	<RocketMan.IncompatibilityWindow.Continue>Так, я розумію! Продовжуйте!</RocketMan.IncompatibilityWindow.Continue>
+	<RocketMan.IncompatibilityWindow.OpenModManager>Відкрити менеджер модів</RocketMan.IncompatibilityWindow.OpenModManager>
+	<RocketMan.IncompatibilityWindow.Disclaimer>Команда RocketMan не надасть жодної підтримки, якщо ви вирішите ігнорувати це повідомлення або продовжувати!</RocketMan.IncompatibilityWindow.Disclaimer>
+	<RocketMan.Alert_StatsLearning.Label>Активний адаптивний режим</RocketMan.Alert_StatsLearning.Label>
+	<RocketMan.Alert_StatsLearning.Explanation>Адаптивний режим активний протягом {0} хвилин! Рекомендується працювати в ньому {1} хвилин на новому збереженні або при зміні модів.</RocketMan.Alert_StatsLearning.Explanation>
+	<RocketMan.AdaptiveAlert.Label>Включити попередження про адаптивний режим</RocketMan.AdaptiveAlert.Label>
+	<RocketMan.AdaptiveAlert.Description>Вимкніть це, якщо ви не хочете бачити попередження про адаптивний режим в вашому списку повідомлень.</RocketMan.AdaptiveAlert.Description>
+	<RocketMan.Unpause>Будь ласка, розпаузьте гру!</RocketMan.Unpause>
+	<RocketMan.Warming>нагрівається! Зачекайте, будь ласка...</RocketMan.Warming>
+	<RocketMan.HideProgressBar>Ви можете сховати / вимкнути в налаштуваннях RocketMan</RocketMan.HideProgressBar>
+	<!-- RocketMan RocketMan.TabContent_Settings -->
+	<RocketMan.RocketMan>RocketMan</RocketMan.RocketMan>
+	<RocketMan.Tab>Головна</RocketMan.Tab>
+	<RocketMan.FixBeauty>Динамічний радіус сканування краси</RocketMan.FixBeauty>
+	<RocketMan.FixBeauty.Tip>Радіус сканування краси змінюватиметься в залежності від дій пешки. Використовуйте на свій ризик.</RocketMan.FixBeauty.Tip>
+	<RocketMan.GenMapSize>THIGH-O-TORN 5000</RocketMan.GenMapSize>
+	<RocketMan.GenMapSize.Text>Встановити розмір/форму карти для наступної генерованої карти. (після генерації карти ця опція повернеться до значення за замовчуванням)</RocketMan.GenMapSize.Text>
+	<RocketMan.GenMapSize.Note>Зверніть увагу, що нова карта матиме ширину/висоту, яка ділиться на висоту регіону (цей процес округлення виконується автоматично).</RocketMan.GenMapSize.Note>
+	<RocketMan.GenMapSize.Mode.Custom>Свій</RocketMan.GenMapSize.Mode.Custom>
+	<RocketMan.GenMapSize.Mode.Vanilla>Звичайний</RocketMan.GenMapSize.Mode.Vanilla>
+	<RocketMan.GenMapSize.Width>Ширина</RocketMan.GenMapSize.Width>
+	<RocketMan.GenMapSize.Height>Висота</RocketMan.GenMapSize.Height>
+	<RocketMan.Close>Закрити</RocketMan.Close>
+	<RocketMan.Enable>Увімкнути</RocketMan.Enable>
+	<RocketMan.TranslationCaching>Увімкнути кешування розміру тексту</RocketMan.TranslationCaching>
+	<RocketMan.Experimental>Експериментальні функції</RocketMan.Experimental>
+	<RocketMan.Experimental.Description>Тут ви можете вибрати бета-функції RocketMan.\nПопередження: не використовуйте це, якщо не знаєте, що робите.</RocketMan.Experimental.Description>
+	<RocketMan.Experimental.OptInBeta>Вибрати бета-функції RocketMan</RocketMan.Experimental.OptInBeta>
+	<RocketMan.EnableGagarin>Увімкнути зменшення часу завантаження (швидше завантаження)</RocketMan.EnableGagarin>
+	<RocketMan.EnableGagarin.Tip>RocketMan спробує скоротити час завантаження, кешуючи операції патчінгу Xml. Після ввімкнення цього параметра перезапустіть гру двічі, щоб RocketMan створив кеш. Залежно від кількості модів та їхніх типів, ви можете отримати до 2-х разів швидший час завантаження. Рекомендується використовувати з Xml-патч-модами, такими як Combat Extended або Doc universal.</RocketMan.EnableGagarin.Tip>
+	<RocketMan.ShowIcon>Показувати кнопку/іконку RocketMan</RocketMan.ShowIcon>
+	<RocketMan.ShowIcon.Description>Через обмеження гри деякі опції не доступні зі налаштувань головного меню гри.</RocketMan.ShowIcon.Description>
+	<RocketMan.ProgressBar>Показувати панель прогресу завантаження під час запуску</RocketMan.ProgressBar>
+	<RocketMan.ProgressBar.Pause>Призупинити після підготовки</RocketMan.ProgressBar.Pause>
+	<RocketMan.ProgressBar.Description>Це покаже панель прогресу під час завантаження нової карти.</RocketMan.ProgressBar.Description>
+	<RocketMan.Junk>сміття</RocketMan.Junk>
+	<RocketMan.CorpseRemoval>Автоматичне видалення трупів.</RocketMan.CorpseRemoval>
+	<RocketMan.CorpseRemoval.Description>Це видаляє трупи, які деякий час не були в зоні видимості і не знаходяться біля вашої бази, щоб уникнути порушення гри.</RocketMan.CorpseRemoval.Description>
+	<RocketMan.GameSpeed>Налаштування швидкості гри</RocketMan.GameSpeed>
+	<RocketMan.DisableForcedSlowdowns>Вимкнути примусові сповільнення</RocketMan.DisableForcedSlowdowns>
+	<RocketMan.DisableForcedSlowdowns.Description>Вимкнути примусові сповільнення, викликані ігровими подіями. Вимкніть це, якщо ви використовуєте SmartSpeed.</RocketMan.DisableForcedSlowdowns.Description>
+	<RocketMan.StatCacheSettings>Налаштування кешування статистики</RocketMan.StatCacheSettings>
+	<RocketMan.Adaptive>Адаптивний режим</RocketMan.Adaptive>
+	<RocketMan.Adaptive.Description>Увімкніть на 30 хвилин після створення нового збереження або зміни списку модів.</RocketMan.Adaptive.Description>
+	<RocketMan.EnableGearStatCaching>Увімкнути кешування статистики знарядь</RocketMan.EnableGearStatCaching>
+	<RocketMan.Debugging>Увімкнути налагодження</RocketMan.Debugging>
+	<RocketMan.Debugging.Description>Тільки для досвідчених користувачів та розробників модів.</RocketMan.Debugging.Description>
+	<!-- Soyuz Soyuz.TabContent_DilationSettings -->
+	<Soyuz.Tab>Керування часовою дилатацією</Soyuz.Tab>
+	<Soyuz.Colored.Disabled>Вимкнено</Soyuz.Colored.Disabled>
+	<Soyuz.DilationFactor.OnScreen>Коефіцієнт дилатації на екрані</Soyuz.DilationFactor.OnScreen>
+	<Soyuz.DilationFactor.OffScreen>Коефіцієнт дилатації поза екраном</Soyuz.DilationFactor.OffScreen>
+	<Soyuz.DilationFactor>Коефіцієнти дилатації - це числа від 0.1 до 1.0. Чим менше число використовується, тим менше дилатація буде здійснюватись. Використання вищих чисел призводить до збільшення продуктивності, але може спричинити проблеми з анімацією. Рекомендоване значення - 0,6 для за екраном і 0,2 для на екрані.</Soyuz.DilationFactor>
+	<Soyuz.Colored.IgnoredAndDisabled>Ігнорується і вимкнено</Soyuz.Colored.IgnoredAndDisabled>
+	<Soyuz.Colored.IsFastMoving>Рухається швидко</Soyuz.Colored.IsFastMoving>
+	<Soyuz.Colored.IgnorePlayerFaction>Ігнорує фракцію гравця</Soyuz.Colored.IgnorePlayerFaction>
+	<Soyuz.Colored.IgnoreAllFaction>Ігнорує всі фракції</Soyuz.Colored.IgnoreAllFaction>
+	<Soyuz.Enable>Увімкнути</Soyuz.Enable>
+	<Soyuz.GeneralTip>Ви можете використовувати налаштування нижче, щоб виправити будь-які проблеми з дилатованими пешками.</Soyuz.GeneralTip>
+	<Soyuz.EnableTimeDilation>Увімкнути дилатацію часу</Soyuz.EnableTimeDilation>
+	<Soyuz.EnableTimeDilationVisitors>Увімкнути зміну часу для відвідувачів</Soyuz.EnableTimeDilationVisitors>
+	<Soyuz.EnableTimeWorldPawns>Увімкнути зміну часу для пішоходів світу</Soyuz.EnableTimeWorldPawns>
+	<Soyuz.EnableTimeCriticalHediffs>Увімкнути зміну часу для пішоходів з критичними хедиффами</Soyuz.EnableTimeCriticalHediffs>
+	<Soyuz.EnableTimeWildlife>Увімкнути зміну часу для дикої природи</Soyuz.EnableTimeWildlife>
+	<Soyuz.EnableTimeColonyAnimals>Увімкнути зміну часу для тварин колонії</Soyuz.EnableTimeColonyAnimals>
+	<Soyuz.EnableTimeColonists>Увімкнути зміну часу для колоністів</Soyuz.EnableTimeColonists>
+	<Soyuz.EnableTimeColonists.Warning>УВАГА: Це дуже небезпечно. НЕ ВИКОРИСТОВУЙТЕ ЦЕ, якщо автор моду не дозволяє цього. Це може розбити ваші збереження і призвести до дивного поведінки.</Soyuz.EnableTimeColonists.Warning>
+	<Soyuz.Current.Enable>Увімкнути</Soyuz.Current.Enable>
+	<Soyuz.Current.Tip>Лише налаштовуйте наступні параметри, якщо ви знаєте, що робите. Ці налаштування дозволяють налаштувати вибрану расу.</Soyuz.Current.Tip>
+	<Soyuz.Current.IgnorePlayerFaction>Ігнорувати фракцію гравця</Soyuz.Current.IgnorePlayerFaction>
+	<Soyuz.Current.IgnoreAllFactions>Ігнорувати всі фракції</Soyuz.Current.IgnoreAllFactions>
+	<Soyuz.Current.FastPawn>Цей персонаж рухається занадто швидко, щоб його можна було обмежити</Soyuz.Current.FastPawn>
+	<Soyuz.Current.Ignored>Цього персонажа буде проігноровано через:</Soyuz.Current.Ignored>
+	<Soyuz.Current.MoveSpeed>Ці персонажі рухаються з середньою швидкістю {0} клітин/секунду</Soyuz.Current.MoveSpeed>
+	<Soyuz.DilationDisabled>Часова дилатація вимкнена!</Soyuz.DilationDisabled>
+	<Soyuz.RaceName>Раса</Soyuz.RaceName>
+	<Soyuz.PackageId>Батьківський мод</Soyuz.PackageId>
+	<Soyuz.EnableDataLogging>Увімкнути запис даних</Soyuz.EnableDataLogging>
+	<Soyuz.Debug150MTPS>Встановити множник часових інтервалів на 150x</Soyuz.Debug150MTPS>
+	<Soyuz.FlashPawns>Миготіти дилатованих персонажів</Soyuz.FlashPawns>
+	<Soyuz.AlwaysDilate>Симулювати поведінку за екраном</Soyuz.AlwaysDilate>
+	<!-- Proton Proton.TabContent_Alerts -->
+<Proton.Tab>Управління сповіщеннями</Proton.Tab>
+<Proton.Colored.ActiveNow>Активні зараз</Proton.Colored.ActiveNow>
+<Proton.Colored.IgnoredAndBad>Ігноруються та погано працюють</Proton.Colored.IgnoredAndBad>
+<Proton.Colored.DisabledOrBad>Відключено або погано працює</Proton.Colored.DisabledOrBad>
+<Proton.Colored.Ignored>Ігноруються (для критичних повідомлень)</Proton.Colored.Ignored>
+<Proton.Enable>Увімкнути</Proton.Enable>
+<Proton.DisalbeAllInfo>Якщо у вас встановлено аналізатор продуктивності Dub, RocketMan перевизначить його систему керування сповіщеннями. Використовуйте цю замість.</Proton.DisalbeAllInfo>
+<Proton.DisableAll.P1>Відключити</Proton.DisableAll.P1>
+<Proton.DisableAll.P2>всі сповіщення</Proton.DisableAll.P2>
+<Proton.Disabled>Керування відключене</Proton.Disabled>
+<Proton.AlertsDisabled>Всі сповіщення вимкнені</Proton.AlertsDisabled>
+<Proton.MaxIn>Максимальний час виконання</Proton.MaxIn>
+<Proton.Tab>Керування сповіщеннями</Proton.Tab>
+<Proton.Colored.ActiveNow>Активний зараз</Proton.Colored.ActiveNow>
+<Proton.Colored.IgnoredAndBad>Ігнорується і веде себе погано</Proton.Colored.IgnoredAndBad>
+<Proton.Colored.DisabledOrBad>Вимкнено або веде себе погано</Proton.Colored.DisabledOrBad>
+<Proton.Colored.Ignored>Ігнорується (для критичних сповіщень)</Proton.Colored.Ignored>
+<Proton.Enable>Увімкнути</Proton.Enable>
+<Proton.DisalbeAllInfo>Якщо ви встановили аналізатор продуктивності Dub, RocketMan перевизначить його систему керування сповіщеннями. Використовуйте замість цього.</Proton.DisalbeAllInfo>
+<Proton.DisableAll.P1>ВИМКНУТИ</Proton.DisableAll.P1>
+<Proton.DisableAll.P2>всі сповіщення</Proton.DisableAll.P2>
+<Proton.Disabled>Керування вимкнено</Proton.Disabled>
+<Proton.AlertsDisabled>Всі сповіщення вимкнено</Proton.AlertsDisabled>
+<Proton.MaxIn>Максимальний час виконання</Proton.MaxIn>
+<Proton.MinUpdate>Мінімальний інтервал оновлення</Proton.MinUpdate>
+<Proton.Enabled>Увімкнено</Proton.Enabled>
+<Proton.IgnoreThis>Ігнорувати це (повернення до стандартної поведінки)</Proton.IgnoreThis>
+<Proton.AlertName>Назва сповіщення</Proton.AlertName>
+<Proton.Avg>Середній час виконання</Proton.Avg>
+<Proton.TimeSinceLast>Час з останнього оновлення</Proton.TimeSinceLast>
+<Proton.GlowGrid>Оптимізація GlowGrid</Proton.GlowGrid>
+<Proton.GlowGrid.Enable>Оптимізація GlowGrid</Proton.GlowGrid.Enable>
+<Proton.GlowGrid.Description>При зміні освітлення карти ця оптимізація забезпечує оновлення лише невеликої частини GlowGrid.</Proton.GlowGrid.Description>
+<Proton.GlowGrid.Limiter>Збільшити кількість Glower</Proton.GlowGrid.Limiter>	<Proton.GlowGrid.Limiter>Increase the number of Glowers required</Proton.GlowGrid.Limiter>
+<Proton.GlowGrid.Limiter.Tip>Збільшити кількість Glower'ів, необхідних для оптимізації. Це зробить Proton за замовчуванням використовувати ванільний код у випадку дуже невеликої кількості Glower'ів. Це забезпечить більш послідовний приріст продуктивності.</Proton.GlowGrid.Limiter.Tip>
+	<!-- Gagarin -->
+<Gagarin.ParsingReports> RocketMan перевіряє наявність дубльованих баз або Defs </Gagarin.ParsingReports>
+<Gagarin.Tab> Оптимізація часу завантаження </Gagarin.Tab>
+<Gagarin.Expiry> Термін дії кешу Gagarin закінчується через: {0} днів </Gagarin.Expiry>
+<Gagarin.Tip> Поки включена оптимізація часу завантаження, вона кешує кожен XML Def. Це дозволяє пропустити патчінг XML. Ви можете вимкнути це з головного меню RocketMan </Gagarin.Tip>
+<Gagarin.ClearCache> Очистити кеш </Gagarin.ClearCache>
+<Gagarin.ClearCache.Description> Очищення кешу може допомогти вирішити проблеми з кешуванням XML в разі оновлення моду, а також дозволити кешувати нові текстури. Рекомендується очищати його кожен другий день. </Gagarin.ClearCache.Description>
+<Gagarin.EnableTextureCaching> Увімкнути кешування текстур </Gagarin.EnableTextureCaching>
+<Gagarin.EnableTextureCaching.Description> Кешування текстур прискорить час завантаження, але несумісне з модом Graphics Settings або модом високоякісних текстур. </Gagarin.EnableTextureCaching.Description>
+<Gagarin.AdvancedSettings> Додаткові налаштування </Gagarin.AdvancedSettings>
+<Gagarin.AdvancedSettings.Description> Будь ласка, використовуйте це лише якщо ви знаєте, що робите! </Gagarin.AdvancedSettings.Description>
+<Gagarin.FilterMode> Режим фільтра </Gagarin.FilterMode>
+<Gagarin.MipMapBias> Коефіцієнт зміщення MipMap </Gagarin.MipMapBias>
+</LanguageData>
