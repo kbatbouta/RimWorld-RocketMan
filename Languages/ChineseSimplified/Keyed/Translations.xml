@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+	<RocketMan.Settings.PleaseUnpause>请勿暂停游戏...正在启动RocketMan!</RocketMan.Settings.PleaseUnpause>
+	<RocketMan.Settings.PleaseWait>请等待RocketMan启动完毕!</RocketMan.Settings.PleaseWait>
+	<RocketMan.IncompatibilityWindow.Description>你的Mod列表存在与RocketMan冲突的Mod。该类兼容性问题会毁掉你的存档!你可选择禁用RocketMan或继续一意孤行。以下是冲突的Mod列表:\n</RocketMan.IncompatibilityWindow.Description>
+	<RocketMan.IUnderstand>我已了解! 继续游戏!</RocketMan.IUnderstand>
+	<RocketMan.ChangeBack>你随意可更改Mod列表中的Mod及移除RocketMan!</RocketMan.ChangeBack>
+	<RocketMan.OpenModList>我已了解!打开Mod配置!</RocketMan.OpenModList>
+	<RocketMan.Disclaimer>若你无视该消息则RocketMan团队不会提供任何支持!</RocketMan.Disclaimer>
+	<RocketMan.Unpause>请勿暂停游戏!</RocketMan.Unpause>
+	<RocketMan.Warming>启动中!请稍后...</RocketMan.Warming>
+	<RocketMan.HideProgressBar>此提示可在RocketMan设置中隐藏/禁用</RocketMan.HideProgressBar>
+	<!-- RocketMan RocketMan.TabContent_Settings -->
+	<RocketMan.RocketMan>RocketMan</RocketMan.RocketMan>
+	<RocketMan.Tab>主要功能</RocketMan.Tab>
+	<RocketMan.Enable>主界面设置</RocketMan.Enable>
+	<RocketMan.ShowIcon>显示RocketMan按钮/图标</RocketMan.ShowIcon>
+	<RocketMan.ShowIcon.Description>因受游戏限制，部分设置无法在游戏主界面的Mod选项中配置。</RocketMan.ShowIcon.Description>
+	<RocketMan.ProgressBar>游戏开始时显示启动进度条</RocketMan.ProgressBar>
+	<RocketMan.ProgressBar.Description>开启此选项会在你载入新地图时显示启动进度条。</RocketMan.ProgressBar.Description>
+	<RocketMan.Junk>垃圾</RocketMan.Junk>
+	<RocketMan.CorpseRemoval>启用自动清除尸体</RocketMan.CorpseRemoval>
+	<RocketMan.CorpseRemoval.Description>为保持游戏平衡性，该机制只会清除存在于视野外一段时间及非玩家基地(居住区)附近的尸体。</RocketMan.CorpseRemoval.Description>
+	<RocketMan.StatCacheSettings>数据缓存配置</RocketMan.StatCacheSettings>
+	<RocketMan.Adaptive>自适应模式</RocketMan.Adaptive>
+	<RocketMan.Adaptive.Description>每当新开档或更改Mod列表时启用30分钟后关闭。</RocketMan.Adaptive.Description>
+	<RocketMan.EnableGearStatCaching>缓存装备状态数据</RocketMan.EnableGearStatCaching>
+	<RocketMan.Debugging>启用debugging</RocketMan.Debugging>
+	<RocketMan.Debugging.Description>仅适用于高级用户及Mod作者</RocketMan.Debugging.Description>
+	<!-- Soyuz Soyuz.TabContent_DilationSettings -->
+	<Soyuz.Tab>间隔扩增配置</Soyuz.Tab>
+	<Soyuz.Colored.Disabled>禁用</Soyuz.Colored.Disabled>
+	<Soyuz.Colored.IgnoredAndDisabled>忽略及禁用</Soyuz.Colored.IgnoredAndDisabled>
+	<Soyuz.Colored.IsFastMoving>高移速</Soyuz.Colored.IsFastMoving>
+	<Soyuz.Colored.IgnorePlayerFaction>忽略玩家派系</Soyuz.Colored.IgnorePlayerFaction>
+	<Soyuz.Colored.IgnoreAllFaction>忽略所有派系</Soyuz.Colored.IgnoreAllFaction>
+	<Soyuz.EnableTimeDilation>启用间隔扩增</Soyuz.EnableTimeDilation>
+	<Soyuz.Current.Enable>启用</Soyuz.Current.Enable>
+	<Soyuz.Current.IgnorePlayerFaction>忽略玩家派系</Soyuz.Current.IgnorePlayerFaction>
+	<Soyuz.Current.IgnoreAllFactions>忽略所有派系</Soyuz.Current.IgnoreAllFactions>
+	<Soyuz.Current.FastPawn>该生物因移速太快而不受限制</Soyuz.Current.FastPawn>
+	<Soyuz.Current.Ignored>该生物将不受限制，因为:</Soyuz.Current.Ignored>
+	<Soyuz.Current.MoveSpeed>此类生物的平均移速为 {0} 格/秒</Soyuz.Current.MoveSpeed>
+	<Soyuz.Current.EnableTimeDilation>启用间隔扩增</Soyuz.Current.EnableTimeDilation>
+	<Soyuz.Current.EnableTimeDilationVisitors>对访客启用间隔扩增</Soyuz.Current.EnableTimeDilationVisitors>
+	<Soyuz.Current.EnableTimeWorldPawns>对系统人物启用间隔扩增</Soyuz.Current.EnableTimeWorldPawns>
+	<Soyuz.Current.EnableTimeWildlife>对野外生物启用间隔扩增</Soyuz.Current.EnableTimeWildlife>
+	<Soyuz.Current.EnableTimeColonnyAnimals>对基地动物启用间隔扩增</Soyuz.Current.EnableTimeColonnyAnimals>
+	<Soyuz.DilationDisabled>已禁用间隔扩增!</Soyuz.DilationDisabled>
+	<Soyuz.EnableDataLogging>开启详细日志</Soyuz.EnableDataLogging>
+	<Soyuz.Debug150MTPS>将Tick倍数设为150倍</Soyuz.Debug150MTPS>
+	<Soyuz.FlashPawns>突出被限制的生物</Soyuz.FlashPawns>
+	<Soyuz.AlwaysDilate>模拟屏幕外的行为</Soyuz.AlwaysDilate>
+	<!-- Proton Proton.TabContent_Alerts -->
+	<Proton.Tab>警报配置</Proton.Tab>
+	<Proton.Colored.ActiveNow>正在运行</Proton.Colored.ActiveNow>
+	<Proton.Colored.IgnoredAndBad>忽略及低性能</Proton.Colored.IgnoredAndBad>
+	<Proton.Colored.DisabledOrBad>已禁用或低性能</Proton.Colored.DisabledOrBad>
+	<Proton.Colored.Ignored>忽略(属于严重警报)</Proton.Colored.Ignored>
+	<Proton.Enable>启用警报配置</Proton.Enable>
+	<Proton.DisableAll.P1>禁用</Proton.DisableAll.P1>
+	<Proton.DisableAll.P2>所有警报</Proton.DisableAll.P2>
+	<Proton.Disabled>已禁用配置</Proton.Disabled>
+	<Proton.AlertsDisabled>已禁用所有警报</Proton.AlertsDisabled>
+	<Proton.MaxIn>最大响应时间</Proton.MaxIn>
+	<Proton.MinUpdate>最小刷新间隔</Proton.MinUpdate>
+	<Proton.Enabled>启用</Proton.Enabled>
+	<Proton.IgnoreThis>忽略此警报(将恢复为原版表现)</Proton.IgnoreThis>
+	<Proton.AlertName>警报名称</Proton.AlertName>
+	<Proton.Avg>平均响应时间</Proton.Avg>
+	<Proton.TimeSinceLast>上次更新时间</Proton.TimeSinceLast>
+</LanguageData>
