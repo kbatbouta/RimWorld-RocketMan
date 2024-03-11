@@ -51,7 +51,7 @@ namespace RocketMan.Tabs
                     GUIFont.CurFontStyle.fontStyle = FontStyle.Italic;
                     Widgets.Label(rect, $"{RocketStates.StatExpiry[stat.index]} Ticks");
                     GUIUtility.RestoreGUIState();
-                    RocketStates.StatExpiry[stat.index] = Widgets.HorizontalSlider(rect.BottomPartPixels(20), RocketStates.StatExpiry[stat.index], 0, 1024, false, null, null);
+                    Widgets.HorizontalSlider(rect.BottomPartPixels(20), ref RocketStates.StatExpiry[stat.index], new FloatRange(0, 1024), $"{RocketStates.StatExpiry[stat.index]}");
                 });
         }
 

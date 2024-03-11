@@ -13,9 +13,9 @@ namespace Gagarin
         [Main.OnInitialization]
         public static void StartUpStarted()
         {
-            Context.RunningMods = LoadedModManager.RunningMods.ToList();
-            Context.Core = LoadedModManager.RunningMods.First(m => m.IsCoreMod);
-
+            Context.RunningMods  = LoadedModManager.RunningMods.ToList();
+            Context.Core         = LoadedModManager.RunningMods.First(m => m.IsCoreMod);
+            
             if (!Directory.Exists(GagarinEnvironmentInfo.CacheFolderPath))
             {
                 Directory.CreateDirectory(GagarinEnvironmentInfo.CacheFolderPath);
@@ -50,6 +50,7 @@ namespace Gagarin
             {
                 GagarinPrefs.CacheCreationTime = default(DateTime);
                 Context.IsUsingCache = false;
+                Log.Warning("GAGARIN: Cache expired!");
                 GagarinSettings.WriteSettings();
             }
             if (GagarinPrefs.Enabled)

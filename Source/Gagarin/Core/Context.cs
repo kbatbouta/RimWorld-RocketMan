@@ -24,14 +24,13 @@ namespace Gagarin
                         File.Delete(GagarinEnvironmentInfo.ModListFilePath);
                     if (File.Exists(GagarinEnvironmentInfo.UnifiedXmlFilePath))
                         File.Delete(GagarinEnvironmentInfo.UnifiedXmlFilePath);
-                    if (Directory.Exists(GagarinEnvironmentInfo.TexturesFolderPath))
-                        Directory.Delete(GagarinEnvironmentInfo.TexturesFolderPath, recursive: true);
                     StackTrace trace = new StackTrace(1);
                     StringBuilder builder = new StringBuilder();
                     builder.Append("GAGARIN: <color=yello>Cache disabled from</color>");
                     for (int i = 0; i < trace.FrameCount; i++)
                     {
-                        builder.AppendInNewLine(trace.GetFrame(i).ToString());
+                        var frame = trace.GetFrame(i);
+                        builder.AppendInNewLine($"{frame.GetMethod().DeclaringType?.FullName}:{frame.GetMethod().Name}():{frame.GetFileLineNumber()}");
                     }
                     Log.Warning(builder.ToString());
                     RocketMan.Logger.Debug(builder.ToString());
@@ -86,7 +85,7 @@ namespace Gagarin
 
         public static HashSet<string> Assets = new HashSet<string>();
 
-        public static Dictionary<string, UInt64> AssetsHashes = new Dictionary<string, UInt64>();
+        public static Dictionary<string, string> AssetsHashes = new Dictionary<string, string>();
 
         public static Dictionary<string, UInt64> AssetsHashesInt = new Dictionary<string, UInt64>();
 

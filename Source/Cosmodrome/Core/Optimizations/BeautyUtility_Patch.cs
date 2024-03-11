@@ -67,10 +67,9 @@ namespace RocketMan.Patches
                 curPawn = __instance.pawn;
             }           
 
-            public static Exception Finalizer(Exception __exception)
+            public static void Finalizer(Exception __exception)
             {
                 curPawn = null;
-                return __exception;
             }
         }
     }

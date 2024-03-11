@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 using HarmonyLib;
 using RocketMan;
 using Verse;
@@ -24,13 +26,13 @@ namespace Gagarin
             {
                 try
                 {
-                    UInt64 current = CalculateHash(contents);
-                    UInt64 currentInt = CalculateHashInt(contents);
-                    string id = __instance.GetLoadableId();
+                    string current    = AssetHashingUtility.CalculateHashMd5(contents);
+                    UInt64 currentInt = AssetHashingUtility.CalculateHash(contents);
+                    string id         = __instance.GetLoadableId();
 
                     lock (Context.AssetsHashes)
                     {
-                        if (!Context.AssetsHashes.TryGetValue(id, out UInt64 old) || !Context.AssetsHashesInt.TryGetValue(id, out ulong oldInt) || current != old || oldInt != currentInt)
+                        if (!Context.AssetsHashes.TryGetValue(id, out string old) || !Context.AssetsHashesInt.TryGetValue(id, out ulong oldInt) || current != old || oldInt != currentInt)
                         {
                             try
                             {
@@ -59,35 +61,6 @@ namespace Gagarin
                     Logger.Debug("GAGARIN: Failed in LoadableXmlAsset", exception: er);
                 }
             }
-        }
-
-        private static UInt64 CalculateHash(string text)
-        {
-            UInt64 hashedValue = 3074457345618258791ul;
-            if (!text.NullOrEmpty())
-            {
-                for (int i = 0; i < text.Length; i++)
-                {
-                    hashedValue += text[i];
-                    hashedValue *= 3074457345618258799ul;
-                }
-            }
-            return hashedValue;
-        }
-
-        private static UInt64 CalculateHashInt(string read, bool lowTolerance = true)
-        {
-            UInt64 hashedValue = 0;
-            int i = 0;
-            ulong multiplier = 1193;
-            while (i < read.Length)
-            {
-                hashedValue += read[i] * multiplier;
-                multiplier *= 37;
-                if (lowTolerance) i += 2;
-                else i++;
-            }
-            return hashedValue;
         }
     }
 }

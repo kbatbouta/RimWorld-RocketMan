@@ -60,13 +60,12 @@ namespace Soyuz.Patches
                 }
             }
 
-            public static Exception Finalizer(Exception __exception)
+            public static void Finalizer(Exception __exception)
             {
                 if (__exception != null)
                 {
                     Pawn_PathFollower_Patch.Reset();
                 }
-                return __exception;
             }
         }
 

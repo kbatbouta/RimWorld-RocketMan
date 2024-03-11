@@ -74,7 +74,7 @@ namespace Soyuz.Patches
             }
         }
 
-        private static Exception Finalizer(Pawn __instance, Exception __exception)
+        private static void Finalizer(Pawn __instance, Exception __exception)
         {
             if (__exception != null)
             {
@@ -83,7 +83,6 @@ namespace Soyuz.Patches
 
                 Logger.Debug("Soyuz caught this error. Please don't report this to the RocketMan team unless you're certain RocketMan caused this error.", exception: __exception);
             }
-            return __exception;
         }
 
         private static void TickExtras(Pawn pawn)

@@ -4,6 +4,7 @@ using Verse;
 
 namespace RocketMan
 {
+    [StaticConstructorOnStartup]
     public static class TexTab
     {
         public static readonly Texture2D Settings = ContentFinder<Texture2D>.Get("RocketMan/UI/gear_icon", true);

@@ -19,18 +19,18 @@ namespace Gagarin
                 try
                 {
                     Context.IsLoadingModXML = true;
-
                     if (File.Exists(GagarinEnvironmentInfo.HashFilePath))
                     {
                         Context.AssetsHashes = AssetHashingUtility.Load(GagarinEnvironmentInfo.HashFilePath);                        
                     }
                     if (File.Exists(GagarinEnvironmentInfo.HashFilePathInt))
                     {
-                        Context.AssetsHashesInt = AssetHashingUtility.Load(GagarinEnvironmentInfo.HashFilePathInt);
+                        Context.AssetsHashesInt = AssetHashingUtility.LoadInt(GagarinEnvironmentInfo.HashFilePathInt);
                     }
                 }
                 catch (Exception er)
                 {
+                    Context.IsUsingCache = false;
                     Logger.Debug("GAGARIN: Loading error", er);
                     throw er;
                 }
